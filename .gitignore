@@ -1,5 +1,15 @@
-.gradle
-build/
+
+
+## ForgeGradle
+/run
+
+## eclipse
+/eclipse
+/.settings
+/.metadata
+/.classpath
+/.project
+/bin
 
 # Ignore Gradle GUI config
 gradle-app.setting
