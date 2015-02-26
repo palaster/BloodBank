@@ -1,0 +1,37 @@
+itemGroup.tabSS=Screaming Souls
+
+key.ss.label=Screaming Souls
+
+container.soulCompressor=Soul Compressor
+container.space=Space
+
+entity.skeletonMinion.name=Skeleton Minion
+entity.shoeElf.name=Shoe Elf
+
+tile.soulCompressor.name=Soul Compressor
+tile.ritual.name=Ritual
+tile.playerSoulManipulator.name=Player Soul Manipulator
+tile.worldSoulManipulator.name=World Soul Manipulator
+tile.conjuringTablet.name=Conjuring Tablet
+tile.playerStatue.name=Player Statue
+
+item.mobSouls.name=Soul
+item.mobSouls.venomous.name=Venomous Soul
+item.mobSouls.ender.name=Ender Soul
+item.atmanSword.name=Sword of Atman
+item.soulBinder.name=Soul Binder
+item.worldSoulBinder.name=Soul World Binder
+item.journal.name=Journal
+
+item.ssRecord.unlight.name=Music Disc
+item.record.unlight.desc=Kevin MacLeod - Unlight
+
+ss.misc.activated=Activated
+ss.misc.broken=BROKEN (Normal Fix is a simple right-click)
+ss.misc.start=Start
+ss.misc.uuid=UUID
+ss.misc.level=Level
+ss.misc.brokenPlayer=Player is either offline or broken UUID
+ss.misc.pos=Position
+ss.misc.dimensionID=Dimension ID
+ss.misc.player=Player

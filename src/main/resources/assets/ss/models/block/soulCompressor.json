@@ -1,0 +1,12 @@
+{
+    "parent": "block/cube",
+    "textures": {
+        "particle": "ss:blocks/soulCompressor_side",
+        "down": "ss:blocks/soulCompressor_bottom",
+        "up": "ss:blocks/soulCompressor_top",
+        "north": "ss:blocks/soulCompressor_side",
+        "east": "ss:blocks/soulCompressor_side",
+        "south": "ss:blocks/soulCompressor_side",
+        "west": "ss:blocks/soulCompressor_side"
+    }
+}

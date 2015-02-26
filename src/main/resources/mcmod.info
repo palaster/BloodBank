@@ -1,0 +1,16 @@
+[
+{
+  "modid": "ss",
+  "name": "Screaming Souls",
+  "description": "Creating magic using the souls of everything around you to become the strongest mage every.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Palaster97"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
