@@ -1,6 +1,5 @@
 package palaster97.ss.blocks.tile;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
@@ -42,7 +41,7 @@ public class TileEntityPlayerSoulManipulator extends TileEntityMod implements IU
 											p1 = world.getPlayerEntityByUUID(UUID.fromString(getStackInSlot(1).getTagCompound().getString("PlayerUUID")));
 											if(getStackInSlot(2) != null && getStackInSlot(2).getItem() instanceof ItemPotion) {
 												ItemPotion potion = (ItemPotion) getStackInSlot(2).getItem();
-												List<PotionEffect> potionEffects = potion.getEffects(getStackInSlot(2));
+												List potionEffects = potion.getEffects(getStackInSlot(2));
 												if(potionEffects != null) {
 													while(potionEffects.iterator().hasNext()) {
 									                    PotionEffect potioneffect = (PotionEffect)potionEffects.iterator().next();
