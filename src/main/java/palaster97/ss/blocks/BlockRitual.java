@@ -13,7 +13,6 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import palaster97.ss.blocks.tile.TileEntityRitual;
-import palaster97.ss.core.helpers.SSPlayerHelper;
 import palaster97.ss.entities.extended.SoulNetworkExtendedPlayer;
 import palaster97.ss.rituals.Ritual;
 import palaster97.ss.rituals.RitualActive;

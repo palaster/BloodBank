@@ -138,7 +138,7 @@ public class SoulCompressorCraftingManager {
         while(iterator.hasNext()) {
             IRecipe irecipe = (IRecipe)iterator.next();
             if(irecipe.matches(p_180303_1_, worldIn))
-            	return irecipe.func_179532_b(p_180303_1_);
+            	return irecipe.getRemainingItems(p_180303_1_);
         }
         ItemStack[] aitemstack = new ItemStack[p_180303_1_.getSizeInventory()];
         for(int i = 0; i < aitemstack.length; ++i)

@@ -19,14 +19,12 @@ import palaster97.ss.blocks.tile.TileEntityPlayerStatue;
 
 public class ContainerPlayerStatue extends Container {
 	
-	private TileEntityPlayerStatue ps;
 	private int value;
 	private SaveHandler saveHandler;
 	private NBTTagCompound playerNBT;
 	private InventoryPlayer victim;
 	
 	public ContainerPlayerStatue(InventoryPlayer invPlayer, TileEntityPlayerStatue ps, int value) {
-		this.ps = ps;
 		this.value = value;
 		if(value == 1) {
 			if(invPlayer.player.capabilities.isCreativeMode) {

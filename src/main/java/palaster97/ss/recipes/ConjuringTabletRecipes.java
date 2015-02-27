@@ -3,14 +3,10 @@ package palaster97.ss.recipes;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.entity.EntityList;
-import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import palaster97.ss.core.helpers.SSItemStackHelper;
-import palaster97.ss.items.SSItems;
 
 public class ConjuringTabletRecipes {
 

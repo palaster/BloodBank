@@ -31,7 +31,7 @@ public class SSHUDHandler extends Gui {
 		if(event.type == ElementType.HOTBAR && mc.currentScreen == null) {
 			MovingObjectPosition mop = mc.objectMouseOver;
 			if(mop != null && mop.typeOfHit == MovingObjectType.BLOCK) {
-				BlockPos pos = mop.func_178782_a();
+				BlockPos pos = mop.getBlockPos();
 				IBlockState blockState = mc.theWorld.getBlockState(pos);
 				if(blockState != null && blockState.getBlock() instanceof BlockWorldSoulManipulator) {
 					TileEntityWorldSoulManipulator wsm = (TileEntityWorldSoulManipulator) mc.theWorld.getTileEntity(pos);
@@ -43,13 +43,13 @@ public class SSHUDHandler extends Gui {
 							if(mc.theWorld.provider.getDimensionId() == stack.getTagCompound().getInteger("DimID")) {
 								IBlockState blockState1 = DimensionManager.getWorld(mc.theWorld.provider.getDimensionId()).getBlockState(pos1);
 								if(blockState1 != null)
-									ri.func_180450_b(new ItemStack(blockState1.getBlock()), 5, 5);
+									ri.renderItemAndEffectIntoGUI(new ItemStack(blockState1.getBlock()), 5, 5);
 							} else {
 								World world = DimensionManager.getWorld(stack.getTagCompound().getInteger("DimID"));
 								if(world != null) {
 									IBlockState blockState1 = world.getBlockState(pos1);
 									if(blockState1 != null)
-										ri.func_180450_b(new ItemStack(blockState1.getBlock()), 5, 5);
+										ri.renderItemAndEffectIntoGUI(new ItemStack(blockState1.getBlock()), 5, 5);
 								}
 							}
 						}

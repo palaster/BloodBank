@@ -2,19 +2,12 @@ package palaster97.ss.items;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.model.ModelResourceLocation;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import palaster97.ss.blocks.tile.TileEntityRitual;
 import palaster97.ss.core.CreativeTabSS;
-import palaster97.ss.core.helpers.SSPlayerHelper;
 import palaster97.ss.libs.LibMod;
 
 public class ItemAtmanSword extends ItemSword {

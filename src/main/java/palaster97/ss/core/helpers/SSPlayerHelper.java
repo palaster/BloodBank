@@ -1,9 +1,7 @@
 package palaster97.ss.core.helpers;
 
-import java.util.List;
 import java.util.UUID;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;

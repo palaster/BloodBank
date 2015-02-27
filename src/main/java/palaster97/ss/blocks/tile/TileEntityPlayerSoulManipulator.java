@@ -12,7 +12,6 @@ import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
 import palaster97.ss.core.helpers.SSPlayerHelper;
-import palaster97.ss.entities.extended.SoulNetworkExtendedPlayer;
 import palaster97.ss.items.ItemSoulBinder;
 import palaster97.ss.items.SSItems;
 
@@ -43,11 +42,10 @@ public class TileEntityPlayerSoulManipulator extends TileEntityMod implements IU
 											p1 = world.getPlayerEntityByUUID(UUID.fromString(getStackInSlot(1).getTagCompound().getString("PlayerUUID")));
 											if(getStackInSlot(2) != null && getStackInSlot(2).getItem() instanceof ItemPotion) {
 												ItemPotion potion = (ItemPotion) getStackInSlot(2).getItem();
-												List potionEffects = potion.getEffects(getStackInSlot(2));
+												List<PotionEffect> potionEffects = potion.getEffects(getStackInSlot(2));
 												if(potionEffects != null) {
-													Iterator iterator = potionEffects.iterator();
-													while(iterator.hasNext()) {
-									                    PotionEffect potioneffect = (PotionEffect)iterator.next();
+													while(potionEffects.iterator().hasNext()) {
+									                    PotionEffect potioneffect = (PotionEffect)potionEffects.iterator().next();
 									                    PotionEffect pe1 = new PotionEffect(potioneffect.getPotionID(), 20, potioneffect.getAmplifier(), potioneffect.getIsAmbient(), potioneffect.getIsAmbient());
 									                    p1.addPotionEffect(pe1);
 									                }

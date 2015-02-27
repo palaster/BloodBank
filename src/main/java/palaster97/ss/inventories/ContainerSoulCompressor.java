@@ -7,7 +7,6 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryCraftResult;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.inventory.Slot;
-import net.minecraft.inventory.SlotCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.util.BlockPos;
@@ -95,5 +94,5 @@ public class ContainerSoulCompressor extends Container {
     }
 
     @Override
-    public boolean func_94530_a(ItemStack p_94530_1_, Slot p_94530_2_) { return p_94530_2_.inventory != craftResult && super.func_94530_a(p_94530_1_, p_94530_2_); }
+    public boolean canMergeSlot(ItemStack p_94530_1_, Slot p_94530_2_) { return p_94530_2_.inventory != craftResult && super.canMergeSlot(p_94530_1_, p_94530_2_); }
 }

@@ -2,8 +2,6 @@ package palaster97.ss.client.gui;
 
 import java.io.IOException;
 
-import org.lwjgl.input.Keyboard;
-
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -14,12 +12,14 @@ import net.minecraft.util.StatCollector;
 import net.minecraftforge.fml.client.config.GuiButtonExt;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import org.lwjgl.input.Keyboard;
+
 import palaster97.ss.blocks.tile.TileEntityPlayerStatue;
 import palaster97.ss.inventories.ContainerPlayerStatue;
 import palaster97.ss.libs.LibResource;
 import palaster97.ss.network.PacketHandler;
 import palaster97.ss.network.server.ChangeStringMessage;
-import palaster97.ss.network.server.GuiButtonMessage;
 
 @SideOnly(Side.CLIENT)
 public class GuiPlayerStatue extends GuiContainer {

@@ -2,16 +2,13 @@ package palaster97.ss.network.server;
 
 import java.io.IOException;
 
-import palaster97.ss.blocks.tile.TileEntityConjuringTablet;
-import palaster97.ss.network.AbstractMessage.AbstractServerMessage;
-import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
+import palaster97.ss.blocks.tile.TileEntityConjuringTablet;
+import palaster97.ss.network.AbstractMessage.AbstractServerMessage;
 
 public class GuiButtonMessage extends AbstractServerMessage<GuiButtonMessage> {
 	

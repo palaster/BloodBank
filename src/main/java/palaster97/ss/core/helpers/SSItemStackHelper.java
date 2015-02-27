@@ -1,13 +1,12 @@
 package palaster97.ss.core.helpers;
 
-import palaster97.ss.items.SSItems;
-import net.minecraft.block.BlockJukebox;
 import net.minecraft.block.BlockJukebox.TileEntityJukebox;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.WorldServer;
+import palaster97.ss.items.SSItems;
 
 public class SSItemStackHelper {
 
@@ -31,10 +30,9 @@ public class SSItemStackHelper {
 				ws.markBlockForUpdate(pos);
 			} else if(ws.getTileEntity(pos) != null && ws.getTileEntity(pos) instanceof TileEntityJukebox) {
 				TileEntityJukebox jb = (TileEntityJukebox) ws.getTileEntity(pos);
-				BlockJukebox jbBlock = (BlockJukebox) ws.getBlockState(pos).getBlock();
 				if(stack == null) {
 					ws.playAuxSFX(1005, pos, 0);
-                    ws.func_175717_a(pos, (String)null);
+                    ws.playRecord(pos, (String)null);
 				}
 				jb.setRecord(stack);
 				ws.markBlockForUpdate(pos);

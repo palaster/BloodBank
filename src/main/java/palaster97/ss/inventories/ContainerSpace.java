@@ -4,16 +4,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
-import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 
 public class ContainerSpace extends Container {
 	
-	private InventorySpace invSoul;
-	
 	public ContainerSpace(InventoryPlayer invPlayer, InventorySpace invSoul) {
-		this.invSoul = invSoul;
-		
 		for(int x = 0; x < 9; x++)
 			addSlotToContainer(new Slot(invPlayer, x, 8 + 18 * x, 198));
 		

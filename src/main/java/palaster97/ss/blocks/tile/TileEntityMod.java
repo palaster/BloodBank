@@ -82,7 +82,7 @@ public class TileEntityMod extends TileEntity implements IInventory {
 	public int getFieldCount() { return 0; }
 
 	@Override
-	public void clearInventory() {
+	public void clear() {
 		for(int i = 0; i < items.length; i++)
 			items[i] = null;
 	}

@@ -1,20 +1,10 @@
 package palaster97.ss.entities;
 
-import palaster97.ss.ScreamingSouls;
-import palaster97.ss.inventories.InventoryShoeElf;
-import net.minecraft.entity.EntityAgeable;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIFollowOwner;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAIWander;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
-import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.pathfinding.PathNavigateGround;
 import net.minecraft.world.World;
+import palaster97.ss.ScreamingSouls;
+import palaster97.ss.inventories.InventoryShoeElf;
 
 // TODO: Complete Shoe Elf Auto-Crafting
 public class EntityShoeElf extends EntityLittlePeople {

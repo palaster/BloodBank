@@ -105,11 +105,11 @@ public class EntitySkeletonMinion extends EntityTameable implements IMob, IRange
     protected String getDeathSound() { return "mob.skeleton.death"; }
 
     @Override
-    protected void func_180429_a(BlockPos p_180429_1_, Block p_180429_2_) { playSound("mob.skeleton.step", 0.15F, 1.0F); }
+    protected void playStepSound(BlockPos p_180429_1_, Block p_180429_2_) { playSound("mob.skeleton.step", 0.15F, 1.0F); }
     
     @Override
     public boolean attackEntityFrom(DamageSource source, float amount) {
-        if(func_180431_b(source))
+        if(isEntityInvulnerable(source))
             return false;
         else {
             Entity entity = source.getEntity();
@@ -145,7 +145,7 @@ public class EntitySkeletonMinion extends EntityTameable implements IMob, IRange
         if(worldObj.isDaytime() && !worldObj.isRemote) {
             float f = getBrightness(1.0F);
             BlockPos blockpos = new BlockPos(posX, (double)Math.round(posY), posZ);
-            if(f > 0.5F && rand.nextFloat() * 30.0F < (f - 0.4F) * 2.0F && worldObj.isAgainstSky(blockpos)) {
+            if(f > 0.5F && rand.nextFloat() * 30.0F < (f - 0.4F) * 2.0F && worldObj.canSeeSky(blockpos)) {
                 boolean flag = true;
                 ItemStack itemstack = getEquipmentInSlot(4);
                 if(itemstack != null) {
@@ -202,7 +202,7 @@ public class EntitySkeletonMinion extends EntityTameable implements IMob, IRange
             func_180481_a(p_180482_1_);
             func_180483_b(p_180482_1_);
         }
-        setCanPickUpLoot(rand.nextFloat() < 0.55F * p_180482_1_.func_180170_c());
+        setCanPickUpLoot(rand.nextFloat() < 0.55F * p_180482_1_.getClampedAdditionalDifficulty());
         if(getEquipmentInSlot(4) == null) {
             Calendar calendar = worldObj.getCurrentDate();
             if(calendar.get(2) + 1 == 10 && calendar.get(5) == 31 && rand.nextFloat() < 0.25F) {

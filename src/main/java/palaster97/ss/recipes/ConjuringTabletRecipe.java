@@ -1,10 +1,7 @@
 package palaster97.ss.recipes;
 
-import palaster97.ss.items.ItemMobSoul;
-import net.minecraft.entity.EntityList;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.DimensionManager;
+import palaster97.ss.items.ItemMobSoul;
 
 public class ConjuringTabletRecipe {
 	

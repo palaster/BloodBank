@@ -88,7 +88,11 @@ public class InventoryShoeElf implements IInventory {
 	public int getFieldCount() { return 0; }
 
 	@Override
-	public void clearInventory() {}
+	public void clear() {
+		product = null;
+		for(int i = 0; i < inv.length; i++)
+			inv[i] = null;
+	}
 	
 	public void writeToNBT(NBTTagCompound compound) {
 		NBTTagList items = new NBTTagList();

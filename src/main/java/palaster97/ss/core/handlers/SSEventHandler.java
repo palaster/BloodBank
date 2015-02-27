@@ -24,7 +24,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import palaster97.ss.blocks.tile.TileEntityRitual;
 import palaster97.ss.core.helpers.SSItemStackHelper;
-import palaster97.ss.core.helpers.SSPlayerHelper;
 import palaster97.ss.entities.extended.SoulNetworkExtendedPlayer;
 import palaster97.ss.items.ItemAtmanSword;
 import palaster97.ss.items.SSItems;

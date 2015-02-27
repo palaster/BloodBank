@@ -37,7 +37,7 @@ public class TileEntityConjuringTablet extends TileEntityMod {
 							if(lb instanceof EntityTameable) {
 								EntityTameable tameable = (EntityTameable) lb;
 								tameable.setTamed(true);
-								tameable.func_152115_b(player.getUniqueID().toString());
+								tameable.setOwnerId(player.getUniqueID().toString());
 								worldObj.spawnEntityInWorld(tameable);
 							} else
 								worldObj.spawnEntityInWorld(lb);
@@ -59,7 +59,7 @@ public class TileEntityConjuringTablet extends TileEntityMod {
 							if(lb instanceof EntityTameable) {
 								EntityTameable tameable = (EntityTameable) lb;
 								tameable.setTamed(true);
-								tameable.func_152115_b(player.getUniqueID().toString());
+								tameable.setOwnerId(player.getUniqueID().toString());
 								worldObj.spawnEntityInWorld(tameable);
 							} else
 								worldObj.spawnEntityInWorld(lb);
