@@ -54,6 +54,7 @@ public class EntitySkeletonMinion extends EntityTameable implements IMob, IRange
 	private EntityAIArrowAttack aiArrowAttack = new EntityAIArrowAttack(this, 1.0D, 20, 60, 15.0F);
     private EntityAIAttackOnCollide aiAttackOnCollide = new EntityAIAttackOnCollide(this, EntityPlayer.class, 1.2D, false);
 
+	@SuppressWarnings("rawtypes")
 	public EntitySkeletonMinion(World worldIn) {
 		super(worldIn);
 		tasks.addTask(1, new EntityAISwimming(this));

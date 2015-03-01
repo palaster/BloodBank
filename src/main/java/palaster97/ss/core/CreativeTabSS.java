@@ -1,9 +1,8 @@
 package palaster97.ss.core;
 
-import palaster97.ss.blocks.SSBlocks;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import palaster97.ss.blocks.SSBlocks;
 
 public class CreativeTabSS {
 

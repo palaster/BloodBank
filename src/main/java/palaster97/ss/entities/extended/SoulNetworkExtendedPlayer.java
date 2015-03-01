@@ -8,7 +8,6 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
 import palaster97.ss.inventories.InventorySpace;
-import palaster97.ss.libs.LibDataWatcher;
 import palaster97.ss.network.PacketHandler;
 import palaster97.ss.network.client.SyncPlayerPropsMessage;
 import palaster97.ss.rituals.Ritual;
@@ -75,13 +74,10 @@ public class SoulNetworkExtendedPlayer implements IExtendedEntityProperties {
 	
 	public final void removeRitual(int ritualID, BlockPos pos) {
 		if(Ritual.rituals[ritualID] != null) {
-			if(Ritual.rituals[ritualID] instanceof RitualActive) {
-				RitualActive act = (RitualActive) Ritual.rituals[ritualID];
-				for(int i = 0; i < activeRituals.length; i++) {
+			if(Ritual.rituals[ritualID] instanceof RitualActive)
+				for(int i = 0; i < activeRituals.length; i++)
 					if(activeRituals[i] != null && activeRituals[i].ritualPos == pos)
 						activeRituals[i] = null;
-				}
-			}
 		}
 		sync();
 	}

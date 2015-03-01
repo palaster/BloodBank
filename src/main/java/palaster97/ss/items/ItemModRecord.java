@@ -42,6 +42,7 @@ public class ItemModRecord extends ItemRecord {
 		return super.setUnlocalizedName(unlocalizedName);
 	}
 	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer playerIn, List tooltip, boolean advanced) {

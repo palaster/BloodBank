@@ -24,6 +24,7 @@ public class TileEntityPlayerSoulManipulator extends TileEntityMod implements IU
 	@Override
 	public String getName() { return "container.playerSoulManipulator"; }
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public void update() {
 		if(!worldObj.isRemote) {

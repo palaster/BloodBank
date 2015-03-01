@@ -38,6 +38,7 @@ public class GuiPlayerStatue extends GuiContainer {
 			ySize = 184; 
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public void initGui() {
 		super.initGui();
@@ -48,7 +49,6 @@ public class GuiPlayerStatue extends GuiContainer {
 	        name.setDisabledTextColour(-1);
 	        name.setEnableBackgroundDrawing(false);
 	        name.setMaxStringLength(16);
-	        
 	        buttonList.add(new GuiButtonExt(0, guiLeft + 7, guiTop + 32, 38, 16, "Enter"));
 		}
 	}

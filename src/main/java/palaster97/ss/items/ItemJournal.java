@@ -26,6 +26,7 @@ public class ItemJournal extends ItemModSpecial {
 		stack.getTagCompound().setInteger("Level", 0);
 	}
 	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer playerIn, List tooltip, boolean advanced) {

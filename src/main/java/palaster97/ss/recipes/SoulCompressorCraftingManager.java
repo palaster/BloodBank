@@ -16,7 +16,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraft.item.crafting.ShapelessRecipes;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
@@ -30,7 +29,7 @@ import com.google.common.collect.Maps;
 public class SoulCompressorCraftingManager {
 
 	private static final SoulCompressorCraftingManager instance = new SoulCompressorCraftingManager();
-    private final List recipes = Lists.newArrayList();
+    private final List<IRecipe> recipes = Lists.newArrayList();
 
     public static SoulCompressorCraftingManager getInstance() { return instance; }
 
@@ -48,7 +47,7 @@ public class SoulCompressorCraftingManager {
     	addRecipe(new ItemStack(SSItems.soulBinder), "xyx", "yzy", "xyx", 'x', Items.gold_nugget, 'y', Blocks.redstone_block, 'z', Items.ender_pearl);
     	addRecipe(new ItemStack(SSItems.worldSoulBinder), "xyx", "yzy", "xyx", 'x', Items.gold_nugget, 'y', Blocks.quartz_block, 'z', Items.ender_pearl);
     	
-        Collections.sort(recipes, new Comparator() {
+        Collections.sort(recipes, new Comparator<Object>() {
         	public int compare(IRecipe p_compare_1_, IRecipe p_compare_2_) { return p_compare_1_ instanceof ShapelessRecipes && p_compare_2_ instanceof ShapedRecipes ? 1 : (p_compare_2_ instanceof ShapelessRecipes && p_compare_1_ instanceof ShapedRecipes ? -1 : (p_compare_2_.getRecipeSize() < p_compare_1_.getRecipeSize() ? -1 : (p_compare_2_.getRecipeSize() > p_compare_1_.getRecipeSize() ? 1 : 0))); }
             public int compare(Object p_compare_1_, Object p_compare_2_) { return compare((IRecipe)p_compare_1_, (IRecipe)p_compare_2_); }
         });
@@ -75,7 +74,7 @@ public class SoulCompressorCraftingManager {
                 s = s + s2;
             }
         }
-        HashMap hashmap;
+        HashMap<Character, ItemStack> hashmap;
         for(hashmap = Maps.newHashMap(); i < p_92103_2_.length; i += 2) {
             Character character = (Character)p_92103_2_[i];
             ItemStack itemstack1 = null;
@@ -101,7 +100,7 @@ public class SoulCompressorCraftingManager {
     }
 
     public void addShapelessRecipe(ItemStack p_77596_1_, Object ... p_77596_2_) {
-        ArrayList arraylist = Lists.newArrayList();
+        ArrayList<ItemStack> arraylist = Lists.newArrayList();
         Object[] aobject = p_77596_2_;
         int i = p_77596_2_.length;
         for(int j = 0; j < i; ++j) {
@@ -122,7 +121,7 @@ public class SoulCompressorCraftingManager {
     public void func_180302_a(IRecipe p_180302_1_) { recipes.add(p_180302_1_); }
 
     public ItemStack findMatchingRecipe(InventoryCrafting p_82787_1_, World worldIn) {
-        Iterator iterator = recipes.iterator();
+        Iterator<IRecipe> iterator = recipes.iterator();
         IRecipe irecipe;
         do {
             if(!iterator.hasNext())
@@ -134,7 +133,7 @@ public class SoulCompressorCraftingManager {
     }
 
     public ItemStack[] func_180303_b(InventoryCrafting p_180303_1_, World worldIn) {
-        Iterator iterator = recipes.iterator();
+        Iterator<IRecipe> iterator = recipes.iterator();
         while(iterator.hasNext()) {
             IRecipe irecipe = (IRecipe)iterator.next();
             if(irecipe.matches(p_180303_1_, worldIn))
@@ -146,5 +145,5 @@ public class SoulCompressorCraftingManager {
         return aitemstack;
     }
     
-    public List getRecipeList() { return recipes; }
+    public List<IRecipe> getRecipeList() { return recipes; }
 }

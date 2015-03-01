@@ -1,6 +1,5 @@
 package palaster97.ss.client.models;
 
-import palaster97.ss.entities.EntityShoeElf;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;

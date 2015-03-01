@@ -25,6 +25,7 @@ public class ItemSoulBinder extends ItemModSpecial {
 		p_77622_1_.getTagCompound().setString("PlayerUUID", p_77622_3_.getUniqueID().toString());
 	}
 	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack p_77624_1_, EntityPlayer p_77624_2_, List p_77624_3_, boolean p_77624_4_) {
