@@ -1,6 +1,7 @@
 package palaster97.ss.core.helpers;
 
 import net.minecraft.block.BlockJukebox.TileEntityJukebox;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -38,6 +39,14 @@ public class SSItemStackHelper {
 				ws.markBlockForUpdate(pos);
 			}
 		}
+	}
+	
+	public static int getItemStackSlotFromPlayer(EntityPlayer player, ItemStack stack) {
+		if(player != null && !player.worldObj.isRemote && stack != null && player.inventory.hasItemStack(stack))
+			for(int i = 0; i < player.inventory.getSizeInventory(); i++)
+				if(player.inventory.getStackInSlot(i) != null && player.inventory.getStackInSlot(i).getItem() == stack.getItem())
+					return i;
+		return -1;
 	}
 	
 	public static ItemStack getSoulItemStack(int temp) {

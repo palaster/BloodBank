@@ -33,7 +33,7 @@ public class TileEntityConjuringTablet extends TileEntityMod {
 						Entity entity = EntityList.createEntityByName(ctr.getName(), worldObj);
 						if(entity != null && entity instanceof EntityLivingBase) {
 							EntityLivingBase lb = (EntityLivingBase) entity;
-							lb.setPosition(pos.getX(), pos.getY() + 1.5, pos.getZ());
+							lb.setPosition(pos.getX() + .5, pos.getY() + 1, pos.getZ() + .5);
 							if(lb instanceof EntityTameable) {
 								EntityTameable tameable = (EntityTameable) lb;
 								tameable.setTamed(true);
@@ -55,7 +55,7 @@ public class TileEntityConjuringTablet extends TileEntityMod {
 						Entity entity = EntityList.createEntityByID(ctr.getOutput(), worldObj);
 						if(entity != null && entity instanceof EntityLivingBase) {
 							EntityLivingBase lb = (EntityLivingBase) entity;
-							lb.setPosition(pos.getX(), pos.getY() + 1.5, pos.getZ());
+							lb.setPosition(pos.getX() + .5, pos.getY() + 1, pos.getZ() + .5);
 							if(lb instanceof EntityTameable) {
 								EntityTameable tameable = (EntityTameable) lb;
 								tameable.setTamed(true);

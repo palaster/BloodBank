@@ -49,7 +49,7 @@ import com.google.common.base.Predicate;
 public class EntitySkeletonMinion extends EntityTameable implements IMob, IRangedAttackMob {
 	
 	private int temp;
-	private static final int tempMax = 600;
+	private static final int tempMax = 6000;
 	
 	private EntityAIArrowAttack aiArrowAttack = new EntityAIArrowAttack(this, 1.0D, 20, 60, 15.0F);
     private EntityAIAttackOnCollide aiAttackOnCollide = new EntityAIAttackOnCollide(this, EntityPlayer.class, 1.2D, false);
