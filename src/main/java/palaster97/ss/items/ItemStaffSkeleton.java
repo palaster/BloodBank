@@ -1,5 +1,6 @@
 package palaster97.ss.items;
 
+import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
@@ -27,6 +28,7 @@ public class ItemStaffSkeleton extends ItemModSpecial {
 					sm.setPosition(pos.getX() + .5, pos.getY() + 1, pos.getZ() + .5);
 					sm.setTamed(true);
 					sm.setOwnerId(playerIn.getUniqueID().toString());
+					sm.func_180482_a(worldIn.getDifficultyForLocation(new BlockPos(sm)), (IEntityLivingData)null);
 					worldIn.spawnEntityInWorld(sm);
 					return true;
 				}
