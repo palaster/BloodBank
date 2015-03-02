@@ -10,7 +10,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import palaster97.ss.core.proxy.CommonProxy;
 import palaster97.ss.libs.LibMod;
 
-@Mod(modid = LibMod.modid, name = LibMod.name, version = LibMod.version)
+@Mod(modid = LibMod.modid, name = LibMod.name, version = LibMod.version, dependencies = LibMod.dependencies)
 public class ScreamingSouls {
 	
 	@Instance(LibMod.modid)
