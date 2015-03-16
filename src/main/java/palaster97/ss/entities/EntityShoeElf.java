@@ -19,7 +19,7 @@ public class EntityShoeElf extends EntityLittlePeople {
 	public boolean interact(EntityPlayer p_70085_1_) {
 		if(!worldObj.isRemote) {
 			if(!p_70085_1_.isSneaking())
-				p_70085_1_.openGui(ScreamingSouls.instance, 6, worldObj, 0, 0, getEntityId());
+				p_70085_1_.openGui(ScreamingSouls.instance, 4, worldObj, 0, 0, getEntityId());
 			else
 				super.interact(p_70085_1_);
 		}

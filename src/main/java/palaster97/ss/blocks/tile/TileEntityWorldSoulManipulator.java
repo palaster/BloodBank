@@ -3,7 +3,7 @@ package palaster97.ss.blocks.tile;
 import net.minecraft.item.ItemStack;
 import palaster97.ss.items.ItemWorldSoulBinder;
 
-public class TileEntityWorldSoulManipulator extends TileEntityMod {
+public class TileEntityWorldSoulManipulator extends TileEntityModInventory {
 
 	public TileEntityWorldSoulManipulator() { super(1); }
 	

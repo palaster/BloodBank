@@ -17,7 +17,7 @@ import palaster97.ss.entities.extended.SoulNetworkExtendedPlayer;
 import palaster97.ss.rituals.Ritual;
 import palaster97.ss.rituals.RitualActive;
 
-public class TileEntityRitual extends TileEntityMod implements IUpdatePlayerListBox {
+public class TileEntityRitual extends TileEntityModInventory implements IUpdatePlayerListBox {
 	
 	public TileEntityRitual() { super(1); }
 

@@ -6,7 +6,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import palaster97.ss.blocks.tile.TileEntityConjuringTablet;
 import palaster97.ss.blocks.tile.TileEntityPlayerSoulManipulator;
-import palaster97.ss.blocks.tile.TileEntityPlayerStatue;
 import palaster97.ss.blocks.tile.TileEntityRitual;
 import palaster97.ss.blocks.tile.TileEntityWorldSoulManipulator;
 
@@ -17,7 +16,6 @@ public class SSBlocks {
 	public static Block playerSoulManipulator;
 	public static Block worldSoulManipulator;
 	public static Block conjuringTablet;
-	public static Block playerStatue;
 	
 	public static void init() {
 		soulCompressor = new BlockSoulCompressor(Material.iron);
@@ -25,7 +23,6 @@ public class SSBlocks {
 		playerSoulManipulator = new BlockPlayerSoulManipulator(Material.wood);
 		worldSoulManipulator = new BlockWorldSoulManipulator(Material.rock);
 		conjuringTablet = new BlockConjuringTablet(Material.rock);
-		playerStatue = new BlockPlayerStatue(Material.wood);
 	}
 	
 	public static void registerTileEntities() {
@@ -33,7 +30,6 @@ public class SSBlocks {
 		registerTileEntity(TileEntityPlayerSoulManipulator.class, "playerSoulManipulator");
 		registerTileEntity(TileEntityWorldSoulManipulator.class, "worldSoulManipulator");
 		registerTileEntity(TileEntityConjuringTablet.class, "conjuringTablet");
-		registerTileEntity(TileEntityPlayerStatue.class, "playerStatue");
 	}
 
 	private static void registerTileEntity(Class<? extends TileEntity> tile, String name) { GameRegistry.registerTileEntity(tile, name); }

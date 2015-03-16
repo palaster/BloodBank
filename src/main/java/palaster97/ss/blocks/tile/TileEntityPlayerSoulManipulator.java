@@ -14,7 +14,7 @@ import palaster97.ss.core.helpers.SSPlayerHelper;
 import palaster97.ss.items.ItemSoulBinder;
 import palaster97.ss.items.SSItems;
 
-public class TileEntityPlayerSoulManipulator extends TileEntityMod implements IUpdatePlayerListBox {
+public class TileEntityPlayerSoulManipulator extends TileEntityModInventory implements IUpdatePlayerListBox {
 
 	public TileEntityPlayerSoulManipulator() { super(3); }
 

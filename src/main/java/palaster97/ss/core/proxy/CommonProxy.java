@@ -14,10 +14,8 @@ import palaster97.ss.ScreamingSouls;
 import palaster97.ss.blocks.SSBlocks;
 import palaster97.ss.blocks.tile.TileEntityConjuringTablet;
 import palaster97.ss.blocks.tile.TileEntityPlayerSoulManipulator;
-import palaster97.ss.blocks.tile.TileEntityPlayerStatue;
 import palaster97.ss.client.gui.GuiConjuringTablet;
 import palaster97.ss.client.gui.GuiPlayerSoulManipulator;
-import palaster97.ss.client.gui.GuiPlayerStatue;
 import palaster97.ss.client.gui.GuiShoeElf;
 import palaster97.ss.client.gui.GuiSoulCompressor;
 import palaster97.ss.client.gui.GuiSpace;
@@ -30,7 +28,6 @@ import palaster97.ss.entities.SSEntities;
 import palaster97.ss.entities.extended.SoulNetworkExtendedPlayer;
 import palaster97.ss.inventories.ContainerConjuringTablet;
 import palaster97.ss.inventories.ContainerPlayerSoulManipulator;
-import palaster97.ss.inventories.ContainerPlayerStatue;
 import palaster97.ss.inventories.ContainerShoeElf;
 import palaster97.ss.inventories.ContainerSoulCompressor;
 import palaster97.ss.inventories.ContainerSpace;
@@ -82,14 +79,6 @@ public class CommonProxy implements IGuiHandler {
 					return new ContainerConjuringTablet(player.inventory, (TileEntityConjuringTablet) te);
 			}
 			case 4: {
-				if(te != null && te instanceof TileEntityPlayerStatue)
-					return new ContainerPlayerStatue(player.inventory, (TileEntityPlayerStatue) te, 0);
-			}
-			case 5: {
-				if(te != null && te instanceof TileEntityPlayerStatue)
-					return new ContainerPlayerStatue(player.inventory, (TileEntityPlayerStatue) te, 1);
-			}
-			case 6: {
 				if((EntityShoeElf) world.getEntityByID(z) != null)
 					return new ContainerShoeElf(player.inventory, ((EntityShoeElf) world.getEntityByID(z)).getInventoryShoeElf());
 			}
@@ -115,14 +104,6 @@ public class CommonProxy implements IGuiHandler {
 					return new GuiConjuringTablet(player.inventory, (TileEntityConjuringTablet) te);
 			}
 			case 4: {
-				if(te != null && te instanceof TileEntityPlayerStatue)
-					return new GuiPlayerStatue(player.inventory, (TileEntityPlayerStatue) te, 0);
-			}
-			case 5: {
-				if(te != null && te instanceof TileEntityPlayerStatue)
-					return new GuiPlayerStatue(player.inventory, (TileEntityPlayerStatue) te, 1);
-			}
-			case 6: {
 				if((EntityShoeElf) world.getEntityByID(z) != null)
 					return new GuiShoeElf(player.inventory, ((EntityShoeElf) world.getEntityByID(z)).getInventoryShoeElf());
 			}

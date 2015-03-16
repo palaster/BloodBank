@@ -9,7 +9,7 @@ import net.minecraft.item.ItemStack;
 import palaster97.ss.recipes.ConjuringTabletRecipe;
 import palaster97.ss.recipes.ConjuringTabletRecipes;
 
-public class TileEntityConjuringTablet extends TileEntityMod {
+public class TileEntityConjuringTablet extends TileEntityModInventory {
 
 	public TileEntityConjuringTablet() { super(6); }
 	
