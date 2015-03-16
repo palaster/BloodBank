@@ -11,6 +11,7 @@ public class SSItems {
 	public static Item worldSoulBinder;
 	public static Item journal;
 	public static Item staffSkeleton;
+	public static Item staffEfreet;
 	
 	public static Item recordUnlight;
 	
@@ -21,6 +22,7 @@ public class SSItems {
 		worldSoulBinder = new ItemWorldSoulBinder();
 		journal = new ItemJournal();
 		staffSkeleton = new ItemStaffSkeleton();
+		staffEfreet = new ItemStaffEfreet();
 
 		recordUnlight = new ItemModRecord("unlight");
 	}
