@@ -16,19 +16,16 @@ import palaster97.ss.blocks.tile.TileEntityConjuringTablet;
 import palaster97.ss.blocks.tile.TileEntityPlayerSoulManipulator;
 import palaster97.ss.client.gui.GuiConjuringTablet;
 import palaster97.ss.client.gui.GuiPlayerSoulManipulator;
-import palaster97.ss.client.gui.GuiShoeElf;
 import palaster97.ss.client.gui.GuiSoulCompressor;
 import palaster97.ss.client.gui.GuiSpace;
 import palaster97.ss.core.CreativeTabSS;
 import palaster97.ss.core.handlers.SSEventHandler;
 import palaster97.ss.core.handlers.SSFMLEventHandler;
 import palaster97.ss.core.handlers.SSPlayerTickHandler;
-import palaster97.ss.entities.EntityShoeElf;
 import palaster97.ss.entities.SSEntities;
 import palaster97.ss.entities.extended.SoulNetworkExtendedPlayer;
 import palaster97.ss.inventories.ContainerConjuringTablet;
 import palaster97.ss.inventories.ContainerPlayerSoulManipulator;
-import palaster97.ss.inventories.ContainerShoeElf;
 import palaster97.ss.inventories.ContainerSoulCompressor;
 import palaster97.ss.inventories.ContainerSpace;
 import palaster97.ss.items.SSItems;
@@ -78,10 +75,6 @@ public class CommonProxy implements IGuiHandler {
 				if(te != null && te instanceof TileEntityConjuringTablet)
 					return new ContainerConjuringTablet(player.inventory, (TileEntityConjuringTablet) te);
 			}
-			case 4: {
-				if((EntityShoeElf) world.getEntityByID(z) != null)
-					return new ContainerShoeElf(player.inventory, ((EntityShoeElf) world.getEntityByID(z)).getInventoryShoeElf());
-			}
 		}
 		return null;
 	}
@@ -102,10 +95,6 @@ public class CommonProxy implements IGuiHandler {
 			case 3: {
 				if(te != null && te instanceof TileEntityConjuringTablet)
 					return new GuiConjuringTablet(player.inventory, (TileEntityConjuringTablet) te);
-			}
-			case 4: {
-				if((EntityShoeElf) world.getEntityByID(z) != null)
-					return new GuiShoeElf(player.inventory, ((EntityShoeElf) world.getEntityByID(z)).getInventoryShoeElf());
 			}
 		}
 		return null;

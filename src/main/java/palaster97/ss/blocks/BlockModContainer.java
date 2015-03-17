@@ -17,8 +17,8 @@ public abstract class BlockModContainer extends BlockMod implements ITileEntityP
 		isBlockContainer = true;
 	}
 	
-	@Override
-	public int getRenderType() { return -1; }
+//	@Override TODO: Find out why this ruins the in-world block models
+//	public int getRenderType() { return -1; }
 	
 	@Override
 	public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {

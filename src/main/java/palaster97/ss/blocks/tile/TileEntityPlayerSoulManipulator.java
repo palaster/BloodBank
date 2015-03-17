@@ -41,8 +41,7 @@ public class TileEntityPlayerSoulManipulator extends TileEntityModInventory impl
 										if(world.getPlayerEntityByUUID(UUID.fromString(getStackInSlot(1).getTagCompound().getString("PlayerUUID"))) != null) {
 											p1 = world.getPlayerEntityByUUID(UUID.fromString(getStackInSlot(1).getTagCompound().getString("PlayerUUID")));
 											if(getStackInSlot(2) != null && getStackInSlot(2).getItem() instanceof ItemPotion) {
-												ItemPotion potion = (ItemPotion) getStackInSlot(2).getItem();
-												List potionEffects = potion.getEffects(getStackInSlot(2));
+												List potionEffects = ((ItemPotion) getStackInSlot(2).getItem()).getEffects(getStackInSlot(2));
 												if(potionEffects != null) {
 													while(potionEffects.iterator().hasNext()) {
 									                    PotionEffect potioneffect = (PotionEffect)potionEffects.iterator().next();

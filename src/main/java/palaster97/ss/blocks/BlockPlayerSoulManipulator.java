@@ -10,7 +10,6 @@ import net.minecraft.world.World;
 import palaster97.ss.ScreamingSouls;
 import palaster97.ss.blocks.tile.TileEntityPlayerSoulManipulator;
 
-// TODO: Get Model Working in World
 public class BlockPlayerSoulManipulator extends BlockModContainer {
 
 	public BlockPlayerSoulManipulator(Material p_i45394_1_) {
