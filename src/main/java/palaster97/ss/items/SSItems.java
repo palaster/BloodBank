@@ -12,6 +12,7 @@ public class SSItems {
 	public static Item journal;
 	public static Item staffSkeleton;
 	public static Item staffEfreet;
+	public static Item magicBow;
 	
 	public static Item recordUnlight;
 	
@@ -23,6 +24,7 @@ public class SSItems {
 		journal = new ItemJournal();
 		staffSkeleton = new ItemStaffSkeleton();
 		staffEfreet = new ItemStaffEfreet();
+		magicBow = new ItemMagicBow();
 
 		recordUnlight = new ItemModRecord("unlight");
 	}
