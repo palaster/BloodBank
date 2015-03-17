@@ -41,13 +41,21 @@ public class SSPlayerHelper {
 					stack.getTagCompound().setInteger("Level", amount);
 	}
 	
-	public static void reduceJournalAmount(EntityPlayer player, int amount) {
+	public static boolean reduceJournalAmount(EntityPlayer player, int amount) {
 		if(!player.worldObj.isRemote)
-			setJournalAmount(player, getJournalAmount(player) - amount);
+			if(getJournalAmount(player) - amount >= 0) {
+				setJournalAmount(player, getJournalAmount(player) - amount);
+				return true;
+			}
+		return false;
 	}
 	
-	public static void addJournalAmount(EntityPlayer player, int amount) {
+	public static boolean addJournalAmount(EntityPlayer player, int amount) {
 		if(!player.worldObj.isRemote)
-			setJournalAmount(player, getJournalAmount(player) + amount);
+			if(getJournalAmount(player) + amount <= 1000) {
+				setJournalAmount(player, getJournalAmount(player) + amount);
+				return true;
+			}
+		return false;
 	}
 }
