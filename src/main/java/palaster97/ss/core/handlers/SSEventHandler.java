@@ -6,10 +6,13 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayer.EnumStatus;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.sound.PlayStreamingSourceEvent;
@@ -19,6 +22,7 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerPickupXpEvent;
+import net.minecraftforge.event.entity.player.PlayerSleepInBedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -108,6 +112,26 @@ public class SSEventHandler {
 				}
 			}
 		}
+	}
+	
+	@SubscribeEvent
+	public void onPlayerSleepInBed(PlayerSleepInBedEvent e) {
+		if(!e.entityPlayer.worldObj.isRemote && e.result == EnumStatus.OK || !e.entityPlayer.worldObj.isRemote && e.result == null)
+			if(e.entityPlayer.getCurrentEquippedItem() != null && e.entityPlayer.getCurrentEquippedItem().getItem() == Items.writable_book) {
+				if(!e.entityPlayer.getCurrentEquippedItem().hasTagCompound() || !e.entityPlayer.getCurrentEquippedItem().getTagCompound().hasKey("pages", 9)) {
+					ItemStack journal = new ItemStack(SSItems.journal);
+					SSItems.journal.onCreated(journal, e.entityPlayer.worldObj, e.entityPlayer);
+					e.entityPlayer.setCurrentItemOrArmor(0, journal);
+				} else {
+					NBTTagList nbttaglist = e.entityPlayer.getCurrentEquippedItem().getTagCompound().getTagList("pages", 8);
+		            for(int i = 0; i < nbttaglist.tagCount(); ++i)
+		                if(nbttaglist.getStringTagAt(i) == null || nbttaglist.getStringTagAt(i).length() > 32767) {
+		                	ItemStack journal = new ItemStack(SSItems.journal);
+							SSItems.journal.onCreated(journal, e.entityPlayer.worldObj, e.entityPlayer);
+							e.entityPlayer.setCurrentItemOrArmor(0, journal);
+		                }
+				}
+			}
 	}
 	
 	@SubscribeEvent

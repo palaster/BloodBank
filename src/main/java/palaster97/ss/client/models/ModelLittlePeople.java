@@ -40,15 +40,15 @@ public class ModelLittlePeople extends ModelBase {
 	}
 	
 	@Override
-	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
-		super.render(entity, f, f1, f2, f3, f4, f5);
-		setRotationAngles(f, f1, f2, f3, f4, f5, entity);
-		head.render(f5);
-		body.render(f5);
-		lArm.render(f5);
-		rArm.render(f5);
-		lLeg.render(f5);
-		rLeg.render(f5);
+	public void render(Entity p_78088_1_, float p_78088_2_, float p_78088_3_, float p_78088_4_, float p_78088_5_, float p_78088_6_, float p_78088_7_) {
+		super.render(p_78088_1_, p_78088_2_, p_78088_3_, p_78088_4_, p_78088_5_, p_78088_6_, p_78088_7_);
+		setRotationAngles(p_78088_2_, p_78088_3_, p_78088_4_, p_78088_5_, p_78088_6_, p_78088_7_, p_78088_1_);
+		head.render(p_78088_7_);
+		body.render(p_78088_7_);
+		lArm.render(p_78088_7_);
+		rArm.render(p_78088_7_);
+		lLeg.render(p_78088_7_);
+		rLeg.render(p_78088_7_);
 	}
 	
 	@Override
