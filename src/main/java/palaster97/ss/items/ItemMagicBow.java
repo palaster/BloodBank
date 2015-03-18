@@ -10,7 +10,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import palaster97.ss.core.helpers.SSPlayerHelper;
@@ -26,12 +25,6 @@ public class ItemMagicBow extends ItemModSpecial {
 	}
 	
 	@Override
-	public Item setUnlocalizedName(String unlocalizedName) {
-		GameRegistry.registerItem(this, unlocalizedName, LibMod.modid);
-		setItemRender(unlocalizedName);
-		return super.setUnlocalizedName(unlocalizedName);
-	}
-	
 	@SideOnly(Side.CLIENT)
 	public void setItemRender(String name) {
 		ModelBakery.addVariantName(this, new String[] { "ss:" + bowPullIconNameArray[0], "ss:" + bowPullIconNameArray[1], "ss:" + bowPullIconNameArray[2], "ss:" + bowPullIconNameArray[3]});

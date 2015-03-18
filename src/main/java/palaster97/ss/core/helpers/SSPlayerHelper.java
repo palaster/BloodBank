@@ -27,7 +27,6 @@ public class SSPlayerHelper {
 	// Memory Mechanic
 	
 	public static int getJournalAmount(EntityPlayer player) {
-		if(!player.worldObj.isRemote)
 			for(ItemStack stack : player.inventory.mainInventory)
 				if(stack != null && stack.getItem() == SSItems.journal && stack.hasTagCompound())
 					return stack.getTagCompound().getInteger("Level");
@@ -35,27 +34,24 @@ public class SSPlayerHelper {
 	}
 	
 	public static void setJournalAmount(EntityPlayer player, int amount) {
-		if(!player.worldObj.isRemote)
-			for(ItemStack stack : player.inventory.mainInventory)
-				if(stack != null && stack.getItem() == SSItems.journal && stack.hasTagCompound())
-					stack.getTagCompound().setInteger("Level", amount);
+		for(ItemStack stack : player.inventory.mainInventory)
+			if(stack != null && stack.getItem() == SSItems.journal && stack.hasTagCompound())
+				stack.getTagCompound().setInteger("Level", amount);
 	}
 	
 	public static boolean reduceJournalAmount(EntityPlayer player, int amount) {
-		if(!player.worldObj.isRemote)
-			if(getJournalAmount(player) - amount >= 0) {
-				setJournalAmount(player, getJournalAmount(player) - amount);
-				return true;
-			}
+		if(getJournalAmount(player) - amount >= 0) {
+			setJournalAmount(player, getJournalAmount(player) - amount);
+			return true;
+		}
 		return false;
 	}
 	
 	public static boolean addJournalAmount(EntityPlayer player, int amount) {
-		if(!player.worldObj.isRemote)
-			if(getJournalAmount(player) + amount <= 1000) {
-				setJournalAmount(player, getJournalAmount(player) + amount);
-				return true;
-			}
+		if(getJournalAmount(player) + amount <= 1000) {
+			setJournalAmount(player, getJournalAmount(player) + amount);
+			return true;
+		}
 		return false;
 	}
 }
