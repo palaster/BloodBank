@@ -10,6 +10,7 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import palaster97.ss.ScreamingSouls;
 import palaster97.ss.blocks.SSBlocks;
 import palaster97.ss.blocks.tile.TileEntityConjuringTablet;
@@ -21,6 +22,7 @@ import palaster97.ss.client.gui.GuiSpace;
 import palaster97.ss.core.CreativeTabSS;
 import palaster97.ss.core.handlers.SSEventHandler;
 import palaster97.ss.core.handlers.SSFMLEventHandler;
+import palaster97.ss.core.handlers.SSFuelHandler;
 import palaster97.ss.core.handlers.SSPlayerTickHandler;
 import palaster97.ss.entities.SSEntities;
 import palaster97.ss.entities.extended.SoulNetworkExtendedPlayer;
@@ -45,11 +47,12 @@ public class CommonProxy implements IGuiHandler {
 		SSBlocks.registerTileEntities();
 		SSItems.init();
 		SSEntities.init();
+		ConjuringTabletRecipes.registerConjuringTablet();
 		FMLCommonHandler.instance().bus().register(new SSFMLEventHandler());
 		FMLCommonHandler.instance().bus().register(new SSPlayerTickHandler());
+		GameRegistry.registerFuelHandler(new SSFuelHandler());
 		MinecraftForge.EVENT_BUS.register(new SSEventHandler());
 		NetworkRegistry.INSTANCE.registerGuiHandler(ScreamingSouls.instance, this);
-		ConjuringTabletRecipes.registerConjuringTablet();
 	}
 	
 	public void postInit() { SSRecipes.init(); }

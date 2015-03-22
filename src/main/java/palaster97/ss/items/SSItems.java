@@ -13,6 +13,8 @@ public class SSItems {
 	public static Item staffSkeleton;
 	public static Item staffEfreet;
 	public static Item magicBow;
+	public static Item gemTransposition;
+	public static Item coreFuel;
 	
 	public static Item recordUnlight;
 	
@@ -25,6 +27,8 @@ public class SSItems {
 		staffSkeleton = new ItemStaffSkeleton();
 		staffEfreet = new ItemStaffEfreet();
 		magicBow = new ItemMagicBow();
+		gemTransposition = new ItemGemTransposition();
+		coreFuel = new ItemCoreFuel();
 
 		recordUnlight = new ItemModRecord("unlight");
 	}

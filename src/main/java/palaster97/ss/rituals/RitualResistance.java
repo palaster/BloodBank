@@ -14,6 +14,6 @@ public class RitualResistance extends Ritual {
 	@Override
 	public void activate(World world, int x, int y, int z, EntityPlayer player) {
 		if(!world.isRemote)
-			player.addPotionEffect(new PotionEffect(11, 200, 2));
+			player.addPotionEffect(new PotionEffect(11, 200, 1));
 	}
 }

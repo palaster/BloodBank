@@ -24,6 +24,8 @@ item.journal.name=Journal
 item.staffSkeleton.name=Skeleton Staff
 item.staffEfreet.name=Efreet Staff
 item.magicBow.name=Magic Bow
+item.gemTransposition.name=Gem of Transposition
+item.coreFuel.name=Fuel Core
 
 item.ssRecord.unlight.name=Music Disc
 item.record.unlight.desc=Kevin MacLeod - Unlight
