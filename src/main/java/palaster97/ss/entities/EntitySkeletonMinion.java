@@ -75,10 +75,10 @@ public class EntitySkeletonMinion extends EntityTameable implements IMob, IRange
         targetTasks.addTask(2, new EntityAIOwnerHurtTarget(this));
         targetTasks.addTask(3, new EntityAIHurtByTarget(this, true, new Class[0]));
         setTamed(false);
-        if(getSkeletonType() == 0)
-        	setSize(0.6F, 1.95F);
+        if(worldIn.provider.getDimensionId() != -1)
+        	setSize(0.75F, 2.25F);
         else
-        	setSize(0.72F, 2.535F);
+        	setSize(0.9F, 2.7F);
         if(worldIn != null && !worldIn.isRemote) 
         	setCombatTask();
 	}
@@ -164,7 +164,7 @@ public class EntitySkeletonMinion extends EntityTameable implements IMob, IRange
             }
         }
         if(worldObj.isRemote && getSkeletonType() == 1)
-        	setSize(0.72F, 2.535F);
+        	setSize(0.9F, 2.7F);
         super.onLivingUpdate();
     }
 
@@ -236,9 +236,9 @@ public class EntitySkeletonMinion extends EntityTameable implements IMob, IRange
         dataWatcher.updateObject(LibDataWatcher.skeleton_minion, Byte.valueOf((byte)p_82201_1_));
         isImmuneToFire = p_82201_1_ == 1;
         if(p_82201_1_ == 1)
-        	setSize(0.72F, 2.535F);
+        	setSize(0.9F, 2.7F);
         else
-        	setSize(0.6F, 1.95F);
+        	setSize(0.75F, 2.25F);
     }
 
     @Override
@@ -267,7 +267,7 @@ public class EntitySkeletonMinion extends EntityTameable implements IMob, IRange
     }
 
     @Override
-    public float getEyeHeight() { return getSkeletonType() == 1 ? 1.125F : .95F; }
+    public float getEyeHeight() { return getSkeletonType() == 1 ? 1.125F : .9F; }
     
     @Override
     public double getYOffset() { return super.getYOffset() - 0.5D; }
