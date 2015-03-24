@@ -4,7 +4,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class ItemCoreFuel extends ItemModSpecialNBT {
+public class ItemCoreFuel extends ItemModNBT {
 
 	public ItemCoreFuel() {
 		super();

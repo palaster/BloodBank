@@ -1,6 +1,6 @@
 package palaster97.ss.items;
 
-public class ItemGemTransposition extends ItemModSpecialNBT {
+public class ItemGemTransposition extends ItemModNBT {
 
 	public ItemGemTransposition() {
 		super();

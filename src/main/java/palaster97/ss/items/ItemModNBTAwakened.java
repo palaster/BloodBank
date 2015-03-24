@@ -9,17 +9,16 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import palaster97.ss.core.helpers.SSPlayerHelper;
 
-public class ItemModSpecialNBT extends ItemModSpecial {
+public class ItemModNBTAwakened extends ItemModSpecial {
 
-	public ItemModSpecialNBT() { super(); }
+	public ItemModNBTAwakened() { super(); }
 	
 	@Override
 	public void onCreated(ItemStack stack, World worldIn, EntityPlayer playerIn) {
 		if(!stack.hasTagCompound())
 			stack.setTagCompound(new NBTTagCompound());
-		stack.getTagCompound().setString("PlayerUUID", playerIn.getUniqueID().toString());
+		stack.getTagCompound().setBoolean("IsAwakened", false);
 	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -27,10 +26,8 @@ public class ItemModSpecialNBT extends ItemModSpecial {
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer playerIn, List tooltip, boolean advanced) {
 		if(stack.hasTagCompound()) {
-			if(SSPlayerHelper.getPlayerFromDimensions(stack.getTagCompound().getString("PlayerUUID")) != null)
-				tooltip.add(SSPlayerHelper.getPlayerFromDimensions(stack.getTagCompound().getString("PlayerUUID")).getGameProfile().getName());
-			else
-				tooltip.add(StatCollector.translateToLocal("ss.misc.brokenPlayer"));
+			if(stack.getTagCompound().getBoolean("IsAwakened"))
+				tooltip.add("Awakened");
 		} else
 			tooltip.add(StatCollector.translateToLocal("ss.misc.broken"));
 	}
@@ -40,7 +37,7 @@ public class ItemModSpecialNBT extends ItemModSpecial {
 		if(!worldIn.isRemote) {
 			if(!itemStackIn.hasTagCompound())
 				itemStackIn.setTagCompound(new NBTTagCompound());
-			itemStackIn.getTagCompound().setString("PlayerUUID", playerIn.getUniqueID().toString());
+			itemStackIn.getTagCompound().setBoolean("IsAwakened", !itemStackIn.getTagCompound().getBoolean("IsAwakened"));
 		}
 		return itemStackIn;
 	}
