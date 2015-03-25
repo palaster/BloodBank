@@ -9,7 +9,7 @@ import net.minecraft.world.World;
 import palaster97.ss.core.helpers.SSPlayerHelper;
 import palaster97.ss.entities.EntitySkeletonMinion;
 
-public class ItemStaffSkeleton extends ItemModSpecial {
+public class ItemStaffSkeleton extends ItemModNBTAwakened {
 
 	public ItemStaffSkeleton() {
 		super();
@@ -18,19 +18,36 @@ public class ItemStaffSkeleton extends ItemModSpecial {
 	
 	@Override
 	public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
-		if(!worldIn.isRemote)
-			if(playerIn.inventory.hasItem(SSItems.journal))
-				if(SSPlayerHelper.getJournalAmount(playerIn) >= 20)
-					if(SSPlayerHelper.reduceJournalAmount(playerIn, 20)) {
-						worldIn.updateEntity(playerIn);
-						EntitySkeletonMinion sm = new EntitySkeletonMinion(worldIn);
-						sm.setPosition(pos.getX() + .5, pos.getY() + 1, pos.getZ() + .5);
-						sm.setTamed(true);
-						sm.setOwnerId(playerIn.getUniqueID().toString());
-						sm.func_180482_a(worldIn.getDifficultyForLocation(new BlockPos(sm)), (IEntityLivingData)null);
-						worldIn.spawnEntityInWorld(sm);
-						return true;
-					}				
+		if(!worldIn.isRemote) {
+			if(stack.hasTagCompound())
+				if(playerIn.inventory.hasItem(SSItems.journal)) {
+					if(stack.getTagCompound().getBoolean("IsAwakened")) {
+						if(SSPlayerHelper.getJournalAmount(playerIn) >= 40)
+							if(SSPlayerHelper.reduceJournalAmount(playerIn, 40)) {
+								worldIn.updateEntity(playerIn);
+								EntitySkeletonMinion sm = new EntitySkeletonMinion(worldIn, 1);
+								sm.setPosition(pos.getX() + .5, pos.getY() + 1, pos.getZ() + .5);
+								sm.setTamed(true);
+								sm.setOwnerId(playerIn.getUniqueID().toString());
+								sm.skeletonSpawning(worldIn.getDifficultyForLocation(new BlockPos(sm)), (IEntityLivingData)null, 1);
+								worldIn.spawnEntityInWorld(sm);
+								return true;
+							}
+					} else {
+						if(SSPlayerHelper.getJournalAmount(playerIn) >= 20)
+							if(SSPlayerHelper.reduceJournalAmount(playerIn, 20)) {
+								worldIn.updateEntity(playerIn);
+								EntitySkeletonMinion sm = new EntitySkeletonMinion(worldIn, 0);
+								sm.setPosition(pos.getX() + .5, pos.getY() + 1, pos.getZ() + .5);
+								sm.setTamed(true);
+								sm.setOwnerId(playerIn.getUniqueID().toString());
+								sm.skeletonSpawning(worldIn.getDifficultyForLocation(new BlockPos(sm)), (IEntityLivingData)null, 0);
+								worldIn.spawnEntityInWorld(sm);
+								return true;
+							}
+					}
+				}
+		}
 		return false;
 	}
 }

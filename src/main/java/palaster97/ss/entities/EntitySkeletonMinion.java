@@ -53,9 +53,11 @@ public class EntitySkeletonMinion extends EntityTameable implements IMob, IRange
 	
 	private EntityAIArrowAttack aiArrowAttack = new EntityAIArrowAttack(this, 1.0D, 20, 60, 15.0F);
     private EntityAIAttackOnCollide aiAttackOnCollide = new EntityAIAttackOnCollide(this, EntityPlayer.class, 1.2D, false);
+    
+    public EntitySkeletonMinion(World worldIn) { this(worldIn, 0); }
 
 	@SuppressWarnings("rawtypes")
-	public EntitySkeletonMinion(World worldIn) {
+	public EntitySkeletonMinion(World worldIn, int value) {
 		super(worldIn);
 		tasks.addTask(1, new EntityAISwimming(this));
 		tasks.addTask(2, aiSit);
@@ -75,7 +77,7 @@ public class EntitySkeletonMinion extends EntityTameable implements IMob, IRange
         targetTasks.addTask(2, new EntityAIOwnerHurtTarget(this));
         targetTasks.addTask(3, new EntityAIHurtByTarget(this, true, new Class[0]));
         setTamed(false);
-        if(worldIn.provider.getDimensionId() != -1)
+        if(value == 0)
         	setSize(0.75F, 2.25F);
         else
         	setSize(0.9F, 2.7F);
@@ -190,10 +192,34 @@ public class EntitySkeletonMinion extends EntityTameable implements IMob, IRange
 	@Override
 	public boolean isChild() { return true; }
 	
+	public IEntityLivingData skeletonSpawning(DifficultyInstance p_180482_1_, IEntityLivingData p_180482_2, int value) {
+		p_180482_2 = func_180482_a(p_180482_1_, p_180482_2);
+        if(value == 1 && getRNG().nextInt(5) > 0) {
+            tasks.addTask(4, aiAttackOnCollide);
+            setSkeletonType(1);
+            setCurrentItemOrArmor(0, new ItemStack(Items.stone_sword));
+            getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(4.0D);
+        } else {
+            tasks.addTask(4, aiArrowAttack);
+            setSkeletonType(0);
+            func_180481_a(p_180482_1_);
+            func_180483_b(p_180482_1_);
+        }
+        setCanPickUpLoot(rand.nextFloat() < 0.55F * p_180482_1_.getClampedAdditionalDifficulty());
+        if(getEquipmentInSlot(4) == null) {
+            Calendar calendar = worldObj.getCurrentDate();
+            if(calendar.get(2) + 1 == 10 && calendar.get(5) == 31 && rand.nextFloat() < 0.25F) {
+                setCurrentItemOrArmor(4, new ItemStack(rand.nextFloat() < 0.1F ? Blocks.lit_pumpkin : Blocks.pumpkin));
+                equipmentDropChances[4] = 0.0F;
+            }
+        }
+		return p_180482_2;
+	}
+	
 	@Override
 	public IEntityLivingData func_180482_a(DifficultyInstance p_180482_1_, IEntityLivingData p_180482_2_) {
 		p_180482_2_ = super.func_180482_a(p_180482_1_, p_180482_2_);
-        if(worldObj.provider instanceof WorldProviderHell && this.getRNG().nextInt(5) > 0) {
+        if(worldObj.provider instanceof WorldProviderHell && getRNG().nextInt(5) > 0) {
             tasks.addTask(4, aiAttackOnCollide);
             setSkeletonType(1);
             setCurrentItemOrArmor(0, new ItemStack(Items.stone_sword));

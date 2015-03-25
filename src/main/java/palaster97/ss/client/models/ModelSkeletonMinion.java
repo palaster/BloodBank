@@ -11,13 +11,11 @@ import palaster97.ss.entities.EntitySkeletonMinion;
 @SideOnly(Side.CLIENT)
 public class ModelSkeletonMinion extends ModelZombie {
 
-	public ModelSkeletonMinion() {
-        this(0.0F, false);
-    }
+	public ModelSkeletonMinion() { this(0.0F, false); }
 
     public ModelSkeletonMinion(float p_i46303_1_, boolean p_i46303_2_) {
         super(p_i46303_1_, 0.0F, 64, 32);
-        if (!p_i46303_2_) {
+        if(!p_i46303_2_) {
             bipedRightArm = new ModelRenderer(this, 40, 16);
             bipedRightArm.addBox(-1.0F, -2.0F, -1.0F, 2, 12, 2, p_i46303_1_);
             bipedRightArm.setRotationPoint(-5.0F, 2.0F, 0.0F);
