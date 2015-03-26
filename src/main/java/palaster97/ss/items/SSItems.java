@@ -12,6 +12,7 @@ public class SSItems {
 	public static Item journal;
 	public static Item staffSkeleton;
 	public static Item staffEfreet;
+	public static Item staffTime;
 	public static Item magicBow;
 	public static Item gemTransposition;
 	public static Item coreFuel;
@@ -26,6 +27,7 @@ public class SSItems {
 		journal = new ItemJournal();
 		staffSkeleton = new ItemStaffSkeleton();
 		staffEfreet = new ItemStaffEfreet();
+		staffTime = new ItemStaffTime();
 		magicBow = new ItemMagicBow();
 		gemTransposition = new ItemGemTransposition();
 		coreFuel = new ItemCoreFuel();

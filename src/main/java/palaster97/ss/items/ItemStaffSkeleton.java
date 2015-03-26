@@ -20,7 +20,7 @@ public class ItemStaffSkeleton extends ItemModNBTAwakened {
 	public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
 		if(!worldIn.isRemote) {
 			if(stack.hasTagCompound())
-				if(playerIn.inventory.hasItem(SSItems.journal)) {
+				if(playerIn.inventory.hasItem(SSItems.journal))
 					if(stack.getTagCompound().getBoolean("IsAwakened")) {
 						if(SSPlayerHelper.getJournalAmount(playerIn) >= 40)
 							if(SSPlayerHelper.reduceJournalAmount(playerIn, 40)) {
@@ -46,7 +46,6 @@ public class ItemStaffSkeleton extends ItemModNBTAwakened {
 								return true;
 							}
 					}
-				}
 		}
 		return false;
 	}
