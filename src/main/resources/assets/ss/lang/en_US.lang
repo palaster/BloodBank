@@ -27,6 +27,7 @@ item.staffTime.name=Staff of Time
 item.magicBow.name=Magic Bow
 item.gemTransposition.name=Gem of Transposition
 item.coreFuel.name=Fuel Core
+item.animalHerder.name=Animal Herder
 
 item.ssRecord.unlight.name=Music Disc
 item.record.unlight.desc=Kevin MacLeod - Unlight
