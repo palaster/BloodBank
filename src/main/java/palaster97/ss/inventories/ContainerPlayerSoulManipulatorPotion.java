@@ -1,6 +1,7 @@
 package palaster97.ss.inventories;
 
 import palaster97.ss.blocks.tile.TileEntityPlayerSoulManipulator;
+import palaster97.ss.inventories.slots.SlotPSMP;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -13,7 +14,7 @@ public class ContainerPlayerSoulManipulatorPotion extends Container {
 
 	public ContainerPlayerSoulManipulatorPotion(InventoryPlayer invPlayer, TileEntityPlayerSoulManipulator psm) {
 		this.psm = psm;
-		
+		addSlotToContainer(new SlotPSMP(psm, 2, 80, 35));
 		for (int x = 0; x < 9; x++)
 			addSlotToContainer(new Slot(invPlayer, x, 8 + 18 * x, 142));
 		for (int y = 0; y < 3; y++)
