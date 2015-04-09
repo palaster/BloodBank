@@ -114,4 +114,6 @@ public class TileEntityModInventory extends TileEntity implements IInventory {
 		}
 		compound.setTag("Items", items);
 	}
+	
+	public void receiveButtonEvent(int buttonID, EntityPlayer player) {}
 }

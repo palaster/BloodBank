@@ -77,7 +77,7 @@ public class SSEventHandler {
 			if(e.source.getEntity() instanceof EntityPlayer) {
 				EntityPlayer p = (EntityPlayer) e.source.getEntity();
 				if(p.getCurrentEquippedItem() != null && p.getCurrentEquippedItem().getItem() instanceof ItemAtmanSword) {
-					int temp = p.worldObj.rand.nextInt(10);
+					int temp = p.worldObj.rand.nextInt(8);
 					if(temp == 0) {
 						float temp1 = e.entityLiving.getMaxHealth();
 						temp1 = temp1/10;

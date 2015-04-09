@@ -1,11 +1,10 @@
 package palaster97.ss.inventories.slots;
 
-import palaster97.ss.items.ItemSoulBinder;
-import palaster97.ss.items.SSItems;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
-import net.minecraft.item.ItemPotion;
 import net.minecraft.item.ItemStack;
+import palaster97.ss.items.ItemSoulBinder;
+import palaster97.ss.items.SSItems;
 
 public class SlotPSM extends Slot {
 
@@ -16,7 +15,7 @@ public class SlotPSM extends Slot {
 	@Override
 	public boolean isItemValid(ItemStack stack) {
 		if(stack != null)
-			if(stack.getItem() instanceof ItemPotion || stack.getItem() instanceof ItemSoulBinder || stack.getItem().equals(new ItemStack(SSItems.mobSouls, 1, 1).getItem()))
+			if(stack.getItem() instanceof ItemSoulBinder || stack.hasTagCompound() && stack.getItem() == SSItems.mobSouls && stack.getTagCompound().getBoolean("IsPlayer"))
 				return true;
 		return false;
 	}

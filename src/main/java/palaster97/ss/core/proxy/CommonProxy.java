@@ -17,6 +17,8 @@ import palaster97.ss.blocks.tile.TileEntityConjuringTablet;
 import palaster97.ss.blocks.tile.TileEntityPlayerSoulManipulator;
 import palaster97.ss.client.gui.GuiConjuringTablet;
 import palaster97.ss.client.gui.GuiPlayerSoulManipulator;
+import palaster97.ss.client.gui.GuiPlayerSoulManipulatorInventory;
+import palaster97.ss.client.gui.GuiPlayerSoulManipulatorPotion;
 import palaster97.ss.client.gui.GuiSoulCompressor;
 import palaster97.ss.client.gui.GuiSpace;
 import palaster97.ss.core.CreativeTabSS;
@@ -28,6 +30,8 @@ import palaster97.ss.entities.SSEntities;
 import palaster97.ss.entities.extended.SoulNetworkExtendedPlayer;
 import palaster97.ss.inventories.ContainerConjuringTablet;
 import palaster97.ss.inventories.ContainerPlayerSoulManipulator;
+import palaster97.ss.inventories.ContainerPlayerSoulManipulatorInventory;
+import palaster97.ss.inventories.ContainerPlayerSoulManipulatorPotion;
 import palaster97.ss.inventories.ContainerSoulCompressor;
 import palaster97.ss.inventories.ContainerSpace;
 import palaster97.ss.items.SSItems;
@@ -78,6 +82,14 @@ public class CommonProxy implements IGuiHandler {
 				if(te != null && te instanceof TileEntityConjuringTablet)
 					return new ContainerConjuringTablet(player.inventory, (TileEntityConjuringTablet) te);
 			}
+			case 4: {
+				if(te != null && te instanceof TileEntityPlayerSoulManipulator)
+					return new ContainerPlayerSoulManipulatorInventory(player.inventory, (TileEntityPlayerSoulManipulator) te);
+			}
+			case 5: {
+				if(te != null && te instanceof TileEntityPlayerSoulManipulator)
+					return new ContainerPlayerSoulManipulatorPotion(player.inventory, (TileEntityPlayerSoulManipulator) te);
+			}
 		}
 		return null;
 	}
@@ -98,6 +110,14 @@ public class CommonProxy implements IGuiHandler {
 			case 3: {
 				if(te != null && te instanceof TileEntityConjuringTablet)
 					return new GuiConjuringTablet(player.inventory, (TileEntityConjuringTablet) te);
+			}
+			case 4: {
+				if(te != null && te instanceof TileEntityPlayerSoulManipulator)
+					return new GuiPlayerSoulManipulatorInventory(player.inventory, (TileEntityPlayerSoulManipulator) te);
+			}
+			case 5: {
+				if(te != null && te instanceof TileEntityPlayerSoulManipulator)
+					return new GuiPlayerSoulManipulatorPotion(player.inventory, (TileEntityPlayerSoulManipulator) te);
 			}
 		}
 		return null;
