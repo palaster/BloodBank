@@ -151,7 +151,7 @@ public class TileEntityRitual extends TileEntityModInventory implements IUpdateP
 								if(Ritual.rituals[activeRitualID] instanceof RitualActive) {
 									RitualActive ritual = (RitualActive) Ritual.rituals[activeRitualID];
 									if(p != null) {
-										ritual.activate(worldObj, pos.getX(), pos.getY(), pos.getZ(), p);
+										ritual.activate(worldObj, pos, p);
 										SSPlayerHelper.sendChatMessageToPlayer(p, "Your Ritual Has Finished.");
 										props.removeRitual(activeRitualID, pos);
 										setInventorySlotContents(0, null);

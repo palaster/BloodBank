@@ -13,6 +13,8 @@ public class BlockSoulCompressor extends BlockMod {
 	public BlockSoulCompressor(Material p_i45394_1_) {
 		super(p_i45394_1_);
 		setUnlocalizedName("soulCompressor");
+		setHarvestLevel("axe", 0);
+		setStepSound(soundTypeWood);
 	}
 	
 	@Override

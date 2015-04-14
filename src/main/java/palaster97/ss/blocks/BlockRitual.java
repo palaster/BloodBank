@@ -85,7 +85,7 @@ public class BlockRitual extends BlockModContainer {
 										} else {
 											SoulNetworkExtendedPlayer props = SoulNetworkExtendedPlayer.get(playerIn);
 											if(props != null) {
-												Ritual.rituals[i].activate(worldIn, pos.getX(), pos.getY(), pos.getZ(), playerIn);
+												Ritual.rituals[i].activate(worldIn, pos, playerIn);
 												ritualBlock.setInventorySlotContents(0, null);
 												return true;
 											}

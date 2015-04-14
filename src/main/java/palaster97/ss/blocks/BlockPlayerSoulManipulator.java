@@ -15,6 +15,8 @@ public class BlockPlayerSoulManipulator extends BlockModContainer {
 	public BlockPlayerSoulManipulator(Material p_i45394_1_) {
 		super(p_i45394_1_);
 		setUnlocalizedName("playerSoulManipulator");
+		setHarvestLevel("axe", 0);
+		setStepSound(soundTypeWood);
 	}
 	
 	@Override

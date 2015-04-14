@@ -16,6 +16,9 @@ public class BlockMod extends Block {
 	public BlockMod(Material p_i45394_1_) {
 		super(p_i45394_1_);
 		setCreativeTab(CreativeTabSS.tabSS);
+		setHardness(3F);
+		setHarvestLevel("pickaxe", 0);
+		setStepSound(soundTypeStone);
 	}
 	
 	@Override

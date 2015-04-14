@@ -18,7 +18,7 @@ public class SSBlocks {
 	public static Block conjuringTablet;
 	
 	public static void init() {
-		soulCompressor = new BlockSoulCompressor(Material.iron);
+		soulCompressor = new BlockSoulCompressor(Material.wood);
 		ritual = new BlockRitual(Material.rock);
 		playerSoulManipulator = new BlockPlayerSoulManipulator(Material.wood);
 		worldSoulManipulator = new BlockWorldSoulManipulator(Material.rock);
