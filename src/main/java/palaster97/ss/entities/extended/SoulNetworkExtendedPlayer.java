@@ -12,13 +12,15 @@ import palaster97.ss.network.PacketHandler;
 import palaster97.ss.network.client.SyncPlayerPropsMessage;
 import palaster97.ss.rituals.Ritual;
 import palaster97.ss.rituals.RitualActive;
+import palaster97.ss.runes.Rune;
 
 public class SoulNetworkExtendedPlayer implements IExtendedEntityProperties {
 	
 	public final static String EXT_PROP_NAME = "SoulNetworkExtendedPlayer";
-	public final InventorySpace space = new InventorySpace();
+	private final InventorySpace space = new InventorySpace();
 	private final EntityPlayer player;
 	private RitualActive[] activeRituals = new RitualActive[10];
+	private Rune rune;
 	
 	public SoulNetworkExtendedPlayer(EntityPlayer player) { this.player = player; }
 	
@@ -29,6 +31,7 @@ public class SoulNetworkExtendedPlayer implements IExtendedEntityProperties {
 	public void copy(SoulNetworkExtendedPlayer props) {
 		space.copy(props.space);
 		activeRituals = props.activeRituals;
+		rune = props.rune;
 	}
 	
 	@Override
@@ -39,6 +42,8 @@ public class SoulNetworkExtendedPlayer implements IExtendedEntityProperties {
 		for(int i = 0; i < activeRituals.length; i++)
 			if(activeRituals[i] != null)
 				props.setInteger("ActiveRitual" + i, activeRituals[i].ritualID);
+		if(rune != null)
+			props.setInteger("RuneID", rune.runeID);
 		compound.setTag(EXT_PROP_NAME, props);
 	}
 
@@ -50,10 +55,14 @@ public class SoulNetworkExtendedPlayer implements IExtendedEntityProperties {
 			if(Ritual.rituals[props.getInteger("ActiveRitual" + i)] instanceof RitualActive)
 				activeRituals[i] = (RitualActive) Ritual.rituals[props.getInteger("ActiveRitual" + i)];
 		}
+		if(Rune.runes[props.getInteger("RuneID")] != null)
+			rune = Rune.runes[props.getInteger("RuneID")];
 	}
 
 	@Override
 	public void init(Entity entity, World world) {}
+	
+	public final InventorySpace getSpace() { return space; }
 
 	public final boolean canAddRitual() {
 		for(int i = 0; i < activeRituals.length; i++)
@@ -83,6 +92,16 @@ public class SoulNetworkExtendedPlayer implements IExtendedEntityProperties {
 	}
 	
 	public final RitualActive[] getActives() { return activeRituals; }
+	
+	public final boolean hasRune() { return rune != null; }
+	
+	public final Rune getRune() { return rune; }
+	
+	public final void setRune(int runeID) {
+		if(Rune.runes[runeID] != null)
+			rune = Rune.runes[runeID];
+		sync();
+	}
 	
 	public final void sync() { PacketHandler.sendTo(new SyncPlayerPropsMessage(player), (EntityPlayerMP) player); }
 }

@@ -15,10 +15,12 @@ import palaster97.ss.ScreamingSouls;
 import palaster97.ss.blocks.SSBlocks;
 import palaster97.ss.blocks.tile.TileEntityConjuringTablet;
 import palaster97.ss.blocks.tile.TileEntityPlayerSoulManipulator;
+import palaster97.ss.blocks.tile.TileEntityRuneInscriber;
 import palaster97.ss.client.gui.GuiConjuringTablet;
 import palaster97.ss.client.gui.GuiPlayerSoulManipulator;
 import palaster97.ss.client.gui.GuiPlayerSoulManipulatorInventory;
 import palaster97.ss.client.gui.GuiPlayerSoulManipulatorPotion;
+import palaster97.ss.client.gui.GuiRuneInscriber;
 import palaster97.ss.client.gui.GuiSoulCompressor;
 import palaster97.ss.client.gui.GuiSpace;
 import palaster97.ss.core.CreativeTabSS;
@@ -32,6 +34,7 @@ import palaster97.ss.inventories.ContainerConjuringTablet;
 import palaster97.ss.inventories.ContainerPlayerSoulManipulator;
 import palaster97.ss.inventories.ContainerPlayerSoulManipulatorInventory;
 import palaster97.ss.inventories.ContainerPlayerSoulManipulatorPotion;
+import palaster97.ss.inventories.ContainerRuneInscriber;
 import palaster97.ss.inventories.ContainerSoulCompressor;
 import palaster97.ss.inventories.ContainerSpace;
 import palaster97.ss.items.SSItems;
@@ -72,7 +75,7 @@ public class CommonProxy implements IGuiHandler {
 			case 0: return new ContainerSoulCompressor(player.inventory, world, new BlockPos(x, y, z));
 			case 1: {
 				if(SoulNetworkExtendedPlayer.get(player) != null)
-					return new ContainerSpace(player.inventory, SoulNetworkExtendedPlayer.get(player).space);
+					return new ContainerSpace(player.inventory, SoulNetworkExtendedPlayer.get(player).getSpace());
 			}
 			case 2: {
 				if(te != null && te instanceof TileEntityPlayerSoulManipulator)
@@ -90,6 +93,10 @@ public class CommonProxy implements IGuiHandler {
 				if(te != null && te instanceof TileEntityPlayerSoulManipulator)
 					return new ContainerPlayerSoulManipulatorPotion(player.inventory, (TileEntityPlayerSoulManipulator) te);
 			}
+			case 6: {
+				if(te != null && te instanceof TileEntityRuneInscriber)
+					return new ContainerRuneInscriber(player.inventory, (TileEntityRuneInscriber) te);
+			}
 		}
 		return null;
 	}
@@ -101,7 +108,7 @@ public class CommonProxy implements IGuiHandler {
 			case 0: return new GuiSoulCompressor(player.inventory, world, new BlockPos(x, y, z));
 			case 1: {
 				if(SoulNetworkExtendedPlayer.get(player) != null)
-					return new GuiSpace(player.inventory, SoulNetworkExtendedPlayer.get(player).space);
+					return new GuiSpace(player.inventory, SoulNetworkExtendedPlayer.get(player).getSpace());
 			}
 			case 2: {
 				if(te != null && te instanceof TileEntityPlayerSoulManipulator)
@@ -118,6 +125,10 @@ public class CommonProxy implements IGuiHandler {
 			case 5: {
 				if(te != null && te instanceof TileEntityPlayerSoulManipulator)
 					return new GuiPlayerSoulManipulatorPotion(player.inventory, (TileEntityPlayerSoulManipulator) te);
+			}
+			case 6: {
+				if(te != null && te instanceof TileEntityRuneInscriber)
+					return new GuiRuneInscriber(player.inventory, (TileEntityRuneInscriber) te);
 			}
 		}
 		return null;

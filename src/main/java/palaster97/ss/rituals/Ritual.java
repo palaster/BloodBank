@@ -4,6 +4,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 public abstract class Ritual {
@@ -19,11 +20,11 @@ public abstract class Ritual {
 	protected Ritual(int ritualID, ItemStack stack) {
 		this.ritualID = ritualID;
 		this.stack = stack;
-		if(rituals[ritualID] != null) {
+		if(rituals[ritualID] != null)
             throw new IllegalArgumentException("Duplicate ritual id! " + getClass() + " and " + rituals[ritualID].getClass() + " Ritual ID:" + ritualID);
-        } else
+        else
         	rituals[ritualID] = this;
 	}
 
-	public void activate(World world, int x, int y, int z, EntityPlayer player) {}
+	public abstract void activate(World world, BlockPos pos, EntityPlayer player);
 }
