@@ -93,8 +93,6 @@ public class SoulNetworkExtendedPlayer implements IExtendedEntityProperties {
 	
 	public final RitualActive[] getActives() { return activeRituals; }
 	
-	public final boolean hasRune() { return rune != null; }
-	
 	public final Rune getRune() { return rune; }
 	
 	public final void setRune(int runeID) {

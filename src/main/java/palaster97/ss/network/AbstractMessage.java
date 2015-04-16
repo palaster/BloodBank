@@ -17,7 +17,6 @@ import com.google.common.base.Throwables;
 
 public abstract class AbstractMessage<T extends AbstractMessage<T>> implements IMessage, IMessageHandler <T, IMessage> {
 
-	
 	protected abstract void read(PacketBuffer buffer) throws IOException;
 	
 	protected abstract void write(PacketBuffer buffer) throws IOException;

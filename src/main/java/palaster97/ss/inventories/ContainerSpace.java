@@ -9,19 +9,18 @@ import net.minecraft.item.ItemStack;
 public class ContainerSpace extends Container {
 	
 	public ContainerSpace(InventoryPlayer invPlayer, InventorySpace invSoul) {
-		for(int x = 0; x < 9; x++)
-			addSlotToContainer(new Slot(invPlayer, x, 8 + 18 * x, 198));
-		
-		for(int y = 0; y < 3; y++)
-			for (int x = 0; x < 9; x++)
-				addSlotToContainer(new Slot(invPlayer, x + y * 9 + 9, 8 + 18 * x, 140 + y * 18));
-		
 		int temp = 0;
 		for(int y = 0; y < 6; y++)
 			for(int x = 0; x < 9; x++) {
 				addSlotToContainer(new Slot(invSoul, temp, 8 + 18 * x, 18 + y * 18));
 				temp++;
 			}
+		
+		for(int x = 0; x < 9; x++)
+			addSlotToContainer(new Slot(invPlayer, x, 8 + 18 * x, 198));
+		for(int y = 0; y < 3; y++)
+			for(int x = 0; x < 9; x++)
+				addSlotToContainer(new Slot(invPlayer, x + y * 9 + 9, 8 + 18 * x, 140 + y * 18));
 	}
 
 	@Override

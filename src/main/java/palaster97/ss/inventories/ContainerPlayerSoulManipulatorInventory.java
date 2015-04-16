@@ -21,18 +21,18 @@ public class ContainerPlayerSoulManipulatorInventory extends Container {
 			if(soul.hasTagCompound() && soul.getItem() == SSItems.mobSouls) {
 				EntityPlayer p = SSPlayerHelper.getPlayerFromDimensions(soul.getTagCompound().getString("PlayerUUID"));
 				if(p != null) {
-					for (int x = 0; x < 9; x++)
+					for(int x = 0; x < 9; x++)
 						addSlotToContainer(new Slot(p.inventory, x, 8 + 18 * x, 76));
-					for (int y = 0; y < 3; y++)
-						for (int x = 0; x < 9; x++)
+					for(int y = 0; y < 3; y++)
+						for(int x = 0; x < 9; x++)
 							addSlotToContainer(new Slot(p.inventory, x + y * 9 + 9, 8 + 18 * x, 18 + y * 18));
 				}
 			}
 		
-		for (int x = 0; x < 9; x++)
+		for(int x = 0; x < 9; x++)
 			addSlotToContainer(new Slot(invPlayer, x, 8 + 18 * x, 166));
-		for (int y = 0; y < 3; y++)
-			for (int x = 0; x < 9; x++)
+		for(int y = 0; y < 3; y++)
+			for(int x = 0; x < 9; x++)
 				addSlotToContainer(new Slot(invPlayer, x + y * 9 + 9, 8 + 18 * x, 108 + y * 18));
 	}
 

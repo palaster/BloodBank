@@ -22,7 +22,7 @@ public class UseRuneMessage extends AbstractServerMessage<UseRuneMessage> {
 	public void process(EntityPlayer player, Side side) {
 		if(player.getCurrentEquippedItem() == null)
 			if(SoulNetworkExtendedPlayer.get(player) != null)
-				if(SoulNetworkExtendedPlayer.get(player).hasRune())
+				if(SoulNetworkExtendedPlayer.get(player).getRune() != null)
 					SoulNetworkExtendedPlayer.get(player).getRune().activate(player.worldObj, player.getPosition(), player);
 	}
 }

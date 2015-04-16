@@ -14,7 +14,7 @@ public class LibResource {
 	public static final ResourceLocation playerSoulManipulator_1 = new ResourceLocation(LibMod.modid, gui + "playerSoulManipulator_1.png");
 	public static final ResourceLocation playerSoulManipulator_2 = new ResourceLocation(LibMod.modid, gui + "playerSoulManipulator_2.png");
 	public static final ResourceLocation conjuringTablet = new ResourceLocation(LibMod.modid, gui + "conjuringTablet.png");
-	public static final ResourceLocation runeInscriber = new ResourceLocation(LibMod.modid, gui + "runeInscriber.png");
+	public static final ResourceLocation inscriptionKit = new ResourceLocation(LibMod.modid, gui + "inscriptionKit.png");
 	
 	public static final ResourceLocation ssHUD = new ResourceLocation(LibMod.modid, gui + "ssHUD.png");
 }

@@ -17,6 +17,7 @@ public class SSItems {
 	public static Item gemTransposition;
 	public static Item coreFuel;
 	public static Item animalHerder;
+	public static Item inscriptionKit;
 	
 	public static Item recordUnlight;
 	
@@ -33,6 +34,7 @@ public class SSItems {
 		gemTransposition = new ItemGemTransposition();
 		coreFuel = new ItemCoreFuel();
 		animalHerder = new ItemAnimalHerder();
+		inscriptionKit = new ItemInscriptionKit();
 
 		recordUnlight = new ItemModRecord("unlight");
 	}

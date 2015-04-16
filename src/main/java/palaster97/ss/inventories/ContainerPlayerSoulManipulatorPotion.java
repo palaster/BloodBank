@@ -14,11 +14,13 @@ public class ContainerPlayerSoulManipulatorPotion extends Container {
 
 	public ContainerPlayerSoulManipulatorPotion(InventoryPlayer invPlayer, TileEntityPlayerSoulManipulator psm) {
 		this.psm = psm;
+		
 		addSlotToContainer(new SlotPSMP(psm, 2, 80, 35));
-		for (int x = 0; x < 9; x++)
+		
+		for(int x = 0; x < 9; x++)
 			addSlotToContainer(new Slot(invPlayer, x, 8 + 18 * x, 142));
-		for (int y = 0; y < 3; y++)
-			for (int x = 0; x < 9; x++)
+		for(int y = 0; y < 3; y++)
+			for(int x = 0; x < 9; x++)
 				addSlotToContainer(new Slot(invPlayer, x + y * 9 + 9, 8 + 18 * x, 84 + y * 18));
 	}
 	

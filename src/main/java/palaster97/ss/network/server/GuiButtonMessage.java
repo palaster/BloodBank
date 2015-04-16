@@ -9,6 +9,7 @@ import net.minecraft.util.BlockPos;
 import net.minecraftforge.fml.relauncher.Side;
 import palaster97.ss.blocks.tile.TileEntityConjuringTablet;
 import palaster97.ss.blocks.tile.TileEntityModInventory;
+import palaster97.ss.inventories.InventoryInscriptionKit;
 import palaster97.ss.network.AbstractMessage.AbstractServerMessage;
 
 public class GuiButtonMessage extends AbstractServerMessage<GuiButtonMessage> {
@@ -31,9 +32,11 @@ public class GuiButtonMessage extends AbstractServerMessage<GuiButtonMessage> {
 
 	@Override
 	protected void write(PacketBuffer buffer) throws IOException {
-		buffer.writeInt(pos.getX());
-		buffer.writeInt(pos.getY());
-		buffer.writeInt(pos.getZ());
+		if(pos != null) {
+			buffer.writeInt(pos.getX());
+			buffer.writeInt(pos.getY());
+			buffer.writeInt(pos.getZ());
+		}
 		buffer.writeInt(id);
 	}
 
@@ -44,5 +47,7 @@ public class GuiButtonMessage extends AbstractServerMessage<GuiButtonMessage> {
 			((TileEntityConjuringTablet) te).trySummon(player);
 		if(te != null && te instanceof TileEntityModInventory)
 			((TileEntityModInventory) te).receiveButtonEvent(id, player);
+		if(te == null)
+			new InventoryInscriptionKit(player.getHeldItem()).receiveButtonEvent(id, player);
 	}
 }

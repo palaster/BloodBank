@@ -15,12 +15,11 @@ import palaster97.ss.ScreamingSouls;
 import palaster97.ss.blocks.SSBlocks;
 import palaster97.ss.blocks.tile.TileEntityConjuringTablet;
 import palaster97.ss.blocks.tile.TileEntityPlayerSoulManipulator;
-import palaster97.ss.blocks.tile.TileEntityRuneInscriber;
 import palaster97.ss.client.gui.GuiConjuringTablet;
 import palaster97.ss.client.gui.GuiPlayerSoulManipulator;
 import palaster97.ss.client.gui.GuiPlayerSoulManipulatorInventory;
 import palaster97.ss.client.gui.GuiPlayerSoulManipulatorPotion;
-import palaster97.ss.client.gui.GuiRuneInscriber;
+import palaster97.ss.client.gui.GuiInscriptionKit;
 import palaster97.ss.client.gui.GuiSoulCompressor;
 import palaster97.ss.client.gui.GuiSpace;
 import palaster97.ss.core.CreativeTabSS;
@@ -34,9 +33,10 @@ import palaster97.ss.inventories.ContainerConjuringTablet;
 import palaster97.ss.inventories.ContainerPlayerSoulManipulator;
 import palaster97.ss.inventories.ContainerPlayerSoulManipulatorInventory;
 import palaster97.ss.inventories.ContainerPlayerSoulManipulatorPotion;
-import palaster97.ss.inventories.ContainerRuneInscriber;
+import palaster97.ss.inventories.ContainerInscriptionKit;
 import palaster97.ss.inventories.ContainerSoulCompressor;
 import palaster97.ss.inventories.ContainerSpace;
+import palaster97.ss.inventories.InventoryInscriptionKit;
 import palaster97.ss.items.SSItems;
 import palaster97.ss.network.PacketHandler;
 import palaster97.ss.recipes.ConjuringTabletRecipes;
@@ -94,8 +94,7 @@ public class CommonProxy implements IGuiHandler {
 					return new ContainerPlayerSoulManipulatorPotion(player.inventory, (TileEntityPlayerSoulManipulator) te);
 			}
 			case 6: {
-				if(te != null && te instanceof TileEntityRuneInscriber)
-					return new ContainerRuneInscriber(player.inventory, (TileEntityRuneInscriber) te);
+				return new ContainerInscriptionKit(player.inventory, new InventoryInscriptionKit(player.getCurrentEquippedItem()));
 			}
 		}
 		return null;
@@ -127,8 +126,7 @@ public class CommonProxy implements IGuiHandler {
 					return new GuiPlayerSoulManipulatorPotion(player.inventory, (TileEntityPlayerSoulManipulator) te);
 			}
 			case 6: {
-				if(te != null && te instanceof TileEntityRuneInscriber)
-					return new GuiRuneInscriber(player.inventory, (TileEntityRuneInscriber) te);
+				return new GuiInscriptionKit(player.inventory, new InventoryInscriptionKit(player.getCurrentEquippedItem()));
 			}
 		}
 		return null;
