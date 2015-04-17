@@ -42,7 +42,7 @@ public class GuiInscriptionKit extends GuiContainer {
 	
 	@Override
 	protected void actionPerformed(GuiButton button) throws IOException {
-		PacketHandler.sendToServer(new GuiButtonMessage(invPlayer.player.getPosition(), button.id));
+		PacketHandler.sendToServer(new GuiButtonMessage("inscriptionKit", invPlayer.player.getPosition(), button.id));
 		button.enabled = false;
 	}
 }

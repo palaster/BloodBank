@@ -11,7 +11,7 @@ public class TileEntityWorldSoulManipulator extends TileEntityModInventory {
 	public int getInventoryStackLimit() { return 1; }
 
 	@Override
-	public String getName() { return "container.soulSponge"; }
+	public String getName() { return "container.worldSoulManipulator"; }
 	
 	@Override
 	public boolean isItemValidForSlot(int index, ItemStack stack) { return stack.getItem() instanceof ItemWorldSoulBinder; }

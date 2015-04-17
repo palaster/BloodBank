@@ -43,7 +43,7 @@ public class GuiConjuringTablet extends GuiContainer {
 	
 	@Override
 	protected void actionPerformed(GuiButton button) throws IOException {
-		PacketHandler.sendToServer(new GuiButtonMessage(ct.getPos(), button.id));
+		PacketHandler.sendToServer(new GuiButtonMessage("conjuringTablet", ct.getPos(), button.id));
 		button.enabled = false;
 	}
 }

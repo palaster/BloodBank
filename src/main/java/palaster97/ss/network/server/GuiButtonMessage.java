@@ -14,29 +14,39 @@ import palaster97.ss.network.AbstractMessage.AbstractServerMessage;
 
 public class GuiButtonMessage extends AbstractServerMessage<GuiButtonMessage> {
 	
+	private String name;
 	private BlockPos pos;
 	private int id;
 
 	public GuiButtonMessage() {}
 	
-	public GuiButtonMessage(BlockPos pos, int id) {
+	public GuiButtonMessage(String name, BlockPos pos, int id) {
+		this.name = name;
 		this.pos = pos;
 		this.id = id;
 	}
 
 	@Override
 	protected void read(PacketBuffer buffer) throws IOException {
-		pos = new BlockPos(buffer.readInt(), buffer.readInt(), buffer.readInt());
+		int temp = buffer.readInt();
+		if(temp > 0) {
+			name = "";
+			for(int i = 0; i < temp; i++)
+				name += buffer.readChar();
+		}
+		pos = buffer.readBlockPos();
 		id = buffer.readInt();
 	}
 
 	@Override
 	protected void write(PacketBuffer buffer) throws IOException {
-		if(pos != null) {
-			buffer.writeInt(pos.getX());
-			buffer.writeInt(pos.getY());
-			buffer.writeInt(pos.getZ());
+		if(name != null) {
+			buffer.writeInt(name.length());
+			for(int i = 0; i < name.length(); i++)
+				buffer.writeChar(name.charAt(i));
 		}
+		if(pos != null)
+			buffer.writeBlockPos(pos);
 		buffer.writeInt(id);
 	}
 
@@ -47,7 +57,7 @@ public class GuiButtonMessage extends AbstractServerMessage<GuiButtonMessage> {
 			((TileEntityConjuringTablet) te).trySummon(player);
 		if(te != null && te instanceof TileEntityModInventory)
 			((TileEntityModInventory) te).receiveButtonEvent(id, player);
-		if(te == null)
+		if(name.equals("inscriptionKit"))
 			new InventoryInscriptionKit(player.getHeldItem()).receiveButtonEvent(id, player);
 	}
 }
