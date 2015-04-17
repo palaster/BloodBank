@@ -12,7 +12,7 @@ public class ContainerInscriptionKit extends Container {
 	public ContainerInscriptionKit(InventoryPlayer invPlayer, InventoryInscriptionKit ik) {
 		this.ik = ik;
 		
-		addSlotToContainer(new Slot(ik, 2, 80, 35));
+		addSlotToContainer(new Slot(ik, 0, 80, 35));
 		
 		for(int x = 0; x < 9; x++)
 			addSlotToContainer(new Slot(invPlayer, x, 8 + 18 * x, 142));

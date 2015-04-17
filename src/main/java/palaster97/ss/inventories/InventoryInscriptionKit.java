@@ -41,11 +41,14 @@ public class InventoryInscriptionKit extends InventoryMod {
 	public void receiveButtonEvent(int id, EntityPlayer player) {
 		if(!player.worldObj.isRemote)
 			if(getStackInSlot(0) != null)
-				if(SoulNetworkExtendedPlayer.get(player) != null && SoulNetworkExtendedPlayer.get(player).getRune() == null)
-					for(int i = 0; i < Rune.runes.length; i++)
-						if(Rune.runes[i] != null && Rune.runes[i].id.getItem() == getStackInSlot(0).getItem()) {
-							SoulNetworkExtendedPlayer.get(player).setRune(Rune.runes[i].runeID);
-							setInventorySlotContents(0, null);
-						}
+				if(SoulNetworkExtendedPlayer.get(player) != null) {
+					SoulNetworkExtendedPlayer.get(player).removeRune();
+					if(SoulNetworkExtendedPlayer.get(player).getRune() == null) 
+						for(int i = 0; i < Rune.runes.length; i++)
+							if(Rune.runes[i] != null && Rune.runes[i].id.getItem() == getStackInSlot(0).getItem()) {
+								SoulNetworkExtendedPlayer.get(player).setRune(Rune.runes[i].runeID);
+								setInventorySlotContents(0, null);
+							}
+				}
 	}
 }

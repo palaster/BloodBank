@@ -116,7 +116,7 @@ public class SSEventHandler {
 	
 	@SubscribeEvent
 	public void onPlayerSleepInBed(PlayerSleepInBedEvent e) {
-		if(!e.entityPlayer.worldObj.isRemote && e.result == EnumStatus.OK || !e.entityPlayer.worldObj.isRemote && e.result == null)
+		if(!e.entityPlayer.worldObj.isRemote && e.result == EnumStatus.OK || !e.entityPlayer.worldObj.isRemote && e.result == null) {
 			if(e.entityPlayer.getCurrentEquippedItem() != null && e.entityPlayer.getCurrentEquippedItem().getItem() == Items.writable_book) {
 				if(!e.entityPlayer.getCurrentEquippedItem().hasTagCompound() || !e.entityPlayer.getCurrentEquippedItem().getTagCompound().hasKey("pages", 9)) {
 					ItemStack journal = new ItemStack(SSItems.journal);
@@ -132,6 +132,9 @@ public class SSEventHandler {
 		                }
 				}
 			}
+			if(SoulNetworkExtendedPlayer.get(e.entityPlayer) != null && !SoulNetworkExtendedPlayer.get(e.entityPlayer).getRuneCharge())
+				SoulNetworkExtendedPlayer.get(e.entityPlayer).setRuneCharge(true);
+		}
 	}
 	
 	@SubscribeEvent

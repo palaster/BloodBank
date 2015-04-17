@@ -20,6 +20,7 @@ public class SoulNetworkExtendedPlayer implements IExtendedEntityProperties {
 	private final InventorySpace space = new InventorySpace();
 	private final EntityPlayer player;
 	private RitualActive[] activeRituals = new RitualActive[10];
+	private boolean isRuneCharged;
 	private Rune rune;
 	
 	public SoulNetworkExtendedPlayer(EntityPlayer player) { this.player = player; }
@@ -42,6 +43,7 @@ public class SoulNetworkExtendedPlayer implements IExtendedEntityProperties {
 		for(int i = 0; i < activeRituals.length; i++)
 			if(activeRituals[i] != null)
 				props.setInteger("ActiveRitual" + i, activeRituals[i].ritualID);
+		props.setBoolean("IsRuneCharged", isRuneCharged);
 		if(rune != null)
 			props.setInteger("RuneID", rune.runeID);
 		compound.setTag(EXT_PROP_NAME, props);
@@ -55,6 +57,7 @@ public class SoulNetworkExtendedPlayer implements IExtendedEntityProperties {
 			if(Ritual.rituals[props.getInteger("ActiveRitual" + i)] instanceof RitualActive)
 				activeRituals[i] = (RitualActive) Ritual.rituals[props.getInteger("ActiveRitual" + i)];
 		}
+		isRuneCharged = props.getBoolean("IsRuneCharged");
 		if(Rune.runes[props.getInteger("RuneID")] != null)
 			rune = Rune.runes[props.getInteger("RuneID")];
 	}
@@ -93,11 +96,23 @@ public class SoulNetworkExtendedPlayer implements IExtendedEntityProperties {
 	
 	public final RitualActive[] getActives() { return activeRituals; }
 	
+	public final boolean getRuneCharge() { return isRuneCharged; }
+	
+	public final void setRuneCharge(boolean value) {
+		isRuneCharged = value;
+		sync();
+	}
+	
 	public final Rune getRune() { return rune; }
 	
 	public final void setRune(int runeID) {
 		if(Rune.runes[runeID] != null)
 			rune = Rune.runes[runeID];
+		sync();
+	}
+	
+	public final void removeRune() {
+		rune = null;
 		sync();
 	}
 	

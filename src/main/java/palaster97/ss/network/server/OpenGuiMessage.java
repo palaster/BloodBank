@@ -22,15 +22,14 @@ public class OpenGuiMessage extends AbstractServerMessage<OpenGuiMessage> {
 	@Override
 	protected void read(PacketBuffer buffer) {
 		id = buffer.readInt();
-		pos = new BlockPos(buffer.readInt(), buffer.readInt(), buffer.readInt());
+		pos = buffer.readBlockPos();
 	}
 
 	@Override
 	protected void write(PacketBuffer buffer) {
 		buffer.writeInt(id);
-		buffer.writeInt(pos.getX());
-		buffer.writeInt(pos.getY());
-		buffer.writeInt(pos.getZ());
+		if(pos != null)
+			buffer.writeBlockPos(pos);
 	}
 
 	@Override

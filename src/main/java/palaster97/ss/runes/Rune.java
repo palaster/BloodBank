@@ -13,6 +13,7 @@ public abstract class Rune {
 	public final ItemStack id;
 	
 	public static final Rune milk = new RuneMilk(0, new ItemStack(Items.milk_bucket));
+	public static final Rune openDoor = new RuneOpenDoor(1, new ItemStack(Items.iron_door));
 	
 	public Rune(int runeID, ItemStack id) {
 		this.runeID = runeID;

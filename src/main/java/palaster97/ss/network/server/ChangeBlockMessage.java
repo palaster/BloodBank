@@ -23,15 +23,14 @@ public class ChangeBlockMessage extends AbstractServerMessage<ChangeBlockMessage
 	
 	@Override
 	protected void read(PacketBuffer buffer) throws IOException {
-		pos = new BlockPos(buffer.readInt(), buffer.readInt(), buffer.readInt());
+		pos = buffer.readBlockPos();
 		block = Block.getBlockById(buffer.readInt());
 	}
 
 	@Override
 	protected void write(PacketBuffer buffer) throws IOException {
-		buffer.writeInt(pos.getX());
-		buffer.writeInt(pos.getY());
-		buffer.writeInt(pos.getZ());
+		if(pos != null)
+			buffer.writeBlockPos(pos);
 		buffer.writeInt(Block.getIdFromBlock(block));
 	}
 
