@@ -4,6 +4,7 @@ import net.minecraft.block.BlockJukebox;
 import net.minecraft.block.BlockJukebox.TileEntityJukebox;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayer.EnumStatus;
@@ -14,11 +15,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.sound.PlayStreamingSourceEvent;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerPickupXpEvent;
@@ -30,6 +33,7 @@ import palaster97.ss.blocks.tile.TileEntityRitual;
 import palaster97.ss.core.helpers.SSItemStackHelper;
 import palaster97.ss.entities.extended.SoulNetworkExtendedPlayer;
 import palaster97.ss.items.ItemAtmanSword;
+import palaster97.ss.items.ItemVoidSword;
 import palaster97.ss.items.SSItems;
 import palaster97.ss.libs.LibMod;
 import palaster97.ss.network.PacketHandler;
@@ -135,6 +139,19 @@ public class SSEventHandler {
 			if(SoulNetworkExtendedPlayer.get(e.entityPlayer) != null && !SoulNetworkExtendedPlayer.get(e.entityPlayer).getRuneCharge())
 				SoulNetworkExtendedPlayer.get(e.entityPlayer).setRuneCharge(true);
 		}
+	}
+	
+	@SubscribeEvent
+	public void onEntityAttack(LivingAttackEvent e) {
+		if(!e.entityLiving.worldObj.isRemote)
+			if(e.source.getSourceOfDamage() instanceof EntityLivingBase && e.source != DamageSource.outOfWorld) {
+				EntityLivingBase living = (EntityLivingBase) e.source.getSourceOfDamage();
+				if(living != null)
+					if(living.getHeldItem() != null && living.getHeldItem().getItem() instanceof ItemVoidSword) {
+						e.setCanceled(true);
+						e.entityLiving.attackEntityFrom(DamageSource.outOfWorld, e.ammount);
+					}
+			}
 	}
 	
 	@SubscribeEvent

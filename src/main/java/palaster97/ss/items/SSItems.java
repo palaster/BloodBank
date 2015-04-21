@@ -7,6 +7,7 @@ public class SSItems {
 	
 	public static Item mobSouls;
 	public static Item atmanSword;
+	public static Item voidSword;
 	public static Item soulBinder;
 	public static Item worldSoulBinder;
 	public static Item journal;
@@ -24,6 +25,7 @@ public class SSItems {
 	public static void init() {
 		mobSouls = new ItemMobSoul();
 		atmanSword = new ItemAtmanSword(EnumHelper.addToolMaterial("atman", 2, -1, 6.0f, 2.0f, 0));
+		voidSword = new ItemVoidSword(EnumHelper.addToolMaterial("void", 2, 1561, 6.0f, 2.0f, 14));
 		soulBinder = new ItemSoulBinder();
 		worldSoulBinder = new ItemWorldSoulBinder();
 		journal = new ItemJournal();
