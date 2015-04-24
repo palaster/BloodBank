@@ -22,6 +22,8 @@ public class SoulNetworkExtendedPlayer implements IExtendedEntityProperties {
 	private RitualActive[] activeRituals = new RitualActive[10];
 	private boolean isRuneCharged;
 	private Rune rune;
+	private NBTTagCompound bc;
+	private NBTTagCompound[] legion = new NBTTagCompound[8];
 	
 	public SoulNetworkExtendedPlayer(EntityPlayer player) { this.player = player; }
 	
@@ -46,6 +48,15 @@ public class SoulNetworkExtendedPlayer implements IExtendedEntityProperties {
 		props.setBoolean("IsRuneCharged", isRuneCharged);
 		if(rune != null)
 			props.setInteger("RuneID", rune.runeID);
+		if(bc != null)
+			props.setTag("BurningChild", bc);
+		int temp = 0;
+		for(int i = 0; i < legion.length; i++)
+			if(legion[i] != null) {
+				props.setTag("Legion_" + i, legion[i]);
+				temp++;
+			}
+		props.setInteger("Legion Count", temp);
 		compound.setTag(EXT_PROP_NAME, props);
 	}
 
@@ -60,6 +71,10 @@ public class SoulNetworkExtendedPlayer implements IExtendedEntityProperties {
 		isRuneCharged = props.getBoolean("IsRuneCharged");
 		if(Rune.runes[props.getInteger("RuneID")] != null)
 			rune = Rune.runes[props.getInteger("RuneID")];
+		bc = (NBTTagCompound) props.getTag("BurningChild");
+		int temp = props.getInteger("Legion Count");
+		for(int i = 0; i < temp; i++)
+			legion[i] = (NBTTagCompound) props.getTag("Legion_" + i);
 	}
 
 	@Override
@@ -113,6 +128,13 @@ public class SoulNetworkExtendedPlayer implements IExtendedEntityProperties {
 	
 	public final void removeRune() {
 		rune = null;
+		sync();
+	}
+	
+	public final NBTTagCompound getBurningChild() { return bc; }
+	
+	public final void setBurningChild(NBTTagCompound nbt) {
+		bc = nbt;
 		sync();
 	}
 	

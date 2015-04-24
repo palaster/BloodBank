@@ -22,6 +22,8 @@ public class SSItems {
 	
 	public static Item recordUnlight;
 	
+	public static Item debug;
+	
 	public static void init() {
 		mobSouls = new ItemMobSoul();
 		atmanSword = new ItemAtmanSword(EnumHelper.addToolMaterial("atman", 2, -1, 6.0f, 2.0f, 0));
@@ -39,5 +41,7 @@ public class SSItems {
 		inscriptionKit = new ItemInscriptionKit();
 
 		recordUnlight = new ItemModRecord("unlight");
+		
+		debug = new ItemDebug();
 	}
 }

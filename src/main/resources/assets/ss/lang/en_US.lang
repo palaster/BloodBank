@@ -6,7 +6,7 @@ container.soulCompressor=Soul Compressor
 container.space=Space
 
 entity.skeletonMinion.name=Skeleton Minion
-entity.shoeElf.name=Shoe Elf
+entity.burningChild.name=Burning Child
 
 tile.soulCompressor.name=Soul Compressor
 tile.ritual.name=Ritual
