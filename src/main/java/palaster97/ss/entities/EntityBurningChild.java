@@ -23,10 +23,11 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import palaster97.ss.entities.extended.SoulNetworkExtendedPlayer;
+import palaster97.ss.libs.LibDataWatcher;
 
 public class EntityBurningChild extends EntityMob {
 	
-	private boolean isActive;
+	private final int isActive = 1;
 	private String target;
 	private int finalEmbrace;
 
@@ -47,11 +48,17 @@ public class EntityBurningChild extends EntityMob {
 	
 	@Override
 	protected void applyEntityAttributes() {
-        super.applyEntityAttributes();
-        getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(35.0D);
-        getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.25D);
-        getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(2.5D);
-    }
+		super.applyEntityAttributes();
+		getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(35.0D);
+		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.25D);
+		getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(2.5D);
+	}
+	
+	@Override
+	protected void entityInit() {
+		super.entityInit();
+		dataWatcher.addObject(LibDataWatcher.burning_child_active, isActive);
+	}
 	
 	@Override
 	protected boolean canDespawn() { return target == null || target.isEmpty(); }
@@ -76,7 +83,7 @@ public class EntityBurningChild extends EntityMob {
         if(worldObj.isDaytime() && !worldObj.isRemote && !isChild()) {
             BlockPos blockpos = new BlockPos(posX, (double)Math.round(posY), posZ);
             if(getBrightness(1.0F) > 0.5F && rand.nextFloat() * 30.0F < (getBrightness(1.0F) - 0.4F) * 2.0F && worldObj.canSeeSky(blockpos))
-            	setActive(false);
+            	setActive(1);
         }
         if(isRiding() && getAttackTarget() != null && ridingEntity instanceof EntityChicken)
             ((EntityLiving)ridingEntity).getNavigator().setPath(getNavigator().getPath(), 1.5D);
@@ -97,7 +104,7 @@ public class EntityBurningChild extends EntityMob {
 							bc.readEntityFromNBT(getEntityData());
 							if(p.getBedLocation() != null) {
 								bc.setPosition(p.getBedLocation().getX(), p.getBedLocation().getY(), p.getBedLocation().getZ());
-								bc.setActive(false);
+								bc.setActive(1);
 								worldObj.spawnEntityInWorld(bc);
 							}
 						}
@@ -127,7 +134,7 @@ public class EntityBurningChild extends EntityMob {
 	@Override
 	public void readEntityFromNBT(NBTTagCompound tagCompund) {
 		super.readEntityFromNBT(tagCompund);
-		isActive = tagCompund.getBoolean("IsActive");
+		setActive(tagCompund.getInteger("IsActive"));
 		target = tagCompund.getString("Target");
 		finalEmbrace = tagCompund.getInteger("FinalEmbrace");
 	}
@@ -135,15 +142,15 @@ public class EntityBurningChild extends EntityMob {
 	@Override
 	public void writeEntityToNBT(NBTTagCompound tagCompound) {
 		super.writeEntityToNBT(tagCompound);
-		tagCompound.setBoolean("IsActive", isActive);
+		tagCompound.setInteger("IsActive", getActive());
 		if(target != null && !target.isEmpty())
 			tagCompound.setString("Target", target);
 		tagCompound.setInteger("FinalEmbrace", finalEmbrace);
 	}
 	
-	public boolean isActive() { return isActive; }
+	public int getActive() { return dataWatcher.getWatchableObjectInt(LibDataWatcher.burning_child_active); }
 	
-	public void setActive(boolean isActive) { this.isActive = isActive; }
+	public void setActive(int isActive) { dataWatcher.updateObject(LibDataWatcher.burning_child_active, isActive); }
 	
 	public void clearTarget() { target = null; }
 	
@@ -156,19 +163,19 @@ public class EntityBurningChild extends EntityMob {
 				if(p_70624_1_ instanceof EntityPlayer) {
 					EntityPlayer p = (EntityPlayer) p_70624_1_;
 					if(target != null && !target.isEmpty())
-						if(!isActive && worldObj.getPlayerEntityByUUID(UUID.fromString(target)) != null && worldObj.getPlayerEntityByUUID(UUID.fromString(target)).equals(p))
-							isActive = true;
+						if(getActive() == 1 && worldObj.getPlayerEntityByUUID(UUID.fromString(target)) != null && worldObj.getPlayerEntityByUUID(UUID.fromString(target)).equals(p))
+							setActive(0);
 					if(target == null || target.isEmpty())
 						if(SoulNetworkExtendedPlayer.get(p) != null && SoulNetworkExtendedPlayer.get(p).getBurningChild() == null) {
 							SoulNetworkExtendedPlayer.get(p).setBurningChild(getEntityData());
-							isActive = true;
+							setActive(0);
 							target = p.getUniqueID().toString();
 							super.setAttackTarget(p);
 						}
 				}
 			} else
-				if(isActive) {
-					isActive = false;
+				if(getActive() == 0) {
+					setActive(1);
 					clearEmbrace();
 					super.setAttackTarget(p_70624_1_);
 				}

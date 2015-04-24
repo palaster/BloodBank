@@ -1,7 +1,5 @@
 package palaster97.ss.client.renderers;
 
-import palaster97.ss.entities.EntityBurningChild;
-import palaster97.ss.libs.LibResource;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.entity.RenderBiped;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -9,6 +7,8 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import palaster97.ss.entities.EntityBurningChild;
+import palaster97.ss.libs.LibResource;
 
 @SideOnly(Side.CLIENT)
 public class RenderBurningChild extends RenderBiped {
@@ -20,7 +20,7 @@ public class RenderBurningChild extends RenderBiped {
 	@Override
 	protected ResourceLocation getEntityTexture(EntityLiving entity) {
 		EntityBurningChild bc = (EntityBurningChild) entity;
-		if(bc.isActive())
+		if(bc.getActive() == 0)
 			return LibResource.burningChild_0;
 		else
 			return LibResource.burningChild_1;

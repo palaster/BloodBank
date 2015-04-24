@@ -21,6 +21,6 @@ public class SSEntities {
 	
 	public static void registerEntityRenderers() {
 		RenderingRegistry.registerEntityRenderingHandler(EntitySkeletonMinion.class, new RenderSkeletonMinion(Minecraft.getMinecraft().getRenderManager()));
-		RenderingRegistry.registerEntityRenderingHandler(EntityBurningChild.class, new RenderBurningChild(Minecraft.getMinecraft().getRenderManager(), new ModelZombie(0.0f, false), 0.5f));
+		RenderingRegistry.registerEntityRenderingHandler(EntityBurningChild.class, new RenderBurningChild(Minecraft.getMinecraft().getRenderManager(), new ModelZombie(0.0f, true), 0.5f));
 	}
 }
