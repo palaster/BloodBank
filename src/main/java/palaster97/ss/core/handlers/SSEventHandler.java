@@ -60,7 +60,6 @@ public class SSEventHandler {
 	@SubscribeEvent
 	public void onClonePlayer(PlayerEvent.Clone e) { SoulNetworkExtendedPlayer.get(e.entityPlayer).copy(SoulNetworkExtendedPlayer.get(e.original)); }
 	
-	
 	@SubscribeEvent
 	public void onPlayerPickUpExp(PlayerPickupXpEvent e) {
 		if(!e.entityPlayer.worldObj.isRemote)

@@ -7,6 +7,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import palaster97.ss.blocks.tile.TileEntityConjuringTablet;
 import palaster97.ss.blocks.tile.TileEntityPlayerSoulManipulator;
 import palaster97.ss.blocks.tile.TileEntityRitual;
+import palaster97.ss.blocks.tile.TileEntityVoid;
 import palaster97.ss.blocks.tile.TileEntityWorldSoulManipulator;
 
 public class SSBlocks {
@@ -17,12 +18,16 @@ public class SSBlocks {
 	public static Block worldSoulManipulator;
 	public static Block conjuringTablet;
 	
+	public static Block touchVoid;
+	
 	public static void init() {
 		soulCompressor = new BlockSoulCompressor(Material.wood);
 		ritual = new BlockRitual(Material.rock);
 		playerSoulManipulator = new BlockPlayerSoulManipulator(Material.wood);
 		worldSoulManipulator = new BlockWorldSoulManipulator(Material.rock);
 		conjuringTablet = new BlockConjuringTablet(Material.rock);
+		
+		touchVoid = new BlockVoid(Material.barrier);
 	}
 	
 	public static void registerTileEntities() {
@@ -30,6 +35,8 @@ public class SSBlocks {
 		registerTileEntity(TileEntityPlayerSoulManipulator.class, "playerSoulManipulator");
 		registerTileEntity(TileEntityWorldSoulManipulator.class, "worldSoulManipulator");
 		registerTileEntity(TileEntityConjuringTablet.class, "conjuringTablet");
+		
+		registerTileEntity(TileEntityVoid.class, "void");
 	}
 
 	private static void registerTileEntity(Class<? extends TileEntity> tile, String name) { GameRegistry.registerTileEntity(tile, name); }

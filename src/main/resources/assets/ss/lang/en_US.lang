@@ -13,6 +13,7 @@ tile.ritual.name=Ritual
 tile.playerSoulManipulator.name=Player Soul Manipulator
 tile.worldSoulManipulator.name=World Soul Manipulator
 tile.conjuringTablet.name=Conjuring Tablet
+tile.void.name=Touch of Void
 
 item.mobSouls.name=Soul
 item.mobSouls.venomous.name=Venomous Soul
@@ -25,6 +26,7 @@ item.journal.name=Journal
 item.staffSkeleton.name=Skeleton Staff
 item.staffEfreet.name=Efreet Staff
 item.staffTime.name=Staff of Time
+item.staffVoidWalker.name=Staff of Void Walker
 item.magicBow.name=Magic Bow
 item.gemTransposition.name=Gem of Transposition
 item.coreFuel.name=Fuel Core
@@ -33,6 +35,8 @@ item.inscriptionKit.name=Inscription Kit
 
 item.ssRecord.unlight.name=Music Disc
 item.record.unlight.desc=Kevin MacLeod - Unlight
+
+item.debug.name=Debug
 
 ss.misc.activated=Activated
 ss.misc.broken=BROKEN (Normal Fix is a simple right-click)
