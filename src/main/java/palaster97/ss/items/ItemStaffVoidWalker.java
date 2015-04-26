@@ -9,6 +9,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import palaster97.ss.blocks.SSBlocks;
 import palaster97.ss.blocks.tile.TileEntityVoid;
+import palaster97.ss.entities.EntityYinYang;
 
 public class ItemStaffVoidWalker extends ItemModSpecial {
 
@@ -20,7 +21,7 @@ public class ItemStaffVoidWalker extends ItemModSpecial {
 	// When pt. at a player will send out a void blast that either dmgs them or teleports them to player
 	@Override
 	public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
-		if(!worldIn.isRemote) {}
+		worldIn.spawnEntityInWorld(new EntityYinYang(worldIn, playerIn));
 		return itemStackIn;
 	}
 	

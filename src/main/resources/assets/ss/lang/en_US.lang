@@ -7,6 +7,7 @@ container.space=Space
 
 entity.skeletonMinion.name=Skeleton Minion
 entity.burningChild.name=Burning Child
+entity.yinYang.name=Yin Yang
 
 tile.soulCompressor.name=Soul Compressor
 tile.ritual.name=Ritual
@@ -37,6 +38,7 @@ item.ssRecord.unlight.name=Music Disc
 item.record.unlight.desc=Kevin MacLeod - Unlight
 
 item.debug.name=Debug
+item.yinYang.name=Yin Yang
 
 ss.misc.activated=Activated
 ss.misc.broken=BROKEN (Normal Fix is a simple right-click)

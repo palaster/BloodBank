@@ -24,6 +24,7 @@ public class SSItems {
 	public static Item recordUnlight;
 	
 	public static Item debug;
+	public static Item yinYang;
 	
 	public static void init() {
 		mobSouls = new ItemMobSoul();
@@ -45,5 +46,6 @@ public class SSItems {
 		recordUnlight = new ItemModRecord("unlight");
 		
 		debug = new ItemDebug();
+		yinYang = new ItemYinYang();
 	}
 }
