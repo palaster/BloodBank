@@ -18,14 +18,15 @@ public class ItemStaffVoidWalker extends ItemModSpecial {
 		setUnlocalizedName("staffVoidWalker");
 	}
 	
-	// When pt. at a player will send out a void blast that either dmgs them or teleports them to player
 	@Override
 	public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
-		worldIn.spawnEntityInWorld(new EntityYinYang(worldIn, playerIn));
+		if(!playerIn.isSneaking())
+			worldIn.spawnEntityInWorld(new EntityYinYang(worldIn, playerIn, 0));
+		else
+			worldIn.spawnEntityInWorld(new EntityYinYang(worldIn, playerIn, 1));
 		return itemStackIn;
 	}
 	
-	// Turns a 3x3, or when augment a 5x5 square into a void trap
 	@Override
 	public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
 		if(!worldIn.isRemote) {
