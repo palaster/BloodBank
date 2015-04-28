@@ -18,8 +18,6 @@ public class BlockVoid extends BlockModContainer {
 	public BlockVoid(Material p_i45394_1_) {
 		super(p_i45394_1_);
 		setUnlocalizedName("void");
-		setBlockUnbreakable();
-		setResistance(6000000.0F);
 	}
 	
 	@Override
