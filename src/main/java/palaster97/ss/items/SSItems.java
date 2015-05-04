@@ -19,8 +19,6 @@ public class SSItems {
 	public static Item animalHerder;
 	public static Item inscriptionKit;
 	
-	public static Item recordUnlight;
-	
 	public static Item debug;
 	public static Item yinYang;
 	
@@ -38,8 +36,6 @@ public class SSItems {
 		coreFuel = new ItemCoreFuel();
 		animalHerder = new ItemAnimalHerder();
 		inscriptionKit = new ItemInscriptionKit();
-
-		recordUnlight = new ItemModRecord("unlight");
 		
 		debug = new ItemDebug();
 		yinYang = new ItemYinYang();

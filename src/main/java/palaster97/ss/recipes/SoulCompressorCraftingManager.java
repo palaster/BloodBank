@@ -18,7 +18,6 @@ import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraft.item.crafting.ShapelessRecipes;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
-import net.minecraftforge.oredict.ShapelessOreRecipe;
 import palaster97.ss.blocks.SSBlocks;
 import palaster97.ss.core.helpers.SSItemStackHelper;
 import palaster97.ss.items.SSItems;
@@ -43,7 +42,6 @@ public class SoulCompressorCraftingManager {
     	
     	// Items
     	addRecipe(new ItemStack(SSItems.atmanSword), "x", "x", "y", 'x', SSItemStackHelper.getSoulItemStack(0), 'y', Items.stick);
-    	func_180302_a(new ShapelessOreRecipe(SSItems.recordUnlight, Items.nether_star, "record", Items.rotten_flesh));
     	addRecipe(new ItemStack(SSItems.soulBinder), "xyx", "yzy", "xyx", 'x', Items.gold_nugget, 'y', Blocks.redstone_block, 'z', Items.ender_pearl);
     	addRecipe(new ItemStack(SSItems.worldSoulBinder), "xyx", "yzy", "xyx", 'x', Items.gold_nugget, 'y', Blocks.quartz_block, 'z', Items.ender_pearl);
     	addRecipe(new ItemStack(SSItems.magicBow), " xy", "z y", " xy", 'z', SSItemStackHelper.getSoulItemStack(1), 'x', Items.stick, 'y', Items.string);

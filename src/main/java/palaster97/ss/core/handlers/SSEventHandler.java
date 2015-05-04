@@ -1,22 +1,14 @@
 package palaster97.ss.core.handlers;
 
-import net.minecraft.block.BlockJukebox;
-import net.minecraft.block.BlockJukebox.TileEntityJukebox;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayer.EnumStatus;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.event.sound.PlayStreamingSourceEvent;
-import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
@@ -24,17 +16,12 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerPickupXpEvent;
 import net.minecraftforge.event.entity.player.PlayerSleepInBedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import palaster97.ss.blocks.tile.TileEntityRitual;
-import palaster97.ss.core.helpers.SSItemStackHelper;
 import palaster97.ss.entities.extended.SoulNetworkExtendedPlayer;
 import palaster97.ss.items.ItemAtmanSword;
 import palaster97.ss.items.SSItems;
-import palaster97.ss.libs.LibMod;
 import palaster97.ss.network.PacketHandler;
 import palaster97.ss.network.client.SyncPlayerPropsMessage;
-import palaster97.ss.network.server.ChangeBlockMessage;
 import palaster97.ss.rituals.Ritual;
 import palaster97.ss.rituals.RitualActive;
 
@@ -133,27 +120,6 @@ public class SSEventHandler {
 			}
 			if(SoulNetworkExtendedPlayer.get(e.entityPlayer) != null && !SoulNetworkExtendedPlayer.get(e.entityPlayer).getRuneCharge())
 				SoulNetworkExtendedPlayer.get(e.entityPlayer).setRuneCharge(true);
-		}
-	}
-	
-	@SubscribeEvent
-	@SideOnly(Side.CLIENT)
-	public void onPlayStreamSource(PlayStreamingSourceEvent e) {
-		if(e.sound.getSoundLocation().equals(new ResourceLocation(LibMod.modid + ":records.unlight"))) {
-			BlockPos jukePos = new BlockPos(e.sound.getXPosF(), e.sound.getYPosF(), e.sound.getZPosF());
-			IBlockState juke = Minecraft.getMinecraft().theWorld.getBlockState(jukePos);
-			if(jukePos != null && juke != null && juke.getBlock() == Blocks.jukebox){
-				BlockJukebox jukeBox = (BlockJukebox) juke.getBlock();
-				if(jukeBox != null) {
-					TileEntityJukebox teJuke = (TileEntityJukebox) Minecraft.getMinecraft().theWorld.getTileEntity(jukePos);
-					if(teJuke != null) {
-						ItemStack stack = SSItemStackHelper.getItemStackFromInventory(DimensionManager.getWorld(Minecraft.getMinecraft().theWorld.provider.getDimensionId()), jukePos, -1);
-						SSItemStackHelper.setItemStackFromInventory(null, DimensionManager.getWorld(Minecraft.getMinecraft().theWorld.provider.getDimensionId()), jukePos, -1);
-						if(stack != null && stack.getItem() == SSItems.recordUnlight)
-							PacketHandler.sendToServer(new ChangeBlockMessage(jukePos, Blocks.obsidian));
-					}
-				}
-			}
 		}
 	}
 }

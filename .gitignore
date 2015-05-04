@@ -15,5 +15,13 @@
 /.project
 /bin
 
+## intellij
+/out
+/.idea
+/*.iml
+/*.ipr
+/*.iws
+/atlassian-ide-plugin.xml
+
 # Ignore Gradle GUI config
 gradle-app.setting
