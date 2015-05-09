@@ -9,11 +9,11 @@ import net.minecraft.util.StatCollector;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ItemMobSoul extends ItemModSpecial {
+public class ItemSoul extends ItemModSpecial {
 	
-	public ItemMobSoul() {
+	public ItemSoul() {
 		super();
-		setUnlocalizedName("mobSouls");
+		setUnlocalizedName("souls");
 	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })

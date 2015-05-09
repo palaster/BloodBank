@@ -4,14 +4,11 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
 import palaster97.ss.inventories.InventorySpace;
 import palaster97.ss.network.PacketHandler;
 import palaster97.ss.network.client.SyncPlayerPropsMessage;
-import palaster97.ss.rituals.Ritual;
-import palaster97.ss.rituals.RitualActive;
 import palaster97.ss.runes.Rune;
 
 public class SoulNetworkExtendedPlayer implements IExtendedEntityProperties {
@@ -19,7 +16,6 @@ public class SoulNetworkExtendedPlayer implements IExtendedEntityProperties {
 	public final static String EXT_PROP_NAME = "SoulNetworkExtendedPlayer";
 	private final InventorySpace space = new InventorySpace();
 	private final EntityPlayer player;
-	private RitualActive[] activeRituals = new RitualActive[10];
 	private boolean isRuneCharged;
 	private Rune rune;
 	private NBTTagCompound bc;
@@ -33,7 +29,6 @@ public class SoulNetworkExtendedPlayer implements IExtendedEntityProperties {
 	
 	public void copy(SoulNetworkExtendedPlayer props) {
 		space.copy(props.space);
-		activeRituals = props.activeRituals;
 		rune = props.rune;
 	}
 	
@@ -41,10 +36,6 @@ public class SoulNetworkExtendedPlayer implements IExtendedEntityProperties {
 	public void saveNBTData(NBTTagCompound compound) {
 		NBTTagCompound props = new NBTTagCompound();
 		space.writeToNBT(props);
-		props.setInteger("AcitveRitualAmt", activeRituals.length);
-		for(int i = 0; i < activeRituals.length; i++)
-			if(activeRituals[i] != null)
-				props.setInteger("ActiveRitual" + i, activeRituals[i].ritualID);
 		props.setBoolean("IsRuneCharged", isRuneCharged);
 		if(rune != null)
 			props.setInteger("RuneID", rune.runeID);
@@ -64,10 +55,6 @@ public class SoulNetworkExtendedPlayer implements IExtendedEntityProperties {
 	public void loadNBTData(NBTTagCompound compound) {
 		NBTTagCompound props = (NBTTagCompound) compound.getTag(EXT_PROP_NAME);
 		space.readFromNBT(props);
-		for(int i = 0; i < props.getInteger("ActiveRitualAmt"); i++) {
-			if(Ritual.rituals[props.getInteger("ActiveRitual" + i)] instanceof RitualActive)
-				activeRituals[i] = (RitualActive) Ritual.rituals[props.getInteger("ActiveRitual" + i)];
-		}
 		isRuneCharged = props.getBoolean("IsRuneCharged");
 		if(Rune.runes[props.getInteger("RuneID")] != null)
 			rune = Rune.runes[props.getInteger("RuneID")];
@@ -82,35 +69,6 @@ public class SoulNetworkExtendedPlayer implements IExtendedEntityProperties {
 	
 	public final InventorySpace getSpace() { return space; }
 
-	public final boolean canAddRitual() {
-		for(int i = 0; i < activeRituals.length; i++)
-			if(activeRituals[i] == null)
-				return true;
-		return false;
-	}
-	
-	public final void addRitual(Ritual ritual) {
-		for(int i = 0; i < activeRituals.length; i++) {
-			if(activeRituals[i] == null) {
-				if(ritual instanceof RitualActive)
-					activeRituals[i] = (RitualActive) ritual;
-			}
-		}
-		sync();
-	}
-	
-	public final void removeRitual(int ritualID, BlockPos pos) {
-		if(Ritual.rituals[ritualID] != null) {
-			if(Ritual.rituals[ritualID] instanceof RitualActive)
-				for(int i = 0; i < activeRituals.length; i++)
-					if(activeRituals[i] != null && activeRituals[i].ritualPos == pos)
-						activeRituals[i] = null;
-		}
-		sync();
-	}
-	
-	public final RitualActive[] getActives() { return activeRituals; }
-	
 	public final boolean getRuneCharge() { return isRuneCharged; }
 	
 	public final void setRuneCharge(boolean value) {

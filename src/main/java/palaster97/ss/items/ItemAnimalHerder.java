@@ -1,13 +1,14 @@
 package palaster97.ss.items;
 
-import java.util.List;
-
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
+
+import java.util.List;
 
 public class ItemAnimalHerder extends ItemModSpecial {
 
@@ -34,10 +35,12 @@ public class ItemAnimalHerder extends ItemModSpecial {
 				List<EntityAnimal> animals = playerIn.worldObj.getEntitiesWithinAABB(EntityAnimal.class, new AxisAlignedBB(playerIn.posX + 7, playerIn.posY + 2, playerIn.posZ + 7, playerIn.posX - 7, playerIn.posY, playerIn.posZ - 7));
 				if(animals != null) {
 					for(EntityAnimal animal : animals) {
-						// TODO: Figure way to get mobs that weren't meant to deal dmg. to deal dmg.
-						animal.tasks.addTask(4, new EntityAIAttackOnCollide(animal, 1.0D, true));
-//						animal.getAttributeMap().registerAttribute(SharedMonsterAttributes.attackDamage);
-//						animal.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(.5D);
+						if(animal.getEntityAttribute(SharedMonsterAttributes.attackDamage) == null) {
+							animal.getAttributeMap().registerAttribute(SharedMonsterAttributes.attackDamage);
+							animal.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(.5D);
+						}
+						if(!animal.tasks.taskEntries.contains(new EntityAIAttackOnCollide(animal, 1.0D, true)))
+							animal.tasks.addTask(4, new EntityAIAttackOnCollide(animal, 1.0D, true));
 						animal.setAttackTarget(target);
 					}
 					return true;

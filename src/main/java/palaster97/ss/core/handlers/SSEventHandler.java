@@ -8,7 +8,6 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.util.BlockPos;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
@@ -16,14 +15,11 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerPickupXpEvent;
 import net.minecraftforge.event.entity.player.PlayerSleepInBedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import palaster97.ss.blocks.tile.TileEntityRitual;
 import palaster97.ss.entities.extended.SoulNetworkExtendedPlayer;
 import palaster97.ss.items.ItemAtmanSword;
 import palaster97.ss.items.SSItems;
 import palaster97.ss.network.PacketHandler;
 import palaster97.ss.network.client.SyncPlayerPropsMessage;
-import palaster97.ss.rituals.Ritual;
-import palaster97.ss.rituals.RitualActive;
 
 public class SSEventHandler {
 	
@@ -59,7 +55,7 @@ public class SSEventHandler {
 
 	@SubscribeEvent
 	public void onLivingDeath(LivingDeathEvent e) {
-		if(!e.entityLiving.worldObj.isRemote) {
+		if(!e.entityLiving.worldObj.isRemote)
 			if(e.source.getEntity() instanceof EntityPlayer) {
 				EntityPlayer p = (EntityPlayer) e.source.getEntity();
 				if(p.getCurrentEquippedItem() != null && p.getCurrentEquippedItem().getItem() instanceof ItemAtmanSword) {
@@ -69,7 +65,7 @@ public class SSEventHandler {
 						temp1 = temp1/10;
 						if(temp1 <= 0)
 							temp1 = 1;
-						ItemStack stack = new ItemStack(SSItems.mobSouls);
+						ItemStack stack = new ItemStack(SSItems.souls);
 						stack.setTagCompound(new NBTTagCompound());
 						stack.getTagCompound().setInteger("Level", (int) temp1);
 						if(e.entityLiving instanceof EntityPlayer) {
@@ -80,24 +76,7 @@ public class SSEventHandler {
 						p.worldObj.spawnEntityInWorld(item);
 					}
 				}
-				SoulNetworkExtendedPlayer props = SoulNetworkExtendedPlayer.get(p);
-				if(props != null) {
-					for(int i = 0; i < props.getActives().length; i++) {
-						if(props.getActives()[i] != null) {
-							BlockPos pos = props.getActives()[i].ritualPos;
-							if(pos != null) {
-								if(p.getDistanceSq(pos) <= 12) {
-									TileEntityRitual ritual = (TileEntityRitual) p.worldObj.getTileEntity(pos);
-									if(ritual != null && ritual.getIsActive())
-										if(Ritual.rituals[ritual.getRitualID()] != null && Ritual.rituals[ritual.getRitualID()] instanceof RitualActive)
-											ritual.setRitualLength(24);
-								}
-							}
-						}
-					}
-				}
 			}
-		}
 	}
 	
 	@SubscribeEvent

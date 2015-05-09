@@ -15,7 +15,7 @@ public class SlotPSM extends Slot {
 	@Override
 	public boolean isItemValid(ItemStack stack) {
 		if(stack != null)
-			if(stack.getItem() instanceof ItemSoulBinder || stack.hasTagCompound() && stack.getItem() == SSItems.mobSouls && stack.getTagCompound().getBoolean("IsPlayer"))
+			if(stack.getItem() instanceof ItemSoulBinder || stack.hasTagCompound() && stack.getItem() == SSItems.souls && stack.getTagCompound().getBoolean("IsPlayer"))
 				return true;
 		return false;
 	}

@@ -1,7 +1,7 @@
 package palaster97.ss.recipes;
 
 import net.minecraft.item.ItemStack;
-import palaster97.ss.items.ItemMobSoul;
+import palaster97.ss.items.ItemSoul;
 
 public class ConjuringTabletRecipe {
 	
@@ -27,7 +27,7 @@ public class ConjuringTabletRecipe {
 	public boolean checkMajor(ItemStack check) {
 		if(major != null && check != null)
 			if(major.getItem() == check.getItem())
-				if(major.getItem() instanceof ItemMobSoul && check.getItem() instanceof ItemMobSoul) {
+				if(major.getItem() instanceof ItemSoul && check.getItem() instanceof ItemSoul) {
 					if(major.hasTagCompound() && check.hasTagCompound())
 						if(major.getTagCompound().getInteger("Level") == check.getTagCompound().getInteger("Level"))
 							return true;

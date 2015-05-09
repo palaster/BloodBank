@@ -18,7 +18,7 @@ public class ContainerPlayerSoulManipulatorInventory extends Container {
 		
 		ItemStack soul = psm.getStackInSlot(1);
 		if(soul != null)
-			if(soul.hasTagCompound() && soul.getItem() == SSItems.mobSouls) {
+			if(soul.hasTagCompound() && soul.getItem() == SSItems.souls) {
 				EntityPlayer p = SSPlayerHelper.getPlayerFromDimensions(soul.getTagCompound().getString("PlayerUUID"));
 				if(p != null) {
 					for(int x = 0; x < 9; x++)

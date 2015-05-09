@@ -10,13 +10,12 @@ entity.burningChild.name=Burning Child
 entity.yinYang.name=Yin Yang
 
 tile.soulCompressor.name=Soul Compressor
-tile.ritual.name=Ritual
 tile.playerSoulManipulator.name=Player Soul Manipulator
 tile.worldSoulManipulator.name=World Soul Manipulator
 tile.conjuringTablet.name=Conjuring Tablet
 tile.void.name=Touch of Void
 
-item.mobSouls.name=Soul
+item.souls.name=Soul
 item.mobSouls.venomous.name=Venomous Soul
 item.mobSouls.ender.name=Ender Soul
 item.atmanSword.name=Sword of Atman

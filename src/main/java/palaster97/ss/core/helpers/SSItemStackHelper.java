@@ -50,7 +50,7 @@ public class SSItemStackHelper {
 	}
 	
 	public static ItemStack getSoulItemStack(int temp) {
-		ItemStack stack = new ItemStack(SSItems.mobSouls, 1, 0);
+		ItemStack stack = new ItemStack(SSItems.souls, 1, 0);
 		stack.setTagCompound(new NBTTagCompound());
 		stack.getTagCompound().setInteger("Level", temp);
 		return stack;

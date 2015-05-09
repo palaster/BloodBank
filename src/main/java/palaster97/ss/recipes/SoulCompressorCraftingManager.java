@@ -36,7 +36,6 @@ public class SoulCompressorCraftingManager {
     	
     	// Blocks
     	func_180302_a(new ShapedOreRecipe(new ItemStack(SSBlocks.playerSoulManipulator), "xyx", "xzx", "xxx", 'x', "plankWood", 'z', SSItemStackHelper.getSoulItemStack(2), 'y', SSItems.soulBinder));
-    	func_180302_a(new ShapedOreRecipe(new ItemStack(SSBlocks.ritual), "x x", "zyz", 'x', Items.blaze_rod, 'y', SSItemStackHelper.getSoulItemStack(3), 'z', Blocks.obsidian));
     	addRecipe(new ItemStack(SSBlocks.worldSoulManipulator), "xyx", "xzx", "xxx", 'x', Blocks.stone, 'z', SSItemStackHelper.getSoulItemStack(2), 'y', SSItems.worldSoulBinder);
     	addRecipe(new ItemStack(SSBlocks.conjuringTablet), "xyx", "yzy", "xyx", 'x', Blocks.end_stone, 'y', Blocks.nether_brick, 'z', SSItemStackHelper.getSoulItemStack(3));
     	
