@@ -1,6 +1,6 @@
 package palaster97.ss.items;
 
-public class ItemModSpecial extends ItemMod {
+public abstract class ItemModSpecial extends ItemMod {
 
 	public ItemModSpecial() {
 		super();

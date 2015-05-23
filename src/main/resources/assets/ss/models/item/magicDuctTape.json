@@ -1,7 +1,7 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "ss:items/coreFuel"
+        "layer0": "ss:items/magicDuctTape"
     },
     "display": {
         "thirdperson": {

@@ -3,7 +3,6 @@ itemGroup.tabSS=Screaming Souls
 key.ss.label=Screaming Souls
 
 container.soulCompressor=Soul Compressor
-container.space=Space
 
 entity.skeletonMinion.name=Skeleton Minion
 entity.burningChild.name=Burning Child
@@ -16,23 +15,18 @@ tile.conjuringTablet.name=Conjuring Tablet
 tile.void.name=Touch of Void
 
 item.souls.name=Soul
-item.mobSouls.venomous.name=Venomous Soul
-item.mobSouls.ender.name=Ender Soul
 item.atmanSword.name=Sword of Atman
 item.soulBinder.name=Soul Binder
 item.worldSoulBinder.name=Soul World Binder
-item.journal.name=Journal
 item.staffSkeleton.name=Skeleton Staff
 item.staffEfreet.name=Efreet Staff
 item.staffTime.name=Staff of Time
 item.staffVoidWalker.name=Staff of Void Walker
+item.staffCacklingWrath.name=Staff of Cackling Wrath
 item.magicBow.name=Magic Bow
-item.coreFuel.name=Fuel Core
 item.animalHerder.name=Animal Herder
 item.inscriptionKit.name=Inscription Kit
-
-item.ssRecord.unlight.name=Music Disc
-item.record.unlight.desc=Kevin MacLeod - Unlight
+item.magicDuctTape.name=Magic Duct Tape
 
 item.debug.name=Debug
 item.yinYang.name=Yin Yang

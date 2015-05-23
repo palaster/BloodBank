@@ -4,15 +4,13 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayer.EnumStatus;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.event.entity.player.PlayerPickupXpEvent;
 import net.minecraftforge.event.entity.player.PlayerSleepInBedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import palaster97.ss.entities.extended.SoulNetworkExtendedPlayer;
@@ -38,20 +36,6 @@ public class SSEventHandler {
 	
 	@SubscribeEvent
 	public void onClonePlayer(PlayerEvent.Clone e) { SoulNetworkExtendedPlayer.get(e.entityPlayer).copy(SoulNetworkExtendedPlayer.get(e.original)); }
-	
-	@SubscribeEvent
-	public void onPlayerPickUpExp(PlayerPickupXpEvent e) {
-		if(!e.entityPlayer.worldObj.isRemote)
-			if(e.entityPlayer.inventory.hasItem(SSItems.journal))
-				for(int i = 0; i < e.entityPlayer.inventory.getSizeInventory(); i++)
-					if(e.entityPlayer.inventory.getStackInSlot(i) != null && e.entityPlayer.inventory.getStackInSlot(i).getItem() == SSItems.journal)
-						if(e.entityPlayer.inventory.getStackInSlot(i).hasTagCompound())
-							if(e.entityPlayer.inventory.getStackInSlot(i).getTagCompound().getBoolean("Activated")) {
-								e.entityPlayer.inventory.getStackInSlot(i).getTagCompound().setInteger("Level", e.entityPlayer.inventory.getStackInSlot(i).getTagCompound().getInteger("Level") + e.orb.getXpValue());
-								e.orb.setDead();
-								e.setCanceled(true);
-							}
-	}
 
 	@SubscribeEvent
 	public void onLivingDeath(LivingDeathEvent e) {
@@ -80,26 +64,25 @@ public class SSEventHandler {
 	}
 	
 	@SubscribeEvent
-	public void onPlayerSleepInBed(PlayerSleepInBedEvent e) {
-		if(!e.entityPlayer.worldObj.isRemote && e.result == EnumStatus.OK || !e.entityPlayer.worldObj.isRemote && e.result == null) {
-			if(e.entityPlayer.getCurrentEquippedItem() != null && e.entityPlayer.getCurrentEquippedItem().getItem() == Items.writable_book) {
-				if(!e.entityPlayer.getCurrentEquippedItem().hasTagCompound() || !e.entityPlayer.getCurrentEquippedItem().getTagCompound().hasKey("pages", 9)) {
-					ItemStack journal = new ItemStack(SSItems.journal);
-					SSItems.journal.onCreated(journal, e.entityPlayer.worldObj, e.entityPlayer);
-					e.entityPlayer.setCurrentItemOrArmor(0, journal);
-				} else {
-					NBTTagList nbttaglist = e.entityPlayer.getCurrentEquippedItem().getTagCompound().getTagList("pages", 8);
-		            for(int i = 0; i < nbttaglist.tagCount(); ++i)
-		                if(nbttaglist.getStringTagAt(i) == null || nbttaglist.getStringTagAt(i).length() > 32767) {
-		                	ItemStack journal = new ItemStack(SSItems.journal);
-							SSItems.journal.onCreated(journal, e.entityPlayer.worldObj, e.entityPlayer);
-							e.entityPlayer.setCurrentItemOrArmor(0, journal);
-		                }
+	public void onLivingAttack(LivingAttackEvent e) {
+		if(!e.entityLiving.worldObj.isRemote && e.source.getEntity() instanceof EntityPlayer) {
+			EntityPlayer p = (EntityPlayer) e.source.getEntity();
+			if(p != null)
+				if(p.getHeldItem() != null && p.getHeldItem().getItem() == SSItems.staffCacklingWrath) {
+					if(p.getHealth() + (e.ammount / 2) >= 20f)
+						p.setHealth(20f);
+					else
+						p.setHealth(p.getHealth() + (e.ammount / 2));
+					p.getHeldItem().damageItem(1, e.entityLiving);
 				}
-			}
-			if(SoulNetworkExtendedPlayer.get(e.entityPlayer) != null && !SoulNetworkExtendedPlayer.get(e.entityPlayer).getRuneCharge())
-				SoulNetworkExtendedPlayer.get(e.entityPlayer).setRuneCharge(true);
 		}
+	}
+	
+	@SubscribeEvent
+	public void onPlayerSleepInBed(PlayerSleepInBedEvent e) {
+		if(!e.entityPlayer.worldObj.isRemote && e.result == EnumStatus.OK || !e.entityPlayer.worldObj.isRemote && e.result == null)
+			if(SoulNetworkExtendedPlayer.get(e.entityPlayer) != null && !SoulNetworkExtendedPlayer.get(e.entityPlayer).getRuneCharge())
+				SoulNetworkExtendedPlayer.get(e.entityPlayer).setRuneCharge(true);	
 	}
 }
  

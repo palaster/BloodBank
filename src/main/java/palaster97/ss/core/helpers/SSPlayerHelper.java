@@ -2,9 +2,7 @@ package palaster97.ss.core.helpers;
 
 import java.util.UUID;
 
-import palaster97.ss.items.SSItems;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
@@ -22,36 +20,5 @@ public class SSPlayerHelper {
 			}
 		}
 		return null;
-	}
-	
-	// Memory Mechanic
-	
-	public static int getJournalAmount(EntityPlayer player) {
-			for(ItemStack stack : player.inventory.mainInventory)
-				if(stack != null && stack.getItem() == SSItems.journal && stack.hasTagCompound())
-					return stack.getTagCompound().getInteger("Level");
-		return -1;
-	}
-	
-	public static void setJournalAmount(EntityPlayer player, int amount) {
-		for(ItemStack stack : player.inventory.mainInventory)
-			if(stack != null && stack.getItem() == SSItems.journal && stack.hasTagCompound())
-				stack.getTagCompound().setInteger("Level", amount);
-	}
-	
-	public static boolean reduceJournalAmount(EntityPlayer player, int amount) {
-		if(getJournalAmount(player) - amount >= 0) {
-			setJournalAmount(player, getJournalAmount(player) - amount);
-			return true;
-		}
-		return false;
-	}
-	
-	public static boolean addJournalAmount(EntityPlayer player, int amount) {
-		if(getJournalAmount(player) + amount <= 1000) {
-			setJournalAmount(player, getJournalAmount(player) + amount);
-			return true;
-		}
-		return false;
 	}
 }

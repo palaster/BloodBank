@@ -11,7 +11,7 @@ import palaster97.ss.blocks.SSBlocks;
 import palaster97.ss.blocks.tile.TileEntityVoid;
 import palaster97.ss.entities.EntityYinYang;
 
-public class ItemStaffVoidWalker extends ItemModSpecial {
+public class ItemStaffVoidWalker extends ItemModStaff {
 
 	public ItemStaffVoidWalker() {
 		super();
@@ -20,10 +20,13 @@ public class ItemStaffVoidWalker extends ItemModSpecial {
 	
 	@Override
 	public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
-		if(!playerIn.isSneaking())
+		if(!playerIn.isSneaking()) {
 			worldIn.spawnEntityInWorld(new EntityYinYang(worldIn, playerIn, 0));
-		else
+			itemStackIn.damageItem(1, playerIn);
+		} else {
 			worldIn.spawnEntityInWorld(new EntityYinYang(worldIn, playerIn, 1));
+			itemStackIn.damageItem(1, playerIn);
+		}
 		return itemStackIn;
 	}
 	
@@ -39,6 +42,7 @@ public class ItemStaffVoidWalker extends ItemModSpecial {
 							worldIn.setBlockState(newPos, SSBlocks.touchVoid.getDefaultState());
 							if(worldIn.getTileEntity(newPos) != null && worldIn.getTileEntity(newPos) instanceof TileEntityVoid)
 								((TileEntityVoid) worldIn.getTileEntity(newPos)).setOriginalBlock(ogBlockState.getBlock());
+							stack.damageItem(1, playerIn);
 						}
 					}
 				}

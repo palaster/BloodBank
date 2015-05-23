@@ -12,15 +12,15 @@ import net.minecraft.stats.StatList;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import palaster97.ss.core.helpers.SSPlayerHelper;
 import palaster97.ss.libs.LibMod;
 
-public class ItemMagicBow extends ItemModSpecial {
+public class ItemMagicBow extends ItemModSpecial implements IDuctTappable {
 	
 	public static final String[] bowPullIconNameArray = new String[] {"magicBow", "magicBow_pulling_0", "magicBow_pulling_1", "magicBow_pulling_2"};
 
 	public ItemMagicBow() {
 		super();
+		setMaxDamage(1024);
 		setUnlocalizedName("magicBow");
 	}
 	
@@ -53,31 +53,27 @@ public class ItemMagicBow extends ItemModSpecial {
 	
 	@Override
     public void onPlayerStoppedUsing(ItemStack stack, World worldIn, EntityPlayer playerIn, int timeLeft) {
-		if(playerIn.inventory.hasItem(SSItems.journal)) {
-			 int j = this.getMaxItemUseDuration(stack) - timeLeft;
-		        net.minecraftforge.event.entity.player.ArrowLooseEvent event = new net.minecraftforge.event.entity.player.ArrowLooseEvent(playerIn, stack, j);
-		        if (net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(event)) return;
-		        j = event.charge;
-		        boolean flag = playerIn.capabilities.isCreativeMode;
-		        if(flag || SSPlayerHelper.getJournalAmount(playerIn) >= 30) {
-		            float f = (float)j / 20.0F;
-		            f = (f * f + f * 2.0F) / 3.0F;
-		            if((double)f < 0.1D)
-		                return;
-		            if(f > 1.0F)
-		                f = 1.0F;
-		            EntityArrow entityarrow = new EntityArrow(worldIn, playerIn, f * 2.0F);
-		            if(f == 1.0F)
-		                entityarrow.setIsCritical(true);
-		            worldIn.playSoundAtEntity(playerIn, "random.bow", 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + f * 0.5F);
-		            entityarrow.canBePickedUp = 2;
-		            playerIn.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
-		            if(!worldIn.isRemote) {
-		            	worldIn.spawnEntityInWorld(entityarrow);
-		            	SSPlayerHelper.reduceJournalAmount(playerIn, 30);
-		            }   
-		        }
-		}
+		int j = getMaxItemUseDuration(stack) - timeLeft;
+        net.minecraftforge.event.entity.player.ArrowLooseEvent event = new net.minecraftforge.event.entity.player.ArrowLooseEvent(playerIn, stack, j);
+        if(net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(event))
+        	return;
+        j = event.charge;
+        float f = (float)j / 20.0F;
+        f = (f * f + f * 2.0F) / 3.0F;
+        if((double)f < 0.1D)
+            return;
+        if(f > 1.0F)
+            f = 1.0F;
+        EntityArrow entityarrow = new EntityArrow(worldIn, playerIn, f * 2.0F);
+        if(f == 1.0F)
+            entityarrow.setIsCritical(true);
+        worldIn.playSoundAtEntity(playerIn, "random.bow", 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + f * 0.5F);
+        entityarrow.canBePickedUp = 2;
+        playerIn.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
+        if(!worldIn.isRemote) {
+        	worldIn.spawnEntityInWorld(entityarrow);
+        	stack.damageItem(1, playerIn);   
+        }
     }
 
     @Override
@@ -91,12 +87,10 @@ public class ItemMagicBow extends ItemModSpecial {
 
     @Override
     public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
-    	if(playerIn.inventory.hasItem(SSItems.journal)) {
     		net.minecraftforge.event.entity.player.ArrowNockEvent event = new net.minecraftforge.event.entity.player.ArrowNockEvent(playerIn, itemStackIn);
-            if (net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(event)) return event.result;
-            if(playerIn.capabilities.isCreativeMode || SSPlayerHelper.getJournalAmount(playerIn) >= 30)
-                playerIn.setItemInUse(itemStackIn, this.getMaxItemUseDuration(itemStackIn));
-    	}
+            if(net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(event))
+            	return event.result;
+            playerIn.setItemInUse(itemStackIn, getMaxItemUseDuration(itemStackIn));
         return itemStackIn;
     }
 }

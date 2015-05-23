@@ -12,6 +12,8 @@ import java.util.List;
 
 public class ItemAnimalHerder extends ItemModSpecial {
 
+	private final int range = 5;
+
 	public ItemAnimalHerder() {
 		super();
 		setUnlocalizedName("animalHerder");
@@ -32,7 +34,7 @@ public class ItemAnimalHerder extends ItemModSpecial {
 					return true;
 				}
 			} else if(target instanceof EntityLivingBase && !(target instanceof EntityAnimal)) {
-				List<EntityAnimal> animals = playerIn.worldObj.getEntitiesWithinAABB(EntityAnimal.class, new AxisAlignedBB(playerIn.posX + 7, playerIn.posY + 2, playerIn.posZ + 7, playerIn.posX - 7, playerIn.posY, playerIn.posZ - 7));
+				List<EntityAnimal> animals = playerIn.worldObj.getEntitiesWithinAABB(EntityAnimal.class, new AxisAlignedBB(playerIn.posX + range, playerIn.posY + 2, playerIn.posZ + range, playerIn.posX - range, playerIn.posY - 1, playerIn.posZ - range));
 				if(animals != null) {
 					for(EntityAnimal animal : animals) {
 						if(animal.getEntityAttribute(SharedMonsterAttributes.attackDamage) == null) {

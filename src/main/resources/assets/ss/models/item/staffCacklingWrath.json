@@ -1,7 +1,7 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "ss:items/mobSouls"
+        "layer0": "ss:items/staffCacklingWrath"
     },
     "display": {
         "thirdperson": {

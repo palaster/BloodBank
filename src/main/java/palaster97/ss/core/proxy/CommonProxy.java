@@ -10,32 +10,27 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import palaster97.ss.ScreamingSouls;
 import palaster97.ss.blocks.SSBlocks;
 import palaster97.ss.blocks.tile.TileEntityConjuringTablet;
 import palaster97.ss.blocks.tile.TileEntityPlayerSoulManipulator;
 import palaster97.ss.client.gui.GuiConjuringTablet;
+import palaster97.ss.client.gui.GuiInscriptionKit;
 import palaster97.ss.client.gui.GuiPlayerSoulManipulator;
 import palaster97.ss.client.gui.GuiPlayerSoulManipulatorInventory;
 import palaster97.ss.client.gui.GuiPlayerSoulManipulatorPotion;
-import palaster97.ss.client.gui.GuiInscriptionKit;
 import palaster97.ss.client.gui.GuiSoulCompressor;
-import palaster97.ss.client.gui.GuiSpace;
 import palaster97.ss.core.CreativeTabSS;
 import palaster97.ss.core.handlers.SSEventHandler;
 import palaster97.ss.core.handlers.SSFMLEventHandler;
-import palaster97.ss.core.handlers.SSFuelHandler;
 import palaster97.ss.core.handlers.SSPlayerTickHandler;
 import palaster97.ss.entities.SSEntities;
-import palaster97.ss.entities.extended.SoulNetworkExtendedPlayer;
 import palaster97.ss.inventories.ContainerConjuringTablet;
+import palaster97.ss.inventories.ContainerInscriptionKit;
 import palaster97.ss.inventories.ContainerPlayerSoulManipulator;
 import palaster97.ss.inventories.ContainerPlayerSoulManipulatorInventory;
 import palaster97.ss.inventories.ContainerPlayerSoulManipulatorPotion;
-import palaster97.ss.inventories.ContainerInscriptionKit;
 import palaster97.ss.inventories.ContainerSoulCompressor;
-import palaster97.ss.inventories.ContainerSpace;
 import palaster97.ss.inventories.InventoryInscriptionKit;
 import palaster97.ss.items.SSItems;
 import palaster97.ss.network.PacketHandler;
@@ -57,7 +52,6 @@ public class CommonProxy implements IGuiHandler {
 		ConjuringTabletRecipes.registerConjuringTablet();
 		FMLCommonHandler.instance().bus().register(new SSFMLEventHandler());
 		FMLCommonHandler.instance().bus().register(new SSPlayerTickHandler());
-		GameRegistry.registerFuelHandler(new SSFuelHandler());
 		MinecraftForge.EVENT_BUS.register(new SSEventHandler());
 		NetworkRegistry.INSTANCE.registerGuiHandler(ScreamingSouls.instance, this);
 	}
@@ -73,10 +67,6 @@ public class CommonProxy implements IGuiHandler {
 		TileEntity te = world.getTileEntity(new BlockPos(x, y, z));
 		switch(ID) {
 			case 0: return new ContainerSoulCompressor(player.inventory, world, new BlockPos(x, y, z));
-			case 1: {
-				if(SoulNetworkExtendedPlayer.get(player) != null)
-					return new ContainerSpace(player.inventory, SoulNetworkExtendedPlayer.get(player).getSpace());
-			}
 			case 2: {
 				if(te != null && te instanceof TileEntityPlayerSoulManipulator)
 					return new ContainerPlayerSoulManipulator(player.inventory, (TileEntityPlayerSoulManipulator) te);
@@ -105,10 +95,6 @@ public class CommonProxy implements IGuiHandler {
 		TileEntity te = world.getTileEntity(new BlockPos(x, y, z));
 		switch(ID) {
 			case 0: return new GuiSoulCompressor(player.inventory, world, new BlockPos(x, y, z));
-			case 1: {
-				if(SoulNetworkExtendedPlayer.get(player) != null)
-					return new GuiSpace(player.inventory, SoulNetworkExtendedPlayer.get(player).getSpace());
-			}
 			case 2: {
 				if(te != null && te instanceof TileEntityPlayerSoulManipulator)
 					return new GuiPlayerSoulManipulator(player.inventory, (TileEntityPlayerSoulManipulator) te);

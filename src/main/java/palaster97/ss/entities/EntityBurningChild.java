@@ -5,6 +5,7 @@ import java.util.UUID;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAILookIdle;
@@ -74,6 +75,9 @@ public class EntityBurningChild extends EntityMob {
 
     @Override
     protected void playStepSound(BlockPos p_180429_1_, Block p_180429_2_) { this.playSound("mob.zombie.step", 0.15F, 1.0F); }
+
+	@Override
+	public EnumCreatureAttribute getCreatureAttribute() { return EnumCreatureAttribute.UNDEAD; }
 	
 	@Override
 	public boolean isChild() { return true; }

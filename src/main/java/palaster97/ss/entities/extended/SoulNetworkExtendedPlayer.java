@@ -6,7 +6,6 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
-import palaster97.ss.inventories.InventorySpace;
 import palaster97.ss.network.PacketHandler;
 import palaster97.ss.network.client.SyncPlayerPropsMessage;
 import palaster97.ss.runes.Rune;
@@ -14,12 +13,17 @@ import palaster97.ss.runes.Rune;
 public class SoulNetworkExtendedPlayer implements IExtendedEntityProperties {
 	
 	public final static String EXT_PROP_NAME = "SoulNetworkExtendedPlayer";
-	private final InventorySpace space = new InventorySpace();
 	private final EntityPlayer player;
+	
+	// Class none 0, staff 1, mirror 2
+	private int classID;
+	
+	// Runer
 	private boolean isRuneCharged;
 	private Rune rune;
+	
+	// Burning Child
 	private NBTTagCompound bc;
-	private NBTTagCompound[] legion = new NBTTagCompound[8];
 	
 	public SoulNetworkExtendedPlayer(EntityPlayer player) { this.player = player; }
 	
@@ -27,47 +31,39 @@ public class SoulNetworkExtendedPlayer implements IExtendedEntityProperties {
 
 	public static final SoulNetworkExtendedPlayer get(EntityPlayer player) { return (SoulNetworkExtendedPlayer) player.getExtendedProperties(EXT_PROP_NAME); }
 	
-	public void copy(SoulNetworkExtendedPlayer props) {
-		space.copy(props.space);
-		rune = props.rune;
-	}
+	public void copy(SoulNetworkExtendedPlayer props) {}
 	
 	@Override
 	public void saveNBTData(NBTTagCompound compound) {
 		NBTTagCompound props = new NBTTagCompound();
-		space.writeToNBT(props);
+		props.setInteger("ClassID", classID);
 		props.setBoolean("IsRuneCharged", isRuneCharged);
 		if(rune != null)
 			props.setInteger("RuneID", rune.runeID);
 		if(bc != null)
 			props.setTag("BurningChild", bc);
-		int temp = 0;
-		for(int i = 0; i < legion.length; i++)
-			if(legion[i] != null) {
-				props.setTag("Legion_" + i, legion[i]);
-				temp++;
-			}
-		props.setInteger("Legion Count", temp);
 		compound.setTag(EXT_PROP_NAME, props);
 	}
 
 	@Override
 	public void loadNBTData(NBTTagCompound compound) {
 		NBTTagCompound props = (NBTTagCompound) compound.getTag(EXT_PROP_NAME);
-		space.readFromNBT(props);
+		classID = props.getInteger("ClassID");
 		isRuneCharged = props.getBoolean("IsRuneCharged");
 		if(Rune.runes[props.getInteger("RuneID")] != null)
 			rune = Rune.runes[props.getInteger("RuneID")];
 		bc = (NBTTagCompound) props.getTag("BurningChild");
-		int temp = props.getInteger("Legion Count");
-		for(int i = 0; i < temp; i++)
-			legion[i] = (NBTTagCompound) props.getTag("Legion_" + i);
 	}
 
 	@Override
 	public void init(Entity entity, World world) {}
 	
-	public final InventorySpace getSpace() { return space; }
+	public final int getClassID() { return classID; }
+	
+	public final void setClassID(int value) {
+		classID = value;
+		sync();
+	}
 
 	public final boolean getRuneCharge() { return isRuneCharged; }
 	

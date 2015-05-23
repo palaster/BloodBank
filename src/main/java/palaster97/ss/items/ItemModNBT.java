@@ -11,7 +11,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import palaster97.ss.core.helpers.SSPlayerHelper;
 
-public class ItemModNBT extends ItemModSpecial {
+public abstract class ItemModNBT extends ItemModSpecial {
 
 	public ItemModNBT() { super(); }
 	
