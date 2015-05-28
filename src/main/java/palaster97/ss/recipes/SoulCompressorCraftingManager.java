@@ -46,6 +46,9 @@ public class SoulCompressorCraftingManager {
     	addRecipe(new ItemStack(SSItems.magicBow), " xy", "z y", " xy", 'z', SSItemStackHelper.getSoulItemStack(1), 'x', Items.stick, 'y', Items.string);
     	addRecipe(new ItemStack(SSItems.magicBow), "yx ", "y z", "yx ", 'z', SSItemStackHelper.getSoulItemStack(1), 'x', Items.stick, 'y', Items.string);
     	
+    	addRecipe(new ItemStack(SSItems.staffTime), "  z", " x ", "x  ", 'x', Items.stick, 'z', Items.clock);
+    	addRecipe(new ItemStack(SSItems.staffSkeleton), "  z", " x ", "x  ", 'x', Items.stick, 'z', new ItemStack(Items.skull, 1, 0));
+    	
         Collections.sort(recipes, new Comparator<Object>() {
         	public int compare(IRecipe p_compare_1_, IRecipe p_compare_2_) { return p_compare_1_ instanceof ShapelessRecipes && p_compare_2_ instanceof ShapedRecipes ? 1 : (p_compare_2_ instanceof ShapelessRecipes && p_compare_1_ instanceof ShapedRecipes ? -1 : (p_compare_2_.getRecipeSize() < p_compare_1_.getRecipeSize() ? -1 : (p_compare_2_.getRecipeSize() > p_compare_1_.getRecipeSize() ? 1 : 0))); }
             public int compare(Object p_compare_1_, Object p_compare_2_) { return compare((IRecipe)p_compare_1_, (IRecipe)p_compare_2_); }

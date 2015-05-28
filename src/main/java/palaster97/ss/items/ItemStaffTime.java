@@ -8,6 +8,7 @@ public class ItemStaffTime extends ItemModStaff {
 
 	public ItemStaffTime() {
 		super();
+		powers = new String[] {"ss.staff.time"};
 		setUnlocalizedName("staffTime");
 	}
 	

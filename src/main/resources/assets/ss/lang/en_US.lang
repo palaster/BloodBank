@@ -40,3 +40,10 @@ ss.misc.brokenPlayer=Player is either offline or broken UUID
 ss.misc.pos=Position
 ss.misc.dimensionID=Dimension ID
 ss.misc.player=Player
+
+ss.staff.active=Active Power
+ss.staff.time=Time
+ss.staff.skeleton=Skeleton
+ss.staff.witherSkeleton=Wither Skeleton
+ss.staff.efreet=Efreet
+ss.staff.voidWalker=Void Walker

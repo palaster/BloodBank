@@ -12,7 +12,7 @@ import palaster97.ss.network.client.SyncPlayerPropsMessage;
 import palaster97.ss.network.server.ChangeBlockMessage;
 import palaster97.ss.network.server.GuiButtonMessage;
 import palaster97.ss.network.server.OpenGuiMessage;
-import palaster97.ss.network.server.UseRuneMessage;
+import palaster97.ss.network.server.MiddleClickMessage;
 
 public class PacketHandler {
 	
@@ -24,7 +24,7 @@ public class PacketHandler {
 		registerMessage(SyncPlayerPropsMessage.class);
 		registerMessage(ChangeBlockMessage.class);
 		registerMessage(GuiButtonMessage.class);
-		registerMessage(UseRuneMessage.class);
+		registerMessage(MiddleClickMessage.class);
 	}
 	
 	private static final <T extends AbstractMessage<T> & IMessageHandler<T, IMessage>> void registerMessage(Class<T> clazz) {
