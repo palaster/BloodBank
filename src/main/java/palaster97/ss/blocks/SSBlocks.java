@@ -11,10 +11,10 @@ import palaster97.ss.blocks.tile.TileEntityWorldSoulManipulator;
 
 public class SSBlocks {
 	
-	public static Block soulCompressor;
-	public static Block playerSoulManipulator;
-	public static Block worldSoulManipulator;
-	public static Block conjuringTablet;
+	public static Block soulCompressor,
+	playerSoulManipulator,
+	worldSoulManipulator,
+	conjuringTablet;
 	
 	public static Block touchVoid;
 	

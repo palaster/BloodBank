@@ -5,22 +5,22 @@ import net.minecraftforge.common.util.EnumHelper;
 
 public class SSItems {
 	
-	public static Item souls;
-	public static Item atmanSword;
-	public static Item soulBinder;
-	public static Item worldSoulBinder;
-	public static Item staffSkeleton;
-	public static Item staffEfreet;
-	public static Item staffTime;
-	public static Item staffVoidWalker;
-	public static Item staffCacklingWrath;
-	public static Item magicBow;
-	public static Item animalHerder;
-	public static Item inscriptionKit;
-	public static Item magicDuctTape;
+	public static Item souls, 
+	atmanSword,
+	soulBinder,
+	worldSoulBinder,
+	staffSkeleton,
+	staffEfreet,
+	staffTime,
+	staffVoidWalker,
+	staffCacklingWrath,
+	magicBow,
+	animalHerder,
+	inscriptionKit,
+	magicDuctTape;
 	
-	public static Item debug;
-	public static Item yinYang;
+	public static Item debug,
+	yinYang;
 	
 	public static void init() {
 		souls = new ItemSoul();
