@@ -10,7 +10,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ItemTrident extends ItemSword implements IDuctTappable {
+public class ItemTrident extends ItemSword implements IDuctTapeable {
 
 	public ItemTrident(ToolMaterial p_i45356_1_) {
 		super(p_i45356_1_);

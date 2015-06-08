@@ -10,7 +10,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import palaster97.ss.core.CreativeTabSS;
 import palaster97.ss.libs.LibMod;
 
-public class ItemAtmanSword extends ItemSword implements IDuctTappable {
+public class ItemAtmanSword extends ItemSword implements IDuctTapeable {
 
 	public ItemAtmanSword(ToolMaterial p_i45356_1_) {
 		super(p_i45356_1_);

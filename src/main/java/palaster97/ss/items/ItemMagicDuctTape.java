@@ -18,7 +18,7 @@ public class ItemMagicDuctTape extends ItemModSpecial {
 		if(!worldIn.isRemote && entityIn instanceof EntityPlayer) {
 			EntityPlayer p = (EntityPlayer) entityIn;
 			for(int i = 0; i < p.inventory.getSizeInventory(); i++)
-				if(p.inventory.getStackInSlot(i) != null && p.inventory.getStackInSlot(i).getItem() instanceof IDuctTappable)
+				if(p.inventory.getStackInSlot(i) != null && p.inventory.getStackInSlot(i).getItem() instanceof IDuctTapeable)
 					if(p.inventory.getStackInSlot(i).getItemDamage() > 0) {
 						p.inventory.getStackInSlot(i).setItemDamage(p.inventory.getStackInSlot(i).getItemDamage() - 1);
 						stack.damageItem(1, p);

@@ -10,7 +10,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public abstract class ItemModStaff extends ItemModSpecial implements IDuctTappable {
+public abstract class ItemModStaff extends ItemModSpecial implements IDuctTapeable {
 	
 	public String[] powers = new String[] {};
 

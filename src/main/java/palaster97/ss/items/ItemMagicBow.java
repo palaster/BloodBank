@@ -14,7 +14,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import palaster97.ss.libs.LibMod;
 
-public class ItemMagicBow extends ItemModSpecial implements IDuctTappable {
+public class ItemMagicBow extends ItemModSpecial implements IDuctTapeable {
 	
 	public static final String[] bowPullIconNameArray = new String[] {"magicBow", "magicBow_pulling_0", "magicBow_pulling_1", "magicBow_pulling_2"};
 
