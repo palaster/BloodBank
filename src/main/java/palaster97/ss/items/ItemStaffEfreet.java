@@ -13,7 +13,7 @@ public class ItemStaffEfreet extends ItemModStaff {
 	
 	public ItemStaffEfreet() {
 		super();
-		powers = new String[]{"ss.staff.efreet"};
+		powers = new String[]{"ss.staff.efreet.0"};
 		setUnlocalizedName("staffEfreet");
 	}
 	

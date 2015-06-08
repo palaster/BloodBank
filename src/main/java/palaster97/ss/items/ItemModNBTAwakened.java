@@ -36,7 +36,7 @@ public abstract class ItemModNBTAwakened extends ItemModSpecial {
 	@Override
 	public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
 		if(!worldIn.isRemote) {
-			if(playerIn.isSneaking() && SoulNetworkExtendedPlayer.get(playerIn) != null && SoulNetworkExtendedPlayer.get(playerIn).getClassID() == 1) {
+			if(playerIn.isSneaking() && SoulNetworkExtendedPlayer.get(playerIn) != null) {
 				if(!itemStackIn.hasTagCompound())
 					itemStackIn.setTagCompound(new NBTTagCompound());
 				itemStackIn.getTagCompound().setBoolean("IsAwakened", !itemStackIn.getTagCompound().getBoolean("IsAwakened"));

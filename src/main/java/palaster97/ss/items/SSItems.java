@@ -13,10 +13,8 @@ public class SSItems {
 	staffEfreet,
 	staffTime,
 	staffVoidWalker,
-	staffCacklingWrath,
 	magicBow,
 	animalHerder,
-	inscriptionKit,
 	magicDuctTape;
 	
 	public static Item debug,
@@ -31,10 +29,8 @@ public class SSItems {
 		staffEfreet = new ItemStaffEfreet();
 		staffTime = new ItemStaffTime();
 		staffVoidWalker = new ItemStaffVoidWalker();
-		staffCacklingWrath = new ItemStaffCacklingWrath();
 		magicBow = new ItemMagicBow();
 		animalHerder = new ItemAnimalHerder();
-		inscriptionKit = new ItemInscriptionKit();
 		magicDuctTape = new ItemMagicDuctTape();
 		
 		debug = new ItemDebug();

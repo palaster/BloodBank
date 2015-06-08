@@ -42,8 +42,8 @@ ss.misc.dimensionID=Dimension ID
 ss.misc.player=Player
 
 ss.staff.active=Active Power
-ss.staff.time=Time
-ss.staff.skeleton=Skeleton
-ss.staff.witherSkeleton=Wither Skeleton
-ss.staff.efreet=Efreet
-ss.staff.voidWalker=Void Walker
+ss.staff.time.0=Time
+ss.staff.skeleton.0=Skeleton
+ss.staff.witherSkeleton.1=Wither Skeleton
+ss.staff.efreet.0=Efreet
+ss.staff.voidWalker.0=Void Walker

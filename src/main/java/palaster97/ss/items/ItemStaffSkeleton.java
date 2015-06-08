@@ -12,7 +12,7 @@ public class ItemStaffSkeleton extends ItemModStaff {
 
 	public ItemStaffSkeleton() {
 		super();
-		powers = new String[]{"ss.staff.skeleton", "ss.staff.witherSkeleton"};
+		powers = new String[]{"ss.staff.skeleton.0", "ss.staff.skeleton.1"};
 		setUnlocalizedName("staffSkeleton");
 	}
 	

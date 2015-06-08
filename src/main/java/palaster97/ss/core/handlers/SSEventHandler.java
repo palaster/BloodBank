@@ -2,16 +2,13 @@ package palaster97.ss.core.handlers;
 
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayer.EnumStatus;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
-import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.event.entity.player.PlayerSleepInBedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import palaster97.ss.entities.extended.SoulNetworkExtendedPlayer;
 import palaster97.ss.items.ItemAtmanSword;
@@ -61,28 +58,6 @@ public class SSEventHandler {
 					}
 				}
 			}
-	}
-	
-	@SubscribeEvent
-	public void onLivingAttack(LivingAttackEvent e) {
-		if(!e.entityLiving.worldObj.isRemote && e.source.getEntity() instanceof EntityPlayer) {
-			EntityPlayer p = (EntityPlayer) e.source.getEntity();
-			if(p != null)
-				if(p.getHeldItem() != null && p.getHeldItem().getItem() == SSItems.staffCacklingWrath) {
-					if(p.getHealth() + (e.ammount / 2) >= 20f)
-						p.setHealth(20f);
-					else
-						p.setHealth(p.getHealth() + (e.ammount / 2));
-					p.getHeldItem().damageItem(1, e.entityLiving);
-				}
-		}
-	}
-	
-	@SubscribeEvent
-	public void onPlayerSleepInBed(PlayerSleepInBedEvent e) {
-		if(!e.entityPlayer.worldObj.isRemote && e.result == EnumStatus.OK || !e.entityPlayer.worldObj.isRemote && e.result == null)
-			if(SoulNetworkExtendedPlayer.get(e.entityPlayer) != null && !SoulNetworkExtendedPlayer.get(e.entityPlayer).getRuneCharge())
-				SoulNetworkExtendedPlayer.get(e.entityPlayer).setRuneCharge(true);	
 	}
 }
  

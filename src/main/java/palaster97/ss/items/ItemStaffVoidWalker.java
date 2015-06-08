@@ -15,7 +15,7 @@ public class ItemStaffVoidWalker extends ItemModStaff {
 
 	public ItemStaffVoidWalker() {
 		super();
-		powers = new String[]{"ss.staff.voidWalker"};
+		powers = new String[]{"ss.staff.voidWalker.0"};
 		setUnlocalizedName("staffVoidWalker");
 	}
 	
