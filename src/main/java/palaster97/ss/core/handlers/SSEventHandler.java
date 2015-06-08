@@ -5,13 +5,16 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.DamageSource;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import palaster97.ss.entities.extended.SoulNetworkExtendedPlayer;
 import palaster97.ss.items.ItemAtmanSword;
+import palaster97.ss.items.ItemTrident;
 import palaster97.ss.items.SSItems;
 import palaster97.ss.network.PacketHandler;
 import palaster97.ss.network.client.SyncPlayerPropsMessage;
@@ -58,6 +61,20 @@ public class SSEventHandler {
 					}
 				}
 			}
+	}
+	
+	@SubscribeEvent
+	public void onLivingAttack(LivingAttackEvent e) {
+		if(!e.entityLiving.worldObj.isRemote && e.entityLiving instanceof EntityPlayer) {
+			EntityPlayer p = (EntityPlayer) e.entityLiving;
+			if(e.source == DamageSource.drown)
+				if(p.inventory.hasItem(SSItems.trident))
+					for(int i = 0; i < 9; i++)
+						if(p.inventory.getStackInSlot(i) != null && p.inventory.getStackInSlot(i).getItem() instanceof ItemTrident) {
+							e.setCanceled(true);
+							p.inventory.getStackInSlot(i).damageItem(1, p);
+						}
+		}
 	}
 }
  

@@ -1,5 +1,7 @@
 package palaster97.ss.items;
 
+import palaster97.ss.core.CreativeTabSS;
+import palaster97.ss.libs.LibMod;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.Item;
@@ -7,15 +9,13 @@ import net.minecraft.item.ItemSword;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import palaster97.ss.core.CreativeTabSS;
-import palaster97.ss.libs.LibMod;
 
-public class ItemAtmanSword extends ItemSword implements IDuctTappable {
+public class ItemTrident extends ItemSword implements IDuctTappable {
 
-	public ItemAtmanSword(ToolMaterial p_i45356_1_) {
+	public ItemTrident(ToolMaterial p_i45356_1_) {
 		super(p_i45356_1_);
 		setCreativeTab(CreativeTabSS.tabSS);
-		setUnlocalizedName("atmanSword");
+		setUnlocalizedName("trident");
 	}
 	
 	@Override

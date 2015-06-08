@@ -15,14 +15,15 @@ public class SSItems {
 	staffVoidWalker,
 	magicBow,
 	animalHerder,
-	magicDuctTape;
+	magicDuctTape,
+	trident;
 	
 	public static Item debug,
 	yinYang;
 	
 	public static void init() {
 		souls = new ItemSoul();
-		atmanSword = new ItemAtmanSword(EnumHelper.addToolMaterial("atman", 2, -1, 6.0f, 2.0f, 0));
+		atmanSword = new ItemAtmanSword(EnumHelper.addToolMaterial("atman", 2, 1024, 4.0f, 2.0f, 0));
 		soulBinder = new ItemSoulBinder();
 		worldSoulBinder = new ItemWorldSoulBinder();
 		staffSkeleton = new ItemStaffSkeleton();
@@ -32,6 +33,7 @@ public class SSItems {
 		magicBow = new ItemMagicBow();
 		animalHerder = new ItemAnimalHerder();
 		magicDuctTape = new ItemMagicDuctTape();
+		trident = new ItemTrident(EnumHelper.addToolMaterial("trident", 3, 1024, 4.0f, 3.0f, 22));
 		
 		debug = new ItemDebug();
 		yinYang = new ItemYinYang();
