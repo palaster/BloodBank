@@ -16,7 +16,7 @@ public class ItemStaffTime extends ItemModStaff {
 	public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
 		if(!worldIn.isRemote) {
 			worldIn.provider.setWorldTime(worldIn.provider.getWorldTime() + 12000);
-			itemStackIn.damageItem(1, playerIn);
+			itemStackIn.damageItem(256, playerIn);
 		}
 		return itemStackIn;
 	}

@@ -13,8 +13,7 @@ public class SoulNetworkExtendedPlayer implements IExtendedEntityProperties {
 	
 	public final static String EXT_PROP_NAME = "SoulNetworkExtendedPlayer";
 	private final EntityPlayer player;
-	
-	// Burning Child
+
 	private NBTTagCompound bc;
 	
 	public SoulNetworkExtendedPlayer(EntityPlayer player) { this.player = player; }

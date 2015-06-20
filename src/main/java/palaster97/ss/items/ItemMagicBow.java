@@ -87,10 +87,10 @@ public class ItemMagicBow extends ItemModSpecial implements IDuctTapeable {
 
     @Override
     public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
-    		net.minecraftforge.event.entity.player.ArrowNockEvent event = new net.minecraftforge.event.entity.player.ArrowNockEvent(playerIn, itemStackIn);
-            if(net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(event))
-            	return event.result;
-            playerIn.setItemInUse(itemStackIn, getMaxItemUseDuration(itemStackIn));
+    	net.minecraftforge.event.entity.player.ArrowNockEvent event = new net.minecraftforge.event.entity.player.ArrowNockEvent(playerIn, itemStackIn);
+    	if(net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(event))
+    		return event.result;
+    	playerIn.setItemInUse(itemStackIn, getMaxItemUseDuration(itemStackIn));
         return itemStackIn;
     }
 }

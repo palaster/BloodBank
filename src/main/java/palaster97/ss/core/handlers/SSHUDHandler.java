@@ -46,11 +46,9 @@ public class SSHUDHandler extends Gui {
 									ri.renderItemAndEffectIntoGUI(new ItemStack(blockState1.getBlock()), 5, 5);
 							} else {
 								World world = DimensionManager.getWorld(stack.getTagCompound().getInteger("DimID"));
-								if(world != null) {
-									IBlockState blockState1 = world.getBlockState(pos1);
-									if(blockState1 != null)
-										ri.renderItemAndEffectIntoGUI(new ItemStack(blockState1.getBlock()), 5, 5);
-								}
+								if(world != null)
+									if(world.getBlockState(pos1) != null)
+										ri.renderItemAndEffectIntoGUI(new ItemStack(world.getBlockState(pos1).getBlock()), 5, 5);
 							}
 						}
 					}
