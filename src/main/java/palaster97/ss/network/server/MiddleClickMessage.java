@@ -22,7 +22,7 @@ public class MiddleClickMessage extends AbstractServerMessage<MiddleClickMessage
 	@Override
 	public void process(EntityPlayer player, Side side) {
 		if(SoulNetworkExtendedPlayer.get(player) != null)
-			if(player.getCurrentEquippedItem().getItem() instanceof ItemModStaff)
+			if(player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() instanceof ItemModStaff)
 				if(ItemModStaff.getActiveMax(player.getCurrentEquippedItem()) != 0)
 					if(ItemModStaff.getActivePower(player.getCurrentEquippedItem()) == (ItemModStaff.getActiveMax(player.getCurrentEquippedItem()) - 1))
 						ItemModStaff.setActivePower(player.getCurrentEquippedItem(), 0);

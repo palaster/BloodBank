@@ -22,7 +22,6 @@ import palaster97.ss.client.gui.GuiSoulCompressor;
 import palaster97.ss.core.CreativeTabSS;
 import palaster97.ss.core.handlers.SSEventHandler;
 import palaster97.ss.core.handlers.SSFMLEventHandler;
-import palaster97.ss.core.handlers.SSPlayerTickHandler;
 import palaster97.ss.entities.SSEntities;
 import palaster97.ss.inventories.ContainerConjuringTablet;
 import palaster97.ss.inventories.ContainerPlayerSoulManipulator;
@@ -48,7 +47,6 @@ public class CommonProxy implements IGuiHandler {
 		SSEntities.init();
 		ConjuringTabletRecipes.registerConjuringTablet();
 		FMLCommonHandler.instance().bus().register(new SSFMLEventHandler());
-		FMLCommonHandler.instance().bus().register(new SSPlayerTickHandler());
 		MinecraftForge.EVENT_BUS.register(new SSEventHandler());
 		NetworkRegistry.INSTANCE.registerGuiHandler(ScreamingSouls.instance, this);
 	}
