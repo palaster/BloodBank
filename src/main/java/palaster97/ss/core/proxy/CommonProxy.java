@@ -14,11 +14,13 @@ import palaster97.ss.ScreamingSouls;
 import palaster97.ss.blocks.SSBlocks;
 import palaster97.ss.blocks.tile.TileEntityConjuringTablet;
 import palaster97.ss.blocks.tile.TileEntityPlayerSoulManipulator;
+import palaster97.ss.blocks.tile.TileEntityVoidAnchor;
 import palaster97.ss.client.gui.GuiConjuringTablet;
 import palaster97.ss.client.gui.GuiPlayerSoulManipulator;
 import palaster97.ss.client.gui.GuiPlayerSoulManipulatorInventory;
 import palaster97.ss.client.gui.GuiPlayerSoulManipulatorPotion;
 import palaster97.ss.client.gui.GuiSoulCompressor;
+import palaster97.ss.client.gui.GuiVoidAnchor;
 import palaster97.ss.core.CreativeTabSS;
 import palaster97.ss.core.handlers.SSEventHandler;
 import palaster97.ss.core.handlers.SSFMLEventHandler;
@@ -28,6 +30,7 @@ import palaster97.ss.inventories.ContainerPlayerSoulManipulator;
 import palaster97.ss.inventories.ContainerPlayerSoulManipulatorInventory;
 import palaster97.ss.inventories.ContainerPlayerSoulManipulatorPotion;
 import palaster97.ss.inventories.ContainerSoulCompressor;
+import palaster97.ss.inventories.ContainerVoidAnchor;
 import palaster97.ss.items.SSItems;
 import palaster97.ss.network.PacketHandler;
 import palaster97.ss.recipes.ConjuringTabletRecipes;
@@ -62,6 +65,10 @@ public class CommonProxy implements IGuiHandler {
 		TileEntity te = world.getTileEntity(new BlockPos(x, y, z));
 		switch(ID) {
 			case 0: return new ContainerSoulCompressor(player.inventory, world, new BlockPos(x, y, z));
+			case 1: {
+				if(te != null && te instanceof TileEntityVoidAnchor)
+					return new ContainerVoidAnchor(player.inventory, (TileEntityVoidAnchor) te);
+			}
 			case 2: {
 				if(te != null && te instanceof TileEntityPlayerSoulManipulator)
 					return new ContainerPlayerSoulManipulator(player.inventory, (TileEntityPlayerSoulManipulator) te);
@@ -87,6 +94,10 @@ public class CommonProxy implements IGuiHandler {
 		TileEntity te = world.getTileEntity(new BlockPos(x, y, z));
 		switch(ID) {
 			case 0: return new GuiSoulCompressor(player.inventory, world, new BlockPos(x, y, z));
+			case 1: {
+				if(te != null && te instanceof TileEntityVoidAnchor)
+					return new GuiVoidAnchor(player.inventory, (TileEntityVoidAnchor) te);
+			}
 			case 2: {
 				if(te != null && te instanceof TileEntityPlayerSoulManipulator)
 					return new GuiPlayerSoulManipulator(player.inventory, (TileEntityPlayerSoulManipulator) te);

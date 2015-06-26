@@ -11,6 +11,7 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import palaster97.ss.entities.extended.SoulNetworkExtendedPlayer;
 import palaster97.ss.items.ItemAtmanSword;
@@ -18,6 +19,7 @@ import palaster97.ss.items.ItemTrident;
 import palaster97.ss.items.SSItems;
 import palaster97.ss.network.PacketHandler;
 import palaster97.ss.network.client.SyncPlayerPropsMessage;
+import palaster97.ss.world.SSWorldManager;
 
 public class SSEventHandler {
 	
@@ -39,7 +41,7 @@ public class SSEventHandler {
 
 	@SubscribeEvent
 	public void onLivingDeath(LivingDeathEvent e) {
-		if(!e.entityLiving.worldObj.isRemote)
+		if(!e.entityLiving.worldObj.isRemote) {
 			if(e.source.getEntity() instanceof EntityPlayer) {
 				EntityPlayer p = (EntityPlayer) e.source.getEntity();
 				if(p.getCurrentEquippedItem() != null && p.getCurrentEquippedItem().getItem() instanceof ItemAtmanSword) {
@@ -61,6 +63,7 @@ public class SSEventHandler {
 					}
 				}
 			}
+		}
 	}
 	
 	@SubscribeEvent
@@ -75,6 +78,12 @@ public class SSEventHandler {
 							p.inventory.getStackInSlot(i).damageItem(1, p);
 						}
 		}
+	}
+	
+	@SubscribeEvent
+	public void loadWorld(WorldEvent.Load e) {
+		if(!e.world.isRemote)
+			e.world.addWorldAccess(new SSWorldManager());
 	}
 }
  

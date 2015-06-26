@@ -13,6 +13,7 @@ tile.playerSoulManipulator.name=Player Soul Manipulator
 tile.worldSoulManipulator.name=World Soul Manipulator
 tile.conjuringTablet.name=Conjuring Tablet
 tile.void.name=Touch of Void
+tile.voidAnchor.name=Void Anchor
 
 item.souls.name=Soul
 item.atmanSword.name=Sword of Atman
@@ -48,3 +49,8 @@ ss.staff.skeleton.0=Skeleton
 ss.staff.witherSkeleton.1=Wither Skeleton
 ss.staff.efreet.0=Efreet
 ss.staff.voidWalker.0=Void Walker
+ss.staff.hs.0=Ray of Enfeeblement
+ss.staff.hs.1=Vampiric Touch
+ss.staff.hs.2=Enervation
+ss.staff.hs.3=Summon shadow
+ss.staff.hs.4=Call devourer
