@@ -14,6 +14,7 @@ public class BlockVoidAnchor extends BlockModContainer {
 
 	public BlockVoidAnchor(Material p_i45394_1_) {
 		super(p_i45394_1_);
+		setBlockBounds(0.0f, 0.0f, 0.0f, 1.0f, 0.25f, 1.0f);
 		setUnlocalizedName("voidAnchor");
 	}
 	
