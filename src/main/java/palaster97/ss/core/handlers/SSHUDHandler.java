@@ -59,7 +59,7 @@ public class SSHUDHandler extends Gui {
 				if(mc.fontRendererObj != null && mc.thePlayer != null && mc.thePlayer.getCurrentEquippedItem() != null && mc.thePlayer.getCurrentEquippedItem().getItem() instanceof ItemModStaff)
 					if(mc.thePlayer.getCurrentEquippedItem().hasTagCompound()) {
 						ItemStack staff = mc.thePlayer.getCurrentEquippedItem();
-						String power = StatCollector.translateToLocal(((ItemModStaff) staff.getItem()).powers[ItemModStaff.getActiveMax(staff) - 1]);
+						String power = StatCollector.translateToLocal(((ItemModStaff) staff.getItem()).powers[ItemModStaff.getActivePower(staff)]);
 						mc.fontRendererObj.drawString(StatCollector.translateToLocal("ss.staff.active") + ": " + power, 2, 2, 0);
 					}
 		}
