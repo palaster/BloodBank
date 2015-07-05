@@ -2,6 +2,7 @@ package palaster97.ss.items;
 
 import palaster97.ss.entities.EntityShadow;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.monster.EntityGiantZombie;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
@@ -27,6 +28,11 @@ public class ItemStaffHungryShadows extends ItemModStaff {
 				worldIn.spawnEntityInWorld(shadow);
 				stack.damageItem(24, playerIn);
 				return true;
+			} else if(ItemModStaff.getActivePower(stack) == 4) {
+				EntityGiantZombie gz = new EntityGiantZombie(worldIn);
+				gz.setPosition(pos.getX(), pos.getY() + 1, pos.getZ());
+				worldIn.spawnEntityInWorld(gz);
+				stack.damageItem(64, playerIn);
 			}
 		}
 		return false;

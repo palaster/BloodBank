@@ -16,7 +16,7 @@ public abstract class ItemModStaff extends ItemModSpecial implements IDuctTapeab
 
 	public ItemModStaff() {
 		super();
-		setMaxDamage(1024);
+		setMaxDamage(256);
 	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
