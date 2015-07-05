@@ -11,8 +11,8 @@ import palaster97.ss.libs.LibMod;
 import palaster97.ss.network.client.SyncPlayerPropsMessage;
 import palaster97.ss.network.server.ChangeBlockMessage;
 import palaster97.ss.network.server.GuiButtonMessage;
-import palaster97.ss.network.server.OpenGuiMessage;
 import palaster97.ss.network.server.MiddleClickMessage;
+import palaster97.ss.network.server.OpenGuiMessage;
 
 public class PacketHandler {
 	

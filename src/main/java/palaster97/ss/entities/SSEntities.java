@@ -1,13 +1,11 @@
 package palaster97.ss.entities;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelZombie;
-import net.minecraft.entity.EnumCreatureType;
-import net.minecraftforge.common.BiomeDictionary;
-import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
-import palaster97.ss.client.renderers.RenderBurningChild;
+import palaster97.ss.ScreamingSouls;
+import palaster97.ss.client.models.ModelShadow;
+import palaster97.ss.client.renderers.RenderShadow;
 import palaster97.ss.client.renderers.RenderSkeletonMinion;
 import palaster97.ss.client.renderers.RenderYinYang;
 import palaster97.ss.items.SSItems;
@@ -15,17 +13,14 @@ import palaster97.ss.items.SSItems;
 public class SSEntities {
 
 	public static void init() {
-		EntityRegistry.registerGlobalEntityID(EntitySkeletonMinion.class, "skeletonMinion", EntityRegistry.findGlobalUniqueEntityId());
-		EntityRegistry.registerGlobalEntityID(EntityBurningChild.class, "burningChild", EntityRegistry.findGlobalUniqueEntityId(), 0xff5f44, 0x666666);
-		
-		EntityRegistry.registerGlobalEntityID(EntityYinYang.class, "yinYang", EntityRegistry.findGlobalUniqueEntityId());
-		
-		EntityRegistry.addSpawn(EntityBurningChild.class, 1, 0, 1, EnumCreatureType.MONSTER, BiomeDictionary.getBiomesForType(Type.MAGICAL));
+		EntityRegistry.registerModEntity(EntitySkeletonMinion.class, "skeletonMinion", 0, ScreamingSouls.instance, 80, 3, true);
+		EntityRegistry.registerModEntity(EntityYinYang.class, "yinYang", 1, ScreamingSouls.instance, 64, 10, true);
+		EntityRegistry.registerModEntity(EntityShadow.class, "shadow", 2, ScreamingSouls.instance, 80, 3, true);
 	}
 	
 	public static void registerEntityRenderers() {
 		RenderingRegistry.registerEntityRenderingHandler(EntitySkeletonMinion.class, new RenderSkeletonMinion(Minecraft.getMinecraft().getRenderManager()));
-		RenderingRegistry.registerEntityRenderingHandler(EntityBurningChild.class, new RenderBurningChild(Minecraft.getMinecraft().getRenderManager(), new ModelZombie(0.0f, true), 0.5f));
 		RenderingRegistry.registerEntityRenderingHandler(EntityYinYang.class, new RenderYinYang(Minecraft.getMinecraft().getRenderManager(), SSItems.yinYang, Minecraft.getMinecraft().getRenderItem()));
+		RenderingRegistry.registerEntityRenderingHandler(EntityShadow.class, new RenderShadow(Minecraft.getMinecraft().getRenderManager(), new ModelShadow(), 0.5f));
 	}
 }

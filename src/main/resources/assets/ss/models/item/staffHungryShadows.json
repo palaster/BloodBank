@@ -1,7 +1,7 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "ss:items/staffCacklingWrath"
+        "layer0": "ss:items/staffHungryShadows"
     },
     "display": {
         "thirdperson": {

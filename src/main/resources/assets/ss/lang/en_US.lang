@@ -4,9 +4,9 @@ key.ss.label=Screaming Souls
 
 container.soulCompressor=Soul Compressor
 
-entity.skeletonMinion.name=Skeleton Minion
-entity.burningChild.name=Burning Child
-entity.yinYang.name=Yin Yang
+entity.ss.skeletonMinion.name=Skeleton Minion
+entity.ss.yinYang.name=Yin Yang
+entity.ss.shadow.name=Shadow
 
 tile.soulCompressor.name=Soul Compressor
 tile.playerSoulManipulator.name=Player Soul Manipulator
@@ -23,7 +23,7 @@ item.staffSkeleton.name=Skeleton Staff
 item.staffEfreet.name=Efreet Staff
 item.staffTime.name=Staff of Time
 item.staffVoidWalker.name=Staff of Void Walker
-item.staffCacklingWrath.name=Staff of Cackling Wrath
+item.staffHungryShadows.name=Staff of Hungry Shadows
 item.magicBow.name=Magic Bow
 item.animalHerder.name=Animal Herder
 item.inscriptionKit.name=Inscription Kit
@@ -46,7 +46,7 @@ ss.misc.player=Player
 ss.staff.active=Active Power
 ss.staff.time.0=Time
 ss.staff.skeleton.0=Skeleton
-ss.staff.witherSkeleton.1=Wither Skeleton
+ss.staff.skeleton.1=Wither Skeleton
 ss.staff.efreet.0=Efreet
 ss.staff.voidWalker.0=Void Walker
 ss.staff.hs.0=Ray of Enfeeblement

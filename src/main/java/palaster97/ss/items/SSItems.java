@@ -13,6 +13,7 @@ public class SSItems {
 	staffEfreet,
 	staffTime,
 	staffVoidWalker,
+	staffHungryShadows,
 	magicBow,
 	animalHerder,
 	magicDuctTape,
@@ -30,6 +31,7 @@ public class SSItems {
 		staffEfreet = new ItemStaffEfreet();
 		staffTime = new ItemStaffTime();
 		staffVoidWalker = new ItemStaffVoidWalker();
+		staffHungryShadows = new ItemStaffHungryShadows();
 		magicBow = new ItemMagicBow();
 		animalHerder = new ItemAnimalHerder();
 		magicDuctTape = new ItemMagicDuctTape();
