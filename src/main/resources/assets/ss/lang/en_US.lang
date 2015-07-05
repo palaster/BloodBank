@@ -28,6 +28,7 @@ item.magicBow.name=Magic Bow
 item.animalHerder.name=Animal Herder
 item.inscriptionKit.name=Inscription Kit
 item.magicDuctTape.name=Magic Duct Tape
+item.tapeHeart.name=Tape Heart
 item.trident.name=Trident of Poseidon
 
 item.debug.name=Debug
@@ -42,6 +43,7 @@ ss.misc.brokenPlayer=Player is either offline or broken UUID
 ss.misc.pos=Position
 ss.misc.dimensionID=Dimension ID
 ss.misc.player=Player
+ss.misc.tapeHeart=Tape Heart
 
 ss.staff.active=Active Power
 ss.staff.time.0=Time

@@ -6,10 +6,12 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.StatCollector;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -85,5 +87,13 @@ public class SSEventHandler {
 		if(!e.world.isRemote)
 			e.world.addWorldAccess(new SSWorldManager());
 	}
+	
+	@SubscribeEvent
+	public void tooltip(ItemTooltipEvent e) {
+		if(e.itemStack != null && e.itemStack.hasTagCompound() && e.itemStack.getTagCompound().getBoolean("HasTapeHeart")) {
+			String temp = e.toolTip.get(e.toolTip.size() - 1);
+			e.toolTip.set(e.toolTip.size() - 1, StatCollector.translateToLocal("ss.misc.tapeHeart"));
+			e.toolTip.add(temp);
+		}
+	}
 }
- 

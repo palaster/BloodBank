@@ -1,6 +1,5 @@
 package palaster97.ss.inventories.slots;
 
-import palaster97.ss.recipes.SoulCompressorCraftingManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -14,6 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.stats.AchievementList;
+import palaster97.ss.recipes.SoulCompressorCraftingManager;
 
 public class SlotSCCrafting extends Slot {
 
@@ -76,10 +76,8 @@ public class SlotSCCrafting extends Slot {
         net.minecraftforge.fml.common.FMLCommonHandler.instance().firePlayerCraftingEvent(playerIn, stack, craftMatrix);
         onCrafting(stack);
         net.minecraftforge.common.ForgeHooks.setCraftingPlayer(playerIn);
-        ItemStack[] aitemstack;
-        if(CraftingManager.getInstance().findMatchingRecipe(craftMatrix, playerIn.worldObj) != null) {
-        	aitemstack = CraftingManager.getInstance().func_180303_b(craftMatrix, playerIn.worldObj);
-        } else 
+        ItemStack[] aitemstack = CraftingManager.getInstance().func_180303_b(craftMatrix, playerIn.worldObj);
+        if(SoulCompressorCraftingManager.getInstance().func_180303_b(craftMatrix, playerIn.worldObj) != null)
         	aitemstack = SoulCompressorCraftingManager.getInstance().func_180303_b(craftMatrix, playerIn.worldObj);
         net.minecraftforge.common.ForgeHooks.setCraftingPlayer(null);
         

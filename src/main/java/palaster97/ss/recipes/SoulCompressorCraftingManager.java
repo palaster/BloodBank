@@ -17,6 +17,8 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraft.item.crafting.ShapelessRecipes;
 import net.minecraft.world.World;
+import net.minecraftforge.oredict.RecipeSorter;
+import net.minecraftforge.oredict.RecipeSorter.Category;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import palaster97.ss.blocks.SSBlocks;
 import palaster97.ss.core.helpers.SSItemStackHelper;
@@ -48,6 +50,9 @@ public class SoulCompressorCraftingManager {
     	
     	addRecipe(new ItemStack(SSItems.staffTime), "  z", " x ", "x  ", 'x', Items.stick, 'z', Items.clock);
     	addRecipe(new ItemStack(SSItems.staffSkeleton), "  z", " x ", "x  ", 'x', Items.stick, 'z', new ItemStack(Items.skull, 1, 0));
+    	
+    	func_180302_a(new TapeHeartRecipe());
+    	RecipeSorter.register("ss:tapeHeart", TapeHeartRecipe.class, Category.SHAPELESS, "");
     	
         Collections.sort(recipes, new Comparator<Object>() {
         	public int compare(IRecipe p_compare_1_, IRecipe p_compare_2_) { return p_compare_1_ instanceof ShapelessRecipes && p_compare_2_ instanceof ShapedRecipes ? 1 : (p_compare_2_ instanceof ShapelessRecipes && p_compare_1_ instanceof ShapedRecipes ? -1 : (p_compare_2_.getRecipeSize() < p_compare_1_.getRecipeSize() ? -1 : (p_compare_2_.getRecipeSize() > p_compare_1_.getRecipeSize() ? 1 : 0))); }
