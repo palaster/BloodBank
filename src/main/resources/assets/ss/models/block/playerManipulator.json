@@ -3,7 +3,7 @@
     "textures": {
 		"particle": "blocks/planks_oak",
 		"down": "blocks/planks_oak",
-        "up": "ss:blocks/playerSoulManipulator",
+        "up": "ss:blocks/playerManipulator",
 		"north": "blocks/planks_oak",
         "east": "blocks/planks_oak",
         "south": "blocks/planks_oak",

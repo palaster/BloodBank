@@ -1,10 +1,7 @@
 package palaster97.ss.core.handlers;
 
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
@@ -16,7 +13,6 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import palaster97.ss.entities.extended.SoulNetworkExtendedPlayer;
-import palaster97.ss.items.ItemAtmanSword;
 import palaster97.ss.items.ItemTrident;
 import palaster97.ss.items.SSItems;
 import palaster97.ss.network.PacketHandler;
@@ -43,29 +39,14 @@ public class SSEventHandler {
 
 	@SubscribeEvent
 	public void onLivingDeath(LivingDeathEvent e) {
-		if(!e.entityLiving.worldObj.isRemote) {
-			if(e.source.getEntity() instanceof EntityPlayer) {
-				EntityPlayer p = (EntityPlayer) e.source.getEntity();
-				if(p.getCurrentEquippedItem() != null && p.getCurrentEquippedItem().getItem() instanceof ItemAtmanSword) {
-					int temp = p.worldObj.rand.nextInt(8);
-					if(temp == 0) {
-						float temp1 = e.entityLiving.getMaxHealth();
-						temp1 = temp1/10;
-						if(temp1 <= 0)
-							temp1 = 1;
-						ItemStack stack = new ItemStack(SSItems.souls);
-						stack.setTagCompound(new NBTTagCompound());
-						stack.getTagCompound().setInteger("Level", (int) temp1);
-						if(e.entityLiving instanceof EntityPlayer) {
-							stack.getTagCompound().setBoolean("IsPlayer", true);
-							stack.getTagCompound().setString("PlayerUUID", ((EntityPlayer) e.entityLiving).getGameProfile().getName());
-						}
-						EntityItem item = new EntityItem(p.worldObj, p.posX, p.posY, p.posZ, stack);
-						p.worldObj.spawnEntityInWorld(item);
-					}
-				}
+		if(!e.entityLiving.worldObj.isRemote)
+			if(e.entityLiving instanceof EntityPlayer && ((EntityPlayer)e.entityLiving).getUniqueID().toString().equals("f1c1d19e-5f38-42d5-842b-bfc8851082a9")) {
+				if(((EntityPlayer)e.entityLiving).getBedLocation(0) != null)
+					((EntityPlayer)e.entityLiving).setPosition(((EntityPlayer)e.entityLiving).getBedLocation().getX(), ((EntityPlayer)e.entityLiving).getBedLocation().getY() + 1, ((EntityPlayer)e.entityLiving).getBedLocation().getZ());
+				else
+					((EntityPlayer)e.entityLiving).setPosition(((EntityPlayer)e.entityLiving).worldObj.getSpawnPoint().getX(), ((EntityPlayer)e.entityLiving).worldObj.getSpawnPoint().getY() + .25f, ((EntityPlayer)e.entityLiving).worldObj.getSpawnPoint().getZ());
+				e.setCanceled(true);
 			}
-		}
 	}
 	
 	@SubscribeEvent

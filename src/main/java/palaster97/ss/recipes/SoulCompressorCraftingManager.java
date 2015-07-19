@@ -21,7 +21,6 @@ import net.minecraftforge.oredict.RecipeSorter;
 import net.minecraftforge.oredict.RecipeSorter.Category;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import palaster97.ss.blocks.SSBlocks;
-import palaster97.ss.core.helpers.SSItemStackHelper;
 import palaster97.ss.items.SSItems;
 
 import com.google.common.collect.Lists;
@@ -37,16 +36,12 @@ public class SoulCompressorCraftingManager {
     private SoulCompressorCraftingManager() {
     	
     	// Blocks
-    	func_180302_a(new ShapedOreRecipe(new ItemStack(SSBlocks.playerSoulManipulator), "xyx", "xzx", "xxx", 'x', "plankWood", 'z', SSItemStackHelper.getSoulItemStack(2), 'y', SSItems.soulBinder));
-    	addRecipe(new ItemStack(SSBlocks.worldSoulManipulator), "xyx", "xzx", "xxx", 'x', Blocks.stone, 'z', SSItemStackHelper.getSoulItemStack(2), 'y', SSItems.worldSoulBinder);
-    	addRecipe(new ItemStack(SSBlocks.conjuringTablet), "xyx", "yzy", "xyx", 'x', Blocks.end_stone, 'y', Blocks.nether_brick, 'z', SSItemStackHelper.getSoulItemStack(3));
+    	func_180302_a(new ShapedOreRecipe(new ItemStack(SSBlocks.playerManipulator), "xyx", "xzx", "xxx", 'x', "plankWood", 'z', Items.ender_pearl, 'y', SSItems.playerBinder));
+    	addRecipe(new ItemStack(SSBlocks.worldManipulator), "xyx", "xzx", "xxx", 'x', Blocks.stone, 'z', Items.ender_pearl, 'y', SSItems.worldBinder);
     	
     	// Items
-    	addRecipe(new ItemStack(SSItems.atmanSword), "x", "x", "y", 'x', SSItemStackHelper.getSoulItemStack(0), 'y', Items.stick);
-    	addRecipe(new ItemStack(SSItems.soulBinder), "xyx", "yzy", "xyx", 'x', Items.gold_nugget, 'y', Blocks.redstone_block, 'z', Items.ender_pearl);
-    	addRecipe(new ItemStack(SSItems.worldSoulBinder), "xyx", "yzy", "xyx", 'x', Items.gold_nugget, 'y', Blocks.quartz_block, 'z', Items.ender_pearl);
-    	addRecipe(new ItemStack(SSItems.magicBow), " xy", "z y", " xy", 'z', SSItemStackHelper.getSoulItemStack(1), 'x', Items.stick, 'y', Items.string);
-    	addRecipe(new ItemStack(SSItems.magicBow), "yx ", "y z", "yx ", 'z', SSItemStackHelper.getSoulItemStack(1), 'x', Items.stick, 'y', Items.string);
+    	addRecipe(new ItemStack(SSItems.playerBinder), "xyx", "yzy", "xyx", 'x', Items.gold_nugget, 'y', Blocks.redstone_block, 'z', Items.ender_pearl);
+    	addRecipe(new ItemStack(SSItems.worldBinder), "xyx", "yzy", "xyx", 'x', Items.gold_nugget, 'y', Blocks.quartz_block, 'z', Items.ender_pearl);
     	
     	addRecipe(new ItemStack(SSItems.staffTime), "  z", " x ", "x  ", 'x', Items.stick, 'z', Items.clock);
     	addRecipe(new ItemStack(SSItems.staffSkeleton), "  z", " x ", "x  ", 'x', Items.stick, 'z', new ItemStack(Items.skull, 1, 0));

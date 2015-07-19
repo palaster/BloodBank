@@ -16,8 +16,8 @@ import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import palaster97.ss.blocks.BlockWorldSoulManipulator;
-import palaster97.ss.blocks.tile.TileEntityWorldSoulManipulator;
+import palaster97.ss.blocks.BlockWorldManipulator;
+import palaster97.ss.blocks.tile.TileEntityWorldManipulator;
 import palaster97.ss.core.helpers.SSItemStackHelper;
 import palaster97.ss.items.ItemModStaff;
 
@@ -34,8 +34,8 @@ public class SSHUDHandler extends Gui {
 				if(mop != null && mop.typeOfHit == MovingObjectType.BLOCK) {
 					BlockPos pos = mop.getBlockPos();
 					IBlockState blockState = mc.theWorld.getBlockState(pos);
-					if(blockState != null && blockState.getBlock() instanceof BlockWorldSoulManipulator) {
-						TileEntityWorldSoulManipulator wsm = (TileEntityWorldSoulManipulator) mc.theWorld.getTileEntity(pos);
+					if(blockState != null && blockState.getBlock() instanceof BlockWorldManipulator) {
+						TileEntityWorldManipulator wsm = (TileEntityWorldManipulator) mc.theWorld.getTileEntity(pos);
 						if(wsm != null) {
 							ItemStack stack = SSItemStackHelper.getItemStackFromInventory(DimensionManager.getWorld(mc.theWorld.provider.getDimensionId()), pos, 0);
 							if(stack != null && stack.hasTagCompound() && stack.getTagCompound().getBoolean("IsSet")) {

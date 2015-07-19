@@ -12,20 +12,17 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import palaster97.ss.ScreamingSouls;
 import palaster97.ss.blocks.SSBlocks;
-import palaster97.ss.blocks.tile.TileEntityConjuringTablet;
-import palaster97.ss.blocks.tile.TileEntityPlayerSoulManipulator;
+import palaster97.ss.blocks.tile.TileEntityPlayerManipulator;
 import palaster97.ss.blocks.tile.TileEntityVoidAnchor;
-import palaster97.ss.client.gui.GuiConjuringTablet;
-import palaster97.ss.client.gui.GuiPlayerSoulManipulator;
-import palaster97.ss.client.gui.GuiPlayerSoulManipulatorInventory;
-import palaster97.ss.client.gui.GuiPlayerSoulManipulatorPotion;
+import palaster97.ss.client.gui.GuiPlayerManipulator;
+import palaster97.ss.client.gui.GuiPlayerManipulatorInventory;
+import palaster97.ss.client.gui.GuiPlayerManipulatorPotion;
 import palaster97.ss.client.gui.GuiSoulCompressor;
 import palaster97.ss.client.gui.GuiVoidAnchor;
 import palaster97.ss.core.CreativeTabSS;
 import palaster97.ss.core.handlers.SSEventHandler;
 import palaster97.ss.core.handlers.SSFMLEventHandler;
 import palaster97.ss.entities.SSEntities;
-import palaster97.ss.inventories.ContainerConjuringTablet;
 import palaster97.ss.inventories.ContainerPlayerSoulManipulator;
 import palaster97.ss.inventories.ContainerPlayerSoulManipulatorInventory;
 import palaster97.ss.inventories.ContainerPlayerSoulManipulatorPotion;
@@ -33,7 +30,6 @@ import palaster97.ss.inventories.ContainerSoulCompressor;
 import palaster97.ss.inventories.ContainerVoidAnchor;
 import palaster97.ss.items.SSItems;
 import palaster97.ss.network.PacketHandler;
-import palaster97.ss.recipes.ConjuringTabletRecipes;
 import palaster97.ss.recipes.SSRecipes;
 
 public class CommonProxy implements IGuiHandler {
@@ -48,7 +44,6 @@ public class CommonProxy implements IGuiHandler {
 		SSBlocks.registerTileEntities();
 		SSItems.init();
 		SSEntities.init();
-		ConjuringTabletRecipes.registerConjuringTablet();
 		FMLCommonHandler.instance().bus().register(new SSFMLEventHandler());
 		MinecraftForge.EVENT_BUS.register(new SSEventHandler());
 		NetworkRegistry.INSTANCE.registerGuiHandler(ScreamingSouls.instance, this);
@@ -70,20 +65,16 @@ public class CommonProxy implements IGuiHandler {
 					return new ContainerVoidAnchor(player.inventory, (TileEntityVoidAnchor) te);
 			}
 			case 2: {
-				if(te != null && te instanceof TileEntityPlayerSoulManipulator)
-					return new ContainerPlayerSoulManipulator(player.inventory, (TileEntityPlayerSoulManipulator) te);
-			}
-			case 3: {
-				if(te != null && te instanceof TileEntityConjuringTablet)
-					return new ContainerConjuringTablet(player.inventory, (TileEntityConjuringTablet) te);
+				if(te != null && te instanceof TileEntityPlayerManipulator)
+					return new ContainerPlayerSoulManipulator(player.inventory, (TileEntityPlayerManipulator) te);
 			}
 			case 4: {
-				if(te != null && te instanceof TileEntityPlayerSoulManipulator)
-					return new ContainerPlayerSoulManipulatorInventory(player.inventory, (TileEntityPlayerSoulManipulator) te);
+				if(te != null && te instanceof TileEntityPlayerManipulator)
+					return new ContainerPlayerSoulManipulatorInventory(player.inventory, (TileEntityPlayerManipulator) te);
 			}
 			case 5: {
-				if(te != null && te instanceof TileEntityPlayerSoulManipulator)
-					return new ContainerPlayerSoulManipulatorPotion(player.inventory, (TileEntityPlayerSoulManipulator) te);
+				if(te != null && te instanceof TileEntityPlayerManipulator)
+					return new ContainerPlayerSoulManipulatorPotion(player.inventory, (TileEntityPlayerManipulator) te);
 			}
 		}
 		return null;
@@ -99,20 +90,16 @@ public class CommonProxy implements IGuiHandler {
 					return new GuiVoidAnchor(player.inventory, (TileEntityVoidAnchor) te);
 			}
 			case 2: {
-				if(te != null && te instanceof TileEntityPlayerSoulManipulator)
-					return new GuiPlayerSoulManipulator(player.inventory, (TileEntityPlayerSoulManipulator) te);
-			}
-			case 3: {
-				if(te != null && te instanceof TileEntityConjuringTablet)
-					return new GuiConjuringTablet(player.inventory, (TileEntityConjuringTablet) te);
+				if(te != null && te instanceof TileEntityPlayerManipulator)
+					return new GuiPlayerManipulator(player.inventory, (TileEntityPlayerManipulator) te);
 			}
 			case 4: {
-				if(te != null && te instanceof TileEntityPlayerSoulManipulator)
-					return new GuiPlayerSoulManipulatorInventory(player.inventory, (TileEntityPlayerSoulManipulator) te);
+				if(te != null && te instanceof TileEntityPlayerManipulator)
+					return new GuiPlayerManipulatorInventory(player.inventory, (TileEntityPlayerManipulator) te);
 			}
 			case 5: {
-				if(te != null && te instanceof TileEntityPlayerSoulManipulator)
-					return new GuiPlayerSoulManipulatorPotion(player.inventory, (TileEntityPlayerSoulManipulator) te);
+				if(te != null && te instanceof TileEntityPlayerManipulator)
+					return new GuiPlayerManipulatorPotion(player.inventory, (TileEntityPlayerManipulator) te);
 			}
 		}
 		return null;

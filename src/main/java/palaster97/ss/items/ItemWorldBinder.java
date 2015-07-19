@@ -12,11 +12,11 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ItemWorldSoulBinder extends ItemModSpecial {
+public class ItemWorldBinder extends ItemModSpecial {
 
-	public ItemWorldSoulBinder() {
+	public ItemWorldBinder() {
 		super();
-		setUnlocalizedName("worldSoulBinder");
+		setUnlocalizedName("worldBinder");
 	}
 	
 	@Override

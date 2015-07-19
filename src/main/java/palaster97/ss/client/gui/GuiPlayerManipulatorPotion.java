@@ -8,18 +8,18 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import palaster97.ss.blocks.tile.TileEntityPlayerSoulManipulator;
+import palaster97.ss.blocks.tile.TileEntityPlayerManipulator;
 import palaster97.ss.inventories.ContainerPlayerSoulManipulatorPotion;
 import palaster97.ss.libs.LibResource;
 import palaster97.ss.network.PacketHandler;
 import palaster97.ss.network.server.OpenGuiMessage;
 
 @SideOnly(Side.CLIENT)
-public class GuiPlayerSoulManipulatorPotion extends GuiContainer {
+public class GuiPlayerManipulatorPotion extends GuiContainer {
 	
-	private TileEntityPlayerSoulManipulator psm;
+	private TileEntityPlayerManipulator psm;
 
-	public GuiPlayerSoulManipulatorPotion(InventoryPlayer invPlayer, TileEntityPlayerSoulManipulator psm) {
+	public GuiPlayerManipulatorPotion(InventoryPlayer invPlayer, TileEntityPlayerManipulator psm) {
 		super(new ContainerPlayerSoulManipulatorPotion(invPlayer, psm));
 		this.psm = psm;
 	}
@@ -47,7 +47,7 @@ public class GuiPlayerSoulManipulatorPotion extends GuiContainer {
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
 		GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
-		mc.renderEngine.bindTexture(LibResource.playerSoulManipulator_2);
+		mc.renderEngine.bindTexture(LibResource.playerManipulator_2);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 	}
 }

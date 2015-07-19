@@ -5,14 +5,14 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import palaster97.ss.blocks.tile.TileEntityPlayerSoulManipulator;
+import palaster97.ss.blocks.tile.TileEntityPlayerManipulator;
 import palaster97.ss.inventories.slots.SlotPSM;
 
 public class ContainerPlayerSoulManipulator extends Container {
 	
-	private TileEntityPlayerSoulManipulator psm;
+	private TileEntityPlayerManipulator psm;
 	
-	public ContainerPlayerSoulManipulator(InventoryPlayer invPlayer, TileEntityPlayerSoulManipulator psm) {
+	public ContainerPlayerSoulManipulator(InventoryPlayer invPlayer, TileEntityPlayerManipulator psm) {
 		this.psm = psm;
 		
 		addSlotToContainer(new SlotPSM(psm, 0, 55, 34));

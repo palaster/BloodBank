@@ -8,15 +8,15 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.server.gui.IUpdatePlayerListBox;
 import palaster97.ss.core.helpers.SSPlayerHelper;
 
-public class TileEntityPlayerSoulManipulator extends TileEntityModInventory implements IUpdatePlayerListBox {
+public class TileEntityPlayerManipulator extends TileEntityModInventory implements IUpdatePlayerListBox {
 
-	public TileEntityPlayerSoulManipulator() { super(3); }
+	public TileEntityPlayerManipulator() { super(3); }
 
 	@Override
 	public int getInventoryStackLimit() { return 1; }
 
 	@Override
-	public String getName() { return "container.playerSoulManipulator"; }
+	public String getName() { return "container.playerManipulator"; }
 	
 	@SuppressWarnings("unchecked")
 	@Override

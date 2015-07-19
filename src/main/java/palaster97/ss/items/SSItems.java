@@ -5,16 +5,13 @@ import net.minecraftforge.common.util.EnumHelper;
 
 public class SSItems {
 	
-	public static Item souls, 
-	atmanSword,
-	soulBinder,
-	worldSoulBinder,
+	public static Item playerBinder,
+	worldBinder,
 	staffSkeleton,
 	staffEfreet,
 	staffTime,
 	staffVoidWalker,
 	staffHungryShadows,
-	magicBow,
 	animalHerder,
 	magicDuctTape,
 	tapeHeart,
@@ -24,16 +21,13 @@ public class SSItems {
 	yinYang;
 	
 	public static void init() {
-		souls = new ItemSoul();
-		atmanSword = new ItemAtmanSword(EnumHelper.addToolMaterial("atman", 2, 1024, 4.0f, 2.0f, 0));
-		soulBinder = new ItemSoulBinder();
-		worldSoulBinder = new ItemWorldSoulBinder();
+		playerBinder = new ItemPlayerBinder();
+		worldBinder = new ItemWorldBinder();
 		staffSkeleton = new ItemStaffSkeleton();
 		staffEfreet = new ItemStaffEfreet();
 		staffTime = new ItemStaffTime();
 		staffVoidWalker = new ItemStaffVoidWalker();
 		staffHungryShadows = new ItemStaffHungryShadows();
-		magicBow = new ItemMagicBow();
 		animalHerder = new ItemAnimalHerder();
 		magicDuctTape = new ItemMagicDuctTape();
 		tapeHeart = new ItemTapeHeart();

@@ -3,7 +3,7 @@
     "textures": {
 		"particle": "blocks/stonebrick",
 		"down": "blocks/stonebrick",
-        "up": "ss:blocks/worldSoulManipulator",
+        "up": "ss:blocks/worldManipulator",
 		"north": "blocks/stonebrick",
         "east": "blocks/stonebrick",
         "south": "blocks/stonebrick",

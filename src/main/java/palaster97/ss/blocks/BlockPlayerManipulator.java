@@ -8,13 +8,13 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import palaster97.ss.ScreamingSouls;
-import palaster97.ss.blocks.tile.TileEntityPlayerSoulManipulator;
+import palaster97.ss.blocks.tile.TileEntityPlayerManipulator;
 
-public class BlockPlayerSoulManipulator extends BlockModContainer {
+public class BlockPlayerManipulator extends BlockModContainer {
 
-	public BlockPlayerSoulManipulator(Material p_i45394_1_) {
+	public BlockPlayerManipulator(Material p_i45394_1_) {
 		super(p_i45394_1_);
-		setUnlocalizedName("playerSoulManipulator");
+		setUnlocalizedName("playerManipulator");
 		setHarvestLevel("axe", 0);
 		setStepSound(soundTypeWood);
 	}
@@ -27,5 +27,5 @@ public class BlockPlayerSoulManipulator extends BlockModContainer {
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) { return new TileEntityPlayerSoulManipulator(); }
+	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) { return new TileEntityPlayerManipulator(); }
 }

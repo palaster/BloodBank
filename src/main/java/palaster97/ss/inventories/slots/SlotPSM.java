@@ -3,8 +3,7 @@ package palaster97.ss.inventories.slots;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import palaster97.ss.items.ItemSoulBinder;
-import palaster97.ss.items.SSItems;
+import palaster97.ss.items.ItemPlayerBinder;
 
 public class SlotPSM extends Slot {
 
@@ -14,9 +13,8 @@ public class SlotPSM extends Slot {
 
 	@Override
 	public boolean isItemValid(ItemStack stack) {
-		if(stack != null)
-			if(stack.getItem() instanceof ItemSoulBinder || stack.hasTagCompound() && stack.getItem() == SSItems.souls && stack.getTagCompound().getBoolean("IsPlayer"))
-				return true;
+		if(stack != null && stack.getItem() instanceof ItemPlayerBinder)
+			return true;
 		return false;
 	}
 }

@@ -7,7 +7,6 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraftforge.fml.relauncher.Side;
-import palaster97.ss.blocks.tile.TileEntityConjuringTablet;
 import palaster97.ss.blocks.tile.TileEntityModInventory;
 import palaster97.ss.network.AbstractMessage.AbstractServerMessage;
 
@@ -52,8 +51,6 @@ public class GuiButtonMessage extends AbstractServerMessage<GuiButtonMessage> {
 	@Override
 	public void process(EntityPlayer player, Side side) {
 		TileEntity te = player.worldObj.getTileEntity(pos);
-		if(te != null && te instanceof TileEntityConjuringTablet)
-			((TileEntityConjuringTablet) te).trySummon(player);
 		if(te != null && te instanceof TileEntityModInventory)
 			((TileEntityModInventory) te).receiveButtonEvent(id, player);
 	}
