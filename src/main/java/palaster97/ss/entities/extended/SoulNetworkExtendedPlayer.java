@@ -13,8 +13,6 @@ public class SoulNetworkExtendedPlayer implements IExtendedEntityProperties {
 	
 	public final static String EXT_PROP_NAME = "SoulNetworkExtendedPlayer";
 	private final EntityPlayer player;
-
-	private NBTTagCompound bc;
 	
 	public SoulNetworkExtendedPlayer(EntityPlayer player) { this.player = player; }
 	
@@ -27,26 +25,17 @@ public class SoulNetworkExtendedPlayer implements IExtendedEntityProperties {
 	@Override
 	public void saveNBTData(NBTTagCompound compound) {
 		NBTTagCompound props = new NBTTagCompound();
-		if(bc != null)
-			props.setTag("BurningChild", bc);
 		compound.setTag(EXT_PROP_NAME, props);
 	}
 
+	@SuppressWarnings("unused")
 	@Override
 	public void loadNBTData(NBTTagCompound compound) {
 		NBTTagCompound props = (NBTTagCompound) compound.getTag(EXT_PROP_NAME);
-		bc = (NBTTagCompound) props.getTag("BurningChild");
 	}
 
 	@Override
 	public void init(Entity entity, World world) {}
-	
-	public final NBTTagCompound getBurningChild() { return bc; }
-	
-	public final void setBurningChild(NBTTagCompound nbt) {
-		bc = nbt;
-		sync();
-	}
 	
 	public final void sync() { PacketHandler.sendTo(new SyncPlayerPropsMessage(player), (EntityPlayerMP) player); }
 }
