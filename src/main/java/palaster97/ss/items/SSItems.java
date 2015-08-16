@@ -15,6 +15,7 @@ public class SSItems {
 	animalHerder,
 	magicDuctTape,
 	tapeHeart,
+	hephaestusHammer,
 	trident;
 	
 	public static Item debug,
@@ -31,6 +32,7 @@ public class SSItems {
 		animalHerder = new ItemAnimalHerder();
 		magicDuctTape = new ItemMagicDuctTape();
 		tapeHeart = new ItemTapeHeart();
+		hephaestusHammer = new ItemHephaestusHammer();
 		trident = new ItemTrident(EnumHelper.addToolMaterial("trident", 3, 1024, 4.0f, 3.0f, 22));
 		
 		debug = new ItemDebug();

@@ -5,6 +5,7 @@ import net.minecraft.util.ResourceLocation;
 public class LibResource {
 
 	private static final String gui = "textures/gui/";
+	@SuppressWarnings("unused")
 	private static final String models = "textures/models/";
 	
 	public static final ResourceLocation soulCompressor = new ResourceLocation(LibMod.modid, gui + "soulCompressor.png");
@@ -12,8 +13,6 @@ public class LibResource {
 	public static final ResourceLocation playerManipulator_1 = new ResourceLocation(LibMod.modid, gui + "playerManipulator_1.png");
 	public static final ResourceLocation playerManipulator_2 = new ResourceLocation(LibMod.modid, gui + "playerManipulator_2.png");
 	public static final ResourceLocation voidAnchor = new ResourceLocation(LibMod.modid, gui + "voidAnchor.png");
-	
-	public static final ResourceLocation shadow = new ResourceLocation(LibMod.modid, models + "shadow.png");
 	
 	public static final ResourceLocation ssHUD = new ResourceLocation(LibMod.modid, gui + "ssHUD.png");
 }

@@ -1,10 +1,13 @@
 package palaster97.ss.core.proxy;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.IThreadListener;
+import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ChestGenHooks;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.network.IGuiHandler;
@@ -44,6 +47,7 @@ public class CommonProxy implements IGuiHandler {
 		SSBlocks.registerTileEntities();
 		SSItems.init();
 		SSEntities.init();
+		ChestGenHooks.addItem(ChestGenHooks.VILLAGE_BLACKSMITH, new WeightedRandomChestContent(new ItemStack(SSItems.hephaestusHammer), 1, 1, 7));
 		FMLCommonHandler.instance().bus().register(new SSFMLEventHandler());
 		MinecraftForge.EVENT_BUS.register(new SSEventHandler());
 		NetworkRegistry.INSTANCE.registerGuiHandler(ScreamingSouls.instance, this);
