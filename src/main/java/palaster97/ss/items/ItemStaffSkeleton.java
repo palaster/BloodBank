@@ -20,7 +20,6 @@ public class ItemStaffSkeleton extends ItemModStaff {
 	public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
 		if(!worldIn.isRemote)
 			if(ItemModStaff.getActivePower(stack) == 1) {
-				worldIn.updateEntity(playerIn);
 				EntitySkeletonMinion sm = new EntitySkeletonMinion(worldIn, 1);
 				sm.setPosition(pos.getX() + .5, pos.getY() + 1, pos.getZ() + .5);
 				sm.setTamed(true);
@@ -30,7 +29,6 @@ public class ItemStaffSkeleton extends ItemModStaff {
 				stack.damageItem(16, playerIn);
 				return true;
 			} else if(ItemModStaff.getActivePower(stack) == 0) {
-				worldIn.updateEntity(playerIn);
 				EntitySkeletonMinion sm = new EntitySkeletonMinion(worldIn, 0);
 				sm.setPosition(pos.getX() + .5, pos.getY() + 1, pos.getZ() + .5);
 				sm.setTamed(true);
