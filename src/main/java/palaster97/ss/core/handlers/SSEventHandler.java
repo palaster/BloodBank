@@ -1,13 +1,17 @@
 package palaster97.ss.core.handlers;
 
+import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.player.EntityInteractEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.world.WorldEvent;
@@ -75,6 +79,29 @@ public class SSEventHandler {
 			String temp = e.toolTip.get(e.toolTip.size() - 1);
 			e.toolTip.set(e.toolTip.size() - 1, StatCollector.translateToLocal("ss.misc.tapeHeart"));
 			e.toolTip.add(temp);
+		}
+	}
+	
+	@SubscribeEvent
+	public void onPlayerInteract(EntityInteractEvent e) {
+		if(!e.entityPlayer.worldObj.isRemote) {
+			if(e.entityPlayer.getCurrentEquippedItem() != null && e.entityPlayer.getCurrentEquippedItem().getItem() == Items.bucket)
+				if(e.entityPlayer.getItemInUse() != null && e.entityPlayer.getItemInUse().getItem() == Items.bucket && !e.entityPlayer.capabilities.isCreativeMode)
+					if(e.target instanceof EntityPlayer)
+						if(((EntityPlayer) e.target).getUniqueID().toString().equals("f1c1d19e-5f38-42d5-842b-bfc8851082a9"))
+							if(e.entityPlayer.getItemInUse().stackSize-- == 1)
+								e.entityPlayer.inventory.setInventorySlotContents(e.entityPlayer.inventory.currentItem, new ItemStack(Items.milk_bucket));
+				            else if(!e.entityPlayer.inventory.addItemStackToInventory(new ItemStack(Items.milk_bucket)))
+				            	e.entityPlayer.dropPlayerItemWithRandomChoice(new ItemStack(Items.milk_bucket, 1, 0), false);
+			if(e.entityPlayer.getUniqueID().toString().equals("f1c1d19e-5f38-42d5-842b-bfc8851082a9") && e.entityPlayer.getCurrentEquippedItem() == null)
+				if(e.target instanceof EntityCow)
+					if(((EntityCow) e.target).isInLove()) {
+						EntityCow baby = new EntityCow(e.entityPlayer.worldObj);
+						baby.setGrowingAge(-24000);
+						baby.setPosition(e.target.posX, e.target.posY + .25D, e.target.posZ);
+						e.entityPlayer.worldObj.spawnEntityInWorld(baby);
+						((EntityCow) e.target).resetInLove();
+					}
 		}
 	}
 }
