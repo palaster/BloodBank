@@ -6,6 +6,7 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.util.StatCollector;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import palaster97.ss.blocks.tile.TileEntityPlayerManipulator;
@@ -31,8 +32,8 @@ public class GuiPlayerManipulatorInventory extends GuiContainer {
 		super.initGui();
 		buttonList.clear();
 		
-		buttonList.add(new GuiButton(0, guiLeft - 24, guiTop + 12, 18, 18, "TEST_0"));
-		buttonList.add(new GuiButton(1, guiLeft - 24, guiTop + 32, 18, 18, "TEST_2"));
+		buttonList.add(new GuiButton(0, guiLeft - 50, guiTop + 12, 50, 18, StatCollector.translateToLocal("ss.psm.home")));
+		buttonList.add(new GuiButton(1, guiLeft - 50, guiTop + 32, 50, 18, StatCollector.translateToLocal("ss.psm.potions")));
 	}
 	
 	@Override

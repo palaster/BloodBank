@@ -40,6 +40,10 @@ ss.misc.dimensionID=Dimension ID
 ss.misc.player=Player
 ss.misc.tapeHeart=Tape Heart
 
+ss.psm.home=Home
+ss.psm.potions=Potions
+ss.psm.hotswap=Hot Swap
+
 ss.staff.active=Active Power
 ss.staff.time.0=Time
 ss.staff.skeleton.0=Skeleton

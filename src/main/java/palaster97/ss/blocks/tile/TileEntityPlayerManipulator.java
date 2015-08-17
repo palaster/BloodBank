@@ -22,7 +22,7 @@ public class TileEntityPlayerManipulator extends TileEntityModInventory implemen
 	@Override
 	public void update() {
 		if(!worldObj.isRemote) {
-			if(getStackInSlot(0) != null && getStackInSlot(1) != null && getStackInSlot(0).hasTagCompound() && getStackInSlot(1).hasTagCompound() && getStackInSlot(1).getTagCompound().getBoolean("IsPlayer")) {
+			if(getStackInSlot(0) != null && getStackInSlot(1) != null && getStackInSlot(0).hasTagCompound() && getStackInSlot(1).hasTagCompound()) {
 				EntityPlayer predator = SSPlayerHelper.getPlayerFromDimensions(getStackInSlot(0).getTagCompound().getString("PlayerUUID"));
 				EntityPlayer prey = SSPlayerHelper.getPlayerFromDimensions(getStackInSlot(1).getTagCompound().getString("PlayerUUID"));
 				if(predator != null && prey != null) {
