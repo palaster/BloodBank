@@ -11,7 +11,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import palaster97.ss.core.CreativeTabSS;
 import palaster97.ss.libs.LibMod;
 
-public class BlockMod extends Block {
+public abstract class BlockMod extends Block {
 
 	public BlockMod(Material p_i45394_1_) {
 		super(p_i45394_1_);
@@ -27,7 +27,7 @@ public class BlockMod extends Block {
 		setBlockRender(name);
 		return super.setUnlocalizedName(name);
 	}
-	
+
 	@SideOnly(Side.CLIENT)
 	public void setBlockRender(String name) { Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(Item.getItemFromBlock(this), 0, new ModelResourceLocation(LibMod.modid + ":" + name, "inventory")); }
 }

@@ -24,8 +24,7 @@ public class GuiPlayerManipulatorPotion extends GuiContainer {
 		super(new ContainerPlayerSoulManipulatorPotion(invPlayer, psm));
 		this.psm = psm;
 	}
-	
-	@SuppressWarnings("unchecked")
+
 	@Override
 	public void initGui() {
 		super.initGui();

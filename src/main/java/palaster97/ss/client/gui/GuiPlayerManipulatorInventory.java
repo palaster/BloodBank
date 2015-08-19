@@ -25,8 +25,7 @@ public class GuiPlayerManipulatorInventory extends GuiContainer {
 		this.psm = psm;
 		ySize = 190;
 	}
-	
-	@SuppressWarnings("unchecked")
+
 	@Override
 	public void initGui() {
 		super.initGui();

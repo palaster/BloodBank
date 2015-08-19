@@ -23,44 +23,42 @@ import palaster97.ss.items.ItemModStaff;
 
 @SideOnly(Side.CLIENT)
 public class SSHUDHandler extends Gui {
-	
-	Minecraft mc = Minecraft.getMinecraft();
 
 	@SubscribeEvent(priority=EventPriority.NORMAL)
 	public void onRenderGameOverlay(RenderGameOverlayEvent.Post event) {
-		if(mc.currentScreen == null && mc.inGameHasFocus) {
+		if(Minecraft.getMinecraft().currentScreen == null && Minecraft.getMinecraft().inGameHasFocus) {
 			if(event.type == ElementType.HOTBAR) {
-				MovingObjectPosition mop = mc.objectMouseOver;
+				MovingObjectPosition mop = Minecraft.getMinecraft().objectMouseOver;
 				if(mop != null && mop.typeOfHit == MovingObjectType.BLOCK) {
 					BlockPos pos = mop.getBlockPos();
-					IBlockState blockState = mc.theWorld.getBlockState(pos);
+					IBlockState blockState = Minecraft.getMinecraft().theWorld.getBlockState(pos);
 					if(blockState != null && blockState.getBlock() instanceof BlockWorldManipulator) {
-						TileEntityWorldManipulator wsm = (TileEntityWorldManipulator) mc.theWorld.getTileEntity(pos);
+						TileEntityWorldManipulator wsm = (TileEntityWorldManipulator) Minecraft.getMinecraft().theWorld.getTileEntity(pos);
 						if(wsm != null) {
-							ItemStack stack = SSItemStackHelper.getItemStackFromInventory(DimensionManager.getWorld(mc.theWorld.provider.getDimensionId()), pos, 0);
+							ItemStack stack = SSItemStackHelper.getItemStackFromInventory(DimensionManager.getWorld(Minecraft.getMinecraft().theWorld.provider.getDimensionId()), pos, 0);
 							if(stack != null && stack.hasTagCompound() && stack.getTagCompound().getBoolean("IsSet")) {
 								int[] temp = stack.getTagCompound().getIntArray("WorldPos");
 								BlockPos pos1 = new BlockPos(temp[0], temp[1], temp[2]);
-								if(mc.theWorld.provider.getDimensionId() == stack.getTagCompound().getInteger("DimID")) {
-									IBlockState blockState1 = DimensionManager.getWorld(mc.theWorld.provider.getDimensionId()).getBlockState(pos1);
+								if(Minecraft.getMinecraft().theWorld.provider.getDimensionId() == stack.getTagCompound().getInteger("DimID")) {
+									IBlockState blockState1 = DimensionManager.getWorld(Minecraft.getMinecraft().theWorld.provider.getDimensionId()).getBlockState(pos1);
 									if(blockState1 != null)
-										mc.getRenderItem().renderItemAndEffectIntoGUI(new ItemStack(blockState1.getBlock()), 5, 5);
+										Minecraft.getMinecraft().getRenderItem().renderItemAndEffectIntoGUI(new ItemStack(blockState1.getBlock()), 5, 5);
 								} else {
 									World world = DimensionManager.getWorld(stack.getTagCompound().getInteger("DimID"));
 									if(world != null)
 										if(world.getBlockState(pos1) != null)
-											mc.getRenderItem().renderItemAndEffectIntoGUI(new ItemStack(world.getBlockState(pos1).getBlock()), 5, 5);
+											Minecraft.getMinecraft().getRenderItem().renderItemAndEffectIntoGUI(new ItemStack(world.getBlockState(pos1).getBlock()), 5, 5);
 								}
 							}
 						}
 					}
 				}
 			} else if(event.type == ElementType.TEXT)
-				if(mc.fontRendererObj != null && mc.thePlayer != null && mc.thePlayer.getCurrentEquippedItem() != null && mc.thePlayer.getCurrentEquippedItem().getItem() instanceof ItemModStaff)
-					if(mc.thePlayer.getCurrentEquippedItem().hasTagCompound()) {
-						ItemStack staff = mc.thePlayer.getCurrentEquippedItem();
+				if(Minecraft.getMinecraft().fontRendererObj != null && Minecraft.getMinecraft().thePlayer != null && Minecraft.getMinecraft().thePlayer.getCurrentEquippedItem() != null && Minecraft.getMinecraft().thePlayer.getCurrentEquippedItem().getItem() instanceof ItemModStaff)
+					if(Minecraft.getMinecraft().thePlayer.getCurrentEquippedItem().hasTagCompound()) {
+						ItemStack staff = Minecraft.getMinecraft().thePlayer.getCurrentEquippedItem();
 						String power = StatCollector.translateToLocal(((ItemModStaff) staff.getItem()).powers[ItemModStaff.getActivePower(staff)]);
-						mc.fontRendererObj.drawString(StatCollector.translateToLocal("ss.staff.active") + ": " + power, 2, 2, 0);
+						Minecraft.getMinecraft().fontRendererObj.drawString(StatCollector.translateToLocal("ss.staff.active") + ": " + power, 2, 2, 0);
 					}
 		}
 	}

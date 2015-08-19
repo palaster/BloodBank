@@ -5,7 +5,6 @@ import net.minecraft.util.ResourceLocation;
 public class LibResource {
 
 	private static final String gui = "textures/gui/";
-	@SuppressWarnings("unused")
 	private static final String models = "textures/models/";
 	
 	public static final ResourceLocation soulCompressor = new ResourceLocation(LibMod.modid, gui + "soulCompressor.png");

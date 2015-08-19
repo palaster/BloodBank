@@ -25,8 +25,7 @@ public class ItemPlayerBinder extends ItemModSpecial {
 			stack.setTagCompound(new NBTTagCompound());
 		stack.getTagCompound().setString("PlayerUUID", playerIn.getUniqueID().toString());
 	}
-	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer playerIn, List tooltip, boolean advanced) {

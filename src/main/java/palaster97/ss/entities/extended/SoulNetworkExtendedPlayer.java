@@ -28,7 +28,6 @@ public class SoulNetworkExtendedPlayer implements IExtendedEntityProperties {
 		compound.setTag(EXT_PROP_NAME, props);
 	}
 
-	@SuppressWarnings("unused")
 	@Override
 	public void loadNBTData(NBTTagCompound compound) {
 		NBTTagCompound props = (NBTTagCompound) compound.getTag(EXT_PROP_NAME);

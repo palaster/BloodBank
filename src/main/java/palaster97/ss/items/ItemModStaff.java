@@ -18,8 +18,7 @@ public abstract class ItemModStaff extends ItemModSpecial implements IDuctTapeab
 		super();
 		setMaxDamage(256);
 	}
-	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer playerIn, List tooltip, boolean advanced) {

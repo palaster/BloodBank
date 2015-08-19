@@ -18,8 +18,7 @@ public class ItemAnimalHerder extends ItemModSpecial {
 		super();
 		setUnlocalizedName("animalHerder");
 	}
-	
-	@SuppressWarnings("unchecked")
+
 	@Override
 	public boolean itemInteractionForEntity(ItemStack stack, EntityPlayer playerIn, EntityLivingBase target) {
 		if(!playerIn.worldObj.isRemote) {

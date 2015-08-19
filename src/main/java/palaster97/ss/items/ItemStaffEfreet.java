@@ -19,8 +19,7 @@ public class ItemStaffEfreet extends ItemModStaff {
 	
 	@Override
 	public int getMaxItemUseDuration(ItemStack stack) { return 1; }
-	
-	@SuppressWarnings("unchecked")
+
 	@Override
 	public void onUsingTick(ItemStack stack, EntityPlayer player, int count) {
 		if(ItemModStaff.getActivePower(stack) == 0) {

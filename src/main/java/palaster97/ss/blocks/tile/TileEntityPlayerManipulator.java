@@ -17,8 +17,7 @@ public class TileEntityPlayerManipulator extends TileEntityModInventory implemen
 
 	@Override
 	public String getName() { return "container.playerManipulator"; }
-	
-	@SuppressWarnings("unchecked")
+
 	@Override
 	public void update() {
 		if(!worldObj.isRemote) {

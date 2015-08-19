@@ -27,8 +27,7 @@ public class ItemWorldBinder extends ItemModSpecial {
 		p_77622_1_.getTagCompound().setIntArray("WorldPos", new int[]{0, 0, 0});
 		p_77622_1_.getTagCompound().setInteger("DimID", 0);
 	}
-	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack p_77624_1_, EntityPlayer p_77624_2_, List p_77624_3_, boolean p_77624_4_) {

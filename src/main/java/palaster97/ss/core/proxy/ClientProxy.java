@@ -12,8 +12,7 @@ public class ClientProxy extends CommonProxy {
 	
 	@Override
 	public void preInit() {super.preInit(); }
-	
-	// Register Renderers Here
+
 	@Override
 	public void init() {
 		super.init();

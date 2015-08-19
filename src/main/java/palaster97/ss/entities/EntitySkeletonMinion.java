@@ -55,7 +55,6 @@ public class EntitySkeletonMinion extends EntityTameable implements IMob, IRange
     
     public EntitySkeletonMinion(World worldIn) { this(worldIn, 0); }
 
-	@SuppressWarnings("rawtypes")
 	public EntitySkeletonMinion(World worldIn, int value) {
 		super(worldIn);
 		tasks.addTask(1, new EntityAISwimming(this));
