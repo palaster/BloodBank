@@ -39,6 +39,7 @@ ss.misc.pos=Position
 ss.misc.dimensionID=Dimension ID
 ss.misc.player=Player
 ss.misc.tapeHeart=Tape Heart
+ss.misc.reuse=Reuse Timer
 
 ss.psm.home=Home
 ss.psm.potions=Potions

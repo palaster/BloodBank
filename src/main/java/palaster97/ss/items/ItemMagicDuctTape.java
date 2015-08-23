@@ -15,7 +15,7 @@ public class ItemMagicDuctTape extends ItemModSpecial {
 	
 	@Override
 	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
-		if(!worldIn.isRemote && entityIn instanceof EntityPlayer) {
+		if(!worldIn.isRemote && entityIn instanceof EntityPlayer) { // TODO: What the deal with this working, but not hephaestus hammer not repairing without a update.
 			EntityPlayer p = (EntityPlayer) entityIn;
 			for(int i = 0; i < p.inventory.getSizeInventory(); i++) {
 				if(p.inventory.getStackInSlot(i) != null && p.inventory.getStackInSlot(i).getItem() instanceof IDuctTapeable || p.inventory.getStackInSlot(i) != null && p.inventory.getStackInSlot(i).hasTagCompound() && p.inventory.getStackInSlot(i).getTagCompound().getBoolean("HasTapeHeart"))

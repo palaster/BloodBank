@@ -4,10 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import palaster97.ss.blocks.tile.TileEntityPlayerManipulator;
-import palaster97.ss.blocks.tile.TileEntityVoid;
-import palaster97.ss.blocks.tile.TileEntityVoidAnchor;
-import palaster97.ss.blocks.tile.TileEntityWorldManipulator;
+import palaster97.ss.blocks.tile.*;
 
 public class SSBlocks {
 	
