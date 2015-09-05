@@ -3,9 +3,7 @@ package palaster97.ss.core.proxy;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.IThreadListener;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import palaster97.ss.core.handlers.SSHUDHandler;
 import palaster97.ss.entities.SSEntities;
 
 public class ClientProxy extends CommonProxy {
@@ -17,7 +15,6 @@ public class ClientProxy extends CommonProxy {
 	public void init() {
 		super.init();
 		SSEntities.registerEntityRenderers();
-		MinecraftForge.EVENT_BUS.register(new SSHUDHandler());
 	}
 	
 	@Override

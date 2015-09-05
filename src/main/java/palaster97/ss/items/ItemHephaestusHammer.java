@@ -13,7 +13,7 @@ import java.util.List;
 
 public class ItemHephaestusHammer extends ItemModSpecial {
 
-	private static final int reuseTime = 12000;
+	private final int reuseTime = 12000;
 	
 	public ItemHephaestusHammer() {
 		super();
@@ -31,18 +31,16 @@ public class ItemHephaestusHammer extends ItemModSpecial {
 
 	@Override
 	public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
-		//if(!worldIn.isRemote) TODO: Can't repair or damage other items with this sided check.
+		//if(!worldIn.isRemote) TODO: Can't repair or damage other items with this sided check, until restart.
 			if(playerIn.isSneaking()) {
 				for(int i = 0; i < playerIn.inventory.getSizeInventory(); i++)
 					if(playerIn.inventory.getStackInSlot(i) != null && playerIn.inventory.getStackInSlot(i).stackSize == 1 && playerIn.inventory.getStackInSlot(i).getMaxDamage() > 0)
-						if(playerIn.inventory.getStackInSlot(i).getItemDamage() != 0) {
+						if(playerIn.inventory.getStackInSlot(i).getItemDamage() != 0)
 							playerIn.inventory.getStackInSlot(i).setItemDamage(0);
-						}
 				for(int i = 0; i < playerIn.inventory.armorInventory.length; i++)
 					if(playerIn.inventory.armorItemInSlot(i) != null && playerIn.inventory.armorItemInSlot(i).stackSize == 1 && playerIn.inventory.armorItemInSlot(i).getMaxDamage() > 0)
-						if(playerIn.inventory.armorItemInSlot(i).getItemDamage() != 0) {
+						if(playerIn.inventory.armorItemInSlot(i).getItemDamage() != 0)
 							playerIn.inventory.armorItemInSlot(i).setItemDamage(0);
-						}
 				if(!itemStackIn.hasTagCompound())
 					itemStackIn.setTagCompound(new NBTTagCompound());
 				itemStackIn.getTagCompound().setInteger("ReuseTimer", reuseTime);
@@ -57,6 +55,7 @@ public class ItemHephaestusHammer extends ItemModSpecial {
 				stack.getTagCompound().setInteger("ReuseTimer", stack.getTagCompound().getInteger("ReuseTimer") - 1);
 	}
 
+	// TODO: Timer doesn't decrement correctly.
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer playerIn, List tooltip, boolean advanced) {
