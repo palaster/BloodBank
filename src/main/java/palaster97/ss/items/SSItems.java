@@ -16,7 +16,8 @@ public class SSItems {
 	magicDuctTape,
 	tapeHeart,
 	hephaestusHammer,
-	trident;
+	trident,
+	deathBook;
 	
 	public static Item debug,
 	yinYang;
@@ -34,6 +35,7 @@ public class SSItems {
 		tapeHeart = new ItemTapeHeart();
 		hephaestusHammer = new ItemHephaestusHammer();
 		trident = new ItemTrident(EnumHelper.addToolMaterial("trident", 3, 1024, 4.0f, 3.0f, 22));
+		deathBook = new ItemDeathBook();
 		
 		debug = new ItemDebug();
 		yinYang = new ItemYinYang();

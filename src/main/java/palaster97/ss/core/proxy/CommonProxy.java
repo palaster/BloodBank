@@ -2,9 +2,11 @@ package palaster97.ss.core.proxy;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.IThreadListener;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ChestGenHooks;
@@ -33,9 +35,12 @@ import palaster97.ss.inventories.ContainerSoulCompressor;
 import palaster97.ss.inventories.ContainerVoidAnchor;
 import palaster97.ss.items.SSItems;
 import palaster97.ss.network.PacketHandler;
+import palaster97.ss.potions.SSPotion;
 import palaster97.ss.recipes.SSRecipes;
 
 public class CommonProxy implements IGuiHandler {
+
+	public Potion death;
 	
 	public void preInit() {
 		CreativeTabSS.init();
@@ -51,6 +56,11 @@ public class CommonProxy implements IGuiHandler {
 		FMLCommonHandler.instance().bus().register(new SSFMLEventHandler());
 		MinecraftForge.EVENT_BUS.register(new SSEventHandler());
 		NetworkRegistry.INSTANCE.registerGuiHandler(ScreamingSouls.instance, this);
+
+		for(int i = 0; i < Potion.potionTypes.length; i++)
+			if(Potion.potionTypes[i] == null)
+				death = new SSPotion(i, new ResourceLocation("speed"), true, 0x000000);
+
 	}
 	
 	public void postInit() { SSRecipes.init(); }

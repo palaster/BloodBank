@@ -19,6 +19,7 @@ import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.EntityInteractEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -27,6 +28,7 @@ import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import palaster97.ss.ScreamingSouls;
 import palaster97.ss.blocks.BlockWorldManipulator;
 import palaster97.ss.blocks.tile.TileEntityWorldManipulator;
 import palaster97.ss.core.helpers.SSItemStackHelper;
@@ -118,6 +120,14 @@ public class SSEventHandler {
 						((EntityCow) e.target).resetInLove();
 					}
 		}
+	}
+
+	@SubscribeEvent
+	public void updateLivingEntity(LivingEvent.LivingUpdateEvent e) {
+		if(!e.entityLiving.worldObj.isRemote)
+			if(e.entityLiving.isPotionActive(ScreamingSouls.proxy.death))
+				if(e.entityLiving.getActivePotionEffect(ScreamingSouls.proxy.death).getDuration() == 0)
+					e.entityLiving.setDead();
 	}
 
 	// TODO: Fixed NullPointer when block being refrenced is broken and hud tries to draw the block.
