@@ -58,8 +58,10 @@ public class CommonProxy implements IGuiHandler {
 		NetworkRegistry.INSTANCE.registerGuiHandler(ScreamingSouls.instance, this);
 
 		for(int i = 0; i < Potion.potionTypes.length; i++)
-			if(Potion.potionTypes[i] == null)
+			if(Potion.potionTypes[i] == null) {
 				death = new SSPotion(i, new ResourceLocation("speed"), true, 0x000000);
+				break;
+			}
 
 	}
 	

@@ -126,7 +126,7 @@ public class SSEventHandler {
 	public void updateLivingEntity(LivingEvent.LivingUpdateEvent e) {
 		if(!e.entityLiving.worldObj.isRemote)
 			if(e.entityLiving.isPotionActive(ScreamingSouls.proxy.death))
-				if(e.entityLiving.getActivePotionEffect(ScreamingSouls.proxy.death).getDuration() == 0)
+				if(e.entityLiving.getActivePotionEffect(ScreamingSouls.proxy.death).getDuration() <= 1)
 					e.entityLiving.setDead();
 	}
 

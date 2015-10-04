@@ -1,6 +1,5 @@
 package palaster97.ss.items;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
@@ -8,20 +7,15 @@ import net.minecraft.entity.monster.EntityIronGolem;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.world.World;
 import palaster97.ss.ScreamingSouls;
 
-public class ItemDeathBook extends ItemModSpecial {
+public class ItemBookDeath extends ItemModSpecial {
 
-    public ItemDeathBook() {
+    public ItemBookDeath() {
         super();
-        setUnlocalizedName("deathBook");
+        setUnlocalizedName("bookDeath");
     }
 
     @Override
@@ -42,10 +36,8 @@ public class ItemDeathBook extends ItemModSpecial {
             PotionEffect speed = new PotionEffect(1, 1200, 3, false, false);
             PotionEffect strength = new PotionEffect(5, 1200, 3, false, false);
             // TODO: Potion Effect Death not working
-            if(ScreamingSouls.proxy.death != null) {
-                PotionEffect death = new PotionEffect(ScreamingSouls.proxy.death.getId(), 200, 1, false, true);
-                zombie.addPotionEffect(death);
-            }
+            if(ScreamingSouls.proxy.death != null)
+                zombie.addPotionEffect(new PotionEffect(ScreamingSouls.proxy.death.getId(), 200, 1, false, true));
             zombie.addPotionEffect(speed);
             zombie.addPotionEffect(strength);
             playerIn.worldObj.spawnEntityInWorld(zombie);
