@@ -16,10 +16,10 @@ public class ClientProxy extends CommonProxy {
 		super.init();
 		SSEntities.registerEntityRenderers();
 	}
-	
+
 	@Override
 	public void postInit() { super.postInit(); }
-	
+
 	@Override
 	public EntityPlayer getPlayerEntity(MessageContext ctx) { return (ctx.side.isClient() ? Minecraft.getMinecraft().thePlayer : super.getPlayerEntity(ctx)); }
 	

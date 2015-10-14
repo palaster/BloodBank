@@ -24,8 +24,8 @@ public class GuiSoulCompressor extends GuiContainer {
 
 	@Override
     protected void drawGuiContainerForegroundLayer(int p_146979_1_, int p_146979_2_) {
-        fontRendererObj.drawString(I18n.format("container.soulCompressor", new Object[0]), 28, 6, 4210752);
-        fontRendererObj.drawString(I18n.format("container.inventory", new Object[0]), 8, ySize - 96 + 2, 4210752);
+        fontRendererObj.drawString(I18n.format("container.soulCompressor"), 28, 6, 4210752);
+        fontRendererObj.drawString(I18n.format("container.inventory"), 8, ySize - 96 + 2, 4210752);
     }
 
     @Override

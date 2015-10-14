@@ -83,7 +83,7 @@ public class ContainerSoulCompressor extends Container {
             } else if(!mergeItemStack(itemstack1, 10, 46, false))
                 return null;
             if(itemstack1.stackSize == 0)
-                slot.putStack((ItemStack)null);
+                slot.putStack(null);
             else
                 slot.onSlotChanged();
             if(itemstack1.stackSize == itemstack.stackSize)

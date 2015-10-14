@@ -24,11 +24,11 @@ public class ItemAnimalHerder extends ItemModSpecial {
 		if(!playerIn.worldObj.isRemote) {
 			if(target instanceof EntityAnimal) {
 				if(playerIn.riddenByEntity == null) {
-					((EntityAnimal) target).mountEntity(playerIn);
-					playerIn.riddenByEntity = (EntityAnimal) target;
+					target.mountEntity(playerIn);
+					playerIn.riddenByEntity = target;
 					return true;
 				} else {
-					((EntityAnimal) target).dismountEntity(playerIn);
+					target.dismountEntity(playerIn);
 					playerIn.riddenByEntity = null;
 					return true;
 				}

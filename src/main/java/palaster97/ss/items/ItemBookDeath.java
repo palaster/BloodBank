@@ -33,13 +33,10 @@ public class ItemBookDeath extends ItemModSpecial {
             //
             zombie.setPosition(playerIn.posX + 1, playerIn.posY + .05, playerIn.posZ);
             zombie.setAttackTarget(target);
-            PotionEffect speed = new PotionEffect(1, 1200, 3, false, false);
-            PotionEffect strength = new PotionEffect(5, 1200, 3, false, false);
-            // TODO: Potion Effect Death not working
             if(ScreamingSouls.proxy.death != null)
                 zombie.addPotionEffect(new PotionEffect(ScreamingSouls.proxy.death.getId(), 200, 1, false, true));
-            zombie.addPotionEffect(speed);
-            zombie.addPotionEffect(strength);
+            zombie.addPotionEffect(new PotionEffect(1, 1200, 3, false, false));
+            zombie.addPotionEffect(new PotionEffect(5, 1200, 3, false, false));
             playerIn.worldObj.spawnEntityInWorld(zombie);
             return true;
         }

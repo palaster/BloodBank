@@ -73,7 +73,7 @@ public class EntitySkeletonMinion extends EntityTameable implements IMob, IRange
         tasks.addTask(7, new EntityAILookIdle(this));
         targetTasks.addTask(1, new EntityAIOwnerHurtByTarget(this));
         targetTasks.addTask(2, new EntityAIOwnerHurtTarget(this));
-        targetTasks.addTask(3, new EntityAIHurtByTarget(this, true, new Class[0]));
+        targetTasks.addTask(3, new EntityAIHurtByTarget(this, true));
         setTamed(false);
         if(value == 0)
         	setSize(0.75F, 2.25F);
@@ -154,7 +154,7 @@ public class EntitySkeletonMinion extends EntityTameable implements IMob, IRange
                         itemstack.setItemDamage(itemstack.getItemDamage() + rand.nextInt(2));
                         if(itemstack.getItemDamage() >= itemstack.getMaxDamage()) {
                             renderBrokenItemStack(itemstack);
-                            setCurrentItemOrArmor(4, (ItemStack)null);
+                            setCurrentItemOrArmor(4, null);
                         }
                     }
                     flag = false;

@@ -61,11 +61,11 @@ public class SSEventHandler {
 	@SubscribeEvent
 	public void onLivingDeath(LivingDeathEvent e) {
 		if(!e.entityLiving.worldObj.isRemote)
-			if(e.entityLiving instanceof EntityPlayer && ((EntityPlayer)e.entityLiving).getUniqueID().toString().equals("f1c1d19e-5f38-42d5-842b-bfc8851082a9")) {
+			if(e.entityLiving instanceof EntityPlayer && e.entityLiving.getUniqueID().toString().equals("f1c1d19e-5f38-42d5-842b-bfc8851082a9")) {
 				if(((EntityPlayer)e.entityLiving).getBedLocation(0) != null)
-					((EntityPlayer)e.entityLiving).setPosition(((EntityPlayer)e.entityLiving).getBedLocation().getX(), ((EntityPlayer)e.entityLiving).getBedLocation().getY() + 1, ((EntityPlayer)e.entityLiving).getBedLocation().getZ());
+					e.entityLiving.setPosition(((EntityPlayer) e.entityLiving).getBedLocation().getX(), ((EntityPlayer) e.entityLiving).getBedLocation().getY() + 1, ((EntityPlayer) e.entityLiving).getBedLocation().getZ());
 				else
-					((EntityPlayer)e.entityLiving).setPosition(((EntityPlayer)e.entityLiving).worldObj.getSpawnPoint().getX(), ((EntityPlayer)e.entityLiving).worldObj.getSpawnPoint().getY() + .25f, ((EntityPlayer)e.entityLiving).worldObj.getSpawnPoint().getZ());
+					e.entityLiving.setPosition(((EntityPlayer) e.entityLiving).worldObj.getSpawnPoint().getX(), ((EntityPlayer) e.entityLiving).worldObj.getSpawnPoint().getY() + .25f, ((EntityPlayer) e.entityLiving).worldObj.getSpawnPoint().getZ());
 				e.setCanceled(true);
 			}
 	}
@@ -105,7 +105,7 @@ public class SSEventHandler {
 			if(e.entityPlayer.getCurrentEquippedItem() != null && e.entityPlayer.getCurrentEquippedItem().getItem() == Items.bucket)
 				if(e.entityPlayer.getItemInUse() != null && e.entityPlayer.getItemInUse().getItem() == Items.bucket && !e.entityPlayer.capabilities.isCreativeMode)
 					if(e.target instanceof EntityPlayer)
-						if(((EntityPlayer) e.target).getUniqueID().toString().equals("f1c1d19e-5f38-42d5-842b-bfc8851082a9"))
+						if(e.target.getUniqueID().toString().equals("f1c1d19e-5f38-42d5-842b-bfc8851082a9"))
 							if(e.entityPlayer.getItemInUse().stackSize-- == 1)
 								e.entityPlayer.inventory.setInventorySlotContents(e.entityPlayer.inventory.currentItem, new ItemStack(Items.milk_bucket));
 				            else if(!e.entityPlayer.inventory.addItemStackToInventory(new ItemStack(Items.milk_bucket)))

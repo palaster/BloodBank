@@ -19,20 +19,12 @@ import palaster97.ss.ScreamingSouls;
 import palaster97.ss.blocks.SSBlocks;
 import palaster97.ss.blocks.tile.TileEntityPlayerManipulator;
 import palaster97.ss.blocks.tile.TileEntityVoidAnchor;
-import palaster97.ss.client.gui.GuiPlayerManipulator;
-import palaster97.ss.client.gui.GuiPlayerManipulatorInventory;
-import palaster97.ss.client.gui.GuiPlayerManipulatorPotion;
-import palaster97.ss.client.gui.GuiSoulCompressor;
-import palaster97.ss.client.gui.GuiVoidAnchor;
+import palaster97.ss.client.gui.*;
 import palaster97.ss.core.CreativeTabSS;
 import palaster97.ss.core.handlers.SSEventHandler;
 import palaster97.ss.core.handlers.SSFMLEventHandler;
 import palaster97.ss.entities.SSEntities;
-import palaster97.ss.inventories.ContainerPlayerSoulManipulator;
-import palaster97.ss.inventories.ContainerPlayerSoulManipulatorInventory;
-import palaster97.ss.inventories.ContainerPlayerSoulManipulatorPotion;
-import palaster97.ss.inventories.ContainerSoulCompressor;
-import palaster97.ss.inventories.ContainerVoidAnchor;
+import palaster97.ss.inventories.*;
 import palaster97.ss.items.SSItems;
 import palaster97.ss.network.PacketHandler;
 import palaster97.ss.potions.SSPotion;
@@ -62,7 +54,6 @@ public class CommonProxy implements IGuiHandler {
 				death = new SSPotion(i, new ResourceLocation("speed"), true, 0x000000);
 				break;
 			}
-
 	}
 	
 	public void postInit() { SSRecipes.init(); }

@@ -61,7 +61,7 @@ public class SoulCompressorCraftingManager {
         int j = 0;
         int k = 0;
         if(p_92103_2_[i] instanceof String[]) {
-            String[] astring = (String[])((String[])p_92103_2_[i++]);
+            String[] astring = p_92103_2_[i++];
             for(int l = 0; l < astring.length; ++l) {
                 String s1 = astring[l];
                 ++k;
@@ -92,7 +92,7 @@ public class SoulCompressorCraftingManager {
         for(int i1 = 0; i1 < j * k; ++i1) {
             char c0 = s.charAt(i1);
             if(hashmap.containsKey(Character.valueOf(c0)))
-                aitemstack[i1] = ((ItemStack)hashmap.get(Character.valueOf(c0))).copy();
+                aitemstack[i1] = hashmap.get(Character.valueOf(c0)).copy();
             else
                 aitemstack[i1] = null;
         }
@@ -128,7 +128,7 @@ public class SoulCompressorCraftingManager {
         do {
             if(!iterator.hasNext())
                 return null;
-            irecipe = (IRecipe)iterator.next();
+            irecipe = iterator.next();
         }
         while (!irecipe.matches(p_82787_1_, worldIn));
         return irecipe.getCraftingResult(p_82787_1_);
@@ -137,7 +137,7 @@ public class SoulCompressorCraftingManager {
     public ItemStack[] func_180303_b(InventoryCrafting p_180303_1_, World worldIn) {
         Iterator<IRecipe> iterator = recipes.iterator();
         while(iterator.hasNext()) {
-            IRecipe irecipe = (IRecipe)iterator.next();
+            IRecipe irecipe = iterator.next();
             if(irecipe.matches(p_180303_1_, worldIn))
             	return irecipe.getRemainingItems(p_180303_1_);
         }

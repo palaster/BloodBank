@@ -24,7 +24,7 @@ public class BlockVoid extends BlockModContainer {
 	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, Entity entityIn) {
 		if(!worldIn.isRemote)
 			if(entityIn instanceof EntityLivingBase) {
-				((EntityLivingBase) entityIn).attackEntityFrom(DamageSource.outOfWorld, 1f);
+				entityIn.attackEntityFrom(DamageSource.outOfWorld, 1f);
 				((EntityLivingBase) entityIn).addPotionEffect(new PotionEffect(Potion.wither.id, 60));
 				if(worldIn.getTileEntity(pos) != null && worldIn.getTileEntity(pos) instanceof TileEntityVoid)
 					worldIn.setBlockState(pos, ((TileEntityVoid) worldIn.getTileEntity(pos)).getOriginalBlock().getDefaultState());

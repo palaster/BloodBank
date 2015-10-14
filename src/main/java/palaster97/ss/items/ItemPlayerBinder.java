@@ -54,7 +54,7 @@ public class ItemPlayerBinder extends ItemModSpecial {
 			if(playerIn.isSneaking()) {
 				if(!stack.hasTagCompound())
 					stack.setTagCompound(new NBTTagCompound());
-				stack.getTagCompound().setString("PlayerUUID", ((EntityPlayer) target).getUniqueID().toString());
+				stack.getTagCompound().setString("PlayerUUID", target.getUniqueID().toString());
 			}
 		return false;
 	}

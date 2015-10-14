@@ -13,8 +13,6 @@ public class SlotPSM extends Slot {
 
 	@Override
 	public boolean isItemValid(ItemStack stack) {
-		if(stack != null && stack.getItem() instanceof ItemPlayerBinder)
-			return true;
-		return false;
+		return stack != null && stack.getItem() instanceof ItemPlayerBinder;
 	}
 }

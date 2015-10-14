@@ -33,7 +33,7 @@ public class ItemStaffEfreet extends ItemModStaff {
 				for(int i = -2; i <= 2; ++i)
 					for(int j = -2; j <= 2; ++j)
 		            	for(int k = 0; k <= 1; ++k)
-		            		player.worldObj.spawnParticle(EnumParticleTypes.FLAME, player.posX + .5D, player.posY + 1D, player.posZ + .5D, (double)((float)i + player.worldObj.rand.nextFloat()) - 0.5D, (double)((float)k - player.worldObj.rand.nextFloat() - 1.0F), (double)((float)j + player.worldObj.rand.nextFloat()) - 0.5D, new int[0]);
+		            		player.worldObj.spawnParticle(EnumParticleTypes.FLAME, player.posX + .5D, player.posY + 1D, player.posZ + .5D, (double)((float)i + player.worldObj.rand.nextFloat()) - 0.5D, (double)((float)k - player.worldObj.rand.nextFloat() - 1.0F), (double)((float)j + player.worldObj.rand.nextFloat()) - 0.5D);
 		}
 	}
 	

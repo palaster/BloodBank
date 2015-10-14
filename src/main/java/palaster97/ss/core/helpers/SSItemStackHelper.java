@@ -31,7 +31,7 @@ public class SSItemStackHelper {
 				TileEntityJukebox jb = (TileEntityJukebox) ws.getTileEntity(pos);
 				if(stack == null) {
 					ws.playAuxSFX(1005, pos, 0);
-                    ws.playRecord(pos, (String)null);
+                    ws.playRecord(pos, null);
 				}
 				jb.setRecord(stack);
 				ws.markBlockForUpdate(pos);

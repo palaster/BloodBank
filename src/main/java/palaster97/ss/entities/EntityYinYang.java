@@ -51,10 +51,10 @@ public class EntityYinYang extends EntityThrowable {
 		if(p_70184_1_ != null && p_70184_1_.typeOfHit == MovingObjectType.ENTITY && p_70184_1_.entityHit != null) {
 			if(isSneaking == 0) {
 				if(p_70184_1_.entityHit instanceof EntityLivingBase)
-					((EntityLivingBase) p_70184_1_.entityHit).attackEntityFrom(DamageSource.outOfWorld, 3f);
+					p_70184_1_.entityHit.attackEntityFrom(DamageSource.outOfWorld, 3f);
 			} else if(isSneaking == 1)
 				if(p_70184_1_.entityHit instanceof EntityLivingBase)
-					((EntityLivingBase) p_70184_1_.entityHit).setPosition(getThrower().posX, getThrower().posY, getThrower().posZ);
+					p_70184_1_.entityHit.setPosition(getThrower().posX, getThrower().posY, getThrower().posZ);
 		}
 		if(p_70184_1_ != null && p_70184_1_.typeOfHit == MovingObjectType.BLOCK) {
 			for(int i = -1; i < 1 + 1; i++)
