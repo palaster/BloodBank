@@ -1,48 +1,48 @@
 buildscript {
     repositories {
-        mavenCentral()
+        jcenter()
         maven {
             name = "forge"
             url = "http://files.minecraftforge.net/maven"
         }
-        maven {
-            name = "sonatype"
-            url = "https://oss.sonatype.org/content/repositories/snapshots/"
-        }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.0-SNAPSHOT'
     }
 }
+apply plugin: 'net.minecraftforge.gradle.forge'
 
-apply plugin: 'forge'
+plugins {
+    id "net.minecraftforge.gradle.forge" version "2.0.2"
+}
 
 ext.configFile = file('build.properties')
-
 ext.config = parseConfig(configFile)
 
 version = "${config.version}"
-group= "palaster97.ss" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+group= "palaster97.ss"
 archivesBaseName = "Screaming Souls"
 
 minecraft {
     version = "${config.mc_version}-${config.forge_version}"
-    runDir = "eclipse"
+    runDir = "run"
     mappings = "snapshot_20141130"
-    replace "@VERSION@", config.version
+	replace "@VERSION@", config.version
 }
 
 dependencies {}
 
-processResources
-{
+processResources {
     inputs.property "version", project.version
     inputs.property "mcversion", project.minecraft.version
 
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
+                
+        // replace version and mcversion
         expand 'version':project.version, 'mcversion':project.minecraft.version
     }
+	
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
     }
