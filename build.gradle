@@ -10,7 +10,8 @@ buildscript {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.0-SNAPSHOT'
     }
 }
-apply plugin: 'net.minecraftforge.gradle.forge'
+
+//apply plugin: 'net.minecraftforge.gradle.forge'
 
 plugins {
     id "net.minecraftforge.gradle.forge" version "2.0.2"

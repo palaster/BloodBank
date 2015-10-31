@@ -2,6 +2,7 @@ package palaster97.ss.core.handlers;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -13,6 +14,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
+import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
@@ -23,6 +25,7 @@ import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.EntityInteractEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.entity.player.PlayerOpenContainerEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -130,7 +133,28 @@ public class SSEventHandler {
 					e.entityLiving.setDead();
 	}
 
-	// TODO: Fixed NullPointer when block being refrenced is broken and hud tries to draw the block.
+	// TODO: GET DUMMY PLAYER SETUP, UUID = first person + second person
+	@SideOnly(Side.CLIENT)
+	@SubscribeEvent
+	public void onGuiOpen(GuiOpenEvent e) {
+		Minecraft mc = Minecraft.getMinecraft();
+		if(mc.thePlayer.inventory.hasItem(SSItems.inventoryBind)) {
+			for(int i = 9; i < mc.thePlayer.inventory.getSizeInventory(); i++) {
+				if(mc.thePlayer.inventory.getStackInSlot(i) != null && mc.thePlayer.inventory.getStackInSlot(i).getItem() == SSItems.inventoryBind) {
+					ItemStack inventoryBindStack = mc.thePlayer.inventory.getStackInSlot(i);
+					if(inventoryBindStack.hasTagCompound()) {
+						String uuid = inventoryBindStack.getTagCompound().getString("PlayerUUID");
+						if(uuid != null || !uuid.isEmpty()) {}
+					}
+				}
+			}
+		}
+		if(e.gui instanceof GuiInventory) {
+
+		}
+	}
+
+	// TODO: Fixed NullPointer when block being refrenced is broken and hud tries to draw the block. [Maybe send an update packet?]
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent(priority= EventPriority.NORMAL)
 	public void onRenderGameOverlay(RenderGameOverlayEvent.Post event) {

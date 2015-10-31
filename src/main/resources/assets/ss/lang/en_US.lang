@@ -27,11 +27,6 @@ item.hephaestusHammer.name=Hephaestus Hammer
 item.trident.name=Trident of Poseidon
 item.bookDeath.name=Book of Death
 
-item.arsonistGarments.0.name=Arsonists Hood
-item.arsonistGarments.1.name=Arsonists Tunic
-item.arsonistGarments.2.name=Arsonists Pants
-item.arsonistGarments.3.name=Arsonists Shoes
-
 item.debug.name=Debug
 item.yinYang.name=Yin Yang
 
