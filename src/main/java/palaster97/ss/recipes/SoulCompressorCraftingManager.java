@@ -43,7 +43,6 @@ public class SoulCompressorCraftingManager {
     	// Items
     	addRecipe(new ItemStack(SSItems.playerBinder), "xyx", "yzy", "xyx", 'x', Items.gold_nugget, 'y', Blocks.redstone_block, 'z', Items.ender_pearl);
     	addRecipe(new ItemStack(SSItems.worldBinder), "xyx", "yzy", "xyx", 'x', Items.gold_nugget, 'y', Blocks.quartz_block, 'z', Items.ender_pearl);
-        addRecipe(new ItemStack(SSItems.inventoryBind), " xy", "xzx", "yx ", 'x', Items.iron_ingot, 'y', Blocks.chest, 'z', Items.name_tag);
     	
     	addRecipe(new ItemStack(SSItems.staffTime), "  z", " x ", "x  ", 'x', Items.stick, 'z', Items.clock);
     	addRecipe(new ItemStack(SSItems.staffSkeleton), "  z", " x ", "x  ", 'x', Items.stick, 'z', new ItemStack(Items.skull, 1, 0));
