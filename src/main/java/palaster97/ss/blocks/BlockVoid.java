@@ -26,7 +26,7 @@ public class BlockVoid extends BlockModContainer {
 			if(entityIn instanceof EntityLivingBase) {
 				entityIn.attackEntityFrom(DamageSource.outOfWorld, 1f);
 				((EntityLivingBase) entityIn).addPotionEffect(new PotionEffect(Potion.wither.id, 60));
-				if(worldIn.getTileEntity(pos) != null && worldIn.getTileEntity(pos) instanceof TileEntityVoid)
+				if(worldIn.getTileEntity(pos) != null && worldIn.getTileEntity(pos) instanceof TileEntityVoid && ((TileEntityVoid) worldIn.getTileEntity(pos)).getOriginalBlock() != null)
 					worldIn.setBlockState(pos, ((TileEntityVoid) worldIn.getTileEntity(pos)).getOriginalBlock().getDefaultState());
 			}
 	}
