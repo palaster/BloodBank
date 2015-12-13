@@ -32,7 +32,7 @@ import palaster97.ss.ScreamingSouls;
 import palaster97.ss.blocks.BlockWorldManipulator;
 import palaster97.ss.blocks.tile.TileEntityWorldManipulator;
 import palaster97.ss.core.helpers.SSItemStackHelper;
-import palaster97.ss.entities.extended.SoulNetworkExtendedPlayer;
+import palaster97.ss.entities.extended.SSExtendedPlayer;
 import palaster97.ss.items.ItemModStaff;
 import palaster97.ss.items.ItemTrident;
 import palaster97.ss.items.SSItems;
@@ -45,8 +45,8 @@ public class SSEventHandler {
 	@SubscribeEvent
 	public void onEntityConstructing(EntityConstructing e) {
 		if(e.entity instanceof EntityPlayer)
-			if(SoulNetworkExtendedPlayer.get((EntityPlayer) e.entity) == null)
-				SoulNetworkExtendedPlayer.register((EntityPlayer) e.entity);
+			if(SSExtendedPlayer.get((EntityPlayer) e.entity) == null)
+				SSExtendedPlayer.register((EntityPlayer) e.entity);
 	}
 
 	@SubscribeEvent
@@ -56,7 +56,7 @@ public class SSEventHandler {
 	}
 	
 	@SubscribeEvent
-	public void onClonePlayer(PlayerEvent.Clone e) { SoulNetworkExtendedPlayer.get(e.entityPlayer).copy(SoulNetworkExtendedPlayer.get(e.original)); }
+	public void onClonePlayer(PlayerEvent.Clone e) { SSExtendedPlayer.get(e.entityPlayer).copy(SSExtendedPlayer.get(e.original)); }
 
 	@SubscribeEvent
 	public void onLivingDeath(LivingDeathEvent e) {

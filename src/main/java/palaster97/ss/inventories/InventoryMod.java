@@ -14,7 +14,7 @@ public class InventoryMod implements IInventory {
 	public InventoryMod(int length) { items = new ItemStack[length]; }
 
 	@Override
-	public String getName() { return null; }
+	public String getCommandSenderName() { return null; }
 
 	@Override
 	public boolean hasCustomName() { return false; }

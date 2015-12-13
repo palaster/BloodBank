@@ -6,7 +6,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.relauncher.Side;
-import palaster97.ss.entities.extended.SoulNetworkExtendedPlayer;
+import palaster97.ss.entities.extended.SSExtendedPlayer;
 import palaster97.ss.network.AbstractMessage.AbstractClientMessage;
 
 public class SyncPlayerPropsMessage extends AbstractClientMessage<SyncPlayerPropsMessage> {
@@ -17,7 +17,7 @@ public class SyncPlayerPropsMessage extends AbstractClientMessage<SyncPlayerProp
 
 	public SyncPlayerPropsMessage(EntityPlayer player) {
 		data = new NBTTagCompound();
-		SoulNetworkExtendedPlayer.get(player).saveNBTData(data);
+		SSExtendedPlayer.get(player).saveNBTData(data);
 	}
 
 	@Override
@@ -27,5 +27,5 @@ public class SyncPlayerPropsMessage extends AbstractClientMessage<SyncPlayerProp
 	protected void write(PacketBuffer buffer) throws IOException { buffer.writeNBTTagCompoundToBuffer(data); }
 
 	@Override
-	public void process(EntityPlayer player, Side side) { SoulNetworkExtendedPlayer.get(player).loadNBTData(data); }
+	public void process(EntityPlayer player, Side side) { SSExtendedPlayer.get(player).loadNBTData(data); }
 }

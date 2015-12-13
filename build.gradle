@@ -7,15 +7,17 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.0-SNAPSHOT'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT'
     }
 }
+apply plugin: 'net.minecraftforge.gradle.forge'
 
-//apply plugin: 'net.minecraftforge.gradle.forge'
-
+/*
+// for people who want stable - not yet functional for MC 1.8.8 - we require the forgegradle 2.1 snapshot
 plugins {
     id "net.minecraftforge.gradle.forge" version "2.0.2"
 }
+*/
 
 ext.configFile = file('build.properties')
 ext.config = parseConfig(configFile)
@@ -27,8 +29,9 @@ archivesBaseName = "Screaming Souls"
 minecraft {
     version = "${config.mc_version}-${config.forge_version}"
     runDir = "run"
-    mappings = "snapshot_20141130"
-	replace "@VERSION@", config.version
+
+    mappings = "snapshot_20151122"
+    // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
 }
 
 dependencies {}
@@ -39,14 +42,10 @@ processResources {
 
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
-                
-        // replace version and mcversion
         expand 'version':project.version, 'mcversion':project.minecraft.version
     }
-	
-    from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
-    }
+        
+    from(sourceSets.main.resources.srcDirs) { exclude 'mcmod.info' }
 }
 
 def parseConfig(File config) {

@@ -48,12 +48,7 @@ public class CommonProxy implements IGuiHandler {
 		FMLCommonHandler.instance().bus().register(new SSFMLEventHandler());
 		MinecraftForge.EVENT_BUS.register(new SSEventHandler());
 		NetworkRegistry.INSTANCE.registerGuiHandler(ScreamingSouls.instance, this);
-
-		for(int i = 0; i < Potion.potionTypes.length; i++)
-			if(Potion.potionTypes[i] == null) {
-				death = new SSPotion(i, new ResourceLocation("speed"), true, 0x000000);
-				break;
-			}
+		death = new SSPotion(new ResourceLocation("death"), true, 0x000000);
 	}
 	
 	public void postInit() { SSRecipes.init(); }

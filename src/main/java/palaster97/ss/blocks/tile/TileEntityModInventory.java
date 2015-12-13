@@ -8,14 +8,11 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IChatComponent;
 
-public class TileEntityModInventory extends TileEntity implements IInventory {
+public abstract class TileEntityModInventory extends TileEntity implements IInventory {
 	
 	private ItemStack[] items;
 	
 	public TileEntityModInventory(int length) { items = new ItemStack[length]; }
-
-	@Override
-	public String getName() { return null; }
 
 	@Override
 	public boolean hasCustomName() { return false; }

@@ -2,10 +2,10 @@ package palaster97.ss.blocks.tile;
 
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ITickable;
 
-public class TileEntityVoid extends TileEntity implements IUpdatePlayerListBox {
+public class TileEntityVoid extends TileEntity implements ITickable {
 
 	private Block ogBlock;
 	private final int timerMax = 2400;

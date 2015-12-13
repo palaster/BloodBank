@@ -5,10 +5,10 @@ import java.util.List;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemPotion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.server.gui.IUpdatePlayerListBox;
+import net.minecraft.util.ITickable;
 import palaster97.ss.core.helpers.SSPlayerHelper;
 
-public class TileEntityPlayerManipulator extends TileEntityModInventory implements IUpdatePlayerListBox {
+public class TileEntityPlayerManipulator extends TileEntityModInventory implements ITickable {
 
 	public TileEntityPlayerManipulator() { super(3); }
 
@@ -16,7 +16,7 @@ public class TileEntityPlayerManipulator extends TileEntityModInventory implemen
 	public int getInventoryStackLimit() { return 1; }
 
 	@Override
-	public String getName() { return "container.playerManipulator"; }
+	public String getCommandSenderName() { return "container.playerManipulator"; }
 
 	@Override
 	public void update() {

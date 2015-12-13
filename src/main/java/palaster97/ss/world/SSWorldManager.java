@@ -65,7 +65,7 @@ public class SSWorldManager implements IWorldAccess {
 	public void broadcastSound(int p_180440_1_, BlockPos p_180440_2_, int p_180440_3_) {}
 
 	@Override
-	public void playAusSFX(EntityPlayer p_180439_1_, int p_180439_2_, BlockPos blockPosIn, int p_180439_4_) {}
+	public void playAuxSFX(EntityPlayer player, int sfxType, BlockPos blockPosIn, int p_180439_4_) {}
 
 	@Override
 	public void sendBlockBreakProgress(int breakerId, BlockPos pos, int progress) {}

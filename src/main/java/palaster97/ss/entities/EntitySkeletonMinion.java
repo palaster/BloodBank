@@ -60,13 +60,8 @@ public class EntitySkeletonMinion extends EntityTameable implements IMob, IRange
 		tasks.addTask(1, new EntityAISwimming(this));
 		tasks.addTask(2, aiSit);
         tasks.addTask(2, new EntityAIRestrictSun(this));
-        tasks.addTask(2, new EntityAIAvoidEntity(this, new Predicate() {
-            public boolean func_179911_a(Entity p_179911_1_) { return p_179911_1_ instanceof EntityCreeper && ((EntityCreeper)p_179911_1_).getCreeperState() > 0; }
-            public boolean apply(Object p_apply_1_) { return func_179911_a((Entity)p_apply_1_); } }, 4.0F, 1.0D, 2.0D));
         tasks.addTask(3, new EntityAIFleeSun(this, 1.0D));
-        tasks.addTask(3, new EntityAIAvoidEntity(this, new Predicate() {
-            public boolean func_179945_a(Entity p_179945_1_) { return p_179945_1_ instanceof EntityWolf; }
-            public boolean apply(Object p_apply_1_) { return func_179945_a((Entity)p_apply_1_); } }, 6.0F, 1.0D, 1.2D));
+        tasks.addTask(3, new EntityAIAvoidEntity(this, EntityWolf.class, 6.0F, 1.0D, 1.2D));
         tasks.addTask(5, new EntityAIFollowOwner(this, 1.0D, 10.0F, 2.0F));
         tasks.addTask(6, new EntityAIWander(this, 1.0D));
         tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
@@ -169,8 +164,8 @@ public class EntitySkeletonMinion extends EntityTameable implements IMob, IRange
     }
 
     @Override
-    protected void func_180481_a(DifficultyInstance p_180481_1_) {
-        super.func_180481_a(p_180481_1_);
+    protected void setEquipmentBasedOnDifficulty(DifficultyInstance p_180481_1_) {
+        super.setEquipmentBasedOnDifficulty(p_180481_1_);
         setCurrentItemOrArmor(0, new ItemStack(Items.bow));
     }
     
@@ -189,19 +184,18 @@ public class EntitySkeletonMinion extends EntityTameable implements IMob, IRange
 	
 	@Override
 	public boolean isChild() { return true; }
-	
-	public IEntityLivingData skeletonSpawning(DifficultyInstance p_180482_1_, IEntityLivingData p_180482_2, int value) {
-		p_180482_2 = func_180482_a(p_180482_1_, p_180482_2);
-        if(value == 1 && getRNG().nextInt(5) > 0) {
+
+    public IEntityLivingData onInitialSpawn(DifficultyInstance p_180482_1_, IEntityLivingData p_180482_2_, int value) {
+        p_180482_2_ = super.onInitialSpawn(p_180482_1_, p_180482_2_);
+        if(value == 1) {
             tasks.addTask(4, aiAttackOnCollide);
             setSkeletonType(1);
             setCurrentItemOrArmor(0, new ItemStack(Items.stone_sword));
             getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(4.0D);
         } else {
             tasks.addTask(4, aiArrowAttack);
-            setSkeletonType(0);
-            func_180481_a(p_180482_1_);
-            func_180483_b(p_180482_1_);
+            setEquipmentBasedOnDifficulty(p_180482_1_);
+            setEquipmentBasedOnDifficulty(p_180482_1_);
         }
         setCanPickUpLoot(rand.nextFloat() < 0.55F * p_180482_1_.getClampedAdditionalDifficulty());
         if(getEquipmentInSlot(4) == null) {
@@ -211,12 +205,12 @@ public class EntitySkeletonMinion extends EntityTameable implements IMob, IRange
                 equipmentDropChances[4] = 0.0F;
             }
         }
-		return p_180482_2;
-	}
-	
+        return p_180482_2_;
+    }
+
 	@Override
-	public IEntityLivingData func_180482_a(DifficultyInstance p_180482_1_, IEntityLivingData p_180482_2_) {
-		p_180482_2_ = super.func_180482_a(p_180482_1_, p_180482_2_);
+	public IEntityLivingData onInitialSpawn(DifficultyInstance p_180482_1_, IEntityLivingData p_180482_2_) {
+		p_180482_2_ = super.onInitialSpawn(p_180482_1_, p_180482_2_);
         if(worldObj.provider instanceof WorldProviderHell && getRNG().nextInt(5) > 0) {
             tasks.addTask(4, aiAttackOnCollide);
             setSkeletonType(1);
@@ -224,8 +218,8 @@ public class EntitySkeletonMinion extends EntityTameable implements IMob, IRange
             getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(4.0D);
         } else {
             tasks.addTask(4, aiArrowAttack);
-            func_180481_a(p_180482_1_);
-            func_180483_b(p_180482_1_);
+            setEquipmentBasedOnDifficulty(p_180482_1_);
+            setEquipmentBasedOnDifficulty(p_180482_1_);
         }
         setCanPickUpLoot(rand.nextFloat() < 0.55F * p_180482_1_.getClampedAdditionalDifficulty());
         if(getEquipmentInSlot(4) == null) {
