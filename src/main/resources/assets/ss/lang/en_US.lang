@@ -27,6 +27,7 @@ item.hephaestusHammer.name=Hephaestus Hammer
 item.trident.name=Trident of Poseidon
 item.bookDeath.name=Book of Death
 item.athame.name=Athame
+item.bookBlood.name=Bloody Book
 
 item.debug.name=Debug
 item.yinYang.name=Yin Yang
@@ -56,3 +57,6 @@ ss.staff.voidWalker.0=Void Walker
 ss.staff.hs.0=Ray of Enfeeblement
 ss.staff.hs.1=Vampiric Touch
 ss.staff.hs.2=Enervation
+
+ss.knowledgePiece=Knowledge Piece
+ss.kp.boilingBlood=Boiling Blood

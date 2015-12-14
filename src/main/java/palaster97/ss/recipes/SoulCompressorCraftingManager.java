@@ -46,6 +46,8 @@ public class SoulCompressorCraftingManager {
     	
     	addRecipe(new ItemStack(SSItems.staffTime), "  z", " x ", "x  ", 'x', Items.stick, 'z', Items.clock);
     	addRecipe(new ItemStack(SSItems.staffSkeleton), "  z", " x ", "x  ", 'x', Items.stick, 'z', new ItemStack(Items.skull, 1, 0));
+
+        addRecipe(new ItemStack(SSItems.bloodBook), "xxx", "xyx", "xxx", 'x', Items.paper, 'y', SSItems.athame);
     	
     	func_180302_a(new TapeHeartRecipe());
     	RecipeSorter.register("ss:tapeHeart", TapeHeartRecipe.class, Category.SHAPELESS, "");

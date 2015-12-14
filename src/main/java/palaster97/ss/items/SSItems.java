@@ -20,7 +20,8 @@ public class SSItems {
 	hephaestusHammer,
 	trident,
 	deathBook,
-	athame;
+	athame,
+	bloodBook;
 	
 	public static Item debug,
 	yinYang;
@@ -40,6 +41,7 @@ public class SSItems {
 		trident = new ItemTrident(EnumHelper.addToolMaterial("trident", 3, 1024, 4.0f, 3.0f, 22));
 		deathBook = new ItemBookDeath();
 		athame = new ItemAthame();
+		bloodBook = new ItemBookBlood();
 		
 		debug = new ItemDebug();
 		yinYang = new ItemYinYang();
