@@ -15,22 +15,20 @@ public class ItemMagicDuctTape extends ItemModSpecial {
 	
 	@Override
 	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
-		if(!worldIn.isRemote && entityIn instanceof EntityPlayer) { // TODO: What the deal with this working, but not hephaestus hammer not repairing without a update.
+		if(!worldIn.isRemote && entityIn instanceof EntityPlayer) {
 			EntityPlayer p = (EntityPlayer) entityIn;
-			for(int i = 0; i < p.inventory.getSizeInventory(); i++) {
+			for(int i = 0; i < p.inventory.getSizeInventory(); i++)
 				if(p.inventory.getStackInSlot(i) != null && p.inventory.getStackInSlot(i).getItem() instanceof IDuctTapeable || p.inventory.getStackInSlot(i) != null && p.inventory.getStackInSlot(i).hasTagCompound() && p.inventory.getStackInSlot(i).getTagCompound().getBoolean("HasTapeHeart"))
 					if(p.inventory.getStackInSlot(i).getItemDamage() > 0) {
 						p.inventory.getStackInSlot(i).setItemDamage(p.inventory.getStackInSlot(i).getItemDamage() - 1);
 						stack.damageItem(1, p);
 					}
-			}
-			for(int i = 0; i < p.inventory.armorInventory.length; i++) {
+			for(int i = 0; i < p.inventory.armorInventory.length; i++)
 				if(p.inventory.armorItemInSlot(i) != null && p.inventory.armorItemInSlot(i).getItem() instanceof IDuctTapeable || p.inventory.armorItemInSlot(i) != null && p.inventory.armorItemInSlot(i).hasTagCompound() && p.inventory.armorItemInSlot(i).getTagCompound().getBoolean("HasTapeHeart"))
 					if(p.inventory.armorItemInSlot(i).getItemDamage() > 0) {
 						p.inventory.armorItemInSlot(i).setItemDamage(p.inventory.armorItemInSlot(i).getItemDamage() - 1);
 						stack.damageItem(1, p);
 					}
-			}
 		}
 	}
 }

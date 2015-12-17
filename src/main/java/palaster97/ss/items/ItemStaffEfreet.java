@@ -23,7 +23,7 @@ public class ItemStaffEfreet extends ItemModStaff {
 	@Override
 	public void onUsingTick(ItemStack stack, EntityPlayer player, int count) {
 		if(ItemModStaff.getActivePower(stack) == 0) {
-			for(EntityLivingBase entity : (List<EntityLivingBase>) player.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(player.posX - 8, player.posY - 3, player.posZ - 8, player.posX + 8, player.posY + 8, player.posZ + 8)))
+			for(EntityLivingBase entity : player.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(player.posX - 8, player.posY - 3, player.posZ - 8, player.posX + 8, player.posY + 8, player.posZ + 8)))
 				if(entity != player)
 					if(!player.worldObj.isRemote) {
 						entity.setFire(1);

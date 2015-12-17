@@ -22,29 +22,25 @@ public class ItemHephaestusHammer extends ItemModSpecial {
 
 	@Override
 	public void onCreated(ItemStack stack, World worldIn, EntityPlayer playerIn) {
-		if(!worldIn.isRemote) {
-			if(!stack.hasTagCompound())
-				stack.setTagCompound(new NBTTagCompound());
-			stack.getTagCompound().setInteger("ReuseTimer", 0);
-		}
+		if(!stack.hasTagCompound())
+			stack.setTagCompound(new NBTTagCompound());
+		stack.getTagCompound().setInteger("ReuseTimer", 0);
 	}
 
 	@Override
 	public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
-		//if(!worldIn.isRemote) TODO: Can't repair or damage other items with this sided check, until restart.
-			if(playerIn.isSneaking()) {
-				for(int i = 0; i < playerIn.inventory.getSizeInventory(); i++)
-					if(playerIn.inventory.getStackInSlot(i) != null && playerIn.inventory.getStackInSlot(i).stackSize == 1 && playerIn.inventory.getStackInSlot(i).getMaxDamage() > 0)
-						if(playerIn.inventory.getStackInSlot(i).getItemDamage() != 0)
-							playerIn.inventory.getStackInSlot(i).setItemDamage(0);
-				for(int i = 0; i < playerIn.inventory.armorInventory.length; i++)
-					if(playerIn.inventory.armorItemInSlot(i) != null && playerIn.inventory.armorItemInSlot(i).stackSize == 1 && playerIn.inventory.armorItemInSlot(i).getMaxDamage() > 0)
-						if(playerIn.inventory.armorItemInSlot(i).getItemDamage() != 0)
-							playerIn.inventory.armorItemInSlot(i).setItemDamage(0);
-				if(!itemStackIn.hasTagCompound())
-					itemStackIn.setTagCompound(new NBTTagCompound());
-				itemStackIn.getTagCompound().setInteger("ReuseTimer", reuseTime);
-			}
+		if(playerIn.isSneaking()) {
+			for(int i = 0; i < playerIn.inventory.mainInventory.length; i++)
+				if(playerIn.inventory.mainInventory[i] != null && playerIn.inventory.mainInventory[i].stackSize == 1 && playerIn.inventory.mainInventory[i].getItemDamage() > 0)
+					if(!playerIn.inventory.mainInventory[i].equals(itemStackIn))
+						playerIn.inventory.mainInventory[i].setItemDamage(0);
+			for(int i = 0; i < playerIn.inventory.armorInventory.length; i++)
+				if(playerIn.inventory.armorItemInSlot(i) != null && playerIn.inventory.armorItemInSlot(i).stackSize == 1 && playerIn.inventory.armorItemInSlot(i).getItemDamage() > 0)
+					playerIn.inventory.armorInventory[i].setItemDamage(0);
+			if(!itemStackIn.hasTagCompound())
+				itemStackIn.setTagCompound(new NBTTagCompound());
+			itemStackIn.getTagCompound().setInteger("ReuseTimer", reuseTime);
+		}
 		return itemStackIn;
 	}
 
