@@ -3,6 +3,7 @@ package palaster97.ss.core.handlers;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.passive.EntityCow;
+import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
@@ -33,6 +34,7 @@ import palaster97.ss.blocks.BlockWorldManipulator;
 import palaster97.ss.blocks.tile.TileEntityWorldManipulator;
 import palaster97.ss.core.helpers.SSItemStackHelper;
 import palaster97.ss.entities.extended.SSExtendedPlayer;
+import palaster97.ss.items.ItemAthame;
 import palaster97.ss.items.ItemModStaff;
 import palaster97.ss.items.ItemTrident;
 import palaster97.ss.items.SSItems;
@@ -60,14 +62,17 @@ public class SSEventHandler {
 
 	@SubscribeEvent
 	public void onLivingDeath(LivingDeathEvent e) {
-		if(!e.entityLiving.worldObj.isRemote)
+		if(!e.entityLiving.worldObj.isRemote) {
 			if(e.entityLiving instanceof EntityPlayer && e.entityLiving.getUniqueID().toString().equals("f1c1d19e-5f38-42d5-842b-bfc8851082a9")) {
-				if(((EntityPlayer)e.entityLiving).getBedLocation(0) != null)
+				if(((EntityPlayer) e.entityLiving).getBedLocation(0) != null)
 					e.entityLiving.setPosition(((EntityPlayer) e.entityLiving).getBedLocation().getX(), ((EntityPlayer) e.entityLiving).getBedLocation().getY() + 1, ((EntityPlayer) e.entityLiving).getBedLocation().getZ());
 				else
 					e.entityLiving.setPosition(((EntityPlayer) e.entityLiving).worldObj.getSpawnPoint().getX(), ((EntityPlayer) e.entityLiving).worldObj.getSpawnPoint().getY() + .25f, ((EntityPlayer) e.entityLiving).worldObj.getSpawnPoint().getZ());
 				e.setCanceled(true);
+			} else if(e.entityLiving instanceof EntityVillager) {
+				if(e.source.getSourceOfDamage() instanceof EntityPlayer || ((EntityPlayer) e.source.getSourceOfDamage()).getHeldItem().getItem() instanceof ItemAthame) {}
 			}
+		}
 	}
 	
 	@SubscribeEvent
