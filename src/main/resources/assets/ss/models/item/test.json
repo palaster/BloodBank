@@ -1,6 +1,6 @@
 {
   "parent": "ss:item/ssStandard",
   "textures": {
-    "layer0": "ss:items/athame"
+    "layer0": "ss:items/test"
   }
 }

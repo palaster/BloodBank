@@ -31,6 +31,8 @@ item.bookBlood.name=Bloody Book
 
 item.debug.name=Debug
 item.yinYang.name=Yin Yang
+item.ssResources.vHeart.name=Villager Heart
+item.ssResources.test.name=Test
 
 ss.misc.activated=Activated
 ss.misc.broken=BROKEN (Normal Fix is a simple right-click)

@@ -42,8 +42,8 @@ public class CommonProxy implements IGuiHandler {
 	public void init() {
 		SSBlocks.init();
 		SSBlocks.registerTileEntities();
-		SSItems.init();
 		SSEntities.init();
+		SSItems.init();
 		ChestGenHooks.addItem(ChestGenHooks.VILLAGE_BLACKSMITH, new WeightedRandomChestContent(new ItemStack(SSItems.hephaestusHammer), 1, 1, 7));
 		FMLCommonHandler.instance().bus().register(new SSFMLEventHandler());
 		MinecraftForge.EVENT_BUS.register(new SSEventHandler());

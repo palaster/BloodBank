@@ -1,5 +1,6 @@
 package palaster97.ss.items;
 
+import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraftforge.common.util.EnumHelper;
@@ -24,7 +25,8 @@ public class SSItems {
 	bloodBook;
 	
 	public static Item debug,
-	yinYang;
+	yinYang,
+	ssResources;
 	
 	public static void init() {
 		playerBinder = new ItemPlayerBinder();
@@ -45,5 +47,8 @@ public class SSItems {
 		
 		debug = new ItemDebug();
 		yinYang = new ItemYinYang();
+		ssResources = new ItemSSResources();
+
+		ModelBakery.addVariantName(ssResources, LibMod.modid + ":vHeart", LibMod.modid + ":test");
 	}
 }
