@@ -2,6 +2,7 @@ package palaster97.ss.core.handlers;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
@@ -69,9 +70,12 @@ public class SSEventHandler {
 				else
 					e.entityLiving.setPosition(((EntityPlayer) e.entityLiving).worldObj.getSpawnPoint().getX(), ((EntityPlayer) e.entityLiving).worldObj.getSpawnPoint().getY() + .25f, ((EntityPlayer) e.entityLiving).worldObj.getSpawnPoint().getZ());
 				e.setCanceled(true);
-			} else if(e.entityLiving instanceof EntityVillager) {
-				if(e.source.getSourceOfDamage() instanceof EntityPlayer || ((EntityPlayer) e.source.getSourceOfDamage()).getHeldItem().getItem() instanceof ItemAthame) {}
-			}
+			} else if(e.entityLiving instanceof EntityVillager)
+				if(e.source.getSourceOfDamage() instanceof EntityPlayer && ((EntityPlayer) e.source.getSourceOfDamage()).getHeldItem().getItem() instanceof ItemAthame)
+					if(((EntityVillager) e.entityLiving).getProfession() == 2) {
+						EntityItem vHeartE = new EntityItem(((EntityVillager) e.entityLiving).worldObj, ((EntityVillager) e.entityLiving).posX, ((EntityVillager) e.entityLiving).posY + .5, ((EntityVillager) e.entityLiving).posZ, new ItemStack(SSItems.ssResources, 1, 0));
+						((EntityVillager) e.entityLiving).worldObj.spawnEntityInWorld(vHeartE);
+					}
 		}
 	}
 	

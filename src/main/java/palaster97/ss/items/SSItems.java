@@ -2,7 +2,6 @@ package palaster97.ss.items;
 
 import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemArmor;
 import net.minecraftforge.common.util.EnumHelper;
 import palaster97.ss.libs.LibMod;
 

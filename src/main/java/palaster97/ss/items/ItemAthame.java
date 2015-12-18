@@ -33,7 +33,7 @@ public class ItemAthame extends ItemModSpecial {
         if(!player.worldObj.isRemote)
             if(entity instanceof EntityLivingBase)
                 if(SSExtendedPlayer.get(player) != null) {
-                    entity.attackEntityFrom(DamageSource.magic, 1f);
+                    entity.attackEntityFrom(DamageSource.causePlayerDamage(player), 1f);
                     SSExtendedPlayer.get(player).addBlood(100);
                     return true;
                 }
