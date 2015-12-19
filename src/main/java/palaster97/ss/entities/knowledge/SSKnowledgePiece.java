@@ -9,8 +9,8 @@ import net.minecraft.world.World;
 
 public abstract class SSKnowledgePiece {
 
-    private static String name;
-    private static int price;
+    private String name;
+    private int price;
 
     public SSKnowledgePiece(String name, int price) {
         this.name = name;
@@ -21,6 +21,8 @@ public abstract class SSKnowledgePiece {
     public String getName() { return name; }
 
     public int getPrice() { return price; }
+
+    // Methods below are already side checked so you don't have to worry about checking !world.isRemote.
 
     public abstract void onBookInteract(ItemStack stack, EntityPlayer playerIn, EntityLivingBase target);
 

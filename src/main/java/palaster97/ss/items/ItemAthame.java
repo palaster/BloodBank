@@ -22,7 +22,7 @@ public class ItemAthame extends ItemModSpecial {
     public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
         if(!playerIn.worldObj.isRemote)
             if(SSExtendedPlayer.get(playerIn) != null) {
-                playerIn.attackEntityFrom(DamageSource.magic, 1f);
+                playerIn.attackEntityFrom(SSExtendedPlayer.ssBlood, 1f);
                 SSExtendedPlayer.get(playerIn).addBlood(100);
             }
         return itemStackIn;
@@ -33,7 +33,7 @@ public class ItemAthame extends ItemModSpecial {
         if(!player.worldObj.isRemote)
             if(entity instanceof EntityLivingBase)
                 if(SSExtendedPlayer.get(player) != null) {
-                    entity.attackEntityFrom(DamageSource.causePlayerDamage(player), 1f);
+                    entity.attackEntityFrom(SSExtendedPlayer.ssBlood, 1f);
                     SSExtendedPlayer.get(player).addBlood(100);
                     return true;
                 }

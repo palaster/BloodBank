@@ -1,5 +1,7 @@
 itemGroup.tabSS=Screaming Souls
 
+death.attack.ssBlood=%1$s died of anemia.
+
 key.ss.label=Screaming Souls
 
 container.soulCompressor=Soul Compressor
@@ -45,6 +47,7 @@ ss.misc.dimensionID=Dimension ID
 ss.misc.player=Player
 ss.misc.tapeHeart=Tape Heart
 ss.misc.reuse=Reuse Timer
+ss.misc.alreadyLinked=Can't link to more than one entity.
 
 ss.psm.home=Home
 ss.psm.potions=Potions
@@ -62,3 +65,4 @@ ss.staff.hs.2=Enervation
 
 ss.knowledgePiece=Knowledge Piece
 ss.kp.boilingBlood=Boiling Blood
+ss.kp.bloodLink=Blood Link

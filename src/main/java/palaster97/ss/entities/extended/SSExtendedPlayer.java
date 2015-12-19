@@ -1,6 +1,9 @@
 package palaster97.ss.entities.extended;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityList;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
@@ -12,11 +15,14 @@ import palaster97.ss.network.PacketHandler;
 import palaster97.ss.network.client.SyncPlayerPropsMessage;
 
 public class SSExtendedPlayer implements IExtendedEntityProperties {
+
+	public static DamageSource ssBlood = (new DamageSource("ssBlood")).setDamageBypassesArmor().setMagicDamage();
 	
 	public final static String EXT_PROP_NAME = "SSExtendedPlayer";
 	private final EntityPlayer player;
 
 	private int bloodMax;
+	private EntityLivingBase link;
 	
 	public SSExtendedPlayer(EntityPlayer player) {
 		this.player = player;
@@ -24,13 +30,14 @@ public class SSExtendedPlayer implements IExtendedEntityProperties {
 		this.player.getDataWatcher().addObject(LibDataWatcher.blood_network, 0);
 	}
 	
-	public static final void register(EntityPlayer player) { player.registerExtendedProperties(SSExtendedPlayer.EXT_PROP_NAME, new SSExtendedPlayer(player)); }
+	public static final void register(EntityPlayer player) { player.registerExtendedProperties(EXT_PROP_NAME, new SSExtendedPlayer(player)); }
 
 	public static final SSExtendedPlayer get(EntityPlayer player) { return (SSExtendedPlayer) player.getExtendedProperties(EXT_PROP_NAME); }
 	
 	public void copy(SSExtendedPlayer props) {
 		player.getDataWatcher().updateObject(LibDataWatcher.blood_network, props.getCurrentBlood());
 		bloodMax = props.bloodMax;
+		link = props.link;
 	}
 	
 	@Override
@@ -39,6 +46,8 @@ public class SSExtendedPlayer implements IExtendedEntityProperties {
 
 		props.setInteger("CurrentBlood", player.getDataWatcher().getWatchableObjectInt(LibDataWatcher.blood_network));
 		props.setInteger("MaxBlood", bloodMax);
+		if(link != null)
+			props.setTag("LinkEntity", link.getEntityData());
 
 		compound.setTag(EXT_PROP_NAME, props);
 	}
@@ -49,6 +58,8 @@ public class SSExtendedPlayer implements IExtendedEntityProperties {
 
 		player.getDataWatcher().updateObject(LibDataWatcher.blood_network, props.getInteger("CurrentBlood"));
 		bloodMax = props.getInteger("MaxBlood");
+		if(EntityList.createEntityFromNBT(props.getCompoundTag("LinkEntity"), player.worldObj) != null)
+			link = (EntityLivingBase) EntityList.createEntityFromNBT(props.getCompoundTag("LinkEntity"), player.worldObj);
 	}
 
 	@Override
@@ -57,7 +68,7 @@ public class SSExtendedPlayer implements IExtendedEntityProperties {
 	public final void consumeBlood(int amt) {
 		if(amt > getCurrentBlood()) {
 			int hpToTake = amt / 100;
-			player.attackEntityFrom(DamageSource.magic, hpToTake);
+			player.attackEntityFrom(SSExtendedPlayer.ssBlood, hpToTake);
 		} else
 			setCurrentBlood(getCurrentBlood() - amt);
 	}
@@ -84,6 +95,16 @@ public class SSExtendedPlayer implements IExtendedEntityProperties {
 		bloodMax = (amt > 0 ? amt : 0);
 		sync();
 	}
-	
+
+	public final void linkEntity(EntityLivingBase entityLivingBase) {
+		if(entityLivingBase == null)
+			link = null;
+		if(link == null)
+			link = entityLivingBase;
+		sync();
+	}
+
+	public final EntityLivingBase getLinked() { return link; }
+
 	public final void sync() { PacketHandler.sendTo(new SyncPlayerPropsMessage(player), (EntityPlayerMP) player); }
 }

@@ -2,6 +2,8 @@ package palaster97.ss.core.handlers;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.entity.passive.EntityVillager;
@@ -73,9 +75,17 @@ public class SSEventHandler {
 			} else if(e.entityLiving instanceof EntityVillager)
 				if(e.source.getSourceOfDamage() instanceof EntityPlayer && ((EntityPlayer) e.source.getSourceOfDamage()).getHeldItem().getItem() instanceof ItemAthame)
 					if(((EntityVillager) e.entityLiving).getProfession() == 2) {
-						EntityItem vHeartE = new EntityItem(((EntityVillager) e.entityLiving).worldObj, ((EntityVillager) e.entityLiving).posX, ((EntityVillager) e.entityLiving).posY + .5, ((EntityVillager) e.entityLiving).posZ, new ItemStack(SSItems.ssResources, 1, 0));
+						EntityItem vHeartE = new EntityItem(((EntityVillager) e.entityLiving).worldObj, ((EntityVillager) e.entityLiving).posX, ((EntityVillager) e.entityLiving).posY + .25, ((EntityVillager) e.entityLiving).posZ, new ItemStack(SSItems.ssResources, 1, 0));
 						((EntityVillager) e.entityLiving).worldObj.spawnEntityInWorld(vHeartE);
 					}
+			for(Entity entity : e.entityLiving.worldObj.loadedEntityList) {
+				if(entity instanceof EntityPlayer)
+					if(SSExtendedPlayer.get((EntityPlayer) entity) != null)
+						if(SSExtendedPlayer.get((EntityPlayer) entity).getLinked() != null && SSExtendedPlayer.get((EntityPlayer) entity).getLinked().getUniqueID() == e.entityLiving.getUniqueID()) {
+							SSExtendedPlayer.get((EntityPlayer) entity).linkEntity(null);
+							continue;
+						}
+			}
 		}
 	}
 	
@@ -90,6 +100,15 @@ public class SSEventHandler {
 							e.setCanceled(true);
 							p.inventory.getStackInSlot(i).damageItem(1, p);
 						}
+			if(e.source.getEntity() != null) {
+				SSExtendedPlayer props = SSExtendedPlayer.get(p);
+				if(props != null)
+					if(props.getLinked() != null) {
+						EntityLivingBase link = props.getLinked();
+						link.attackEntityFrom(SSExtendedPlayer.ssBlood, e.ammount);
+						e.setCanceled(true);
+					}
+			}
 		}
 	}
 	

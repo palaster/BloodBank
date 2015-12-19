@@ -33,7 +33,7 @@ public class ItemBookBlood extends ItemModSpecial {
     public void onCreated(ItemStack stack, World worldIn, EntityPlayer playerIn) {
         if(!stack.hasTagCompound())
             stack.setTagCompound(new NBTTagCompound());
-        stack.getTagCompound().setInteger("Knowledge Piece", -1);
+        stack.getTagCompound().setInteger("Knowledge Piece", 0);
     }
 
     @Override
@@ -42,13 +42,17 @@ public class ItemBookBlood extends ItemModSpecial {
             if(itemStackIn.getTagCompound() != null) {
                 if(playerIn.isSneaking()) {
                     int temp = itemStackIn.getTagCompound().getInteger("Knowledge Piece");
-                    if(temp++ == SSKnowledge.getKnowledgeSize() - 1 || temp == -1)
-                        itemStackIn.getTagCompound().setInteger("Knowledge Piece", 0);
-                    else
+                    System.out.println("Temp: " + temp + " Knowledge Size: " + SSKnowledge.getKnowledgeSize());
+                    if(temp++ < SSKnowledge.getKnowledgeSize() - 1)
                         itemStackIn.getTagCompound().setInteger("Knowledge Piece", temp++);
-                }
-            } else if(itemStackIn.getTagCompound().getInteger("Knowledge Piece") >= 0)
-                SSKnowledge.getKnowledgePiece(itemStackIn.getTagCompound().getInteger("Knowledge Piece")).onBookRightClick(itemStackIn, worldIn, playerIn);
+                    else if(temp++ >= SSKnowledge.getKnowledgeSize())
+                        itemStackIn.getTagCompound().setInteger("Knowledge Piece", 0);
+                } else if(itemStackIn.getTagCompound().getInteger("Knowledge Piece") >= 0)
+                    SSKnowledge.getKnowledgePiece(itemStackIn.getTagCompound().getInteger("Knowledge Piece")).onBookRightClick(itemStackIn, worldIn, playerIn);
+            } else {
+                itemStackIn.setTagCompound(new NBTTagCompound());
+                itemStackIn.getTagCompound().setInteger("Knowledge Piece", 0);
+            }
         return itemStackIn;
     }
 

@@ -36,5 +36,6 @@ public class SSKnowledge {
 
     static {
         new KPBoilingBlood();
+        new KPBloodLink();
     }
 }
