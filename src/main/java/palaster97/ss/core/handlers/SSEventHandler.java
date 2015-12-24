@@ -12,6 +12,8 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MovingObjectPosition;
@@ -27,6 +29,7 @@ import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.EntityInteractEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -156,7 +159,21 @@ public class SSEventHandler {
 					e.entityLiving.setDead();
 	}
 
-	// TODO: Fixed NullPointer when block being refrenced is broken and hud tries to draw the block. [Maybe send an update packet?]
+	@SubscribeEvent
+	public void onBlockBreak(BlockEvent.BreakEvent e) {
+		if(!e.world.isRemote)
+			for(TileEntity te : e.world.loadedTileEntityList)
+				if(te != null && te instanceof TileEntityWorldManipulator) {
+					TileEntityWorldManipulator wm = (TileEntityWorldManipulator) te;
+					if(wm.getStackInSlot(0) != null && wm.getStackInSlot(0).getItem() instanceof ItemWorldBinder && wm.getStackInSlot(0).hasTagCompound()) {
+						int[] temp = wm.getStackInSlot(0).getTagCompound().getIntArray("WorldPos");
+						BlockPos wmBlockPos = new BlockPos(temp[0], temp[1], temp[2]);
+						if(e.pos.equals(wmBlockPos))
+							wm.getStackInSlot(0).getTagCompound().setBoolean("IsSet", false);
+					}
+				}
+	}
+
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent(priority= EventPriority.NORMAL)
 	public void onRenderGameOverlay(RenderGameOverlayEvent.Post event) {
@@ -165,7 +182,7 @@ public class SSEventHandler {
 				MovingObjectPosition mop = Minecraft.getMinecraft().objectMouseOver;
 				if(mop != null && mop.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
 					BlockPos pos = mop.getBlockPos();
-					IBlockState blockState = Minecraft.getMinecraft().theWorld.getBlockState(pos);
+					IBlockState blockState = Minecraft.getMinecraft().theWorld.getBlockState(mop.getBlockPos());
 					if(blockState != null && blockState.getBlock() instanceof BlockWorldManipulator) {
 						TileEntityWorldManipulator wsm = (TileEntityWorldManipulator) Minecraft.getMinecraft().theWorld.getTileEntity(pos);
 						if(wsm != null) {
