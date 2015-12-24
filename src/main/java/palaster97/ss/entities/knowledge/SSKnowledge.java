@@ -11,9 +11,10 @@ public class SSKnowledge {
 
     public static void addKnowledgePiece(SSKnowledgePiece kp) {
         if(kp != null) {
-            if(knowledge.isEmpty())
+            if(knowledge.isEmpty()) {
                 knowledge.add(kp);
-            else
+                return;
+            } else
                 for(SSKnowledgePiece tkp : knowledge)
                     if(tkp.getName().equals(kp.getName())) {
                         System.out.println(tkp.getName() + " has already been registered.");

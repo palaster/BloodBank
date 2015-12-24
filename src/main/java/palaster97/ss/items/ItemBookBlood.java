@@ -42,7 +42,6 @@ public class ItemBookBlood extends ItemModSpecial {
             if(itemStackIn.getTagCompound() != null) {
                 if(playerIn.isSneaking()) {
                     int temp = itemStackIn.getTagCompound().getInteger("Knowledge Piece");
-                    System.out.println("Temp: " + temp + " Knowledge Size: " + SSKnowledge.getKnowledgeSize());
                     if(temp++ < SSKnowledge.getKnowledgeSize() - 1)
                         itemStackIn.getTagCompound().setInteger("Knowledge Piece", temp++);
                     else if(temp++ >= SSKnowledge.getKnowledgeSize())

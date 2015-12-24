@@ -37,10 +37,8 @@ import palaster97.ss.blocks.BlockWorldManipulator;
 import palaster97.ss.blocks.tile.TileEntityWorldManipulator;
 import palaster97.ss.core.helpers.SSItemStackHelper;
 import palaster97.ss.entities.extended.SSExtendedPlayer;
-import palaster97.ss.items.ItemAthame;
-import palaster97.ss.items.ItemModStaff;
-import palaster97.ss.items.ItemTrident;
-import palaster97.ss.items.SSItems;
+import palaster97.ss.entities.knowledge.SSKnowledge;
+import palaster97.ss.items.*;
 import palaster97.ss.network.PacketHandler;
 import palaster97.ss.network.client.SyncPlayerPropsMessage;
 import palaster97.ss.world.SSWorldManager;
@@ -190,12 +188,18 @@ public class SSEventHandler {
 					}
 				}
 			} else if(event.type == RenderGameOverlayEvent.ElementType.TEXT)
-				if(Minecraft.getMinecraft().fontRendererObj != null && Minecraft.getMinecraft().thePlayer != null && Minecraft.getMinecraft().thePlayer.getCurrentEquippedItem() != null && Minecraft.getMinecraft().thePlayer.getCurrentEquippedItem().getItem() instanceof ItemModStaff)
-					if(Minecraft.getMinecraft().thePlayer.getCurrentEquippedItem().hasTagCompound()) {
+				if(Minecraft.getMinecraft().fontRendererObj != null && Minecraft.getMinecraft().thePlayer != null && Minecraft.getMinecraft().thePlayer.getCurrentEquippedItem() != null) {
+					if(Minecraft.getMinecraft().thePlayer.getCurrentEquippedItem().getItem() instanceof ItemModStaff && Minecraft.getMinecraft().thePlayer.getCurrentEquippedItem().hasTagCompound()) {
 						ItemStack staff = Minecraft.getMinecraft().thePlayer.getCurrentEquippedItem();
 						String power = StatCollector.translateToLocal(((ItemModStaff) staff.getItem()).powers[ItemModStaff.getActivePower(staff)]);
 						Minecraft.getMinecraft().fontRendererObj.drawString(StatCollector.translateToLocal("ss.staff.active") + ": " + power, 2, 2, 0);
 					}
+					if(Minecraft.getMinecraft().thePlayer.getCurrentEquippedItem().getItem() instanceof ItemBookBlood && Minecraft.getMinecraft().thePlayer.getCurrentEquippedItem().hasTagCompound()) {
+						ItemStack book = Minecraft.getMinecraft().thePlayer.getCurrentEquippedItem();
+						String spell = StatCollector.translateToLocal("ss.knowledgePiece") + ": " + StatCollector.translateToLocal(SSKnowledge.getKnowledgePiece(book.getTagCompound().getInteger("Knowledge Piece")).getName());
+						Minecraft.getMinecraft().fontRendererObj.drawString(StatCollector.translateToLocal("ss.kp.active") + ": " + spell, 2, 2, 0x8A0707);
+					}
+				}
 		}
 	}
 }
