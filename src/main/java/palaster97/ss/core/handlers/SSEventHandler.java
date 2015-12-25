@@ -11,6 +11,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.inventory.ContainerPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -182,7 +183,7 @@ public class SSEventHandler {
 				MovingObjectPosition mop = Minecraft.getMinecraft().objectMouseOver;
 				if(mop != null && mop.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
 					BlockPos pos = mop.getBlockPos();
-					IBlockState blockState = Minecraft.getMinecraft().theWorld.getBlockState(mop.getBlockPos());
+					IBlockState blockState = Minecraft.getMinecraft().theWorld.getBlockState(pos);
 					if(blockState != null && blockState.getBlock() instanceof BlockWorldManipulator) {
 						TileEntityWorldManipulator wsm = (TileEntityWorldManipulator) Minecraft.getMinecraft().theWorld.getTileEntity(pos);
 						if(wsm != null) {

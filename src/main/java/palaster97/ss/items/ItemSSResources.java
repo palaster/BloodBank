@@ -33,7 +33,7 @@ public class ItemSSResources extends Item {
         if(!worldIn.isRemote && itemStackIn.getItemDamage() == 0) {
             SSExtendedPlayer props = SSExtendedPlayer.get(playerIn);
             if(props != null && props.getBloodMax() <= 10000) {
-                props.setBloodMax(props.getBloodMax() + 50);
+                props.setBloodMax(props.getBloodMax() + 250);
                 if(itemStackIn.stackSize > 1)
                     itemStackIn.stackSize--;
                 else if(itemStackIn.stackSize == 1)

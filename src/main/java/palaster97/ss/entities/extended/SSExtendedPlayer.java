@@ -67,7 +67,7 @@ public class SSExtendedPlayer implements IExtendedEntityProperties {
 
 	public final void consumeBlood(int amt) {
 		if(amt > getCurrentBlood()) {
-			int hpToTake = amt / 100;
+			float hpToTake = (float) amt / 100;
 			player.attackEntityFrom(SSExtendedPlayer.ssBlood, hpToTake);
 		} else
 			setCurrentBlood(getCurrentBlood() - amt);
