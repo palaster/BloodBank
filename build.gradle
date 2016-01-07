@@ -29,8 +29,7 @@ archivesBaseName = "Screaming Souls"
 minecraft {
     version = "${config.mc_version}-${config.forge_version}"
     runDir = "run"
-
-    mappings = "snapshot_20151122"
+    mappings = "stable_20"
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
 }
 
