@@ -1,5 +1,5 @@
 {
-    "parent": "builtin/generated",
+    "parent": "ss:item/ssStandard",
     "textures": {
         "layer0": "ss:items/tapeHeart"
     }
