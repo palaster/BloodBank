@@ -8,6 +8,7 @@ container.soulCompressor=Soul Compressor
 
 entity.ss.skeletonMinion.name=Skeleton Minion
 entity.ss.yinYang.name=Yin Yang
+entity.ss.beaver.name=Beaver
 
 tile.soulCompressor.name=Soul Compressor
 tile.playerManipulator.name=Player Manipulator

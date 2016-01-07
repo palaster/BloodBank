@@ -14,4 +14,6 @@ public class LibResource {
 	public static final ResourceLocation voidAnchor = new ResourceLocation(LibMod.modid, gui + "voidAnchor.png");
 	
 	public static final ResourceLocation ssHUD = new ResourceLocation(LibMod.modid, gui + "ssHUD.png");
+
+	public static final ResourceLocation beaver = new ResourceLocation(LibMod.modid, models + "beaver.png");
 }
