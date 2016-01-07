@@ -1,6 +1,6 @@
 {
   "parent": "ss:item/ssStandard",
   "textures": {
-    "layer0": "ss:items/bookDeath"
+    "layer0": "ss:items/bloodPact"
   }
 }

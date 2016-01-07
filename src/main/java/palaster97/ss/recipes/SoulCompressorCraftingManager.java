@@ -1,12 +1,7 @@
 package palaster97.ss.recipes;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -23,8 +18,7 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 import palaster97.ss.blocks.SSBlocks;
 import palaster97.ss.items.SSItems;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
+import java.util.*;
 
 public class SoulCompressorCraftingManager {
 
@@ -48,7 +42,9 @@ public class SoulCompressorCraftingManager {
     	addRecipe(new ItemStack(SSItems.staffSkeleton), "  z", " x ", "x  ", 'x', Items.stick, 'z', new ItemStack(Items.skull, 1, 0));
 
         addRecipe(new ItemStack(SSItems.bloodBook), "xxx", "xyx", "xxx", 'x', Items.paper, 'y', SSItems.athame);
-    	
+
+        addShapelessRecipe(new ItemStack(SSItems.bloodPact), Items.paper);
+
     	func_180302_a(new TapeHeartRecipe());
     	RecipeSorter.register("ss:tapeHeart", TapeHeartRecipe.class, Category.SHAPELESS, "");
     	

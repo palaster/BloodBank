@@ -26,7 +26,7 @@ public class BlockWorldManipulator extends BlockModContainer {
 			if(wsm != null) {
 				if(wsm.getStackInSlot(0) != null && wsm.getStackInSlot(0).getItem() instanceof ItemWorldBinder) {
 					if(playerIn.isSneaking()) {
-						EntityItem item = new EntityItem(worldIn, pos.getX(), pos.getY(), pos.getZ(), wsm.getStackInSlotOnClosing(0));
+						EntityItem item = new EntityItem(worldIn, pos.getX(), pos.getY(), pos.getZ(), wsm.removeStackFromSlot(0));
 						worldIn.spawnEntityInWorld(item);
 					} else {
 							if(wsm.getStackInSlot(0) != null && wsm.getStackInSlot(0).getItem() instanceof ItemWorldBinder) {

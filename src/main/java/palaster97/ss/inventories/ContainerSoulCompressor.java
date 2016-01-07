@@ -53,7 +53,7 @@ public class ContainerSoulCompressor extends Container {
         super.onContainerClosed(p_75134_1_);
         if(!worldObj.isRemote) {
             for (int i = 0; i < 9; ++i) {
-                ItemStack itemstack = craftMatrix.getStackInSlotOnClosing(i);
+                ItemStack itemstack = craftMatrix.removeStackFromSlot(i);
                 if(itemstack != null)
                     p_75134_1_.dropPlayerItemWithRandomChoice(itemstack, false);
             }

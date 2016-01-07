@@ -16,7 +16,7 @@ public class TileEntityPlayerManipulator extends TileEntityModInventory implemen
 	public int getInventoryStackLimit() { return 1; }
 
 	@Override
-	public String getCommandSenderName() { return "container.playerManipulator"; }
+	public String getName() { return "container.playerManipulator"; }
 
 	@Override
 	public void update() {

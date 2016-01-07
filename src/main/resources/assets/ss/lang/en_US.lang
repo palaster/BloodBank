@@ -27,9 +27,9 @@ item.magicDuctTape.name=Magic Duct Tape
 item.tapeHeart.name=Tape Heart
 item.hephaestusHammer.name=Hephaestus Hammer
 item.trident.name=Trident of Poseidon
-item.bookDeath.name=Book of Death
 item.athame.name=Athame
 item.bookBlood.name=Bloody Book
+item.bloodPact.name=Blood Pact
 
 item.debug.name=Debug
 item.yinYang.name=Yin Yang

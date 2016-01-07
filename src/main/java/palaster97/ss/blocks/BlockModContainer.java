@@ -26,7 +26,7 @@ public abstract class BlockModContainer extends BlockMod implements ITileEntityP
 		if (te != null && te instanceof IInventory) {
 			IInventory inventory = (IInventory)te;
 			for (int i = 0; i < inventory.getSizeInventory(); i++) {
-				ItemStack stack = inventory.getStackInSlotOnClosing(i);
+				ItemStack stack = inventory.removeStackFromSlot(i);
 				if (stack != null) {
 					float spawnX = pos.getX() + worldIn.rand.nextFloat();
 					float spawnY = pos.getY() + worldIn.rand.nextFloat();

@@ -34,7 +34,7 @@ public class RenderYinYang extends Render {
         GlStateManager.rotate(-renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
         GlStateManager.rotate(renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
         bindTexture(TextureMap.locationBlocksTexture);
-        field_177083_e.func_181564_a(func_177082_d(entity), ItemCameraTransforms.TransformType.GROUND);
+        field_177083_e.renderItem(func_177082_d(entity), ItemCameraTransforms.TransformType.GROUND);
         GlStateManager.disableRescaleNormal();
         GlStateManager.popMatrix();
         super.doRender(entity, x, y, z, p_76986_8_, partialTicks);

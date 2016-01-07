@@ -40,7 +40,7 @@ public abstract class TileEntityModInventory extends TileEntity implements IInve
 	}
 
 	@Override
-	public ItemStack getStackInSlotOnClosing(int index) {
+	public ItemStack removeStackFromSlot(int index) {
 		ItemStack stack = getStackInSlot(index);
 		setInventorySlotContents(index, null);
 		return stack;

@@ -2,6 +2,7 @@ package palaster97.ss.items;
 
 import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.item.Item;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.EnumHelper;
 import palaster97.ss.libs.LibMod;
 
@@ -19,9 +20,9 @@ public class SSItems {
 	tapeHeart,
 	hephaestusHammer,
 	trident,
-	deathBook,
 	athame,
-	bloodBook;
+	bloodBook,
+	bloodPact;
 	
 	public static Item debug,
 	yinYang,
@@ -40,14 +41,14 @@ public class SSItems {
 		tapeHeart = new ItemTapeHeart();
 		hephaestusHammer = new ItemHephaestusHammer();
 		trident = new ItemTrident(EnumHelper.addToolMaterial("trident", 3, 1024, 4.0f, 3.0f, 22));
-		deathBook = new ItemBookDeath();
 		athame = new ItemAthame();
 		bloodBook = new ItemBookBlood();
+		bloodPact = new ItemBloodPact();
 		
 		debug = new ItemDebug();
 		yinYang = new ItemYinYang();
 		ssResources = new ItemSSResources();
 
-		ModelBakery.addVariantName(ssResources, LibMod.modid + ":vHeart", LibMod.modid + ":test");
+		ModelBakery.registerItemVariants(ssResources, new ResourceLocation(LibMod.modid + ":vHeart"), new ResourceLocation(LibMod.modid + ":test"));
 	}
 }

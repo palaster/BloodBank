@@ -5,5 +5,5 @@ public class TileEntityVoidAnchor extends TileEntityModInventory {
 	public TileEntityVoidAnchor() { super(18); }
 	
 	@Override
-	public String getCommandSenderName() { return "container.voidAnchor"; }
+	public String getName() { return "container.voidAnchor"; }
 }

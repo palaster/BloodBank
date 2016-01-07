@@ -14,7 +14,7 @@ public class InventoryMod implements IInventory {
 	public InventoryMod(int length) { items = new ItemStack[length]; }
 
 	@Override
-	public String getCommandSenderName() { return null; }
+	public String getName() { return null; }
 
 	@Override
 	public boolean hasCustomName() { return false; }
@@ -42,7 +42,7 @@ public class InventoryMod implements IInventory {
 	}
 
 	@Override
-	public ItemStack getStackInSlotOnClosing(int index) {
+	public ItemStack removeStackFromSlot(int index) {
 		ItemStack stack = getStackInSlot(index);
 		setInventorySlotContents(index, null);
 		return stack;
