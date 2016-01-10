@@ -3,7 +3,7 @@ package palaster97.ss.core.handlers;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.entity.passive.EntityVillager;
@@ -11,9 +11,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.inventory.ContainerPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
@@ -106,7 +104,7 @@ public class SSEventHandler {
 				SSExtendedPlayer props = SSExtendedPlayer.get(p);
 				if(props != null)
 					if(props.getLinked() != null) {
-						EntityLivingBase link = props.getLinked();
+						EntityLiving link = props.getLinked();
 						link.attackEntityFrom(SSExtendedPlayer.ssBlood, e.ammount);
 						e.setCanceled(true);
 					}

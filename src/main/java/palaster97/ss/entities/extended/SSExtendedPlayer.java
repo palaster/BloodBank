@@ -22,7 +22,7 @@ public class SSExtendedPlayer implements IExtendedEntityProperties {
 	private final EntityPlayer player;
 
 	private int bloodMax;
-	private EntityLivingBase link;
+	private EntityLiving link;
 	
 	public SSExtendedPlayer(EntityPlayer player) {
 		this.player = player;
@@ -43,23 +43,20 @@ public class SSExtendedPlayer implements IExtendedEntityProperties {
 	@Override
 	public void saveNBTData(NBTTagCompound compound) {
 		NBTTagCompound props = new NBTTagCompound();
-
 		props.setInteger("CurrentBlood", player.getDataWatcher().getWatchableObjectInt(LibDataWatcher.blood_network));
 		props.setInteger("MaxBlood", bloodMax);
 		if(link != null)
 			props.setTag("LinkEntity", link.getEntityData());
-
 		compound.setTag(EXT_PROP_NAME, props);
 	}
 
 	@Override
 	public void loadNBTData(NBTTagCompound compound) {
 		NBTTagCompound props = (NBTTagCompound) compound.getTag(EXT_PROP_NAME);
-
 		player.getDataWatcher().updateObject(LibDataWatcher.blood_network, props.getInteger("CurrentBlood"));
 		bloodMax = props.getInteger("MaxBlood");
 		if(EntityList.createEntityFromNBT(props.getCompoundTag("LinkEntity"), player.worldObj) != null)
-			link = (EntityLivingBase) EntityList.createEntityFromNBT(props.getCompoundTag("LinkEntity"), player.worldObj);
+			link = (EntityLiving) EntityList.createEntityFromNBT(props.getCompoundTag("LinkEntity"), player.worldObj);
 	}
 
 	@Override
@@ -67,8 +64,8 @@ public class SSExtendedPlayer implements IExtendedEntityProperties {
 
 	public final void consumeBlood(int amt) {
 		if(amt > getCurrentBlood()) {
-			float hpToTake = (float) amt / 100;
-			player.attackEntityFrom(SSExtendedPlayer.ssBlood, hpToTake);
+			System.out.println((float) amt / 100);
+			player.attackEntityFrom(SSExtendedPlayer.ssBlood, (float) amt / 100);
 		} else
 			setCurrentBlood(getCurrentBlood() - amt);
 	}
@@ -96,15 +93,15 @@ public class SSExtendedPlayer implements IExtendedEntityProperties {
 		sync();
 	}
 
-	public final void linkEntity(EntityLivingBase entityLivingBase) {
-		if(entityLivingBase == null)
+	public final void linkEntity(EntityLiving entityLiving) {
+		if(entityLiving == null)
 			link = null;
 		if(link == null)
-			link = entityLivingBase;
+			link = entityLiving;
 		sync();
 	}
 
-	public final EntityLivingBase getLinked() { return link; }
+	public final EntityLiving getLinked() { return link; }
 
 	public final void sync() { PacketHandler.sendTo(new SyncPlayerPropsMessage(player), (EntityPlayerMP) player); }
 }
