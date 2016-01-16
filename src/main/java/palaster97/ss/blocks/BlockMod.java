@@ -24,7 +24,6 @@ public abstract class BlockMod extends Block {
 	@Override
 	public Block setUnlocalizedName(String name) {
 		GameRegistry.registerBlock(this, name);
-		setBlockRender(name);
 		return super.setUnlocalizedName(name);
 	}
 

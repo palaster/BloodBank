@@ -1,0 +1,6 @@
+{
+  "parent": "ss:item/ssStandard",
+  "textures": {
+    "layer0": "ss:items/ssBucket.blood"
+  }
+}

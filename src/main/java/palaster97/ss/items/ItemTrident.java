@@ -20,8 +20,7 @@ public class ItemTrident extends ItemSword implements IDuctTapeable {
 	
 	@Override
 	public Item setUnlocalizedName(String unlocalizedName) {
-		GameRegistry.registerItem(this, unlocalizedName, LibMod.modid);
-		setItemRender(unlocalizedName);
+		GameRegistry.registerItem(this, unlocalizedName);
 		return super.setUnlocalizedName(unlocalizedName);
 	}
 	

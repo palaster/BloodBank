@@ -8,7 +8,7 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import palaster97.ss.ScreamingSouls;
-import palaster97.ss.blocks.tile.TileEntityVoidAnchor;
+import palaster97.ss.blocks.tile.TileEntityModInventory;
 
 public class BlockVoidAnchor extends BlockModContainer {
 
@@ -26,5 +26,8 @@ public class BlockVoidAnchor extends BlockModContainer {
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World worldIn, int meta) { return new TileEntityVoidAnchor(); }
+	public TileEntity createNewTileEntity(World worldIn, int meta) { return new TileEntityModInventory(18) {
+		@Override
+		public String getName() { return "container.voidAnchor"; }
+	};}
 }

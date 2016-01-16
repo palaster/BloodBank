@@ -18,7 +18,7 @@ import java.util.List;
 
 public class ItemSSResources extends Item {
 
-    private static String[] names = new String[]{"vHeart", "test"};
+    public static String[] names = new String[]{"vHeart", "test"};
 
     public ItemSSResources() {
         super();
@@ -54,9 +54,7 @@ public class ItemSSResources extends Item {
 
     @Override
     public Item setUnlocalizedName(String unlocalizedName) {
-        GameRegistry.registerItem(this, unlocalizedName, LibMod.modid);
-        for(int i = 0; i < names.length; i++)
-            setItemRender(names[i], i);
+        GameRegistry.registerItem(this, unlocalizedName);
         return super.setUnlocalizedName(unlocalizedName);
     }
 

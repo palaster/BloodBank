@@ -38,13 +38,13 @@ public class CommonProxy implements IGuiHandler {
 	public void preInit() {
 		CreativeTabSS.init();
 		PacketHandler.registerPackets();
-	}
-	
-	public void init() {
 		SSBlocks.init();
 		SSBlocks.registerTileEntities();
 		SSEntities.init();
 		SSItems.init();
+	}
+	
+	public void init() {
 		ChestGenHooks.addItem(ChestGenHooks.VILLAGE_BLACKSMITH, new WeightedRandomChestContent(new ItemStack(SSItems.hephaestusHammer), 1, 1, 7));
 		FMLCommonHandler.instance().bus().register(new SSFMLEventHandler());
 		FMLCommonHandler.instance().bus().register(new ConfigurationHandler());

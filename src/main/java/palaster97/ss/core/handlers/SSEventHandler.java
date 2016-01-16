@@ -1,5 +1,7 @@
 package palaster97.ss.core.handlers;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -11,6 +13,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
@@ -26,16 +29,19 @@ import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.EntityInteractEvent;
+import net.minecraftforge.event.entity.player.FillBucketEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.WorldEvent;
+import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import palaster97.ss.ScreamingSouls;
 import palaster97.ss.blocks.BlockWorldManipulator;
+import palaster97.ss.blocks.SSBlocks;
 import palaster97.ss.blocks.tile.TileEntityWorldManipulator;
 import palaster97.ss.core.helpers.SSItemStackHelper;
 import palaster97.ss.entities.extended.SSExtendedPlayer;
@@ -171,6 +177,22 @@ public class SSEventHandler {
 							wm.getStackInSlot(0).getTagCompound().setBoolean("IsSet", false);
 					}
 				}
+	}
+
+	@SubscribeEvent
+	public void onBucketFill(FillBucketEvent e) {
+		if(e.current.getItem() != Items.bucket)
+			return;
+		ItemStack result = null;
+		Block block = e.world.getBlockState(e.target.getBlockPos()).getBlock();
+		if (block != null && (block.equals(SSBlocks.blockBlood)) && block.getMetaFromState(e.world.getBlockState(e.target.getBlockPos())) == 0) {
+			e.world.setBlockToAir(e.target.getBlockPos());
+			result = new ItemStack(SSItems.bucketBlood);
+		}
+		if (result == null)
+			return;
+		e.result = result;
+		e.setResult(Event.Result.ALLOW);
 	}
 
 	@SideOnly(Side.CLIENT)
