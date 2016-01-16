@@ -21,6 +21,7 @@ import palaster97.ss.blocks.tile.TileEntityPlayerManipulator;
 import palaster97.ss.blocks.tile.TileEntityVoidAnchor;
 import palaster97.ss.client.gui.*;
 import palaster97.ss.core.CreativeTabSS;
+import palaster97.ss.core.handlers.ConfigurationHandler;
 import palaster97.ss.core.handlers.SSEventHandler;
 import palaster97.ss.core.handlers.SSFMLEventHandler;
 import palaster97.ss.entities.SSEntities;
@@ -46,6 +47,7 @@ public class CommonProxy implements IGuiHandler {
 		SSItems.init();
 		ChestGenHooks.addItem(ChestGenHooks.VILLAGE_BLACKSMITH, new WeightedRandomChestContent(new ItemStack(SSItems.hephaestusHammer), 1, 1, 7));
 		FMLCommonHandler.instance().bus().register(new SSFMLEventHandler());
+		FMLCommonHandler.instance().bus().register(new ConfigurationHandler());
 		MinecraftForge.EVENT_BUS.register(new SSEventHandler());
 		NetworkRegistry.INSTANCE.registerGuiHandler(ScreamingSouls.instance, this);
 		death = new SSPotion(new ResourceLocation("death"), true, 0x000000);

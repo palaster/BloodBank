@@ -7,10 +7,11 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import palaster97.ss.core.handlers.ConfigurationHandler;
 import palaster97.ss.core.proxy.CommonProxy;
 import palaster97.ss.libs.LibMod;
 
-@Mod(modid = LibMod.modid, name = LibMod.name, version = LibMod.version, dependencies = LibMod.dependencies)
+@Mod(modid = LibMod.modid, name = LibMod.name, version = LibMod.version, dependencies = LibMod.dependencies, guiFactory = LibMod.guiFactory)
 public class ScreamingSouls {
 	
 	@Instance(LibMod.modid)
@@ -20,7 +21,10 @@ public class ScreamingSouls {
 	public static CommonProxy proxy;
 
 	@EventHandler
-	public void preInit(FMLPreInitializationEvent e) { proxy.preInit(); }
+	public void preInit(FMLPreInitializationEvent e) {
+		ConfigurationHandler.init(e.getSuggestedConfigurationFile());
+		proxy.preInit();
+	}
 	
 	@EventHandler
 	public void init(FMLInitializationEvent e) { proxy.init(); }
