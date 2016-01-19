@@ -9,7 +9,7 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.world.IWorldAccess;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.DimensionManager;
-import palaster97.ss.blocks.tile.TileEntityVoidAnchor;
+import palaster97.ss.blocks.tile.TileEntityModInventory;
 
 public class SSWorldManager implements IWorldAccess {
 
@@ -41,8 +41,8 @@ public class SSWorldManager implements IWorldAccess {
 			for(WorldServer ws : DimensionManager.getWorlds())
 				for(int i = 0; i < ws.loadedTileEntityList.size(); i++)
 					if(ws.loadedTileEntityList.get(i) != null && ws.loadedTileEntityList.get(i) instanceof TileEntity) {
-						if(ws.loadedTileEntityList.get(i) instanceof TileEntityVoidAnchor) {
-							TileEntityVoidAnchor va = (TileEntityVoidAnchor) ws.loadedTileEntityList.get(i);
+						if(ws.loadedTileEntityList.get(i) instanceof TileEntityModInventory && ((TileEntityModInventory) ws.loadedTileEntityList.get(i)).getName().equals("container.voidAnchor")) {
+							TileEntityModInventory va = (TileEntityModInventory) ws.loadedTileEntityList.get(i);
 							for(int j = 0; j < va.getSizeInventory(); j++)
 								if(va.getStackInSlot(j) == null) {
 									va.setInventorySlotContents(j, item.getEntityItem());

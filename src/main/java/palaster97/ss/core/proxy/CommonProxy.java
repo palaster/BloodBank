@@ -17,8 +17,8 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import palaster97.ss.ScreamingSouls;
 import palaster97.ss.blocks.SSBlocks;
+import palaster97.ss.blocks.tile.TileEntityModInventory;
 import palaster97.ss.blocks.tile.TileEntityPlayerManipulator;
-import palaster97.ss.blocks.tile.TileEntityVoidAnchor;
 import palaster97.ss.client.gui.*;
 import palaster97.ss.core.CreativeTabSS;
 import palaster97.ss.core.handlers.ConfigurationHandler;
@@ -65,8 +65,9 @@ public class CommonProxy implements IGuiHandler {
 		switch(ID) {
 			case 0: return new ContainerSoulCompressor(player.inventory, world, new BlockPos(x, y, z));
 			case 1: {
-				if(te != null && te instanceof TileEntityVoidAnchor)
-					return new ContainerVoidAnchor(player.inventory, (TileEntityVoidAnchor) te);
+				if(te != null && te instanceof TileEntityModInventory)
+					if(((TileEntityModInventory) te).getName().equals("container.voidAnchor"))
+						return new ContainerVoidAnchor(player.inventory, (TileEntityModInventory) te);
 			}
 			case 2: {
 				if(te != null && te instanceof TileEntityPlayerManipulator)
@@ -90,8 +91,9 @@ public class CommonProxy implements IGuiHandler {
 		switch(ID) {
 			case 0: return new GuiSoulCompressor(player.inventory, world, new BlockPos(x, y, z));
 			case 1: {
-				if(te != null && te instanceof TileEntityVoidAnchor)
-					return new GuiVoidAnchor(player.inventory, (TileEntityVoidAnchor) te);
+				if(te != null && te instanceof TileEntityModInventory)
+					if(((TileEntityModInventory) te).getName().equals("container.voidAnchor"))
+						return new GuiVoidAnchor(player.inventory, (TileEntityModInventory) te);
 			}
 			case 2: {
 				if(te != null && te instanceof TileEntityPlayerManipulator)

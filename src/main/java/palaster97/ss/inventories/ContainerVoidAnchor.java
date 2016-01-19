@@ -5,13 +5,13 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import palaster97.ss.blocks.tile.TileEntityVoidAnchor;
+import palaster97.ss.blocks.tile.TileEntityModInventory;
 
 public class ContainerVoidAnchor extends Container {
 	
-	private TileEntityVoidAnchor va;
+	private TileEntityModInventory va;
 	
-	public ContainerVoidAnchor(InventoryPlayer invPlayer, TileEntityVoidAnchor va) {
+	public ContainerVoidAnchor(InventoryPlayer invPlayer, TileEntityModInventory va) {
 		this.va = va;
 		
 		int temp = 0;
