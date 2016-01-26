@@ -11,8 +11,6 @@ public class ConfigurationHandler {
 
     public static Configuration config;
 
-    public static boolean compatBloodMagic = true;
-
     public static void init(File configFile) {
         if(config == null) {
             config = new Configuration(configFile);
@@ -27,7 +25,6 @@ public class ConfigurationHandler {
     }
 
     private static void loadConfiguration() {
-        compatBloodMagic = config.getBoolean("Compatibility Blood Magic", Configuration.CATEGORY_GENERAL, true, "Turns off own ways of getting blood");
         if(config.hasChanged())
             config.save();
     }

@@ -1,41 +1,21 @@
 package palaster97.ss.core.proxy;
 
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ItemMeshDefinition;
-import net.minecraft.client.renderer.block.statemap.StateMapperBase;
-import net.minecraft.client.resources.model.ModelBakery;
-import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.IThreadListener;
-import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import palaster97.ss.blocks.BlockMod;
 import palaster97.ss.blocks.SSBlocks;
 import palaster97.ss.entities.SSEntities;
-import palaster97.ss.items.*;
-import palaster97.ss.libs.LibMod;
+import palaster97.ss.items.ItemMod;
+import palaster97.ss.items.ItemSSResources;
+import palaster97.ss.items.ItemTrident;
+import palaster97.ss.items.SSItems;
 
 public class ClientProxy extends CommonProxy {
 	
 	@Override
-	public void preInit() {
-		super.preInit();
-		Item blood = Item.getItemFromBlock(SSBlocks.blockBlood);
-		ModelBakery.registerItemVariants(blood);
-		ModelLoader.setCustomMeshDefinition(blood, new ItemMeshDefinition() {
-			public ModelResourceLocation getModelLocation(ItemStack stack) {
-				return new ModelResourceLocation(LibMod.modid + ":blood");
-			}
-		});
-		ModelLoader.setCustomStateMapper(SSBlocks.blockBlood, new StateMapperBase() {
-			protected ModelResourceLocation getModelResourceLocation(IBlockState state) {
-				return new ModelResourceLocation(LibMod.modid + ":blood");
-			}
-		});
-	}
+	public void preInit() { super.preInit(); }
 
 	@Override
 	public void init() {
@@ -69,7 +49,6 @@ public class ClientProxy extends CommonProxy {
 		((ItemMod) SSItems.yinYang).setItemRender(SSItems.yinYang.getUnlocalizedName().substring(5));
 		for(int i = 0; i < ItemSSResources.names.length; i++)
  			((ItemSSResources) SSItems.ssResources).setItemRender(ItemSSResources.names[i], i);
-		((ItemSSBucket) SSItems.bucketBlood).setItemRender(SSItems.bucketBlood.getUnlocalizedName().substring(5));
 	}
 
 	@Override

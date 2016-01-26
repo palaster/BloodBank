@@ -4,7 +4,6 @@ import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.EnumHelper;
-import palaster97.ss.blocks.SSBlocks;
 import palaster97.ss.libs.LibMod;
 
 public class SSItems {
@@ -27,8 +26,7 @@ public class SSItems {
 	
 	public static Item debug,
 	yinYang,
-	ssResources,
-	bucketBlood;
+	ssResources;
 	
 	public static void init() {
 		playerBinder = new ItemPlayerBinder();
@@ -50,7 +48,6 @@ public class SSItems {
 		debug = new ItemDebug();
 		yinYang = new ItemYinYang();
 		ssResources = new ItemSSResources();
-		bucketBlood = new ItemSSBucket(SSBlocks.blockBlood);
 
 		ModelBakery.registerItemVariants(ssResources, new ResourceLocation(LibMod.modid + ":vHeart"), new ResourceLocation(LibMod.modid + ":test"));
 	}

@@ -15,7 +15,6 @@ tile.playerManipulator.name=Player Manipulator
 tile.worldManipulator.name=World Manipulator
 tile.void.name=Touch of Void
 tile.voidAnchor.name=Void Anchor
-tile.blood.name=Blood
 
 item.playerBinder.name=Player Binder
 item.worldBinder.name=World Binder
@@ -37,7 +36,6 @@ item.debug.name=Debug
 item.yinYang.name=Yin Yang
 item.ssResources.vHeart.name=Villager Heart
 item.ssResources.test.name=Test
-item.ssBucket.blood.name=Bucket of Blood
 
 ss.misc.activated=Activated
 ss.misc.broken=BROKEN (Normal Fix is a simple right-click)
