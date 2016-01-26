@@ -32,6 +32,6 @@ public class GuiSoulCompressor extends GuiContainer {
     protected void drawGuiContainerBackgroundLayer(float p_146976_1_, int p_146976_2_, int p_146976_3_) {
     	GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
         mc.getTextureManager().bindTexture(LibResource.soulCompressor);
-        drawTexturedModalRect(guiLeft, guiTop, 0, 0,xSize, ySize);
+        drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
     }
 }

@@ -12,7 +12,10 @@ public abstract class TileEntityModInventory extends TileEntity implements IInve
 	
 	private ItemStack[] items;
 	
-	public TileEntityModInventory(int length) { items = new ItemStack[length]; }
+	public TileEntityModInventory(int length) {
+		super();
+		items = new ItemStack[length];
+	}
 
 	@Override
 	public boolean hasCustomName() { return false; }
