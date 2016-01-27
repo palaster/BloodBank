@@ -49,6 +49,6 @@ public class SSItems {
 		yinYang = new ItemYinYang();
 		ssResources = new ItemSSResources();
 
-		ModelBakery.registerItemVariants(ssResources, new ResourceLocation(LibMod.modid + ":vHeart"), new ResourceLocation(LibMod.modid + ":test"));
+		ModelBakery.registerItemVariants(ssResources, new ResourceLocation(LibMod.modid + ":bankContract"), new ResourceLocation(LibMod.modid + ":bankID"));
 	}
 }

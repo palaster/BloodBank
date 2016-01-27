@@ -9,6 +9,7 @@ container.soulCompressor=Soul Compressor
 entity.ss.skeletonMinion.name=Skeleton Minion
 entity.ss.yinYang.name=Yin Yang
 entity.ss.beaver.name=Beaver
+entity.ss.demonicBankTeller.name=Demonic Bank Teller
 
 tile.soulCompressor.name=Soul Compressor
 tile.playerManipulator.name=Player Manipulator
@@ -34,8 +35,8 @@ item.bloodPact.name=Blood Pact
 
 item.debug.name=Debug
 item.yinYang.name=Yin Yang
-item.ssResources.vHeart.name=Villager Heart
-item.ssResources.test.name=Test
+item.ssResources.bankContract.name=Bank Contract
+item.ssResources.bankID.name=Bank ID
 
 ss.misc.activated=Activated
 ss.misc.broken=BROKEN (Normal Fix is a simple right-click)

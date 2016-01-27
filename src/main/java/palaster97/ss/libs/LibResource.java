@@ -16,4 +16,5 @@ public class LibResource {
 	public static final ResourceLocation ssHUD = new ResourceLocation(LibMod.modid, gui + "ssHUD.png");
 
 	public static final ResourceLocation beaver = new ResourceLocation(LibMod.modid, models + "beaver.png");
+	public static final ResourceLocation bankTeller = new ResourceLocation(LibMod.modid, models + "demonicBankTeller.png");
 }

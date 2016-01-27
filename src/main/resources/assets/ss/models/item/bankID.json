@@ -1,6 +1,6 @@
 {
   "parent": "ss:item/ssStandard",
   "textures": {
-    "layer0": "ss:items/vHeart"
+    "layer0": "ss:items/bankID"
   }
 }

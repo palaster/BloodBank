@@ -14,7 +14,7 @@ public class SSEntities {
 		EntityRegistry.registerModEntity(EntitySkeletonMinion.class, "skeletonMinion", 0, ScreamingSouls.instance, 80, 3, true);
 		EntityRegistry.registerModEntity(EntityYinYang.class, "yinYang", 1, ScreamingSouls.instance, 64, 10, true);
 		EntityRegistry.registerModEntity(EntityBeaver.class, "beaver", 2, ScreamingSouls.instance, 80, 3, true, 0x8A0707, 0x663300);
-		EntityRegistry.registerModEntity(EntityDemonicBankTeller.class, "demonicBankTeller", 3, ScreamingSouls.instance, 80, 3, true);
+		EntityRegistry.registerModEntity(EntityDemonicBankTeller.class, "demonicBankTeller", 3, ScreamingSouls.instance, 80, 3, true, 0x8A0707, 0x663300);
 	}
 
 	public static void registerEntityRenderers() {
