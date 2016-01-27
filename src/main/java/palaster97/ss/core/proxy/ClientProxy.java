@@ -15,13 +15,14 @@ import palaster97.ss.items.SSItems;
 public class ClientProxy extends CommonProxy {
 	
 	@Override
-	public void preInit() { super.preInit(); }
+	public void preInit() {
+		super.preInit();
+		SSEntities.registerEntityRenderers();
+	}
 
 	@Override
 	public void init() {
 		super.init();
-		SSEntities.registerEntityRenderers();
-
 		// Blocks
 		((BlockMod) SSBlocks.soulCompressor).setBlockRender(SSBlocks.soulCompressor.getUnlocalizedName().substring(5));
 		((BlockMod) SSBlocks.playerManipulator).setBlockRender(SSBlocks.playerManipulator.getUnlocalizedName().substring(5));

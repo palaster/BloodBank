@@ -20,6 +20,7 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.DimensionManager;
+import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
@@ -30,10 +31,13 @@ import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.WorldEvent;
+import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.InputEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.lwjgl.input.Mouse;
 import palaster97.ss.ScreamingSouls;
 import palaster97.ss.blocks.BlockWorldManipulator;
 import palaster97.ss.blocks.tile.TileEntityWorldManipulator;
@@ -41,11 +45,35 @@ import palaster97.ss.core.helpers.SSItemStackHelper;
 import palaster97.ss.entities.extended.SSExtendedPlayer;
 import palaster97.ss.entities.knowledge.SSKnowledge;
 import palaster97.ss.items.*;
+import palaster97.ss.libs.LibMod;
 import palaster97.ss.network.PacketHandler;
 import palaster97.ss.network.client.SyncPlayerPropsMessage;
+import palaster97.ss.network.server.MiddleClickMessage;
 import palaster97.ss.world.SSWorldManager;
 
+import java.io.File;
+
 public class SSEventHandler {
+
+	public static Configuration config;
+
+	public static void init(File configFile) {
+		if(config == null) {
+			config = new Configuration(configFile);
+			loadConfiguration();
+		}
+	}
+
+	@SubscribeEvent
+	public void onConfigurationChangeEvent(ConfigChangedEvent.OnConfigChangedEvent e) {
+		if(e.modID.equalsIgnoreCase(LibMod.modid))
+			loadConfiguration();
+	}
+
+	private static void loadConfiguration() {
+		if(config.hasChanged())
+			config.save();
+	}
 	
 	@SubscribeEvent
 	public void onEntityConstructing(EntityConstructing e) {
@@ -171,6 +199,14 @@ public class SSEventHandler {
 							wm.getStackInSlot(0).getTagCompound().setBoolean("IsSet", false);
 					}
 				}
+	}
+
+	@SideOnly(Side.CLIENT)
+	@SubscribeEvent
+	public void onMouseInput(InputEvent.MouseInputEvent e) {
+		if(Minecraft.getMinecraft().inGameHasFocus)
+			if(Mouse.isButtonDown(2))
+				PacketHandler.sendToServer(new MiddleClickMessage());
 	}
 
 	@SideOnly(Side.CLIENT)

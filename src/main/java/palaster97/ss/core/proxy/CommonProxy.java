@@ -11,7 +11,6 @@ import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ChestGenHooks;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -21,9 +20,7 @@ import palaster97.ss.blocks.tile.TileEntityModInventory;
 import palaster97.ss.blocks.tile.TileEntityPlayerManipulator;
 import palaster97.ss.client.gui.*;
 import palaster97.ss.core.CreativeTabSS;
-import palaster97.ss.core.handlers.ConfigurationHandler;
 import palaster97.ss.core.handlers.SSEventHandler;
-import palaster97.ss.core.handlers.SSFMLEventHandler;
 import palaster97.ss.entities.SSEntities;
 import palaster97.ss.inventories.*;
 import palaster97.ss.items.SSItems;
@@ -46,8 +43,6 @@ public class CommonProxy implements IGuiHandler {
 	
 	public void init() {
 		ChestGenHooks.addItem(ChestGenHooks.VILLAGE_BLACKSMITH, new WeightedRandomChestContent(new ItemStack(SSItems.hephaestusHammer), 1, 1, 7));
-		FMLCommonHandler.instance().bus().register(new SSFMLEventHandler());
-		FMLCommonHandler.instance().bus().register(new ConfigurationHandler());
 		MinecraftForge.EVENT_BUS.register(new SSEventHandler());
 		NetworkRegistry.INSTANCE.registerGuiHandler(ScreamingSouls.instance, this);
 		death = new SSPotion(new ResourceLocation("death"), true, 0x000000);

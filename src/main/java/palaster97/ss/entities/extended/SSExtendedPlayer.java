@@ -26,7 +26,7 @@ public class SSExtendedPlayer implements IExtendedEntityProperties {
 	
 	public SSExtendedPlayer(EntityPlayer player) {
 		this.player = player;
-		this.bloodMax = 2000;
+		this.bloodMax = 0;
 		this.player.getDataWatcher().addObject(LibDataWatcher.blood_network, 0);
 	}
 	

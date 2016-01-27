@@ -7,7 +7,7 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import palaster97.ss.core.handlers.ConfigurationHandler;
+import palaster97.ss.core.handlers.SSEventHandler;
 import palaster97.ss.core.proxy.CommonProxy;
 import palaster97.ss.libs.LibMod;
 
@@ -22,7 +22,7 @@ public class ScreamingSouls {
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent e) {
-		ConfigurationHandler.init(e.getSuggestedConfigurationFile());
+		SSEventHandler.init(e.getSuggestedConfigurationFile());
 		proxy.preInit();
 	}
 	
