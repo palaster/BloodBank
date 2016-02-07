@@ -23,8 +23,8 @@ ext.configFile = file('build.properties')
 ext.config = parseConfig(configFile)
 
 version = "${config.version}"
-group= "palaster97.ss"
-archivesBaseName = "Screaming Souls"
+group= "palaster.bb"
+archivesBaseName = "Blood Bank"
 
 minecraft {
     version = "${config.mc_version}-${config.forge_version}"

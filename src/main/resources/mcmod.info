@@ -1,13 +1,13 @@
 [
 {
-  "modid": "ss",
-  "name": "Screaming Souls",
-  "description": "Creating magic using the souls of everything around you to become the strongest mage every.",
+  "modid": "bb",
+  "name": "Blood Bank",
+  "description": "Getting a loan of power from a demonic bank that charges interest.",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",
-  "authorList": ["Palaster97"],
+  "authorList": ["Palaster"],
   "credits": "",
   "logoFile": "",
   "screenshots": [],

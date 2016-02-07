@@ -1,0 +1,71 @@
+itemGroup.tabBB=Blood Bank
+
+death.attack.bbBlood=%1$s died of anemia.
+
+key.bb.label=Screaming Souls
+
+container.soulCompressor=Soul Compressor
+
+entity.bb.skeletonMinion.name=Skeleton Minion
+entity.bb.yinYang.name=Yin Yang
+entity.bb.beaver.name=Beaver
+entity.bb.demonicBankTeller.name=Demonic Bank Teller
+
+tile.soulCompressor.name=Soul Compressor
+tile.playerManipulator.name=Player Manipulator
+tile.worldManipulator.name=World Manipulator
+tile.void.name=Touch of Void
+tile.voidAnchor.name=Void Anchor
+
+item.playerBinder.name=Player Binder
+item.worldBinder.name=World Binder
+item.staffSkeleton.name=Skeleton Staff
+item.staffEfreet.name=Efreet Staff
+item.staffTime.name=Staff of Time
+item.staffVoidWalker.name=Staff of Void Walker
+item.staffHungryShadows.name=Staff of Hungry Shadows
+item.animalHerder.name=Animal Herder
+item.magicDuctTape.name=Magic Duct Tape
+item.tapeHeart.name=Tape Heart
+item.hephaestusHammer.name=Hephaestus Hammer
+item.trident.name=Trident of Poseidon
+item.athame.name=Athame
+item.bookBlood.name=Bloody Book
+item.bloodPact.name=Blood Pact
+
+item.debug.name=Debug
+item.yinYang.name=Yin Yang
+item.ssResources.bankContract.name=Bank Contract
+item.ssResources.bankID.name=Bank ID
+
+bb.misc.activated=Activated
+bb.misc.broken=BROKEN (Normal Fix is a simple right-click)
+bb.misc.start=Start
+bb.misc.uuid=UUID
+bb.misc.level=Level
+bb.misc.brokenPlayer=Player is either offline or broken UUID
+bb.misc.pos=Position
+bb.misc.dimensionID=Dimension ID
+bb.misc.player=Player
+bb.misc.tapeHeart=Tape Heart
+bb.misc.reuse=Reuse Timer
+bb.misc.alreadyLinked=Can't link to more than one entity.
+
+bb.psm.home=Home
+bb.psm.potions=Potions
+bb.psm.hotswap=Hot Swap
+
+bb.staff.active=Active Power
+bb.staff.time.0=Time
+bb.staff.skeleton.0=Skeleton
+bb.staff.skeleton.1=Wither Skeleton
+bb.staff.efreet.0=Efreet
+bb.staff.voidWalker.0=Void Walker
+bb.staff.hs.0=Ray of Enfeeblement
+bb.staff.hs.1=Vampiric Touch
+bb.staff.hs.2=Enervation
+
+bb.knowledgePiece=Knowledge Piece
+bb.kp.active=Active Spell
+bb.kp.boilingBlood=Boiling Blood
+bb.kp.bloodLink=Blood Link
