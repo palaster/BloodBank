@@ -41,9 +41,7 @@ public class ItemSSResources extends Item {
                 if(BBExtendedPlayer.get(playerIn) != null && BBExtendedPlayer.get(playerIn).getBloodMax() <= 0) {
                     BBExtendedPlayer.get(playerIn).setBloodMax(2000);
                     BBPlayerHelper.sendChatMessageToPlayer(playerIn, "Welcome to the First National Bank of Blood, you start out with a max balance of 2000. Use this bank ID card to keep in contact.");
-                    EntityItem itemEntity = new EntityItem(worldIn, playerIn.posX, playerIn.posY + .5, playerIn.posZ, new ItemStack(this, 1, 1));
-                    worldIn.spawnEntityInWorld(itemEntity);
-                    return null;
+                    return new ItemStack(this, 1, 1);
                 }
         return itemStackIn;
     }

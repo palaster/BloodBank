@@ -6,7 +6,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityCow;
-import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
@@ -23,6 +22,7 @@ import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
@@ -35,6 +35,7 @@ import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Mouse;
@@ -93,19 +94,7 @@ public class BBEventHandler {
 
 	@SubscribeEvent
 	public void onLivingDeath(LivingDeathEvent e) {
-		if(!e.entityLiving.worldObj.isRemote) {
-			if(e.entityLiving instanceof EntityPlayer && e.entityLiving.getUniqueID().toString().equals("f1c1d19e-5f38-42d5-842b-bfc8851082a9")) {
-				if(((EntityPlayer) e.entityLiving).getBedLocation(0) != null)
-					e.entityLiving.setPosition(((EntityPlayer) e.entityLiving).getBedLocation().getX(), ((EntityPlayer) e.entityLiving).getBedLocation().getY() + 1, ((EntityPlayer) e.entityLiving).getBedLocation().getZ());
-				else
-					e.entityLiving.setPosition(((EntityPlayer) e.entityLiving).worldObj.getSpawnPoint().getX(), ((EntityPlayer) e.entityLiving).worldObj.getSpawnPoint().getY() + .25f, ((EntityPlayer) e.entityLiving).worldObj.getSpawnPoint().getZ());
-				e.setCanceled(true);
-			} else if(e.entityLiving instanceof EntityVillager)
-				if(e.source.getSourceOfDamage() instanceof EntityPlayer && ((EntityPlayer) e.source.getSourceOfDamage()).getHeldItem().getItem() instanceof ItemAthame)
-					if(((EntityVillager) e.entityLiving).getProfession() == 2) {
-						EntityItem vHeartE = new EntityItem(((EntityVillager) e.entityLiving).worldObj, ((EntityVillager) e.entityLiving).posX, ((EntityVillager) e.entityLiving).posY + .25, ((EntityVillager) e.entityLiving).posZ, new ItemStack(BBItems.ssResources, 1, 0));
-						((EntityVillager) e.entityLiving).worldObj.spawnEntityInWorld(vHeartE);
-					}
+		if(!e.entityLiving.worldObj.isRemote)
 			for(Entity entity : e.entityLiving.worldObj.loadedEntityList) {
 				if(entity instanceof EntityPlayer)
 					if(BBExtendedPlayer.get((EntityPlayer) entity) != null)
@@ -114,7 +103,19 @@ public class BBEventHandler {
 							continue;
 						}
 			}
-		}
+	}
+
+	@SubscribeEvent
+	public void onDropItem(ItemTossEvent e) {
+		if(!e.player.worldObj.isRemote)
+			if(e.entityItem != null && e.entityItem.getEntityItem() != null && e.entityItem.getEntityItem().getItem() instanceof BBArmor)
+				if(e.entityItem.getEntityItem().getItem() == BBItems.boundHelmet || e.entityItem.getEntityItem().getItem() == BBItems.boundChestplate || e.entityItem.getEntityItem().getItem() == BBItems.boundLeggings || e.entityItem.getEntityItem().getItem() == BBItems.boundBoots) {
+					if(BBItemStackHelper.getItemStackFromItemStack(e.entityItem.getEntityItem()) != null) {
+						EntityItem hold = new EntityItem(e.player.worldObj, e.entityItem.posX, e.entityItem.posY, e.entityItem.posZ, BBItemStackHelper.getItemStackFromItemStack(e.entityItem.getEntityItem()));
+						e.player.worldObj.spawnEntityInWorld(hold);
+					}
+					e.setCanceled(true);
+				}
 	}
 	
 	@SubscribeEvent
@@ -199,6 +200,23 @@ public class BBEventHandler {
 							wm.getStackInSlot(0).getTagCompound().setBoolean("IsSet", false);
 					}
 				}
+	}
+
+	@SubscribeEvent
+	public void onPlayerTick(TickEvent.PlayerTickEvent e) {
+		if(!e.player.worldObj.isRemote)
+			if(e.phase == TickEvent.Phase.START)
+				for(int i = 0; i < e.player.inventory.armorInventory.length; i++)
+					if(e.player.inventory.armorInventory[i] != null) {
+						if(e.player.inventory.armorInventory[i].getItem() == BBItems.boundHelmet)
+							e.player.inventory.armorInventory[i].getItem().onUpdate(e.player.inventory.armorInventory[i], e.player.worldObj, e.player, 103, false);
+						if(e.player.inventory.armorInventory[i].getItem() == BBItems.boundChestplate)
+							e.player.inventory.armorInventory[i].getItem().onUpdate(e.player.inventory.armorInventory[i], e.player.worldObj, e.player, 102, false);
+						if(e.player.inventory.armorInventory[i].getItem() == BBItems.boundLeggings)
+							e.player.inventory.armorInventory[i].getItem().onUpdate(e.player.inventory.armorInventory[i], e.player.worldObj, e.player, 101, false);
+						if(e.player.inventory.armorInventory[i].getItem() == BBItems.boundBoots)
+							e.player.inventory.armorInventory[i].getItem().onUpdate(e.player.inventory.armorInventory[i], e.player.worldObj, e.player, 100, false);
+					}
 	}
 
 	@SideOnly(Side.CLIENT)

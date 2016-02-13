@@ -7,9 +7,9 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import palaster.bb.items.BBItems;
 import palaster.bb.core.helpers.BBPlayerHelper;
 import palaster.bb.entities.extended.BBExtendedPlayer;
+import palaster.bb.items.BBItems;
 
 public class EntityDemonicBankTeller extends EntityLiving {
 

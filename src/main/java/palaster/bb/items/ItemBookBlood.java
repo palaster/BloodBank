@@ -37,20 +37,19 @@ public class ItemBookBlood extends ItemModSpecial {
 
     @Override
     public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
-        if(!worldIn.isRemote)
-            if(itemStackIn.getTagCompound() != null) {
-                if(playerIn.isSneaking()) {
-                    int temp = itemStackIn.getTagCompound().getInteger("Knowledge Piece");
-                    if(temp++ < BBKnowledge.getKnowledgeSize() - 1)
-                        itemStackIn.getTagCompound().setInteger("Knowledge Piece", temp++);
-                    else if(temp++ >= BBKnowledge.getKnowledgeSize())
-                        itemStackIn.getTagCompound().setInteger("Knowledge Piece", 0);
-                } else if(itemStackIn.getTagCompound().getInteger("Knowledge Piece") >= 0)
-                    BBKnowledge.getKnowledgePiece(itemStackIn.getTagCompound().getInteger("Knowledge Piece")).onBookRightClick(itemStackIn, worldIn, playerIn);
-            } else {
-                itemStackIn.setTagCompound(new NBTTagCompound());
-                itemStackIn.getTagCompound().setInteger("Knowledge Piece", 0);
-            }
+        if(itemStackIn.getTagCompound() != null) {
+            if(playerIn.isSneaking()) {
+                int temp = itemStackIn.getTagCompound().getInteger("Knowledge Piece");
+                if(temp++ < BBKnowledge.getKnowledgeSize() - 1)
+                    itemStackIn.getTagCompound().setInteger("Knowledge Piece", temp++);
+                else if(temp++ >= BBKnowledge.getKnowledgeSize())
+                    itemStackIn.getTagCompound().setInteger("Knowledge Piece", 0);
+            } else if(itemStackIn.getTagCompound().getInteger("Knowledge Piece") >= 0)
+                BBKnowledge.getKnowledgePiece(itemStackIn.getTagCompound().getInteger("Knowledge Piece")).onBookRightClick(itemStackIn, worldIn, playerIn);
+        } else {
+            itemStackIn.setTagCompound(new NBTTagCompound());
+            itemStackIn.getTagCompound().setInteger("Knowledge Piece", 0);
+        }
         return itemStackIn;
     }
 
@@ -67,6 +66,6 @@ public class ItemBookBlood extends ItemModSpecial {
         if(!playerIn.worldObj.isRemote)
             if(stack.getTagCompound() != null && stack.getTagCompound().getInteger("Knowledge Piece") >= 0)
                 BBKnowledge.getKnowledgePiece(stack.getTagCompound().getInteger("Knowledge Piece")).onBookInteract(stack, playerIn, target);
-        return true;
+        return false;
     }
 }

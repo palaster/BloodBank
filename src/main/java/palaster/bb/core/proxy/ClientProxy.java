@@ -4,13 +4,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.IThreadListener;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import palaster.bb.blocks.BlockMod;
 import palaster.bb.blocks.BBBlocks;
+import palaster.bb.blocks.BlockMod;
 import palaster.bb.entities.BBEntities;
-import palaster.bb.items.BBItems;
-import palaster.bb.items.ItemMod;
-import palaster.bb.items.ItemSSResources;
-import palaster.bb.items.ItemTrident;
+import palaster.bb.items.*;
 
 public class ClientProxy extends CommonProxy {
 	
@@ -45,9 +42,15 @@ public class ClientProxy extends CommonProxy {
 		((ItemTrident) BBItems.trident).setItemRender(BBItems.trident.getUnlocalizedName().substring(5));
 		((ItemMod) BBItems.athame).setItemRender(BBItems.athame.getUnlocalizedName().substring(5));
 		((ItemMod) BBItems.bloodBook).setItemRender(BBItems.bloodBook.getUnlocalizedName().substring(5));
-		((ItemMod) BBItems.bloodPact).setItemRender(BBItems.bloodPact.getUnlocalizedName().substring(5));
 		((ItemMod) BBItems.debug).setItemRender(BBItems.debug.getUnlocalizedName().substring(5));
 		((ItemMod) BBItems.yinYang).setItemRender(BBItems.yinYang.getUnlocalizedName().substring(5));
+
+		// Armor
+		((BBArmor) BBItems.boundHelmet).setItemRender(BBItems.boundHelmet.getUnlocalizedName().substring(5));
+		((BBArmor) BBItems.boundChestplate).setItemRender(BBItems.boundChestplate.getUnlocalizedName().substring(5));
+		((BBArmor) BBItems.boundLeggings).setItemRender(BBItems.boundLeggings.getUnlocalizedName().substring(5));
+		((BBArmor) BBItems.boundBoots).setItemRender(BBItems.boundBoots.getUnlocalizedName().substring(5));
+
 		for(int i = 0; i < ItemSSResources.names.length; i++)
  			((ItemSSResources) BBItems.ssResources).setItemRender(ItemSSResources.names[i], i);
 	}

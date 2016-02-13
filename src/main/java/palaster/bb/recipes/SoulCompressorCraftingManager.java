@@ -43,8 +43,6 @@ public class SoulCompressorCraftingManager {
 
         addRecipe(new ItemStack(BBItems.bloodBook), "xxx", "xyx", "xxx", 'x', Items.paper, 'y', BBItems.athame);
 
-        addShapelessRecipe(new ItemStack(BBItems.bloodPact), Items.paper);
-
     	func_180302_a(new TapeHeartRecipe());
     	RecipeSorter.register("bb:tapeHeart", TapeHeartRecipe.class, Category.SHAPELESS, "");
     	

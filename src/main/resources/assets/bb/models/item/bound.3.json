@@ -1,6 +1,6 @@
 {
   "parent": "bb:item/bbStandard",
   "textures": {
-    "layer0": "bb:items/bloodPact"
+    "layer0": "bb:items/boundBoots"
   }
 }

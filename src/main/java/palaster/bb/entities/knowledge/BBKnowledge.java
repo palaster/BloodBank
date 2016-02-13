@@ -2,6 +2,7 @@ package palaster.bb.entities.knowledge;
 
 import palaster.bb.entities.knowledge.pieces.KPBloodLink;
 import palaster.bb.entities.knowledge.pieces.KPBoilingBlood;
+import palaster.bb.entities.knowledge.pieces.KPBoundArmor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,5 +40,6 @@ public class BBKnowledge {
     static {
         new KPBoilingBlood();
         new KPBloodLink();
+        new KPBoundArmor();
     }
 }

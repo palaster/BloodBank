@@ -8,7 +8,6 @@ container.soulCompressor=Soul Compressor
 
 entity.bb.skeletonMinion.name=Skeleton Minion
 entity.bb.yinYang.name=Yin Yang
-entity.bb.beaver.name=Beaver
 entity.bb.demonicBankTeller.name=Demonic Bank Teller
 
 tile.soulCompressor.name=Soul Compressor
@@ -31,7 +30,11 @@ item.hephaestusHammer.name=Hephaestus Hammer
 item.trident.name=Trident of Poseidon
 item.athame.name=Athame
 item.bookBlood.name=Bloody Book
-item.bloodPact.name=Blood Pact
+
+item.bound.0.name=Bound Helmet
+item.bound.1.name=Bound Chestplate
+item.bound.2.name=Bound Leggings
+item.bound.3.name=Bound Boots
 
 item.debug.name=Debug
 item.yinYang.name=Yin Yang
@@ -69,3 +72,4 @@ bb.knowledgePiece=Knowledge Piece
 bb.kp.active=Active Spell
 bb.kp.boilingBlood=Boiling Blood
 bb.kp.bloodLink=Blood Link
+bb.kp.boundArmor=Bound Armor
