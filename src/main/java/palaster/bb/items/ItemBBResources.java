@@ -21,17 +21,17 @@ import palaster.bb.core.helpers.BBPlayerHelper;
 
 import java.util.List;
 
-public class ItemSSResources extends Item {
+public class ItemBBResources extends Item {
 
     public static String[] names = new String[]{"bankContract", "bankID"};
 
-    public ItemSSResources() {
+    public ItemBBResources() {
         super();
         setCreativeTab(CreativeTabBB.tabSS);
         setHasSubtypes(true);
         setMaxDamage(0);
         setMaxStackSize(1);
-        setUnlocalizedName("ssResources");
+        setUnlocalizedName("bbResources");
     }
 
     @Override

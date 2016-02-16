@@ -104,19 +104,6 @@ public class BBEventHandler {
 						}
 			}
 	}
-
-	@SubscribeEvent
-	public void onDropItem(ItemTossEvent e) {
-		if(!e.player.worldObj.isRemote)
-			if(e.entityItem != null && e.entityItem.getEntityItem() != null && e.entityItem.getEntityItem().getItem() instanceof BBArmor)
-				if(e.entityItem.getEntityItem().getItem() == BBItems.boundHelmet || e.entityItem.getEntityItem().getItem() == BBItems.boundChestplate || e.entityItem.getEntityItem().getItem() == BBItems.boundLeggings || e.entityItem.getEntityItem().getItem() == BBItems.boundBoots) {
-					if(BBItemStackHelper.getItemStackFromItemStack(e.entityItem.getEntityItem()) != null) {
-						EntityItem hold = new EntityItem(e.player.worldObj, e.entityItem.posX, e.entityItem.posY, e.entityItem.posZ, BBItemStackHelper.getItemStackFromItemStack(e.entityItem.getEntityItem()));
-						e.player.worldObj.spawnEntityInWorld(hold);
-					}
-					e.setCanceled(true);
-				}
-	}
 	
 	@SubscribeEvent
 	public void onLivingAttack(LivingAttackEvent e) {

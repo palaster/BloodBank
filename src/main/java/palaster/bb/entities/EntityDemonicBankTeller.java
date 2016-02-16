@@ -30,7 +30,7 @@ public class EntityDemonicBankTeller extends EntityLiving {
         if(!worldObj.isRemote)
             if(player.isSneaking()) {
                 setDead();
-                EntityItem bankID = new EntityItem(worldObj, player.posX, player.posY, player.posZ, new ItemStack(BBItems.ssResources, 1, 1));
+                EntityItem bankID = new EntityItem(worldObj, player.posX, player.posY, player.posZ, new ItemStack(BBItems.bbResources, 1, 1));
                 worldObj.spawnEntityInWorld(bankID);
             } else if(BBExtendedPlayer.get(player) != null) {
                 if(BBExtendedPlayer.get(player).getBloodMax() <= 0)

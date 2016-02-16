@@ -3,6 +3,7 @@ package palaster.bb.items;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
@@ -37,6 +38,16 @@ public class BBArmor extends ItemArmor {
     public Item setUnlocalizedName(String unlocalizedName) {
         GameRegistry.registerItem(this, unlocalizedName);
         return super.setUnlocalizedName(unlocalizedName);
+    }
+
+    @Override
+    public Entity createEntity(World world, Entity location, ItemStack itemstack) {
+        if(!world.isRemote)
+            if(itemstack != null && itemstack.getItem() instanceof BBArmor)
+                if(itemstack.getItem() == BBItems.boundHelmet || itemstack.getItem() == BBItems.boundChestplate || itemstack.getItem() == BBItems.boundLeggings || itemstack.getItem() == BBItems.boundBoots)
+                    if(BBItemStackHelper.getItemStackFromItemStack(itemstack) != null)
+                        return new EntityItem(world, location.posX, location.posY, location.posZ, BBItemStackHelper.getItemStackFromItemStack(itemstack));
+        return null;
     }
 
     @Override

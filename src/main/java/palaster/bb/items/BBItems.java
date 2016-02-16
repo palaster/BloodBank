@@ -34,7 +34,7 @@ public class BBItems {
 	
 	public static Item debug,
 	yinYang,
-	ssResources;
+	bbResources;
 	
 	public static void init() {
 		playerBinder = new ItemPlayerBinder();
@@ -59,8 +59,8 @@ public class BBItems {
 		
 		debug = new ItemDebug();
 		yinYang = new ItemYinYang();
-		ssResources = new ItemSSResources();
+		bbResources = new ItemBBResources();
 
-		ModelBakery.registerItemVariants(ssResources, new ResourceLocation(LibMod.modid + ":bankContract"), new ResourceLocation(LibMod.modid + ":bankID"));
+		ModelBakery.registerItemVariants(bbResources, new ResourceLocation(LibMod.modid + ":bankContract"), new ResourceLocation(LibMod.modid + ":bankID"));
 	}
 }

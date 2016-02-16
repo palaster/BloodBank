@@ -51,8 +51,8 @@ public class ClientProxy extends CommonProxy {
 		((BBArmor) BBItems.boundLeggings).setItemRender(BBItems.boundLeggings.getUnlocalizedName().substring(5));
 		((BBArmor) BBItems.boundBoots).setItemRender(BBItems.boundBoots.getUnlocalizedName().substring(5));
 
-		for(int i = 0; i < ItemSSResources.names.length; i++)
- 			((ItemSSResources) BBItems.ssResources).setItemRender(ItemSSResources.names[i], i);
+		for(int i = 0; i < ItemBBResources.names.length; i++)
+ 			((ItemBBResources) BBItems.bbResources).setItemRender(ItemBBResources.names[i], i);
 	}
 
 	@Override
