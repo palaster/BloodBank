@@ -38,8 +38,8 @@ item.bound.3.name=Bound Boots
 
 item.debug.name=Debug
 item.yinYang.name=Yin Yang
-item.ssResources.bankContract.name=Bank Contract
-item.ssResources.bankID.name=Bank ID
+item.bbResources.bankContract.name=Bank Contract
+item.bbResources.bankID.name=Bank ID
 
 bb.misc.activated=Activated
 bb.misc.broken=BROKEN (Normal Fix is a simple right-click)

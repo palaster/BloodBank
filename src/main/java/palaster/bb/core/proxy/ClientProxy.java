@@ -42,6 +42,7 @@ public class ClientProxy extends CommonProxy {
 		((ItemTrident) BBItems.trident).setItemRender(BBItems.trident.getUnlocalizedName().substring(5));
 		((ItemMod) BBItems.athame).setItemRender(BBItems.athame.getUnlocalizedName().substring(5));
 		((ItemMod) BBItems.bloodBook).setItemRender(BBItems.bloodBook.getUnlocalizedName().substring(5));
+
 		((ItemMod) BBItems.debug).setItemRender(BBItems.debug.getUnlocalizedName().substring(5));
 		((ItemMod) BBItems.yinYang).setItemRender(BBItems.yinYang.getUnlocalizedName().substring(5));
 
