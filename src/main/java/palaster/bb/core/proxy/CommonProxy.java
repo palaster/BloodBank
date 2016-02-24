@@ -24,6 +24,7 @@ import palaster.bb.core.handlers.BBEventHandler;
 import palaster.bb.entities.BBEntities;
 import palaster.bb.inventories.*;
 import palaster.bb.items.BBItems;
+import palaster.bb.items.ItemLetter;
 import palaster.bb.network.PacketHandler;
 import palaster.bb.potions.BBPotion;
 import palaster.bb.recipes.BBRecipes;
@@ -58,7 +59,6 @@ public class CommonProxy implements IGuiHandler {
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		TileEntity te = world.getTileEntity(new BlockPos(x, y, z));
 		switch(ID) {
-			case 0: return new ContainerSoulCompressor(player.inventory, world, new BlockPos(x, y, z));
 			case 1: {
 				if(te != null && te instanceof TileEntityModInventory)
 					if(((TileEntityModInventory) te).getName().equals("container.voidAnchor"))
@@ -67,6 +67,10 @@ public class CommonProxy implements IGuiHandler {
 			case 2: {
 				if(te != null && te instanceof TileEntityPlayerManipulator)
 					return new ContainerPlayerSoulManipulator(player.inventory, (TileEntityPlayerManipulator) te);
+			}
+			case 3: {
+				if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ItemLetter)
+					return new ContainerLetter(player.inventory, new InventoryModLetter(player.getHeldItem()));
 			}
 			case 4: {
 				if(te != null && te instanceof TileEntityPlayerManipulator)
@@ -84,7 +88,6 @@ public class CommonProxy implements IGuiHandler {
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		TileEntity te = world.getTileEntity(new BlockPos(x, y, z));
 		switch(ID) {
-			case 0: return new GuiSoulCompressor(player.inventory, world, new BlockPos(x, y, z));
 			case 1: {
 				if(te != null && te instanceof TileEntityModInventory)
 					if(((TileEntityModInventory) te).getName().equals("container.voidAnchor"))
@@ -93,6 +96,10 @@ public class CommonProxy implements IGuiHandler {
 			case 2: {
 				if(te != null && te instanceof TileEntityPlayerManipulator)
 					return new GuiPlayerManipulator(player.inventory, (TileEntityPlayerManipulator) te);
+			}
+			case 3: {
+				if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ItemLetter)
+					return new GuiLetter(player.inventory, new InventoryModLetter(player.getHeldItem()));
 			}
 			case 4: {
 				if(te != null && te instanceof TileEntityPlayerManipulator)

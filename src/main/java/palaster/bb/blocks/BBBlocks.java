@@ -11,15 +11,13 @@ import palaster.bb.blocks.tile.TileEntityWorldManipulator;
 
 public class BBBlocks {
 	
-	public static Block soulCompressor,
-	playerManipulator,
+	public static Block playerManipulator,
 	worldManipulator,
 	voidAnchor;
 	
 	public static Block touchVoid;
 	
 	public static void init() {
-		soulCompressor = new BlockSoulCompressor(Material.wood);
 		playerManipulator = new BlockPlayerManipulator(Material.wood);
 		worldManipulator = new BlockWorldManipulator(Material.rock);
 		voidAnchor = new BlockVoidAnchor(Material.rock);

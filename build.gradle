@@ -10,6 +10,13 @@ buildscript {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT'
     }
 }
+
+repositories {
+	maven {
+		url "http://dvs1.progwml6.com/files/maven"
+	}
+}
+
 apply plugin: 'net.minecraftforge.gradle.forge'
 
 /*
@@ -30,9 +37,12 @@ minecraft {
     version = "${config.mc_version}-${config.forge_version}"
     runDir = "run"
     mappings = "stable_20"
+	useDepAts = true
 }
 
-dependencies {}
+dependencies {
+	deobfCompile "mezz.jei:jei_${config.mc_version}:${config.jei_version}"
+}
 
 processResources {
     inputs.property "version", project.version

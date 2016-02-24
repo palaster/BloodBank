@@ -23,7 +23,7 @@ import java.util.List;
 
 public class ItemBBResources extends Item {
 
-    public static String[] names = new String[]{"bankContract", "bankID"};
+    public static String[] names = new String[]{"bankContract", "bankID", "magicDust"};
 
     public ItemBBResources() {
         super();

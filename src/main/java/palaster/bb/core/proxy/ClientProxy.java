@@ -21,7 +21,6 @@ public class ClientProxy extends CommonProxy {
 	public void init() {
 		super.init();
 		// Blocks
-		((BlockMod) BBBlocks.soulCompressor).setBlockRender(BBBlocks.soulCompressor.getUnlocalizedName().substring(5));
 		((BlockMod) BBBlocks.playerManipulator).setBlockRender(BBBlocks.playerManipulator.getUnlocalizedName().substring(5));
 		((BlockMod) BBBlocks.worldManipulator).setBlockRender(BBBlocks.worldManipulator.getUnlocalizedName().substring(5));
 		((BlockMod) BBBlocks.voidAnchor).setBlockRender(BBBlocks.voidAnchor.getUnlocalizedName().substring(5));
@@ -42,6 +41,7 @@ public class ClientProxy extends CommonProxy {
 		((ItemTrident) BBItems.trident).setItemRender(BBItems.trident.getUnlocalizedName().substring(5));
 		((ItemMod) BBItems.athame).setItemRender(BBItems.athame.getUnlocalizedName().substring(5));
 		((ItemMod) BBItems.bloodBook).setItemRender(BBItems.bloodBook.getUnlocalizedName().substring(5));
+		((ItemMod) BBItems.letter).setItemRender(BBItems.letter.getUnlocalizedName().substring(5));
 
 		((ItemMod) BBItems.debug).setItemRender(BBItems.debug.getUnlocalizedName().substring(5));
 		((ItemMod) BBItems.yinYang).setItemRender(BBItems.yinYang.getUnlocalizedName().substring(5));

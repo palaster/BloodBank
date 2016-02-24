@@ -24,7 +24,8 @@ public class BBItems {
 	hephaestusHammer,
 	trident,
 	athame,
-	bloodBook;
+	bloodBook,
+	letter;
 
 	public static ItemArmor
 	boundHelmet,
@@ -51,6 +52,7 @@ public class BBItems {
 		trident = new ItemTrident(EnumHelper.addToolMaterial("trident", 3, 1024, 4.0f, 3.0f, 22));
 		athame = new ItemAthame();
 		bloodBook = new ItemBookBlood();
+		letter = new ItemLetter();
 
 		boundHelmet = new BBArmor(bound, 0,0);
 		boundChestplate = new BBArmor(bound, 0,1);
@@ -61,6 +63,6 @@ public class BBItems {
 		yinYang = new ItemYinYang();
 		bbResources = new ItemBBResources();
 
-		ModelBakery.registerItemVariants(bbResources, new ResourceLocation(LibMod.modid + ":bankContract"), new ResourceLocation(LibMod.modid + ":bankID"));
+		ModelBakery.registerItemVariants(bbResources, new ResourceLocation(LibMod.modid + ":bankContract"), new ResourceLocation(LibMod.modid + ":bankID"), new ResourceLocation(LibMod.modid + ":magicDust"));
 	}
 }

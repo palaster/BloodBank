@@ -17,7 +17,5 @@ public class RenderDemonicBankTeller extends RenderLiving<EntityDemonicBankTelle
     }
 
     @Override
-    protected ResourceLocation getEntityTexture(EntityDemonicBankTeller entity) {
-        return LibResource.bankTeller;
-    }
+    protected ResourceLocation getEntityTexture(EntityDemonicBankTeller entity) { return LibResource.bankTeller; }
 }
