@@ -22,7 +22,7 @@ public class LetterRecipeWrapper implements IRecipeWrapper {
     @Override
     public List getInputs() {
         if(letter != null && letter.getInput() != null) {
-            List<ItemStack> inputs = Arrays.asList(letter.getInput());
+            List<Object> inputs = Arrays.asList(letter.getInput());
             return inputs;
         } else
             return null;

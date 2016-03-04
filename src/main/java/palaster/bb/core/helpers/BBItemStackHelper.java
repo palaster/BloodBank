@@ -1,12 +1,20 @@
 package palaster.bb.core.helpers;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockJukebox.TileEntityJukebox;
+import net.minecraft.block.BlockPlanks;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.WorldServer;
+import net.minecraftforge.oredict.OreDictionary;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 public class BBItemStackHelper {
 
@@ -62,6 +70,22 @@ public class BBItemStackHelper {
 		if(holder.hasTagCompound())
 			if(holder.getTagCompound() != null)
 				return ItemStack.loadItemStackFromNBT(holder.getTagCompound().getCompoundTag("BBItemHolder"));
+		return null;
+	}
+
+	public static List<ItemStack> getItemStacksFromOreDictionary(String ore, int amt) {
+		if(OreDictionary.doesOreNameExist(ore)) {
+			List<ItemStack> itemStacks = OreDictionary.getOres(ore);
+			List<ItemStack> newStacks = new ArrayList<ItemStack>();
+			if(itemStacks != null)
+				for(ItemStack stack : itemStacks) {
+					if(Block.getBlockFromItem(stack.getItem()) == Blocks.planks)
+						newStacks.add(new ItemStack(stack.getItem(), amt, Short.MAX_VALUE));
+					else
+						newStacks.add(new ItemStack(stack.getItem(), amt, stack.getItemDamage()));
+				}
+			return newStacks;
+		}
 		return null;
 	}
 }

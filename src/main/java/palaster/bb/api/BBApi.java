@@ -49,7 +49,7 @@ public class BBApi {
         return false;
     }
 
-    public static RecipeLetter registerLetterRecipe(ItemStack output, ItemStack... input) {
+    public static RecipeLetter registerLetterRecipe(ItemStack output, Object... input) {
         if(input.length <= 9) {
             RecipeLetter recipe = new RecipeLetter(output, input);
             letterRecipes.add(recipe);
