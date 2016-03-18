@@ -28,11 +28,11 @@ public class KPBoundArmor extends BBKnowledgePiece {
                 if(playerIn.getCurrentArmor(i).getItem() == BBItems.boundHelmet || playerIn.getCurrentArmor(i).getItem() == BBItems.boundChestplate || playerIn.getCurrentArmor(i).getItem() == BBItems.boundLeggings || playerIn.getCurrentArmor(i).getItem() == BBItems.boundBoots) {
                     if(playerIn.getCurrentArmor(i).getItem() == BBItems.boundHelmet)
                         BBArmor.removeBoundArmorFromArmor(playerIn.getCurrentArmor(i), playerIn, 3);
-                    if(playerIn.getCurrentArmor(i).getItem() == BBItems.boundChestplate)
+                    else if(playerIn.getCurrentArmor(i).getItem() == BBItems.boundChestplate)
                         BBArmor.removeBoundArmorFromArmor(playerIn.getCurrentArmor(i), playerIn, 2);
-                    if(playerIn.getCurrentArmor(i).getItem() == BBItems.boundLeggings)
+                    else if(playerIn.getCurrentArmor(i).getItem() == BBItems.boundLeggings)
                         BBArmor.removeBoundArmorFromArmor(playerIn.getCurrentArmor(i), playerIn, 1);
-                    if(playerIn.getCurrentArmor(i).getItem() == BBItems.boundBoots)
+                    else if(playerIn.getCurrentArmor(i).getItem() == BBItems.boundBoots)
                         BBArmor.removeBoundArmorFromArmor(playerIn.getCurrentArmor(i), playerIn, 0);
                 } else {
                     ItemStack boundArmor = new ItemStack(BBItems.boundHelmet);
