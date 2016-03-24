@@ -11,7 +11,7 @@ public class CreativeTabBB {
 	public static void init() {
 		tabSS = new CreativeTabs(CreativeTabs.getNextID(), "tabBB") {
 			@Override
-			public Item getTabIconItem() { return Item.getItemFromBlock(BBBlocks.playerManipulator); }
+			public Item getTabIconItem() { return Item.getItemFromBlock(BBBlocks.voidAnchor); }
 		};
 	}
 }

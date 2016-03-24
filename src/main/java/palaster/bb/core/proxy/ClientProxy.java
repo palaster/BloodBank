@@ -21,8 +21,6 @@ public class ClientProxy extends CommonProxy {
 	public void init() {
 		super.init();
 		// Blocks
-		((BlockMod) BBBlocks.playerManipulator).setBlockRender(BBBlocks.playerManipulator.getUnlocalizedName().substring(5));
-		((BlockMod) BBBlocks.worldManipulator).setBlockRender(BBBlocks.worldManipulator.getUnlocalizedName().substring(5));
 		((BlockMod) BBBlocks.voidAnchor).setBlockRender(BBBlocks.voidAnchor.getUnlocalizedName().substring(5));
 		((BlockMod) BBBlocks.touchVoid).setBlockRender(BBBlocks.touchVoid.getUnlocalizedName().substring(5));
 

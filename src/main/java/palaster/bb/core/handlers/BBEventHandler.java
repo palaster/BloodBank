@@ -1,35 +1,25 @@
 package palaster.bb.core.handlers;
 
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.StatCollector;
-import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
-import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.EntityInteractEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
@@ -40,12 +30,12 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Mouse;
 import palaster.bb.BloodBank;
-import palaster.bb.blocks.BlockWorldManipulator;
-import palaster.bb.blocks.tile.TileEntityWorldManipulator;
-import palaster.bb.core.helpers.BBItemStackHelper;
 import palaster.bb.entities.extended.BBExtendedPlayer;
 import palaster.bb.entities.knowledge.BBKnowledge;
-import palaster.bb.items.*;
+import palaster.bb.items.BBItems;
+import palaster.bb.items.ItemBookBlood;
+import palaster.bb.items.ItemModStaff;
+import palaster.bb.items.ItemTrident;
 import palaster.bb.libs.LibMod;
 import palaster.bb.network.PacketHandler;
 import palaster.bb.network.client.SyncPlayerPropsMessage;
@@ -175,21 +165,6 @@ public class BBEventHandler {
 	}
 
 	@SubscribeEvent
-	public void onBlockBreak(BlockEvent.BreakEvent e) {
-		if(!e.world.isRemote)
-			for(TileEntity te : e.world.loadedTileEntityList)
-				if(te != null && te instanceof TileEntityWorldManipulator) {
-					TileEntityWorldManipulator wm = (TileEntityWorldManipulator) te;
-					if(wm.getStackInSlot(0) != null && wm.getStackInSlot(0).getItem() instanceof ItemWorldBinder && wm.getStackInSlot(0).hasTagCompound()) {
-						int[] temp = wm.getStackInSlot(0).getTagCompound().getIntArray("WorldPos");
-						BlockPos wmBlockPos = new BlockPos(temp[0], temp[1], temp[2]);
-						if(e.pos.equals(wmBlockPos))
-							wm.getStackInSlot(0).getTagCompound().setBoolean("IsSet", false);
-					}
-				}
-	}
-
-	@SubscribeEvent
 	public void onPlayerTick(TickEvent.PlayerTickEvent e) {
 		if(!e.player.worldObj.isRemote)
 			if(e.phase == TickEvent.Phase.START)
@@ -218,40 +193,13 @@ public class BBEventHandler {
 	@SubscribeEvent(priority= EventPriority.NORMAL)
 	public void onRenderGameOverlay(RenderGameOverlayEvent.Post event) {
 		if(Minecraft.getMinecraft().currentScreen == null && Minecraft.getMinecraft().inGameHasFocus) {
-			if(event.type == RenderGameOverlayEvent.ElementType.HOTBAR) {
-				MovingObjectPosition mop = Minecraft.getMinecraft().objectMouseOver;
-				if(mop != null && mop.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
-					BlockPos pos = mop.getBlockPos();
-					IBlockState blockState = Minecraft.getMinecraft().theWorld.getBlockState(pos);
-					if(blockState != null && blockState.getBlock() instanceof BlockWorldManipulator) {
-						TileEntityWorldManipulator wsm = (TileEntityWorldManipulator) Minecraft.getMinecraft().theWorld.getTileEntity(pos);
-						if(wsm != null) {
-							ItemStack stack = BBItemStackHelper.getItemStackFromInventory(DimensionManager.getWorld(Minecraft.getMinecraft().theWorld.provider.getDimensionId()), pos, 0);
-							if(stack != null && stack.hasTagCompound() && stack.getTagCompound().getBoolean("IsSet")) {
-								int[] temp = stack.getTagCompound().getIntArray("WorldPos");
-								BlockPos pos1 = new BlockPos(temp[0], temp[1], temp[2]);
-								if(Minecraft.getMinecraft().theWorld.provider.getDimensionId() == stack.getTagCompound().getInteger("DimID")) {
-									IBlockState blockState1 = DimensionManager.getWorld(Minecraft.getMinecraft().theWorld.provider.getDimensionId()).getBlockState(pos1);
-									if(blockState1 != null && blockState1.getBlock() != null || blockState1 != null && blockState1.getBlock() != Blocks.air)
-										Minecraft.getMinecraft().getRenderItem().renderItemIntoGUI(new ItemStack(blockState1.getBlock()), 5, 5);
-								} else {
-									World world = DimensionManager.getWorld(stack.getTagCompound().getInteger("DimID"));
-									if(world != null)
-										if(world.getBlockState(pos1) != null && world.getBlockState(pos1).getBlock() != null)
-											Minecraft.getMinecraft().getRenderItem().renderItemIntoGUI(new ItemStack(world.getBlockState(pos1).getBlock()), 5, 5);
-								}
-							}
-						}
-					}
-				}
-			} else if(event.type == RenderGameOverlayEvent.ElementType.TEXT)
+			if(event.type == RenderGameOverlayEvent.ElementType.TEXT)
 				if(Minecraft.getMinecraft().fontRendererObj != null && Minecraft.getMinecraft().thePlayer != null && Minecraft.getMinecraft().thePlayer.getCurrentEquippedItem() != null) {
 					if(Minecraft.getMinecraft().thePlayer.getCurrentEquippedItem().getItem() instanceof ItemModStaff && Minecraft.getMinecraft().thePlayer.getCurrentEquippedItem().hasTagCompound()) {
 						ItemStack staff = Minecraft.getMinecraft().thePlayer.getCurrentEquippedItem();
 						String power = StatCollector.translateToLocal(((ItemModStaff) staff.getItem()).powers[ItemModStaff.getActivePower(staff)]);
 						Minecraft.getMinecraft().fontRendererObj.drawString(StatCollector.translateToLocal("bb.staff.active") + ": " + power, 2, 2, 0);
-					}
-					if(Minecraft.getMinecraft().thePlayer.getCurrentEquippedItem().getItem() instanceof ItemBookBlood && Minecraft.getMinecraft().thePlayer.getCurrentEquippedItem().hasTagCompound()) {
+					} else if(Minecraft.getMinecraft().thePlayer.getCurrentEquippedItem().getItem() instanceof ItemBookBlood && Minecraft.getMinecraft().thePlayer.getCurrentEquippedItem().hasTagCompound()) {
 						ItemStack book = Minecraft.getMinecraft().thePlayer.getCurrentEquippedItem();
 						String spell = StatCollector.translateToLocal("bb.knowledgePiece") + ": " + StatCollector.translateToLocal(BBKnowledge.getKnowledgePiece(book.getTagCompound().getInteger("Knowledge Piece")).getName());
 						Minecraft.getMinecraft().fontRendererObj.drawString(StatCollector.translateToLocal("bb.kp.active") + ": " + spell, 2, 2, 0x8A0707);

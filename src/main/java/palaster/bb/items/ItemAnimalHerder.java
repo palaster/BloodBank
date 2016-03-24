@@ -1,5 +1,6 @@
 package palaster.bb.items;
 
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
@@ -32,7 +33,7 @@ public class ItemAnimalHerder extends ItemModSpecial {
 					playerIn.riddenByEntity = null;
 					return true;
 				}
-			} else if(target instanceof EntityLivingBase && !(target instanceof EntityAnimal)) {
+			} else if(target instanceof EntityLiving && !(target instanceof EntityAnimal)) {
 				List<EntityAnimal> animals = playerIn.worldObj.getEntitiesWithinAABB(EntityAnimal.class, new AxisAlignedBB(playerIn.posX + range, playerIn.posY + 2, playerIn.posZ + range, playerIn.posX - range, playerIn.posY - 1, playerIn.posZ - range));
 				if(animals != null) {
 					for(EntityAnimal animal : animals) {

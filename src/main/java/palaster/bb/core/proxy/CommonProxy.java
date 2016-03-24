@@ -17,12 +17,14 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import palaster.bb.BloodBank;
 import palaster.bb.blocks.BBBlocks;
 import palaster.bb.blocks.tile.TileEntityModInventory;
-import palaster.bb.blocks.tile.TileEntityPlayerManipulator;
-import palaster.bb.client.gui.*;
+import palaster.bb.client.gui.GuiLetter;
+import palaster.bb.client.gui.GuiVoidAnchor;
 import palaster.bb.core.CreativeTabBB;
 import palaster.bb.core.handlers.BBEventHandler;
 import palaster.bb.entities.BBEntities;
-import palaster.bb.inventories.*;
+import palaster.bb.inventories.ContainerLetter;
+import palaster.bb.inventories.ContainerVoidAnchor;
+import palaster.bb.inventories.InventoryModLetter;
 import palaster.bb.items.BBItems;
 import palaster.bb.items.ItemLetter;
 import palaster.bb.network.PacketHandler;
@@ -64,21 +66,9 @@ public class CommonProxy implements IGuiHandler {
 					if(((TileEntityModInventory) te).getName().equals("container.voidAnchor"))
 						return new ContainerVoidAnchor(player.inventory, (TileEntityModInventory) te);
 			}
-			case 2: {
-				if(te != null && te instanceof TileEntityPlayerManipulator)
-					return new ContainerPlayerSoulManipulator(player.inventory, (TileEntityPlayerManipulator) te);
-			}
 			case 3: {
 				if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ItemLetter)
 					return new ContainerLetter(player.inventory, new InventoryModLetter(player.getHeldItem()));
-			}
-			case 4: {
-				if(te != null && te instanceof TileEntityPlayerManipulator)
-					return new ContainerPlayerSoulManipulatorInventory(player.inventory, (TileEntityPlayerManipulator) te);
-			}
-			case 5: {
-				if(te != null && te instanceof TileEntityPlayerManipulator)
-					return new ContainerPlayerSoulManipulatorPotion(player.inventory, (TileEntityPlayerManipulator) te);
 			}
 		}
 		return null;
@@ -93,21 +83,9 @@ public class CommonProxy implements IGuiHandler {
 					if(((TileEntityModInventory) te).getName().equals("container.voidAnchor"))
 						return new GuiVoidAnchor(player.inventory, (TileEntityModInventory) te);
 			}
-			case 2: {
-				if(te != null && te instanceof TileEntityPlayerManipulator)
-					return new GuiPlayerManipulator(player.inventory, (TileEntityPlayerManipulator) te);
-			}
 			case 3: {
 				if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ItemLetter)
 					return new GuiLetter(player.inventory, new InventoryModLetter(player.getHeldItem()));
-			}
-			case 4: {
-				if(te != null && te instanceof TileEntityPlayerManipulator)
-					return new GuiPlayerManipulatorInventory(player.inventory, (TileEntityPlayerManipulator) te);
-			}
-			case 5: {
-				if(te != null && te instanceof TileEntityPlayerManipulator)
-					return new GuiPlayerManipulatorPotion(player.inventory, (TileEntityPlayerManipulator) te);
 			}
 		}
 		return null;
