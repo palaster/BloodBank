@@ -1,15 +1,20 @@
 package palaster.bb.client.models;
 
+import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.client.model.ModelZombie;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.monster.EntitySkeleton;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.EnumHandSide;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import palaster.bb.entities.EntitySkeletonMinion;
 
 @SideOnly(Side.CLIENT)
-public class ModelSkeletonMinion extends ModelZombie {
+public class ModelSkeletonMinion extends ModelBiped {
 
 	public ModelSkeletonMinion() { this(0.0F, false); }
 
@@ -35,7 +40,15 @@ public class ModelSkeletonMinion extends ModelZombie {
 
     @Override
     public void setLivingAnimations(EntityLivingBase p_78086_1_, float p_78086_2_, float p_78086_3_, float p_78086_4_) {
-        aimedBow = ((EntitySkeletonMinion)p_78086_1_).getSkeletonType() == 1;
+        rightArmPose = ModelBiped.ArmPose.EMPTY;
+        leftArmPose = ModelBiped.ArmPose.EMPTY;
+        ItemStack itemstack = p_78086_1_.getHeldItem(EnumHand.MAIN_HAND);
+
+        if(itemstack != null && itemstack.getItem() == Items.bow && ((EntitySkeleton)p_78086_1_).func_184725_db())
+            if(p_78086_1_.getPrimaryHand() == EnumHandSide.RIGHT)
+                rightArmPose = ModelBiped.ArmPose.BOW_AND_ARROW;
+            else
+                leftArmPose = ModelBiped.ArmPose.BOW_AND_ARROW;
         super.setLivingAnimations(p_78086_1_, p_78086_2_, p_78086_3_, p_78086_4_);
     }
 

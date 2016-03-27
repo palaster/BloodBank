@@ -1,14 +1,14 @@
 package palaster.bb.items;
 
-import java.util.List;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.StatCollector;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.List;
 
 public abstract class ItemModStaff extends ItemModSpecial implements IDuctTapeable {
 	
@@ -23,7 +23,7 @@ public abstract class ItemModStaff extends ItemModSpecial implements IDuctTapeab
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer playerIn, List tooltip, boolean advanced) {
 		if(stack.hasTagCompound())
-			tooltip.add(StatCollector.translateToLocal("bb.staff.active") + ": " + StatCollector.translateToLocal(((ItemModStaff) stack.getItem()).powers[getActivePower(stack)]));
+			tooltip.add(I18n.translateToLocal("bb.staff.active") + ": " + I18n.translateToLocal(((ItemModStaff) stack.getItem()).powers[getActivePower(stack)]));
 	}
 	
 	@Override

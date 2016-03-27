@@ -1,22 +1,23 @@
 package palaster.bb.core.proxy;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.IThreadListener;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.WeightedRandomChestContent;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ChestGenHooks;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import palaster.bb.BloodBank;
 import palaster.bb.blocks.BBBlocks;
 import palaster.bb.blocks.tile.TileEntityModInventory;
+import palaster.bb.capabilities.entities.BloodBankCapability;
 import palaster.bb.client.gui.GuiLetter;
 import palaster.bb.client.gui.GuiVoidAnchor;
 import palaster.bb.core.CreativeTabBB;
@@ -33,7 +34,7 @@ import palaster.bb.recipes.BBRecipes;
 
 public class CommonProxy implements IGuiHandler {
 
-	public Potion death;
+	public DamageSource bbBlood = (new DamageSource("bbBlood")).setDamageBypassesArmor().setMagicDamage();
 	
 	public void preInit() {
 		CreativeTabBB.init();
@@ -42,13 +43,14 @@ public class CommonProxy implements IGuiHandler {
 		BBBlocks.registerTileEntities();
 		BBEntities.init();
 		BBItems.init();
+		CapabilityManager.INSTANCE.register(BloodBankCapability.IBloodBank.class, new BloodBankCapability.Storage(), BloodBankCapability.DefaultImpl.class);
+		MinecraftForge.EVENT_BUS.register(new BBEventHandler());
 	}
 	
 	public void init() {
-		ChestGenHooks.addItem(ChestGenHooks.VILLAGE_BLACKSMITH, new WeightedRandomChestContent(new ItemStack(BBItems.hephaestusHammer), 1, 1, 7));
-		MinecraftForge.EVENT_BUS.register(new BBEventHandler());
+		// Broken till new loot system ChestGenHooks.addItem(ChestGenHooks.VILLAGE_BLACKSMITH, new WeightedRandomChestContent(BBItems.hephaestusHammer, 0, 1, 1, 7));
 		NetworkRegistry.INSTANCE.registerGuiHandler(BloodBank.instance, this);
-		death = new BBPotion(new ResourceLocation("death"), true, 0x000000);
+		Potion.potionRegistry.putObject(new ResourceLocation("death"), new BBPotion(true, 0x000000).setPotionName("effect.death"));
 	}
 	
 	public void postInit() { BBRecipes.init(); }
@@ -67,8 +69,8 @@ public class CommonProxy implements IGuiHandler {
 						return new ContainerVoidAnchor(player.inventory, (TileEntityModInventory) te);
 			}
 			case 3: {
-				if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ItemLetter)
-					return new ContainerLetter(player.inventory, new InventoryModLetter(player.getHeldItem()));
+				if(player.getHeldItem(EnumHand.MAIN_HAND) != null && player.getHeldItem(EnumHand.MAIN_HAND).getItem() instanceof ItemLetter)
+					return new ContainerLetter(player.inventory, new InventoryModLetter(player.getHeldItem(EnumHand.MAIN_HAND)));
 			}
 		}
 		return null;
@@ -84,8 +86,8 @@ public class CommonProxy implements IGuiHandler {
 						return new GuiVoidAnchor(player.inventory, (TileEntityModInventory) te);
 			}
 			case 3: {
-				if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ItemLetter)
-					return new GuiLetter(player.inventory, new InventoryModLetter(player.getHeldItem()));
+				if(player.getHeldItem(EnumHand.MAIN_HAND) != null && player.getHeldItem(EnumHand.MAIN_HAND).getItem() instanceof ItemLetter)
+					return new GuiLetter(player.inventory, new InventoryModLetter(player.getHeldItem(EnumHand.MAIN_HAND)));
 			}
 		}
 		return null;

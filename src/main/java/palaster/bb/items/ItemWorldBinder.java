@@ -1,16 +1,18 @@
 package palaster.bb.items;
 
-import java.util.List;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.StatCollector;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.List;
 
 public class ItemWorldBinder extends ItemModSpecial {
 
@@ -34,29 +36,29 @@ public class ItemWorldBinder extends ItemModSpecial {
 		if(p_77624_1_.hasTagCompound()) {
 			if(p_77624_1_.getTagCompound().getBoolean("IsSet")) {
 				int[] temp = p_77624_1_.getTagCompound().getIntArray("WorldPos");
-				p_77624_3_.add(StatCollector.translateToLocal("bb.misc.pos") + ": " + temp[0] + " " + temp[1] + " " + temp[2]);
-				p_77624_3_.add(StatCollector.translateToLocal("bb.misc.dimensionID") + ": " + p_77624_1_.getTagCompound().getInteger("DimID"));
+				p_77624_3_.add(I18n.translateToLocal("bb.misc.pos") + ": " + temp[0] + " " + temp[1] + " " + temp[2]);
+				p_77624_3_.add(I18n.translateToLocal("bb.misc.dimensionID") + ": " + p_77624_1_.getTagCompound().getInteger("DimID"));
 			}
 		} else 
-			p_77624_3_.add(StatCollector.translateToLocal("bb.misc.broken"));
+			p_77624_3_.add(I18n.translateToLocal("bb.misc.broken"));
 	}
-	
+
 	@Override
-	public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if(!worldIn.isRemote) {
 			if(stack.hasTagCompound()) {
 				stack.getTagCompound().setBoolean("IsSet", true);
 				stack.getTagCompound().setIntArray("WorldPos", new int[]{pos.getX(), pos.getY(), pos.getZ()});
-				stack.getTagCompound().setInteger("DimID", worldIn.provider.getDimensionId());
-				return true;
+				stack.getTagCompound().setInteger("DimID", worldIn.provider.getDimension());
+				return EnumActionResult.SUCCESS;
 			} else {
 				stack.setTagCompound(new NBTTagCompound());
 				stack.getTagCompound().setBoolean("IsSet", true);
 				stack.getTagCompound().setIntArray("WorldPos", new int[]{pos.getX(), pos.getY(), pos.getZ()});
-				stack.getTagCompound().setInteger("DimID", worldIn.provider.getDimensionId());
-				return true;
+				stack.getTagCompound().setInteger("DimID", worldIn.provider.getDimension());
+				return EnumActionResult.SUCCESS;
 			}
 		}
-		return false;
+		return super.onItemUse(stack, playerIn, worldIn, pos, hand, facing, hitX, hitY, hitZ);
 	}
 }

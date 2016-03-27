@@ -3,21 +3,22 @@ package palaster.bb.core.handlers;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.Potion;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.StatCollector;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
-import net.minecraftforge.event.entity.player.EntityInteractEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.world.WorldEvent;
@@ -30,7 +31,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Mouse;
 import palaster.bb.BloodBank;
-import palaster.bb.entities.extended.BBExtendedPlayer;
+import palaster.bb.capabilities.entities.BloodBankCapability;
 import palaster.bb.entities.knowledge.BBKnowledge;
 import palaster.bb.items.BBItems;
 import palaster.bb.items.ItemBookBlood;
@@ -38,9 +39,8 @@ import palaster.bb.items.ItemModStaff;
 import palaster.bb.items.ItemTrident;
 import palaster.bb.libs.LibMod;
 import palaster.bb.network.PacketHandler;
-import palaster.bb.network.client.SyncPlayerPropsMessage;
 import palaster.bb.network.server.MiddleClickMessage;
-import palaster.bb.world.WorldManager;
+import palaster.bb.world.WorldEventListener;
 
 import java.io.File;
 
@@ -57,7 +57,7 @@ public class BBEventHandler {
 
 	@SubscribeEvent
 	public void onConfigurationChangeEvent(ConfigChangedEvent.OnConfigChangedEvent e) {
-		if(e.modID.equalsIgnoreCase(LibMod.modid))
+		if(e.getModID().equalsIgnoreCase(LibMod.modid))
 			loadConfiguration();
 	}
 
@@ -65,53 +65,74 @@ public class BBEventHandler {
 		if(config.hasChanged())
 			config.save();
 	}
-	
+
 	@SubscribeEvent
-	public void onEntityConstructing(EntityConstructing e) {
-		if(e.entity instanceof EntityPlayer)
-			if(BBExtendedPlayer.get((EntityPlayer) e.entity) == null)
-				BBExtendedPlayer.register((EntityPlayer) e.entity);
+	public void attachEntityCapability(AttachCapabilitiesEvent.Entity e) {
+		if(e.getEntity() instanceof EntityPlayer) {
+			e.addCapability(new ResourceLocation(LibMod.modid, "IBloodBank"), new ICapabilitySerializable<NBTTagCompound>() {
+				BloodBankCapability.IBloodBank inst = BloodBankCapability.bloodBankCap.getDefaultInstance();
+
+				@Override
+				public boolean hasCapability(Capability<?> capability, EnumFacing facing) { return capability == BloodBankCapability.bloodBankCap; }
+
+				@Override
+				public <T> T getCapability(Capability<T> capability, EnumFacing facing) { return capability == BloodBankCapability.bloodBankCap ? BloodBankCapability.bloodBankCap.<T>cast(inst) : null; }
+
+				@Override
+				public NBTTagCompound serializeNBT() { return (NBTTagCompound)BloodBankCapability.bloodBankCap.getStorage().writeNBT(BloodBankCapability.bloodBankCap, inst, null); }
+
+				@Override
+				public void deserializeNBT(NBTTagCompound nbt) { BloodBankCapability.bloodBankCap.getStorage().readNBT(BloodBankCapability.bloodBankCap, inst, null, nbt); }
+			});
+		}
 	}
 
 	@SubscribeEvent
-	public void onEntityJoinWorld(EntityJoinWorldEvent e) {
-		if(e.entity instanceof EntityPlayerMP)
-			PacketHandler.sendTo(new SyncPlayerPropsMessage((EntityPlayer) e.entity), (EntityPlayerMP) e.entity);		
+	public void onClonePlayer(PlayerEvent.Clone e) {
+		if(e.isWasDeath()) {
+			final BloodBankCapability.IBloodBank bloodBank = e.getOriginal().getCapability(BloodBankCapability.bloodBankCap, null);
+			if(bloodBank != null) {
+				final BloodBankCapability.IBloodBank bloodBank1 = e.getEntityPlayer().getCapability(BloodBankCapability.bloodBankCap, null);
+				if(bloodBank1 != null) {
+					bloodBank1.setBloodMax(bloodBank.getBloodMax());
+					bloodBank1.setCurrentBlood(bloodBank.getCurrentBlood());
+					bloodBank1.linkEntity(bloodBank.getLinked());
+				}
+			}
+		}
 	}
-	
-	@SubscribeEvent
-	public void onClonePlayer(PlayerEvent.Clone e) { BBExtendedPlayer.get(e.entityPlayer).copy(BBExtendedPlayer.get(e.original)); }
 
 	@SubscribeEvent
 	public void onLivingDeath(LivingDeathEvent e) {
-		if(!e.entityLiving.worldObj.isRemote)
-			for(Entity entity : e.entityLiving.worldObj.loadedEntityList) {
-				if(entity instanceof EntityPlayer)
-					if(BBExtendedPlayer.get((EntityPlayer) entity) != null)
-						if(BBExtendedPlayer.get((EntityPlayer) entity).getLinked() != null && BBExtendedPlayer.get((EntityPlayer) entity).getLinked().getUniqueID() == e.entityLiving.getUniqueID()) {
-							BBExtendedPlayer.get((EntityPlayer) entity).linkEntity(null);
+		if(!e.getEntityLiving().worldObj.isRemote)
+			for(Entity entity : e.getEntityLiving().worldObj.loadedEntityList)
+				if(entity instanceof EntityPlayer) {
+					final BloodBankCapability.IBloodBank bloodBank = ((EntityPlayer) entity).getCapability(BloodBankCapability.bloodBankCap, null);
+					if(bloodBank != null)
+						if(bloodBank.getLinked() != null && bloodBank.getLinked().getUniqueID() == e.getEntityLiving().getUniqueID()) {
+							bloodBank.linkEntity(null);
 							continue;
 						}
-			}
+				}
 	}
-	
+
 	@SubscribeEvent
 	public void onLivingAttack(LivingAttackEvent e) {
-		if(!e.entityLiving.worldObj.isRemote && e.entityLiving instanceof EntityPlayer) {
-			EntityPlayer p = (EntityPlayer) e.entityLiving;
-			if(e.source == DamageSource.drown)
-				if(p.inventory.hasItem(BBItems.trident))
+		if(!e.getEntityLiving().worldObj.isRemote && e.getEntityLiving() instanceof EntityPlayer) {
+			EntityPlayer p = (EntityPlayer) e.getEntityLiving();
+			if(e.getSource() == DamageSource.drown)
+				if(p.inventory.hasItemStack(new ItemStack(BBItems.trident)))
 					for(int i = 0; i < 9; i++)
 						if(p.inventory.getStackInSlot(i) != null && p.inventory.getStackInSlot(i).getItem() instanceof ItemTrident) {
 							e.setCanceled(true);
 							p.inventory.getStackInSlot(i).damageItem(1, p);
 						}
-			if(e.source.getEntity() != null) {
-				BBExtendedPlayer props = BBExtendedPlayer.get(p);
-				if(props != null)
-					if(props.getLinked() != null) {
-						EntityLiving link = props.getLinked();
-						link.attackEntityFrom(BBExtendedPlayer.bbBlood, e.ammount);
+			if(e.getSource().getEntity() != null) {
+				final BloodBankCapability.IBloodBank bloodBank = p.getCapability(BloodBankCapability.bloodBankCap, null);
+				if(bloodBank != null)
+					if(bloodBank.getLinked() != null) {
+						EntityLiving link = bloodBank.getLinked();
+						link.attackEntityFrom(BloodBank.proxy.bbBlood, e.getAmount());
 						e.setCanceled(true);
 					}
 			}
@@ -120,48 +141,25 @@ public class BBEventHandler {
 	
 	@SubscribeEvent
 	public void loadWorld(WorldEvent.Load e) {
-		if(!e.world.isRemote)
-			e.world.addWorldAccess(new WorldManager());
+		if(!e.getWorld().isRemote)
+			e.getWorld().addEventListener(new WorldEventListener());
 	}
 	
 	@SubscribeEvent
 	public void tooltip(ItemTooltipEvent e) {
-		if(e.itemStack != null && e.itemStack.hasTagCompound() && e.itemStack.getTagCompound().getBoolean("HasTapeHeart")) {
-			String temp = e.toolTip.get(e.toolTip.size() - 1);
-			e.toolTip.set(e.toolTip.size() - 1, StatCollector.translateToLocal("bb.misc.tapeHeart"));
-			e.toolTip.add(temp);
-		}
-	}
-	
-	@SubscribeEvent
-	public void onPlayerInteract(EntityInteractEvent e) {
-		if(!e.entityPlayer.worldObj.isRemote) {
-			if(e.entityPlayer.getCurrentEquippedItem() != null && e.entityPlayer.getCurrentEquippedItem().getItem() == Items.bucket)
-				if(e.entityPlayer.getItemInUse() != null && e.entityPlayer.getItemInUse().getItem() == Items.bucket && !e.entityPlayer.capabilities.isCreativeMode)
-					if(e.target instanceof EntityPlayer)
-						if(e.target.getUniqueID().toString().equals("f1c1d19e-5f38-42d5-842b-bfc8851082a9"))
-							if(e.entityPlayer.getItemInUse().stackSize-- == 1)
-								e.entityPlayer.inventory.setInventorySlotContents(e.entityPlayer.inventory.currentItem, new ItemStack(Items.milk_bucket));
-				            else if(!e.entityPlayer.inventory.addItemStackToInventory(new ItemStack(Items.milk_bucket)))
-				            	e.entityPlayer.dropPlayerItemWithRandomChoice(new ItemStack(Items.milk_bucket, 1, 0), false);
-			if(e.entityPlayer.getUniqueID().toString().equals("f1c1d19e-5f38-42d5-842b-bfc8851082a9") && e.entityPlayer.getCurrentEquippedItem() == null)
-				if(e.target instanceof EntityCow)
-					if(((EntityCow) e.target).isInLove()) {
-						EntityCow baby = new EntityCow(e.entityPlayer.worldObj);
-						baby.setGrowingAge(-24000);
-						baby.setPosition(e.target.posX, e.target.posY + .25D, e.target.posZ);
-						e.entityPlayer.worldObj.spawnEntityInWorld(baby);
-						((EntityCow) e.target).resetInLove();
-					}
+		if(e.getItemStack() != null && e.getItemStack().hasTagCompound() && e.getItemStack().getTagCompound().getBoolean("HasTapeHeart")) {
+			String temp = e.getToolTip().get(e.getToolTip().size() - 1);
+			e.getToolTip().set(e.getToolTip().size() - 1, I18n.translateToLocal("bb.misc.tapeHeart"));
+			e.getToolTip().add(temp);
 		}
 	}
 
 	@SubscribeEvent
 	public void updateLivingEntity(LivingEvent.LivingUpdateEvent e) {
-		if(!e.entityLiving.worldObj.isRemote)
-			if(e.entityLiving.isPotionActive(BloodBank.proxy.death))
-				if(e.entityLiving.getActivePotionEffect(BloodBank.proxy.death).getDuration() <= 1)
-					e.entityLiving.setDead();
+		if(!e.getEntityLiving().worldObj.isRemote)
+			if(e.getEntityLiving().isPotionActive(Potion.getPotionFromResourceLocation("death")))
+				if(e.getEntityLiving().getActivePotionEffect(Potion.getPotionFromResourceLocation("death")).getDuration() <= 1)
+					e.getEntityLiving().setDead();
 	}
 
 	@SubscribeEvent
@@ -193,16 +191,16 @@ public class BBEventHandler {
 	@SubscribeEvent(priority= EventPriority.NORMAL)
 	public void onRenderGameOverlay(RenderGameOverlayEvent.Post event) {
 		if(Minecraft.getMinecraft().currentScreen == null && Minecraft.getMinecraft().inGameHasFocus) {
-			if(event.type == RenderGameOverlayEvent.ElementType.TEXT)
-				if(Minecraft.getMinecraft().fontRendererObj != null && Minecraft.getMinecraft().thePlayer != null && Minecraft.getMinecraft().thePlayer.getCurrentEquippedItem() != null) {
-					if(Minecraft.getMinecraft().thePlayer.getCurrentEquippedItem().getItem() instanceof ItemModStaff && Minecraft.getMinecraft().thePlayer.getCurrentEquippedItem().hasTagCompound()) {
-						ItemStack staff = Minecraft.getMinecraft().thePlayer.getCurrentEquippedItem();
-						String power = StatCollector.translateToLocal(((ItemModStaff) staff.getItem()).powers[ItemModStaff.getActivePower(staff)]);
-						Minecraft.getMinecraft().fontRendererObj.drawString(StatCollector.translateToLocal("bb.staff.active") + ": " + power, 2, 2, 0);
-					} else if(Minecraft.getMinecraft().thePlayer.getCurrentEquippedItem().getItem() instanceof ItemBookBlood && Minecraft.getMinecraft().thePlayer.getCurrentEquippedItem().hasTagCompound()) {
-						ItemStack book = Minecraft.getMinecraft().thePlayer.getCurrentEquippedItem();
-						String spell = StatCollector.translateToLocal("bb.knowledgePiece") + ": " + StatCollector.translateToLocal(BBKnowledge.getKnowledgePiece(book.getTagCompound().getInteger("Knowledge Piece")).getName());
-						Minecraft.getMinecraft().fontRendererObj.drawString(StatCollector.translateToLocal("bb.kp.active") + ": " + spell, 2, 2, 0x8A0707);
+			if(event.getType() == RenderGameOverlayEvent.ElementType.TEXT)
+				if(Minecraft.getMinecraft().fontRendererObj != null && Minecraft.getMinecraft().thePlayer != null && Minecraft.getMinecraft().thePlayer.getHeldItemMainhand() != null) {
+					if(Minecraft.getMinecraft().thePlayer.getHeldItemMainhand().getItem() instanceof ItemModStaff && Minecraft.getMinecraft().thePlayer.getHeldItemMainhand().hasTagCompound()) {
+						ItemStack staff = Minecraft.getMinecraft().thePlayer.getHeldItemMainhand();
+						String power = I18n.translateToLocal(((ItemModStaff) staff.getItem()).powers[ItemModStaff.getActivePower(staff)]);
+						Minecraft.getMinecraft().fontRendererObj.drawString(I18n.translateToLocal("bb.staff.active") + ": " + power, 2, 2, 0);
+					} else if(Minecraft.getMinecraft().thePlayer.getHeldItemMainhand().getItem() instanceof ItemBookBlood && Minecraft.getMinecraft().thePlayer.getHeldItemMainhand().hasTagCompound()) {
+						ItemStack book = Minecraft.getMinecraft().thePlayer.getHeldItemMainhand();
+						String spell = I18n.translateToLocal("bb.knowledgePiece") + ": " + I18n.translateToLocal(BBKnowledge.getKnowledgePiece(book.getTagCompound().getInteger("Knowledge Piece")).getName());
+						Minecraft.getMinecraft().fontRendererObj.drawString(I18n.translateToLocal("bb.kp.active") + ": " + spell, 2, 2, 0x8A0707);
 					}
 				}
 		}

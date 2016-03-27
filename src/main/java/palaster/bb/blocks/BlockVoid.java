@@ -8,8 +8,8 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import palaster.bb.blocks.tile.TileEntityVoid;
 
@@ -25,7 +25,7 @@ public class BlockVoid extends BlockModContainer {
 		if(!worldIn.isRemote)
 			if(entityIn instanceof EntityLivingBase) {
 				entityIn.attackEntityFrom(DamageSource.outOfWorld, 1f);
-				((EntityLivingBase) entityIn).addPotionEffect(new PotionEffect(Potion.wither.id, 60));
+				((EntityLivingBase) entityIn).addPotionEffect(new PotionEffect(Potion.getPotionById(30), 60));
 				if(worldIn.getTileEntity(pos) != null && worldIn.getTileEntity(pos) instanceof TileEntityVoid && ((TileEntityVoid) worldIn.getTileEntity(pos)).getOriginalBlock() != null)
 					worldIn.setBlockState(pos, ((TileEntityVoid) worldIn.getTileEntity(pos)).getOriginalBlock().getDefaultState());
 			}

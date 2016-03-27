@@ -23,8 +23,8 @@ public class RenderSkeletonMinion extends RenderBiped<EntitySkeletonMinion> {
         addLayer(new LayerBipedArmor(this) {
         	@Override
             protected void initArmor() {
-                field_177189_c = new ModelSkeletonMinion(0.5F, true);
-                field_177186_d = new ModelSkeletonMinion(1.0F, true);
+                modelLeggings = new ModelSkeletonMinion(0.5F, true);
+                modelArmor = new ModelSkeletonMinion(1.0F, true);
             }
         });
 	}

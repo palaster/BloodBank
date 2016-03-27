@@ -1,9 +1,10 @@
 package palaster.bb.blocks;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
@@ -18,7 +19,7 @@ public abstract class BlockMod extends Block {
 		setCreativeTab(CreativeTabBB.tabSS);
 		setHardness(3F);
 		setHarvestLevel("pickaxe", 0);
-		setStepSound(soundTypeStone);
+		setStepSound(SoundType.STONE);
 	}
 	
 	@Override

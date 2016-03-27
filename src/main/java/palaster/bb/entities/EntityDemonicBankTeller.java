@@ -5,15 +5,17 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import palaster.bb.api.BBApi;
 import palaster.bb.api.recipes.RecipeLetter;
+import palaster.bb.capabilities.entities.BloodBankCapability;
 import palaster.bb.core.helpers.BBPlayerHelper;
-import palaster.bb.entities.extended.BBExtendedPlayer;
 import palaster.bb.inventories.InventoryModLetter;
 import palaster.bb.items.BBItems;
 import palaster.bb.items.ItemLetter;
@@ -29,14 +31,14 @@ public class EntityDemonicBankTeller extends EntityLiving {
     @Override
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
-        getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.25D);
+        getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.25D);
     }
 
     @Override
-    protected boolean interact(EntityPlayer player) {
+    public EnumActionResult applyPlayerInteraction(EntityPlayer player, Vec3d vec, ItemStack stack, EnumHand hand) {
         if(!worldObj.isRemote) {
-            if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ItemLetter) {
-                InventoryModLetter temp = new InventoryModLetter(player.getHeldItem());
+            if(player.getHeldItemMainhand() != null && player.getHeldItemMainhand().getItem() instanceof ItemLetter) {
+                InventoryModLetter temp = new InventoryModLetter(player.getHeldItemMainhand());
                 if(temp != null) {
                     int temp1 = 0;
                     for(int x = 0; x < temp.getSizeInventory(); x++)
@@ -49,24 +51,25 @@ public class EntityDemonicBankTeller extends EntityLiving {
                     for(RecipeLetter lr : BBApi.letterRecipes) {
                         if(lr != null)
                             if(lr.matches(inputs))
-                                player.setCurrentItemOrArmor(0, lr.getOutput());
+                                player.setHeldItem(hand, lr.getOutput());
                     }
                 }
             } else {
+                final BloodBankCapability.IBloodBank bloodBank = player.getCapability(BloodBankCapability.bloodBankCap, null);
                 if(player.isSneaking()) {
                     setDead();
                     EntityItem bankID = new EntityItem(worldObj, player.posX, player.posY, player.posZ, new ItemStack(BBItems.bbResources, 1, 1));
                     worldObj.spawnEntityInWorld(bankID);
-                    return true;
-                } else if(BBExtendedPlayer.get(player) != null) {
-                    if(BBExtendedPlayer.get(player).getBloodMax() <= 0)
+                    return EnumActionResult.SUCCESS;
+                } else if(bloodBank != null) {
+                    if(bloodBank.getBloodMax() <= 0)
                         BBPlayerHelper.sendChatMessageToPlayer(player, "You do not have an account with this bank.");
-                    if(BBExtendedPlayer.get(player).getBloodMax() > 0)
-                        BBPlayerHelper.sendChatMessageToPlayer(player, "You current balance is " + BBExtendedPlayer.get(player).getCurrentBlood() + " out of " + BBExtendedPlayer.get(player).getBloodMax());
-                    return true;
+                    if(bloodBank.getBloodMax() > 0)
+                        BBPlayerHelper.sendChatMessageToPlayer(player, "You current balance is " + bloodBank.getCurrentBlood() + " out of " + bloodBank.getBloodMax());
+                    return EnumActionResult.SUCCESS;
                 }
             }
         }
-        return false;
+        return super.applyPlayerInteraction(player, vec, stack, hand);
     }
 }

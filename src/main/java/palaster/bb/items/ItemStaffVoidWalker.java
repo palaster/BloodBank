@@ -4,12 +4,15 @@ import net.minecraft.block.BlockContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import palaster.bb.blocks.BBBlocks;
-import palaster.bb.entities.EntityYinYang;
 import palaster.bb.blocks.tile.TileEntityVoid;
+import palaster.bb.entities.EntityYinYang;
 
 public class ItemStaffVoidWalker extends ItemModStaff {
 
@@ -18,9 +21,9 @@ public class ItemStaffVoidWalker extends ItemModStaff {
 		powers = new String[]{"bb.staff.voidWalker.0"};
 		setUnlocalizedName("staffVoidWalker");
 	}
-	
+
 	@Override
-	public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
+	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
 		if(!playerIn.isSneaking()) {
 			worldIn.spawnEntityInWorld(new EntityYinYang(worldIn, playerIn, 0));
 			itemStackIn.damageItem(1, playerIn);
@@ -28,11 +31,11 @@ public class ItemStaffVoidWalker extends ItemModStaff {
 			worldIn.spawnEntityInWorld(new EntityYinYang(worldIn, playerIn, 1));
 			itemStackIn.damageItem(1, playerIn);
 		}
-		return itemStackIn;
+		return super.onItemRightClick(itemStackIn, worldIn, playerIn, hand);
 	}
-	
+
 	@Override
-	public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if(!worldIn.isRemote) {
 			for(int i = -1; i < 1 + 1; i++)
 				for(int k = -1; k < 1 + 1; k++) {
@@ -47,8 +50,8 @@ public class ItemStaffVoidWalker extends ItemModStaff {
 						}
 					}
 				}
-			return true;
+			return EnumActionResult.SUCCESS;
 		}
-		return false;
+		return super.onItemUse(stack, playerIn, worldIn, pos, hand, facing, hitX, hitY, hitZ);
 	}
 }

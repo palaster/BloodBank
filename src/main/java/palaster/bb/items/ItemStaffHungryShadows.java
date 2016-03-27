@@ -2,9 +2,11 @@ package palaster.bb.items;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumHand;
 
 public class ItemStaffHungryShadows extends ItemModStaff {
 
@@ -13,12 +15,12 @@ public class ItemStaffHungryShadows extends ItemModStaff {
 		powers = new String[]{"bb.staff.hs.0", "bb.staff.hs.1", "bb.staff.hs.2"};
 		setUnlocalizedName("staffHungryShadows");
 	}
-	
+
 	@Override
-	public boolean itemInteractionForEntity(ItemStack stack, EntityPlayer playerIn, EntityLivingBase target) {
+	public boolean itemInteractionForEntity(ItemStack stack, EntityPlayer playerIn, EntityLivingBase target, EnumHand hand) {
 		if(!playerIn.worldObj.isRemote) {
 			if(getActivePower(stack) == 0) {
-				target.addPotionEffect(new PotionEffect(18, 2400));
+				target.addPotionEffect(new PotionEffect(MobEffects.weakness, 2400));
 				stack.damageItem(12, playerIn);
 				return true;
 			} else if(getActivePower(stack) == 1) {
@@ -34,6 +36,6 @@ public class ItemStaffHungryShadows extends ItemModStaff {
 				return true;
 			}
 		}
-		return false;
+		return super.itemInteractionForEntity(stack, playerIn, target, hand);
 	}
 }

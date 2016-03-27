@@ -6,7 +6,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IChatComponent;
+import net.minecraft.util.text.ITextComponent;
 
 public abstract class TileEntityModInventory extends TileEntity implements IInventory {
 	
@@ -21,7 +21,7 @@ public abstract class TileEntityModInventory extends TileEntity implements IInve
 	public boolean hasCustomName() { return false; }
 
 	@Override
-	public IChatComponent getDisplayName() { return null; }
+	public ITextComponent getDisplayName() { return null; }
 
 	@Override
 	public int getSizeInventory() { return items.length; }

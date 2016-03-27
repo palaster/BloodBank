@@ -1,15 +1,15 @@
 package palaster.bb.core.helpers;
 
-import java.util.UUID;
-
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
 
+import java.util.UUID;
+
 public class BBPlayerHelper {
 	
-	public static void sendChatMessageToPlayer(EntityPlayer player, String message) { player.addChatMessage(new ChatComponentText(message)); }
+	public static void sendChatMessageToPlayer(EntityPlayer player, String message) { player.addChatMessage(new TextComponentString(message)); }
 	
 	public static EntityPlayer getPlayerFromDimensions(String uuid) {
 		for(int i = 0; i < DimensionManager.getIDs().length; i++) {

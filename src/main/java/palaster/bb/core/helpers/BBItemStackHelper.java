@@ -2,18 +2,16 @@ package palaster.bb.core.helpers;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockJukebox.TileEntityJukebox;
-import net.minecraft.block.BlockPlanks;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.oredict.OreDictionary;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public class BBItemStackHelper {
@@ -35,7 +33,6 @@ public class BBItemStackHelper {
 			if(ws.getTileEntity(pos) != null && ws.getTileEntity(pos) instanceof IInventory) {
 				IInventory inv = (IInventory) ws.getTileEntity(pos);
 				inv.setInventorySlotContents(slot, stack);
-				ws.markBlockForUpdate(pos);
 			} else if(ws.getTileEntity(pos) != null && ws.getTileEntity(pos) instanceof TileEntityJukebox) {
 				TileEntityJukebox jb = (TileEntityJukebox) ws.getTileEntity(pos);
 				if(stack == null) {
@@ -43,7 +40,7 @@ public class BBItemStackHelper {
                     ws.playRecord(pos, null);
 				}
 				jb.setRecord(stack);
-				ws.markBlockForUpdate(pos);
+				// Removed markBlockForUpdate(BlockPos) from WorldServer
 			}
 		}
 	}

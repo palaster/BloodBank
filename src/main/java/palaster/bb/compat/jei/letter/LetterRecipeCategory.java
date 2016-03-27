@@ -7,7 +7,7 @@ import mezz.jei.api.recipe.IRecipeCategory;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.StatCollector;
+import net.minecraft.util.text.translation.I18n;
 import palaster.bb.items.BBItems;
 import palaster.bb.libs.LibResource;
 
@@ -34,7 +34,7 @@ public class LetterRecipeCategory implements IRecipeCategory {
 
     @Nonnull
     @Override
-    public String getTitle() { return StatCollector.translateToLocal("bb.jei.letter"); }
+    public String getTitle() { return I18n.translateToLocal("bb.jei.letter"); }
 
     @Nonnull
     @Override

@@ -1,10 +1,11 @@
 package palaster.bb.items;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
@@ -18,15 +19,15 @@ import palaster.bb.libs.LibMod;
 
 public class BBArmor extends ItemArmor {
 
-    public BBArmor(ItemArmor.ArmorMaterial material, int renderIndex, int armorType) {
-        super(material, renderIndex, armorType);
+    public BBArmor(ItemArmor.ArmorMaterial material, int renderIndex, EntityEquipmentSlot entityEquipmentSlot) {
+        super(material, renderIndex, entityEquipmentSlot);
         setCreativeTab(CreativeTabBB.tabSS);
         setUnlocalizedName(material.getName() + "." + armorType);
         setMaxDamage(6000);
     }
 
     @Override
-    public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type) {
+    public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot, String type) {
         if(this == BBItems.boundHelmet || this == BBItems.boundChestplate || this == BBItems.boundBoots)
             return "bb:models/armor/bound_layer_1.png";
         else if(this == BBItems.boundLeggings)

@@ -3,10 +3,11 @@ package palaster.bb.entities.knowledge.pieces;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import palaster.bb.entities.extended.BBExtendedPlayer;
+import palaster.bb.capabilities.entities.BloodBankCapability;
 import palaster.bb.entities.knowledge.BBKnowledgePiece;
 
 public class KPBoilingBlood extends BBKnowledgePiece {
@@ -17,8 +18,9 @@ public class KPBoilingBlood extends BBKnowledgePiece {
 
     @Override
     public void onBookInteract(ItemStack stack, EntityPlayer playerIn, EntityLivingBase target) {
-        if(BBExtendedPlayer.get(playerIn) != null) {
-            BBExtendedPlayer.get(playerIn).consumeBlood(getPrice());
+        final BloodBankCapability.IBloodBank bloodBank = playerIn.getCapability(BloodBankCapability.bloodBankCap, null);
+        if(bloodBank != null) {
+            bloodBank.consumeBlood(getPrice());
             target.setFire(10);
         }
     }
@@ -27,5 +29,5 @@ public class KPBoilingBlood extends BBKnowledgePiece {
     public void onBookRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {}
 
     @Override
-    public void onBookUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {}
+    public void onBookUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {}
 }

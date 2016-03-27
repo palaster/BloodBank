@@ -43,10 +43,6 @@ public class LetterRecipeWrapper implements IRecipeWrapper {
     @Override
     public List<FluidStack> getFluidOutputs() { return null; }
 
-    @Deprecated
-    @Override
-    public void drawInfo(@Nonnull Minecraft minecraft, int recipeWidth, int recipeHeight) {}
-
     @Override
     public void drawInfo(@Nonnull Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {}
 
