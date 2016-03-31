@@ -11,6 +11,7 @@ import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import palaster.bb.api.BBApi;
 import palaster.bb.capabilities.entities.BloodBankCapability;
+import palaster.bb.core.handlers.BBEventHandler;
 import palaster.bb.core.helpers.BBPlayerHelper;
 import palaster.bb.entities.knowledge.BBKnowledgePiece;
 
@@ -20,9 +21,9 @@ public class KPBloodLink extends BBKnowledgePiece {
 
     @Override
     public void onBookInteract(ItemStack stack, EntityPlayer playerIn, EntityLivingBase target) {
-        final BloodBankCapability.IBloodBank bloodBank = playerIn.getCapability(BloodBankCapability.bloodBankCap, null);
+        final BloodBankCapability.IBloodBank bloodBank = playerIn.getCapability(BBEventHandler.bloodBankCap, null);
         if(bloodBank.getLinked() == null && target instanceof EntityLiving && BBApi.checkExcludesForEntity((EntityLiving) target)) {
-            bloodBank.consumeBlood(getPrice());
+            bloodBank.consumeBlood(playerIn, getPrice());
             bloodBank.linkEntity((EntityLiving) target);
         } else
             BBPlayerHelper.sendChatMessageToPlayer(playerIn, I18n.translateToLocal("bb.misc.alreadyLinked"));

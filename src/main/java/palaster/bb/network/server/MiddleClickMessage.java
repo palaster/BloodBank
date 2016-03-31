@@ -4,6 +4,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.relauncher.Side;
 import palaster.bb.capabilities.entities.BloodBankCapability;
+import palaster.bb.core.handlers.BBEventHandler;
 import palaster.bb.items.ItemModStaff;
 import palaster.bb.network.AbstractMessage.AbstractServerMessage;
 
@@ -21,7 +22,7 @@ public class MiddleClickMessage extends AbstractServerMessage<MiddleClickMessage
 
 	@Override
 	public void process(EntityPlayer player, Side side) {
-		final BloodBankCapability.IBloodBank bloodBank = player.getCapability(BloodBankCapability.bloodBankCap, null);
+		final BloodBankCapability.IBloodBank bloodBank = player.getCapability(BBEventHandler.bloodBankCap, null);
 		if(bloodBank != null)
 			if(player.getHeldItemMainhand() != null)
 				if(player.getHeldItemMainhand().getItem() instanceof ItemModStaff)

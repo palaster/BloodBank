@@ -4,6 +4,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
@@ -31,6 +32,7 @@ public class ItemHephaestusHammer extends ItemModSpecial {
 				if(playerIn.inventory.armorItemInSlot(i) != null && playerIn.inventory.armorItemInSlot(i).stackSize == 1 && playerIn.inventory.armorItemInSlot(i).getItemDamage() > 0)
 					playerIn.inventory.armorInventory[i].setItemDamage(0);
 			itemStackIn.setItemDamage(getMaxDamage());
+			return new ActionResult(EnumActionResult.SUCCESS, itemStackIn);
 		}
 		return super.onItemRightClick(itemStackIn, worldIn, playerIn, hand);
 	}

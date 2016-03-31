@@ -47,11 +47,15 @@ public class ItemBookBlood extends ItemModSpecial {
                     itemStackIn.getTagCompound().setInteger("Knowledge Piece", temp++);
                 else if(temp++ >= BBKnowledge.getKnowledgeSize())
                     itemStackIn.getTagCompound().setInteger("Knowledge Piece", 0);
-            } else if(itemStackIn.getTagCompound().getInteger("Knowledge Piece") >= 0)
+                return new ActionResult(EnumActionResult.SUCCESS, itemStackIn);
+            } else if(itemStackIn.getTagCompound().getInteger("Knowledge Piece") >= 0) {
                 BBKnowledge.getKnowledgePiece(itemStackIn.getTagCompound().getInteger("Knowledge Piece")).onBookRightClick(itemStackIn, worldIn, playerIn);
+                return new ActionResult(EnumActionResult.SUCCESS, itemStackIn);
+            }
         } else {
             itemStackIn.setTagCompound(new NBTTagCompound());
             itemStackIn.getTagCompound().setInteger("Knowledge Piece", 0);
+            return new ActionResult(EnumActionResult.SUCCESS, itemStackIn);
         }
         return super.onItemRightClick(itemStackIn, worldIn, playerIn, hand);
     }
@@ -59,16 +63,20 @@ public class ItemBookBlood extends ItemModSpecial {
     @Override
     public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         if(!worldIn.isRemote)
-            if(stack.getTagCompound() != null && stack.getTagCompound().getInteger("Knowledge Piece") >= 0)
+            if(stack.getTagCompound() != null && stack.getTagCompound().getInteger("Knowledge Piece") >= 0) {
                 BBKnowledge.getKnowledgePiece(stack.getTagCompound().getInteger("Knowledge Piece")).onBookUse(stack, playerIn, worldIn, pos, hand, facing, hitX, hitY, hitZ);
+                return EnumActionResult.SUCCESS;
+            }
         return super.onItemUse(stack, playerIn, worldIn, pos, hand, facing, hitX, hitY, hitZ);
     }
 
     @Override
     public boolean itemInteractionForEntity(ItemStack stack, EntityPlayer playerIn, EntityLivingBase target, EnumHand hand) {
         if(!playerIn.worldObj.isRemote)
-            if(stack.getTagCompound() != null && stack.getTagCompound().getInteger("Knowledge Piece") >= 0)
+            if(stack.getTagCompound() != null && stack.getTagCompound().getInteger("Knowledge Piece") >= 0) {
                 BBKnowledge.getKnowledgePiece(stack.getTagCompound().getInteger("Knowledge Piece")).onBookInteract(stack, playerIn, target);
+                return true;
+            }
         return false;
     }
 }

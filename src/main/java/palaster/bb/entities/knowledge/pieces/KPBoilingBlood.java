@@ -8,6 +8,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import palaster.bb.capabilities.entities.BloodBankCapability;
+import palaster.bb.core.handlers.BBEventHandler;
 import palaster.bb.entities.knowledge.BBKnowledgePiece;
 
 public class KPBoilingBlood extends BBKnowledgePiece {
@@ -18,9 +19,9 @@ public class KPBoilingBlood extends BBKnowledgePiece {
 
     @Override
     public void onBookInteract(ItemStack stack, EntityPlayer playerIn, EntityLivingBase target) {
-        final BloodBankCapability.IBloodBank bloodBank = playerIn.getCapability(BloodBankCapability.bloodBankCap, null);
+        final BloodBankCapability.IBloodBank bloodBank = playerIn.getCapability(BBEventHandler.bloodBankCap, null);
         if(bloodBank != null) {
-            bloodBank.consumeBlood(getPrice());
+            bloodBank.consumeBlood(playerIn, getPrice());
             target.setFire(10);
         }
     }

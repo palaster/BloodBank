@@ -15,6 +15,7 @@ import net.minecraft.world.World;
 import palaster.bb.api.BBApi;
 import palaster.bb.api.recipes.RecipeLetter;
 import palaster.bb.capabilities.entities.BloodBankCapability;
+import palaster.bb.core.handlers.BBEventHandler;
 import palaster.bb.core.helpers.BBPlayerHelper;
 import palaster.bb.inventories.InventoryModLetter;
 import palaster.bb.items.BBItems;
@@ -54,8 +55,9 @@ public class EntityDemonicBankTeller extends EntityLiving {
                                 player.setHeldItem(hand, lr.getOutput());
                     }
                 }
+                return EnumActionResult.SUCCESS;
             } else {
-                final BloodBankCapability.IBloodBank bloodBank = player.getCapability(BloodBankCapability.bloodBankCap, null);
+                final BloodBankCapability.IBloodBank bloodBank = player.getCapability(BBEventHandler.bloodBankCap, null);
                 if(player.isSneaking()) {
                     setDead();
                     EntityItem bankID = new EntityItem(worldObj, player.posX, player.posY, player.posZ, new ItemStack(BBItems.bbResources, 1, 1));
@@ -68,6 +70,7 @@ public class EntityDemonicBankTeller extends EntityLiving {
                         BBPlayerHelper.sendChatMessageToPlayer(player, "You current balance is " + bloodBank.getCurrentBlood() + " out of " + bloodBank.getBloodMax());
                     return EnumActionResult.SUCCESS;
                 }
+                return EnumActionResult.SUCCESS;
             }
         }
         return super.applyPlayerInteraction(player, vec, stack, hand);

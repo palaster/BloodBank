@@ -1,12 +1,10 @@
 package palaster.bb.core.proxy;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.potion.Potion;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.IThreadListener;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
@@ -29,7 +27,6 @@ import palaster.bb.inventories.InventoryModLetter;
 import palaster.bb.items.BBItems;
 import palaster.bb.items.ItemLetter;
 import palaster.bb.network.PacketHandler;
-import palaster.bb.potions.BBPotion;
 import palaster.bb.recipes.BBRecipes;
 
 public class CommonProxy implements IGuiHandler {
@@ -43,14 +40,13 @@ public class CommonProxy implements IGuiHandler {
 		BBBlocks.registerTileEntities();
 		BBEntities.init();
 		BBItems.init();
-		CapabilityManager.INSTANCE.register(BloodBankCapability.IBloodBank.class, new BloodBankCapability.Storage(), BloodBankCapability.DefaultImpl.class);
+		CapabilityManager.INSTANCE.register(BloodBankCapability.IBloodBank.class, new BloodBankCapability.Storage(), new BloodBankCapability.Factory());
 		MinecraftForge.EVENT_BUS.register(new BBEventHandler());
 	}
 	
 	public void init() {
 		// Broken till new loot system ChestGenHooks.addItem(ChestGenHooks.VILLAGE_BLACKSMITH, new WeightedRandomChestContent(BBItems.hephaestusHammer, 0, 1, 1, 7));
 		NetworkRegistry.INSTANCE.registerGuiHandler(BloodBank.instance, this);
-		Potion.potionRegistry.putObject(new ResourceLocation("death"), new BBPotion(true, 0x000000).setPotionName("effect.death"));
 	}
 	
 	public void postInit() { BBRecipes.init(); }

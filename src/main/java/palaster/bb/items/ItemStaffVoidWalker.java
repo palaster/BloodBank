@@ -27,11 +27,12 @@ public class ItemStaffVoidWalker extends ItemModStaff {
 		if(!playerIn.isSneaking()) {
 			worldIn.spawnEntityInWorld(new EntityYinYang(worldIn, playerIn, 0));
 			itemStackIn.damageItem(1, playerIn);
+			return new ActionResult(EnumActionResult.SUCCESS, itemStackIn);
 		} else {
 			worldIn.spawnEntityInWorld(new EntityYinYang(worldIn, playerIn, 1));
 			itemStackIn.damageItem(1, playerIn);
+			return new ActionResult(EnumActionResult.SUCCESS, itemStackIn);
 		}
-		return super.onItemRightClick(itemStackIn, worldIn, playerIn, hand);
 	}
 
 	@Override

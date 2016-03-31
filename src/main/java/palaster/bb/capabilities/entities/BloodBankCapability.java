@@ -3,24 +3,24 @@ package palaster.bb.capabilities.entities;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.EnumFacing;
+import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityInject;
 import palaster.bb.BloodBank;
+import palaster.bb.core.handlers.BBEventHandler;
+import palaster.bb.network.PacketHandler;
+import palaster.bb.network.client.UpdateCapabilitiesMessage;
+
+import java.util.concurrent.Callable;
 
 public class BloodBankCapability {
 
-    @CapabilityInject(IBloodBank.class)
-    public static final Capability<IBloodBank> bloodBankCap = null;
-
     public interface IBloodBank {
 
-        void consumeBlood(int amt);
+        void consumeBlood(EntityPlayer player, int amt);
 
         int getCurrentBlood();
 
@@ -28,18 +28,17 @@ public class BloodBankCapability {
 
         void setCurrentBlood(int amt);
 
-        int getBloodMax ();
+        int getBloodMax();
 
         void setBloodMax(int amt);
 
         void linkEntity(EntityLiving entityLiving);
 
-        EntityPlayer getPlayer();
-
         EntityLiving getLinked();
     }
 
     public static class Storage implements Capability.IStorage<IBloodBank> {
+
         @Override
         public NBTBase writeNBT(Capability<IBloodBank> capability, IBloodBank instance, EnumFacing side) {
             NBTTagCompound tagCompound = new NBTTagCompound();
@@ -56,23 +55,27 @@ public class BloodBankCapability {
             if(tagCompound != null) {
                 instance.setCurrentBlood(tagCompound.getInteger("CurrentBlood"));
                 instance.setBloodMax(tagCompound.getInteger("MaxBlood"));
-                if(tagCompound.getCompoundTag("LinkEntity") != null && instance.getPlayer() != null)
-                    if(EntityList.createEntityFromNBT(tagCompound.getCompoundTag("LinkEntity"), instance.getPlayer().worldObj) != null)
-                        instance.linkEntity((EntityLiving) EntityList.createEntityFromNBT(tagCompound.getCompoundTag("LinkEntity"), instance.getPlayer().worldObj));
+                if(tagCompound.getCompoundTag("LinkEntity") != null)
+                    instance.linkEntity((EntityLiving) EntityList.createEntityFromNBT(tagCompound.getCompoundTag("LinkEntity"), DimensionManager.getWorld(0)));
             }
         }
     }
 
+    public static class Factory implements Callable<IBloodBank> {
+        @Override
+        public IBloodBank call() throws Exception { return new DefaultImpl(); }
+    }
+
     public static class DefaultImpl implements IBloodBank {
 
-        // TODO: Get a instance of the player connected to.
-        private EntityPlayer player;
-        private int bloodMax = 0;
-        private int bloodCurrent = 0;
+        // TODO: It not saving between world exits, maybe needs sync.
+
+        private int bloodMax;
+        private int bloodCurrent;
         private EntityLiving link = null;
 
         @Override
-        public void consumeBlood(int amt) {
+        public void consumeBlood(EntityPlayer player, int amt) {
             if(amt > getCurrentBlood())
                 player.attackEntityFrom(BloodBank.proxy.bbBlood, (float) amt / 100);
             else
@@ -114,8 +117,5 @@ public class BloodBankCapability {
 
         @Override
         public EntityLiving getLinked() { return link; }
-
-        @Override
-        public EntityPlayer getPlayer() { return player; }
     }
 }

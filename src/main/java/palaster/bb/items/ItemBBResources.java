@@ -17,6 +17,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import palaster.bb.capabilities.entities.BloodBankCapability;
 import palaster.bb.core.CreativeTabBB;
+import palaster.bb.core.handlers.BBEventHandler;
 import palaster.bb.core.helpers.BBPlayerHelper;
 import palaster.bb.entities.EntityDemonicBankTeller;
 import palaster.bb.libs.LibMod;
@@ -40,7 +41,7 @@ public class ItemBBResources extends Item {
     public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
         if(!worldIn.isRemote)
             if(itemStackIn.getItemDamage() == 0) {
-                final BloodBankCapability.IBloodBank bloodBank = playerIn.getCapability(BloodBankCapability.bloodBankCap, null);
+                final BloodBankCapability.IBloodBank bloodBank = playerIn.getCapability(BBEventHandler.bloodBankCap, null);
                 if(bloodBank != null && bloodBank.getBloodMax() <= 0) {
                     bloodBank.setBloodMax(2000);
                     BBPlayerHelper.sendChatMessageToPlayer(playerIn, "Welcome to the First National Bank of Blood, you start out with a max balance of 2000. Use this bank ID card to keep in contact.");
@@ -54,7 +55,7 @@ public class ItemBBResources extends Item {
     public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         if(!worldIn.isRemote)
             if(stack.getItemDamage() == 1) {
-                final BloodBankCapability.IBloodBank bloodBank = playerIn.getCapability(BloodBankCapability.bloodBankCap, null);
+                final BloodBankCapability.IBloodBank bloodBank = playerIn.getCapability(BBEventHandler.bloodBankCap, null);
                 if(bloodBank != null && bloodBank.getBloodMax() > 0) {
                     EntityDemonicBankTeller dbt = new EntityDemonicBankTeller(worldIn);
                     dbt.setPosition(pos.getX(), pos.getY() + 1, pos.getZ());

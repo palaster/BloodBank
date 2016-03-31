@@ -5,6 +5,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
@@ -46,6 +47,7 @@ public class ItemPlayerBinder extends ItemModSpecial {
 			if(!itemStackIn.hasTagCompound())
 				itemStackIn.setTagCompound(new NBTTagCompound());
 			itemStackIn.getTagCompound().setString("PlayerUUID", playerIn.getUniqueID().toString());
+			return new ActionResult(EnumActionResult.SUCCESS, itemStackIn);
 		}
 		return super.onItemRightClick(itemStackIn, worldIn, playerIn, hand);
 	}
@@ -57,6 +59,7 @@ public class ItemPlayerBinder extends ItemModSpecial {
 				if(!stack.hasTagCompound())
 					stack.setTagCompound(new NBTTagCompound());
 				stack.getTagCompound().setString("PlayerUUID", target.getUniqueID().toString());
+				return true;
 			}
 		return super.itemInteractionForEntity(stack, playerIn, target, hand);
 	}
