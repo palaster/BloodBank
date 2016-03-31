@@ -14,8 +14,8 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import palaster.bb.api.BBApi;
 import palaster.bb.api.recipes.RecipeLetter;
-import palaster.bb.capabilities.entities.BloodBankCapability;
-import palaster.bb.core.handlers.BBEventHandler;
+import palaster.bb.capabilities.entities.BloodBankCapabilityProvider;
+import palaster.bb.capabilities.entities.IBloodBank;
 import palaster.bb.core.helpers.BBPlayerHelper;
 import palaster.bb.inventories.InventoryModLetter;
 import palaster.bb.items.BBItems;
@@ -57,7 +57,7 @@ public class EntityDemonicBankTeller extends EntityLiving {
                 }
                 return EnumActionResult.SUCCESS;
             } else {
-                final BloodBankCapability.IBloodBank bloodBank = player.getCapability(BBEventHandler.bloodBankCap, null);
+                final IBloodBank bloodBank = player.getCapability(BloodBankCapabilityProvider.bloodBankCap, null);
                 if(player.isSneaking()) {
                     setDead();
                     EntityItem bankID = new EntityItem(worldObj, player.posX, player.posY, player.posZ, new ItemStack(BBItems.bbResources, 1, 1));

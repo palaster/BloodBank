@@ -10,8 +10,8 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 import palaster.bb.BloodBank;
-import palaster.bb.capabilities.entities.BloodBankCapability;
-import palaster.bb.core.handlers.BBEventHandler;
+import palaster.bb.capabilities.entities.BloodBankCapabilityProvider;
+import palaster.bb.capabilities.entities.IBloodBank;
 
 public class ItemAthame extends ItemModSpecial {
 
@@ -23,7 +23,7 @@ public class ItemAthame extends ItemModSpecial {
     @Override
     public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
         if(!playerIn.worldObj.isRemote) {
-            final BloodBankCapability.IBloodBank bloodBank = playerIn.getCapability(BBEventHandler.bloodBankCap, null);
+            final IBloodBank bloodBank = playerIn.getCapability(BloodBankCapabilityProvider.bloodBankCap, null);
             if(bloodBank != null) {
                 playerIn.attackEntityFrom(BloodBank.proxy.bbBlood, 1f);
                 bloodBank.addBlood(100);
@@ -37,7 +37,7 @@ public class ItemAthame extends ItemModSpecial {
     public boolean onLeftClickEntity(ItemStack stack, EntityPlayer player, Entity entity) {
         if(!player.worldObj.isRemote)
             if(entity instanceof EntityLivingBase) {
-                final BloodBankCapability.IBloodBank bloodBank = player.getCapability(BBEventHandler.bloodBankCap, null);
+                final IBloodBank bloodBank = player.getCapability(BloodBankCapabilityProvider.bloodBankCap, null);
                 if(bloodBank != null) {
                     entity.attackEntityFrom(BloodBank.proxy.bbBlood, 1f);
                     bloodBank.addBlood(100);

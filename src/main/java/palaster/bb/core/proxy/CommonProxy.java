@@ -15,7 +15,9 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import palaster.bb.BloodBank;
 import palaster.bb.blocks.BBBlocks;
 import palaster.bb.blocks.tile.TileEntityModInventory;
-import palaster.bb.capabilities.entities.BloodBankCapability;
+import palaster.bb.capabilities.entities.BloodBankCapabilityFactory;
+import palaster.bb.capabilities.entities.BloodBankCapabilityStorage;
+import palaster.bb.capabilities.entities.IBloodBank;
 import palaster.bb.client.gui.GuiLetter;
 import palaster.bb.client.gui.GuiVoidAnchor;
 import palaster.bb.core.CreativeTabBB;
@@ -40,7 +42,7 @@ public class CommonProxy implements IGuiHandler {
 		BBBlocks.registerTileEntities();
 		BBEntities.init();
 		BBItems.init();
-		CapabilityManager.INSTANCE.register(BloodBankCapability.IBloodBank.class, new BloodBankCapability.Storage(), new BloodBankCapability.Factory());
+		CapabilityManager.INSTANCE.register(IBloodBank.class, new BloodBankCapabilityStorage(), new BloodBankCapabilityFactory());
 		MinecraftForge.EVENT_BUS.register(new BBEventHandler());
 	}
 	

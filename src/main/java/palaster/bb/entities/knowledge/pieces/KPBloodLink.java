@@ -10,8 +10,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import palaster.bb.api.BBApi;
-import palaster.bb.capabilities.entities.BloodBankCapability;
-import palaster.bb.core.handlers.BBEventHandler;
+import palaster.bb.capabilities.entities.BloodBankCapabilityProvider;
+import palaster.bb.capabilities.entities.IBloodBank;
 import palaster.bb.core.helpers.BBPlayerHelper;
 import palaster.bb.entities.knowledge.BBKnowledgePiece;
 
@@ -21,7 +21,7 @@ public class KPBloodLink extends BBKnowledgePiece {
 
     @Override
     public void onBookInteract(ItemStack stack, EntityPlayer playerIn, EntityLivingBase target) {
-        final BloodBankCapability.IBloodBank bloodBank = playerIn.getCapability(BBEventHandler.bloodBankCap, null);
+        final IBloodBank bloodBank = playerIn.getCapability(BloodBankCapabilityProvider.bloodBankCap, null);
         if(bloodBank.getLinked() == null && target instanceof EntityLiving && BBApi.checkExcludesForEntity((EntityLiving) target)) {
             bloodBank.consumeBlood(playerIn, getPrice());
             bloodBank.linkEntity((EntityLiving) target);
