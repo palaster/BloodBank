@@ -15,8 +15,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import palaster.bb.capabilities.entities.BloodBankCapabilityProvider;
-import palaster.bb.capabilities.entities.IBloodBank;
+import palaster.bb.api.BBApi;
+import palaster.bb.api.capabilities.entities.BloodBankCapabilityProvider;
+import palaster.bb.api.capabilities.entities.IBloodBank;
 import palaster.bb.core.CreativeTabBB;
 import palaster.bb.core.helpers.BBPlayerHelper;
 import palaster.bb.entities.EntityDemonicBankTeller;
@@ -41,9 +42,8 @@ public class ItemBBResources extends Item {
     public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
         if(!worldIn.isRemote)
             if(itemStackIn.getItemDamage() == 0) {
-                final IBloodBank bloodBank = playerIn.getCapability(BloodBankCapabilityProvider.bloodBankCap, null);
-                if(bloodBank != null && bloodBank.getBloodMax() <= 0) {
-                    bloodBank.setBloodMax(2000);
+                if(BBApi.getMaxBlood(playerIn) <= 0) {
+                    BBApi.setMaxBlood(playerIn, 2000);
                     BBPlayerHelper.sendChatMessageToPlayer(playerIn, "Welcome to the First National Bank of Blood, you start out with a max balance of 2000. Use this bank ID card to keep in contact.");
                     return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, new ItemStack(this, 1, 1));
                 }
@@ -55,8 +55,7 @@ public class ItemBBResources extends Item {
     public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         if(!worldIn.isRemote)
             if(stack.getItemDamage() == 1) {
-                final IBloodBank bloodBank = playerIn.getCapability(BloodBankCapabilityProvider.bloodBankCap, null);
-                if(bloodBank != null && bloodBank.getBloodMax() > 0) {
+                if(BBApi.getMaxBlood(playerIn) > 0) {
                     EntityDemonicBankTeller dbt = new EntityDemonicBankTeller(worldIn);
                     dbt.setPosition(pos.getX(), pos.getY() + 1, pos.getZ());
                     worldIn.spawnEntityInWorld(dbt);

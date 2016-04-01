@@ -1,4 +1,4 @@
-package palaster.bb.capabilities.entities;
+package palaster.bb.api.capabilities.entities;
 
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;

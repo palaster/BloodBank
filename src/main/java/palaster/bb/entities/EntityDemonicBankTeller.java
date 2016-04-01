@@ -14,8 +14,6 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import palaster.bb.api.BBApi;
 import palaster.bb.api.recipes.RecipeLetter;
-import palaster.bb.capabilities.entities.BloodBankCapabilityProvider;
-import palaster.bb.capabilities.entities.IBloodBank;
 import palaster.bb.core.helpers.BBPlayerHelper;
 import palaster.bb.inventories.InventoryModLetter;
 import palaster.bb.items.BBItems;
@@ -57,20 +55,18 @@ public class EntityDemonicBankTeller extends EntityLiving {
                 }
                 return EnumActionResult.SUCCESS;
             } else {
-                final IBloodBank bloodBank = player.getCapability(BloodBankCapabilityProvider.bloodBankCap, null);
                 if(player.isSneaking()) {
                     setDead();
                     EntityItem bankID = new EntityItem(worldObj, player.posX, player.posY, player.posZ, new ItemStack(BBItems.bbResources, 1, 1));
                     worldObj.spawnEntityInWorld(bankID);
                     return EnumActionResult.SUCCESS;
-                } else if(bloodBank != null) {
-                    if(bloodBank.getBloodMax() <= 0)
+                } else {
+                    if(BBApi.getMaxBlood(player) <= 0)
                         BBPlayerHelper.sendChatMessageToPlayer(player, "You do not have an account with this bank.");
-                    if(bloodBank.getBloodMax() > 0)
-                        BBPlayerHelper.sendChatMessageToPlayer(player, "You current balance is " + bloodBank.getCurrentBlood() + " out of " + bloodBank.getBloodMax());
+                    if(BBApi.getMaxBlood(player) > 0)
+                        BBPlayerHelper.sendChatMessageToPlayer(player, "You current balance is " + BBApi.getCurrentBlood(player) + " out of " + BBApi.getMaxBlood(player));
                     return EnumActionResult.SUCCESS;
                 }
-                return EnumActionResult.SUCCESS;
             }
         }
         return super.applyPlayerInteraction(player, vec, stack, hand);

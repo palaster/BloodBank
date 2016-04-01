@@ -3,8 +3,8 @@ package palaster.bb.network.server;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.relauncher.Side;
-import palaster.bb.capabilities.entities.BloodBankCapabilityProvider;
-import palaster.bb.capabilities.entities.IBloodBank;
+import palaster.bb.api.capabilities.entities.BloodBankCapabilityProvider;
+import palaster.bb.api.capabilities.entities.IBloodBank;
 import palaster.bb.items.ItemModStaff;
 import palaster.bb.network.AbstractMessage.AbstractServerMessage;
 

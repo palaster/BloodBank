@@ -15,9 +15,9 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import palaster.bb.BloodBank;
 import palaster.bb.blocks.BBBlocks;
 import palaster.bb.blocks.tile.TileEntityModInventory;
-import palaster.bb.capabilities.entities.BloodBankCapabilityFactory;
-import palaster.bb.capabilities.entities.BloodBankCapabilityStorage;
-import palaster.bb.capabilities.entities.IBloodBank;
+import palaster.bb.api.capabilities.entities.BloodBankCapabilityFactory;
+import palaster.bb.api.capabilities.entities.BloodBankCapabilityStorage;
+import palaster.bb.api.capabilities.entities.IBloodBank;
 import palaster.bb.client.gui.GuiLetter;
 import palaster.bb.client.gui.GuiVoidAnchor;
 import palaster.bb.core.CreativeTabBB;
@@ -47,7 +47,7 @@ public class CommonProxy implements IGuiHandler {
 	}
 	
 	public void init() {
-		// Broken till new loot system ChestGenHooks.addItem(ChestGenHooks.VILLAGE_BLACKSMITH, new WeightedRandomChestContent(BBItems.hephaestusHammer, 0, 1, 1, 7));
+		// Broken till new loot system : ChestGenHooks.addItem(ChestGenHooks.VILLAGE_BLACKSMITH, new WeightedRandomChestContent(BBItems.hephaestusHammer, 0, 1, 1, 7));
 		NetworkRegistry.INSTANCE.registerGuiHandler(BloodBank.instance, this);
 	}
 	

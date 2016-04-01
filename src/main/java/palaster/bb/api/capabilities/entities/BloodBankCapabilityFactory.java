@@ -1,4 +1,4 @@
-package palaster.bb.capabilities.entities;
+package palaster.bb.api.capabilities.entities;
 
 import java.util.concurrent.Callable;
 

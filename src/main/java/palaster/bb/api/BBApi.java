@@ -1,7 +1,10 @@
 package palaster.bb.api;
 
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import palaster.bb.api.capabilities.entities.BloodBankCapabilityProvider;
+import palaster.bb.api.capabilities.entities.IBloodBank;
 import palaster.bb.api.recipes.RecipeLetter;
 
 import java.util.ArrayList;
@@ -58,5 +61,58 @@ public class BBApi {
             System.out.println(output.getDisplayName() + " has a recipe larger than 9 items.");
             return null;
         }
+    }
+
+    // Blood Bank Methods
+
+    public static void consumeBlood(EntityPlayer player, int amt) {
+        final IBloodBank bloodBank = BloodBankCapabilityProvider.get(player);
+        if(bloodBank != null)
+            bloodBank.consumeBlood(player, amt);
+    }
+
+    public static int getCurrentBlood(EntityPlayer player) {
+        final IBloodBank bloodBank = BloodBankCapabilityProvider.get(player);
+        if(bloodBank != null)
+            return bloodBank.getCurrentBlood();
+        return 0;
+    }
+
+    public static void addBlood(EntityPlayer player, int amt) {
+        final IBloodBank bloodBank = BloodBankCapabilityProvider.get(player);
+        if(bloodBank != null)
+            bloodBank.addBlood(amt);
+    }
+
+    public static void setCurrentBlood(EntityPlayer player, int amt) {
+        final IBloodBank bloodBank = BloodBankCapabilityProvider.get(player);
+        if(bloodBank != null)
+            bloodBank.setCurrentBlood(amt);
+    }
+
+    public static int getMaxBlood(EntityPlayer player) {
+        final IBloodBank bloodBank = BloodBankCapabilityProvider.get(player);
+        if(bloodBank != null)
+            return bloodBank.getBloodMax();
+        return 0;
+    }
+
+    public static void setMaxBlood(EntityPlayer player, int amt) {
+        final IBloodBank bloodBank = BloodBankCapabilityProvider.get(player);
+        if(bloodBank != null)
+            bloodBank.setBloodMax(amt);
+    }
+
+    public static void linkEntity(EntityPlayer player, EntityLiving entityLiving) {
+        final IBloodBank bloodBank = BloodBankCapabilityProvider.get(player);
+        if(bloodBank != null)
+            bloodBank.linkEntity(entityLiving);
+    }
+
+    public static EntityLiving getLinked(EntityPlayer player) {
+        final IBloodBank bloodBank = BloodBankCapabilityProvider.get(player);
+        if(bloodBank != null)
+            return bloodBank.getLinked();
+        return null;
     }
 }

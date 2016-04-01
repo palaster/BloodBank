@@ -5,20 +5,14 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTBase;
-import net.minecraft.potion.Potion;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.world.WorldEvent;
@@ -31,8 +25,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Mouse;
 import palaster.bb.BloodBank;
-import palaster.bb.capabilities.entities.BloodBankCapabilityProvider;
-import palaster.bb.capabilities.entities.IBloodBank;
+import palaster.bb.api.BBApi;
+import palaster.bb.api.capabilities.entities.BloodBankCapabilityProvider;
 import palaster.bb.entities.knowledge.BBKnowledge;
 import palaster.bb.items.BBItems;
 import palaster.bb.items.ItemBookBlood;
@@ -71,38 +65,17 @@ public class BBEventHandler {
 	public void attachEntityCapability(AttachCapabilitiesEvent.Entity e) {
 		if(e.getEntity() instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) e.getEntity();
-			if(player != null && !player.hasCapability(BloodBankCapabilityProvider.bloodBankCap, null)) {
-				e.addCapability(new ResourceLocation(LibMod.modid, "IBloodBank"), new ICapabilitySerializable<NBTBase>() {
-					IBloodBank inst = BloodBankCapabilityProvider.bloodBankCap.getDefaultInstance();
-
-					@Override
-					public boolean hasCapability(Capability<?> capability, EnumFacing facing) { return capability == BloodBankCapabilityProvider.bloodBankCap; }
-
-					@Override
-					public <T> T getCapability(Capability<T> capability, EnumFacing facing) { return capability == BloodBankCapabilityProvider.bloodBankCap ? BloodBankCapabilityProvider.bloodBankCap.<T>cast(inst) : null; }
-
-					@Override
-					public NBTBase serializeNBT() { return BloodBankCapabilityProvider.bloodBankCap.getStorage().writeNBT(BloodBankCapabilityProvider.bloodBankCap, inst, null); }
-
-					@Override
-					public void deserializeNBT(NBTBase nbt) { BloodBankCapabilityProvider.bloodBankCap.getStorage().readNBT(BloodBankCapabilityProvider.bloodBankCap, inst, null, nbt); }
-				});
-			}
+			if(player != null && !player.hasCapability(BloodBankCapabilityProvider.bloodBankCap, null))
+				e.addCapability(new ResourceLocation(LibMod.modid, "IBloodBank"), new BloodBankCapabilityProvider());
 		}
 	}
 
 	@SubscribeEvent
 	public void onClonePlayer(PlayerEvent.Clone e) {
 		if(e.isWasDeath()) {
-			final IBloodBank bloodBank = e.getOriginal().getCapability(BloodBankCapabilityProvider.bloodBankCap, null);
-			if(bloodBank != null) {
-				final IBloodBank bloodBank1 = e.getEntityPlayer().getCapability(BloodBankCapabilityProvider.bloodBankCap, null);
-				if(bloodBank1 != null) {
-					bloodBank1.setBloodMax(bloodBank.getBloodMax());
-					bloodBank1.setCurrentBlood(bloodBank.getCurrentBlood());
-					bloodBank1.linkEntity(bloodBank.getLinked());
-				}
-			}
+			BBApi.setMaxBlood(e.getEntityPlayer(), BBApi.getMaxBlood(e.getOriginal()));
+			BBApi.setCurrentBlood(e.getEntityPlayer(), BBApi.getCurrentBlood(e.getOriginal()));
+			BBApi.linkEntity(e.getEntityPlayer(), BBApi.getLinked(e.getOriginal()));
 		}
 	}
 
@@ -111,12 +84,9 @@ public class BBEventHandler {
 		if(!e.getEntityLiving().worldObj.isRemote)
 			for(Entity entity : e.getEntityLiving().worldObj.loadedEntityList)
 				if(entity instanceof EntityPlayer) {
-					final IBloodBank bloodBank = ((EntityPlayer) entity).getCapability(BloodBankCapabilityProvider.bloodBankCap, null);
-					if(bloodBank != null)
-						if(bloodBank.getLinked() != null && bloodBank.getLinked().getUniqueID() == e.getEntityLiving().getUniqueID()) {
-							bloodBank.linkEntity(null);
-							continue;
-						}
+					EntityPlayer player = (EntityPlayer) entity;
+					if(BBApi.getLinked(player) != null && BBApi.getLinked(player).getUniqueID() == e.getEntityLiving().getUniqueID())
+						BBApi.linkEntity(player, null);
 				}
 	}
 
@@ -131,15 +101,12 @@ public class BBEventHandler {
 							e.setCanceled(true);
 							p.inventory.getStackInSlot(i).damageItem(1, p);
 						}
-			if(e.getSource().getEntity() != null) {
-				final IBloodBank bloodBank = p.getCapability(BloodBankCapabilityProvider.bloodBankCap, null);
-				if(bloodBank != null)
-					if(bloodBank.getLinked() != null) {
-						EntityLiving link = bloodBank.getLinked();
-						link.attackEntityFrom(BloodBank.proxy.bbBlood, e.getAmount());
-						e.setCanceled(true);
-					}
-			}
+			if(e.getSource().getEntity() != null)
+				if(BBApi.getLinked(p) != null) {
+					EntityLiving link = BBApi.getLinked(p);
+					link.attackEntityFrom(BloodBank.proxy.bbBlood, e.getAmount());
+					e.setCanceled(true);
+				}
 		}
 	}
 	
@@ -156,14 +123,6 @@ public class BBEventHandler {
 			e.getToolTip().set(e.getToolTip().size() - 1, I18n.translateToLocal("bb.misc.tapeHeart"));
 			e.getToolTip().add(temp);
 		}
-	}
-
-	@SubscribeEvent
-	public void updateLivingEntity(LivingEvent.LivingUpdateEvent e) {
-		if(!e.getEntityLiving().worldObj.isRemote)
-			if(e.getEntityLiving().isPotionActive(Potion.getPotionFromResourceLocation("death")))
-				if(e.getEntityLiving().getActivePotionEffect(Potion.getPotionFromResourceLocation("death")).getDuration() <= 1)
-					e.getEntityLiving().setDead();
 	}
 
 	@SubscribeEvent
