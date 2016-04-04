@@ -4,6 +4,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import palaster.bb.api.capabilities.items.IDuctTapeable;
 
 public class ItemMagicDuctTape extends ItemModSpecial {
 

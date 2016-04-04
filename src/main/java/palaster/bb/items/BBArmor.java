@@ -1,6 +1,5 @@
 package palaster.bb.items;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
@@ -9,7 +8,9 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -37,9 +38,14 @@ public class BBArmor extends ItemArmor {
 
     @Override
     public Item setUnlocalizedName(String unlocalizedName) {
-        GameRegistry.registerItem(this, unlocalizedName);
-        return super.setUnlocalizedName(unlocalizedName);
+        setRegistryName(new ResourceLocation(LibMod.modid, unlocalizedName));
+        GameRegistry.register(this);
+        setCustomModelResourceLocation();
+        return super.setUnlocalizedName(LibMod.modid + ":" + unlocalizedName);
     }
+
+    @SideOnly(Side.CLIENT)
+    public void setCustomModelResourceLocation() { ModelLoader.setCustomModelResourceLocation(this, 0, new ModelResourceLocation(getRegistryName(), "inventory")); }
 
     @Override
     public Entity createEntity(World world, Entity location, ItemStack itemstack) {
@@ -88,7 +94,4 @@ public class BBArmor extends ItemArmor {
     }
 
     public static void removeBoundArmorFromArmor(ItemStack holder, EntityPlayer player, int itemSlot) { player.inventory.armorInventory[itemSlot] = BBItemStackHelper.getItemStackFromItemStack(holder); }
-
-    @SideOnly(Side.CLIENT)
-    public void setItemRender(String name) { Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(this, 0, new ModelResourceLocation(LibMod.modid + ":" + name, "inventory")); }
 }

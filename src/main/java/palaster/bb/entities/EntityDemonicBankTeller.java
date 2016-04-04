@@ -35,7 +35,7 @@ public class EntityDemonicBankTeller extends EntityLiving {
 
     @Override
     public EnumActionResult applyPlayerInteraction(EntityPlayer player, Vec3d vec, ItemStack stack, EnumHand hand) {
-        if(!worldObj.isRemote) {
+        if(!worldObj.isRemote && hand == EnumHand.MAIN_HAND) {
             if(player.getHeldItemMainhand() != null && player.getHeldItemMainhand().getItem() instanceof ItemLetter) {
                 InventoryModLetter temp = new InventoryModLetter(player.getHeldItemMainhand());
                 if(temp != null) {

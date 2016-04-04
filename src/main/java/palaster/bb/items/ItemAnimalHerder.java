@@ -7,8 +7,12 @@ import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 import java.util.List;
 
@@ -25,12 +29,9 @@ public class ItemAnimalHerder extends ItemModSpecial {
 	public boolean itemInteractionForEntity(ItemStack stack, EntityPlayer playerIn, EntityLivingBase target, EnumHand hand) {
 		if(!playerIn.worldObj.isRemote) {
 			if(target instanceof EntityAnimal) {
-				if(playerIn.getControllingPassenger() == null) {
-					target.startRiding(playerIn, true);
-					return true;
-				} else {
-					target.dismountEntity(playerIn);
-					playerIn.dismountRidingEntity();
+				if(!playerIn.isBeingRidden()) {
+					((EntityAnimal) target).startRiding(playerIn, true);
+					playerIn.updateRidden();
 					return true;
 				}
 			} else if(target instanceof EntityLiving && !(target instanceof EntityAnimal)) {
@@ -50,5 +51,15 @@ public class ItemAnimalHerder extends ItemModSpecial {
 			}
 		}
 		return false;
+	}
+
+	@Override
+	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+		if(!worldIn.isRemote)
+			if(playerIn.isBeingRidden()) {
+				playerIn.dismountRidingEntity();
+				return EnumActionResult.SUCCESS;
+			}
+		return super.onItemUse(stack, playerIn, worldIn, pos, hand, facing, hitX, hitY, hitZ);
 	}
 }

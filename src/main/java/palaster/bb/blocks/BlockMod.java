@@ -1,11 +1,12 @@
 package palaster.bb.blocks;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -19,15 +20,17 @@ public abstract class BlockMod extends Block {
 		setCreativeTab(CreativeTabBB.tabSS);
 		setHardness(3F);
 		setHarvestLevel("pickaxe", 0);
-		setStepSound(SoundType.STONE);
 	}
 	
 	@Override
 	public Block setUnlocalizedName(String name) {
-		GameRegistry.registerBlock(this, name);
-		return super.setUnlocalizedName(name);
+		setRegistryName(new ResourceLocation(LibMod.modid, name));
+		GameRegistry.register(this);
+		GameRegistry.register(new ItemBlock(this).setRegistryName(getRegistryName()));
+		setCustomModelResourceLocation();
+		return super.setUnlocalizedName(LibMod.modid + ":" + name);
 	}
 
 	@SideOnly(Side.CLIENT)
-	public void setBlockRender(String name) { Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(Item.getItemFromBlock(this), 0, new ModelResourceLocation(LibMod.modid + ":" + name, "inventory")); }
+	public void setCustomModelResourceLocation() { ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(this), 0, new ModelResourceLocation(getRegistryName(), "inventory")); }
 }

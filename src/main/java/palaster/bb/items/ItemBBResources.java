@@ -1,23 +1,18 @@
 package palaster.bb.items;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import palaster.bb.api.BBApi;
-import palaster.bb.api.capabilities.entities.BloodBankCapabilityProvider;
-import palaster.bb.api.capabilities.entities.IBloodBank;
 import palaster.bb.core.CreativeTabBB;
 import palaster.bb.core.helpers.BBPlayerHelper;
 import palaster.bb.entities.EntityDemonicBankTeller;
@@ -67,7 +62,7 @@ public class ItemBBResources extends Item {
     }
 
     @Override
-    public String getUnlocalizedName(ItemStack stack) { return super.getUnlocalizedName() + "." + names[stack.getItemDamage()]; }
+    public String getUnlocalizedName(ItemStack stack) { return super.getUnlocalizedName(stack) + "." + names[stack.getItemDamage()]; }
 
     @Override
     public void getSubItems(Item itemIn, CreativeTabs tab, List<ItemStack> subItems) {
@@ -77,10 +72,15 @@ public class ItemBBResources extends Item {
 
     @Override
     public Item setUnlocalizedName(String unlocalizedName) {
-        GameRegistry.registerItem(this, unlocalizedName);
-        return super.setUnlocalizedName(unlocalizedName);
+        setRegistryName(new ResourceLocation(LibMod.modid, unlocalizedName));
+        GameRegistry.register(this);
+        setCustomModelResourceLocation();
+        return super.setUnlocalizedName(LibMod.modid + ":" + unlocalizedName);
     }
 
     @SideOnly(Side.CLIENT)
-    public void setItemRender(String name, int i) { Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(this, i, new ModelResourceLocation(LibMod.modid + ":" + name, "inventory")); }
+    public void setCustomModelResourceLocation() {
+        for(int i = 0; i < names.length; i++)
+            ModelLoader.setCustomModelResourceLocation(this, i, new ModelResourceLocation(LibMod.modid + ":" + names[i], "inventory"));
+    }
 }

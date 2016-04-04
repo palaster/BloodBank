@@ -10,9 +10,11 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import palaster.bb.blocks.tile.TileEntityVoid;
+import palaster.bb.libs.LibMod;
 
 public class BlockVoid extends BlockModContainer {
 

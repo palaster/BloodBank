@@ -7,6 +7,7 @@ import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import palaster.bb.api.capabilities.items.IDuctTapeable;
 
 import java.util.List;
 

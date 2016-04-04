@@ -1,13 +1,10 @@
 package palaster.bb.items;
 
-import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.EnumHelper;
-import palaster.bb.libs.LibMod;
 
 public class BBItems {
 
@@ -64,7 +61,5 @@ public class BBItems {
 		debug = new ItemDebug();
 		yinYang = new ItemYinYang();
 		bbResources = new ItemBBResources();
-
-		ModelBakery.registerItemVariants(bbResources, new ResourceLocation(LibMod.modid + ":bankContract"), new ResourceLocation(LibMod.modid + ":bankID"), new ResourceLocation(LibMod.modid + ":magicDust"));
 	}
 }
