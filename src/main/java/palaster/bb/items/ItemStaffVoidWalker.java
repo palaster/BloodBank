@@ -24,15 +24,22 @@ public class ItemStaffVoidWalker extends ItemModStaff {
 
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
-		if(!playerIn.isSneaking()) {
-			worldIn.spawnEntityInWorld(new EntityYinYang(worldIn, playerIn, 0));
-			itemStackIn.damageItem(1, playerIn);
-			return new ActionResult(EnumActionResult.SUCCESS, itemStackIn);
-		} else {
-			worldIn.spawnEntityInWorld(new EntityYinYang(worldIn, playerIn, 1));
-			itemStackIn.damageItem(1, playerIn);
-			return new ActionResult(EnumActionResult.SUCCESS, itemStackIn);
+		if(!worldIn.isRemote) {
+			if(!playerIn.isSneaking()) {
+				EntityYinYang yinYang = new EntityYinYang(worldIn, playerIn, 0);
+				yinYang.func_184538_a(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.5F, 1.0F);
+				worldIn.spawnEntityInWorld(yinYang);
+				itemStackIn.damageItem(1, playerIn);
+				return new ActionResult(EnumActionResult.SUCCESS, itemStackIn);
+			} else {
+				EntityYinYang yinYang = new EntityYinYang(worldIn, playerIn, 1);
+				yinYang.func_184538_a(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.5F, 1.0F);
+				worldIn.spawnEntityInWorld(yinYang);
+				itemStackIn.damageItem(1, playerIn);
+				return new ActionResult(EnumActionResult.SUCCESS, itemStackIn);
+			}
 		}
+		return super.onItemRightClick(itemStackIn, worldIn, playerIn, hand);
 	}
 
 	@Override
