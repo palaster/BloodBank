@@ -64,9 +64,8 @@ public class BBItemStackHelper {
 	}
 
 	public static ItemStack getItemStackFromItemStack(ItemStack holder) {
-		if(holder.hasTagCompound())
-			if(holder.getTagCompound() != null)
-				return ItemStack.loadItemStackFromNBT(holder.getTagCompound().getCompoundTag("BBItemHolder"));
+		if(holder.hasTagCompound() && holder.getTagCompound() != null)
+			return ItemStack.loadItemStackFromNBT(holder.getTagCompound().getCompoundTag("BBItemHolder"));
 		return null;
 	}
 

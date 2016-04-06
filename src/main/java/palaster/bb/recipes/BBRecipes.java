@@ -3,11 +3,14 @@ package palaster.bb.recipes;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.oredict.RecipeSorter;
 import palaster.bb.api.BBApi;
 import palaster.bb.blocks.BBBlocks;
 import palaster.bb.items.BBItems;
 
 public class BBRecipes {
+
 	public static void init() {
 		registerCraftingRecipes();
 		registerSmeltingRecipes();
@@ -16,7 +19,10 @@ public class BBRecipes {
 
 	private static void registerSmeltingRecipes() {}
 
-	private static void registerCraftingRecipes() {}
+	private static void registerCraftingRecipes() {
+		GameRegistry.addRecipe(new TapeHeartRecipe());
+		RecipeSorter.register("bb:tapeHeart", TapeHeartRecipe.class, RecipeSorter.Category.SHAPELESS, "");
+	}
 
 	private static void registerLetterRecipes() {
 		// Blocks

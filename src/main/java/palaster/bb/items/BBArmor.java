@@ -61,29 +61,20 @@ public class BBArmor extends ItemArmor {
     public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
         if(!worldIn.isRemote)
             if(entityIn instanceof EntityPlayer) {
-                if(this == BBItems.boundHelmet) {
-                    if(itemSlot == 103)
-                        stack.damageItem(1, (EntityPlayer) entityIn);
-                    else
-                        removeBoundArmorFromInventory(stack, (EntityPlayer) entityIn, itemSlot);
-                }
-                if(this == BBItems.boundChestplate) {
-                    if(itemSlot == 102)
-                        stack.damageItem(1, (EntityPlayer) entityIn);
-                    else
-                        removeBoundArmorFromInventory(stack, (EntityPlayer) entityIn, itemSlot);
-                }
-                if(this == BBItems.boundLeggings) {
-                    if(itemSlot == 101)
-                        stack.damageItem(1, (EntityPlayer) entityIn);
-                    else
-                        removeBoundArmorFromInventory(stack, (EntityPlayer) entityIn, itemSlot);
-                }
-                if(this == BBItems.boundBoots) {
-                    if(itemSlot == 100)
-                        stack.damageItem(1, (EntityPlayer) entityIn);
-                    else
-                        removeBoundArmorFromInventory(stack, (EntityPlayer) entityIn, itemSlot);
+                if(stack != null) {
+                    if(stack.getItem() == BBItems.boundHelmet || stack.getItem() == BBItems.boundChestplate || stack.getItem() == BBItems.boundLeggings || stack.getItem() == BBItems.boundBoots) {
+                        if(itemSlot == 103 || itemSlot == 102 || itemSlot == 101 || itemSlot == 100) {
+                            if(stack.getItem() == BBItems.boundHelmet)
+                                stack.damageItem(1, (EntityPlayer) entityIn);
+                            else if(stack.getItem() == BBItems.boundChestplate)
+                                stack.damageItem(1, (EntityPlayer) entityIn);
+                            else if(stack.getItem() == BBItems.boundLeggings)
+                                stack.damageItem(1, (EntityPlayer) entityIn);
+                            else if(stack.getItem() == BBItems.boundBoots)
+                                stack.damageItem(1, (EntityPlayer) entityIn);
+                        } else
+                            removeBoundArmorFromArmor(stack, (EntityPlayer) entityIn, itemSlot);
+                    }
                 }
             }
     }
@@ -93,5 +84,10 @@ public class BBArmor extends ItemArmor {
         player.inventory.setInventorySlotContents(itemSlot, stack);
     }
 
-    public static void removeBoundArmorFromArmor(ItemStack holder, EntityPlayer player, int itemSlot) { player.inventory.armorInventory[itemSlot] = BBItemStackHelper.getItemStackFromItemStack(holder); }
+    public static void removeBoundArmorFromArmor(ItemStack stack, EntityPlayer player, int itemSlot) {
+        ItemStack stack1 = player.inventory.getStackInSlot(itemSlot);
+        if(stack1 != null)
+            if(stack1.getItem() == BBItems.boundHelmet || stack1.getItem() == BBItems.boundChestplate || stack1.getItem() == BBItems.boundLeggings || stack1.getItem() == BBItems.boundBoots)
+                player.inventory.setInventorySlotContents(itemSlot, BBItemStackHelper.getItemStackFromItemStack(stack));
+    }
 }

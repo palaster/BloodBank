@@ -118,11 +118,8 @@ public class BBEventHandler {
 	
 	@SubscribeEvent
 	public void tooltip(ItemTooltipEvent e) {
-		if(e.getItemStack() != null && e.getItemStack().hasTagCompound() && e.getItemStack().getTagCompound().getBoolean("HasTapeHeart")) {
-			String temp = e.getToolTip().get(e.getToolTip().size() - 1);
-			e.getToolTip().set(e.getToolTip().size() - 1, I18n.translateToLocal("bb.misc.tapeHeart"));
-			e.getToolTip().add(temp);
-		}
+		if(e.getItemStack() != null && e.getItemStack().hasTagCompound() && e.getItemStack().getTagCompound().getBoolean("HasTapeHeart"))
+			e.getToolTip().add(I18n.translateToLocal("bb.misc.tapeHeart"));
 	}
 
 	@SubscribeEvent
