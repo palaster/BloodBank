@@ -1,12 +1,17 @@
 package palaster.bb.core.proxy;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.IThreadListener;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import org.lwjgl.input.Keyboard;
 import palaster.bb.entities.BBEntities;
 
 public class ClientProxy extends CommonProxy {
+
+	public static KeyBinding staffChange;
 	
 	@Override
 	public void preInit() {
@@ -15,7 +20,12 @@ public class ClientProxy extends CommonProxy {
 	}
 
 	@Override
-	public void init() { super.init(); }
+	public void init() {
+		super.init();
+
+		staffChange = new KeyBinding("key.staffChange", Keyboard.KEY_U, "key.categories.bb");
+		ClientRegistry.registerKeyBinding(staffChange);
+	}
 
 	@Override
 	public void postInit() { super.postInit(); }

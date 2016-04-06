@@ -2,7 +2,8 @@ itemGroup.tabBB=Blood Bank
 
 death.attack.bbBlood=%1$s died of anemia.
 
-key.bb.label=Blood Bank
+key.categories.bb=Blood Bank
+key.staffChange=Change Staff Power
 
 entity.bb.skeletonMinion.name=Skeleton Minion
 entity.bb.yinYang.name=Yin Yang

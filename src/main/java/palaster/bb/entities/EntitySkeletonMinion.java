@@ -11,11 +11,9 @@ import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.entity.projectile.EntityTippedArrow;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Enchantments;
-import net.minecraft.init.Items;
-import net.minecraft.init.SoundEvents;
+import net.minecraft.init.*;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.ItemAxe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
@@ -57,14 +55,12 @@ public class EntitySkeletonMinion extends EntityTameable implements IMob, IRange
         }
     };
 
-    public EntitySkeletonMinion(World worldIn) {
-        this(worldIn, 0);
-    }
+    public EntitySkeletonMinion(World worldIn) { this(worldIn, 0); }
 
     public EntitySkeletonMinion(World worldIn, int value) {
         super(worldIn);
         tasks.addTask(1, new EntityAISwimming(this));
-        tasks.addTask(2, aiSit);
+        tasks.addTask(2, aiSit = new EntityAISit(this));
         tasks.addTask(2, new EntityAIRestrictSun(this));
         tasks.addTask(3, new EntityAIFleeSun(this, 1.0D));
         tasks.addTask(3, new EntityAIAvoidEntity(this, EntityWolf.class, 6.0F, 1.0D, 1.2D));
@@ -76,11 +72,11 @@ public class EntitySkeletonMinion extends EntityTameable implements IMob, IRange
         targetTasks.addTask(2, new EntityAIOwnerHurtTarget(this));
         targetTasks.addTask(3, new EntityAIHurtByTarget(this, true));
         setTamed(false);
-        if (value == 0)
+        if(value == 0)
             setSize(0.75F, 2.25F);
         else
             setSize(0.9F, 2.7F);
-        if (worldIn != null && !worldIn.isRemote)
+        if(worldIn != null && !worldIn.isRemote)
             setCombatTask();
     }
 
@@ -99,19 +95,13 @@ public class EntitySkeletonMinion extends EntityTameable implements IMob, IRange
     }
 
     @Override
-    protected SoundEvent getAmbientSound() {
-        return SoundEvents.entity_skeleton_ambient;
-    }
+    protected SoundEvent getAmbientSound() { return SoundEvents.entity_skeleton_ambient; }
 
     @Override
-    protected SoundEvent getHurtSound() {
-        return SoundEvents.entity_skeleton_hurt;
-    }
+    protected SoundEvent getHurtSound() { return SoundEvents.entity_skeleton_hurt; }
 
     @Override
-    protected SoundEvent getDeathSound() {
-        return SoundEvents.entity_skeleton_death;
-    }
+    protected SoundEvent getDeathSound() { return SoundEvents.entity_skeleton_death; }
 
     @Override
     protected void playStepSound(BlockPos pos, Block blockIn) { playSound(SoundEvents.entity_skeleton_step, 0.15F,1.0F); }
@@ -131,12 +121,47 @@ public class EntitySkeletonMinion extends EntityTameable implements IMob, IRange
 
     @Override
     public boolean attackEntityAsMob(Entity p_70652_1_) {
-        if(super.attackEntityAsMob(p_70652_1_)) {
+        if(attackEntityAsMobSuper(p_70652_1_)) {
             if(getSkeletonType() == 1 && p_70652_1_ instanceof EntityLivingBase)
-                ((EntityLivingBase)p_70652_1_).addPotionEffect(new PotionEffect(Potion.getPotionById(30), 200));
+                ((EntityLivingBase)p_70652_1_).addPotionEffect(new PotionEffect(MobEffects.wither, 200));
             return true;
         } else
             return false;
+    }
+
+    public boolean attackEntityAsMobSuper(Entity entityIn) {
+        float f = (float)getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue();
+        int i = 0;
+        if(entityIn instanceof EntityLivingBase) {
+            f += EnchantmentHelper.getModifierForCreature(getHeldItemMainhand(), ((EntityLivingBase)entityIn).getCreatureAttribute());
+            i += EnchantmentHelper.getKnockbackModifier(this);
+        }
+        boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), f);
+        if(flag) {
+            if(i > 0 && entityIn instanceof EntityLivingBase) {
+                ((EntityLivingBase)entityIn).knockBack(this, (float)i * 0.5F, (double)MathHelper.sin(rotationYaw * 0.017453292F), (double)(-MathHelper.cos(rotationYaw * 0.017453292F)));
+                motionX *= 0.6D;
+                motionZ *= 0.6D;
+            }
+            int j = EnchantmentHelper.getFireAspectModifier(this);
+            if(j > 0)
+                entityIn.setFire(j * 4);
+            if(entityIn instanceof EntityPlayer) {
+                EntityPlayer entityplayer = (EntityPlayer)entityIn;
+                ItemStack itemstack = getHeldItemMainhand();
+                ItemStack itemstack1 = entityplayer.isHandActive() ? entityplayer.getActiveItemStack() : null;
+                if(itemstack != null && itemstack1 != null && itemstack.getItem() instanceof ItemAxe && itemstack1.getItem() == Items.shield) {
+                    float f1 = 0.25F + (float)EnchantmentHelper.getEfficiencyModifier(this) * 0.05F;
+                    if(rand.nextFloat() < f1) {
+                        entityplayer.getCooldownTracker().setCooldown(Items.shield, 100);
+                        worldObj.setEntityState(entityplayer, (byte)30);
+                    }
+                }
+            }
+
+            applyEnchantments(this, entityIn);
+        }
+        return flag;
     }
 
     @Override
@@ -144,24 +169,31 @@ public class EntitySkeletonMinion extends EntityTameable implements IMob, IRange
 
     @Override
     public void onLivingUpdate() {
-        if(worldObj.isDaytime() && !worldObj.isRemote) {
-            float f = getBrightness(1.0F);
-            BlockPos blockpos = getRidingEntity() instanceof EntityBoat ? (new BlockPos(posX, (double)Math.round(posY), posZ)).up() : new BlockPos(posX, (double)Math.round(posY), posZ);
-            if(f > 0.5F && rand.nextFloat() * 30.0F < (f - 0.4F) * 2.0F && worldObj.canSeeSky(blockpos)) {
-                boolean flag = true;
-                ItemStack itemstack = getItemStackFromSlot(EntityEquipmentSlot.HEAD);
-                if(itemstack != null) {
-                    if(itemstack.isItemStackDamageable()) {
-                        itemstack.setItemDamage(itemstack.getItemDamage() + rand.nextInt(2));
-                        if(itemstack.getItemDamage() >= itemstack.getMaxDamage()) {
-                            renderBrokenItemStack(itemstack);
-                            setItemStackToSlot(EntityEquipmentSlot.HEAD, (ItemStack)null);
+        if(!worldObj.isRemote) {
+            if(temp >= 6000) {
+                setDead();
+                temp = 0;
+            } else
+                temp++;
+            if(worldObj.isDaytime()) {
+                float f = getBrightness(1.0F);
+                BlockPos blockpos = getRidingEntity() instanceof EntityBoat ? (new BlockPos(posX, (double)Math.round(posY), posZ)).up() : new BlockPos(posX, (double)Math.round(posY), posZ);
+                if(f > 0.5F && rand.nextFloat() * 30.0F < (f - 0.4F) * 2.0F && worldObj.canSeeSky(blockpos)) {
+                    boolean flag = true;
+                    ItemStack itemstack = getItemStackFromSlot(EntityEquipmentSlot.HEAD);
+                    if(itemstack != null) {
+                        if(itemstack.isItemStackDamageable()) {
+                            itemstack.setItemDamage(itemstack.getItemDamage() + rand.nextInt(2));
+                            if(itemstack.getItemDamage() >= itemstack.getMaxDamage()) {
+                                renderBrokenItemStack(itemstack);
+                                setItemStackToSlot(EntityEquipmentSlot.HEAD, (ItemStack)null);
+                            }
                         }
+                        flag = false;
                     }
-                    flag = false;
+                    if (flag)
+                        setFire(8);
                 }
-                if (flag)
-                    setFire(8);
             }
         }
         if(worldObj.isRemote)
@@ -220,6 +252,29 @@ public class EntitySkeletonMinion extends EntityTameable implements IMob, IRange
         return livingdata;
     }
 
+    public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, IEntityLivingData livingdata, int value) {
+        livingdata = super.onInitialSpawn(difficulty, livingdata);
+        if(value == 1) {
+            tasks.addTask(4, aiAttackOnCollide);
+            setSkeletonType(1);
+            setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(Items.stone_sword));
+            getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(4.0D);
+        } else {
+            tasks.addTask(4, aiArrowAttack);
+            setEquipmentBasedOnDifficulty(difficulty);
+            setEnchantmentBasedOnDifficulty(difficulty);
+        }
+        setCanPickUpLoot(rand.nextFloat() < 0.55F * difficulty.getClampedAdditionalDifficulty());
+        if(getItemStackFromSlot(EntityEquipmentSlot.HEAD) == null) {
+            Calendar calendar = worldObj.getCurrentDate();
+            if(calendar.get(2) + 1 == 10 && calendar.get(5) == 31 && rand.nextFloat() < 0.25F) {
+                setItemStackToSlot(EntityEquipmentSlot.HEAD, new ItemStack(rand.nextFloat() < 0.1F ? Blocks.lit_pumpkin : Blocks.pumpkin));
+                inventoryArmorDropChances[EntityEquipmentSlot.HEAD.getIndex()] = 0.0F;
+            }
+        }
+        return livingdata;
+    }
+
     @Override
     public void attackEntityWithRangedAttack(EntityLivingBase target, float p_82196_2_) {
         EntityArrow entityarrow = new EntityTippedArrow(worldObj, this);
@@ -245,10 +300,7 @@ public class EntitySkeletonMinion extends EntityTameable implements IMob, IRange
         worldObj.spawnEntityInWorld(entityarrow);
     }
 
-    public int getSkeletonType()
-    {
-        return ((Integer)dataWatcher.get(SKELETON_MINION_VARIANT)).intValue();
-    }
+    public int getSkeletonType() { return (dataWatcher.get(SKELETON_MINION_VARIANT)).intValue(); }
 
     public void setSkeletonType(int p_82201_1_) {
         dataWatcher.set(SKELETON_MINION_VARIANT, Integer.valueOf(p_82201_1_));
@@ -257,10 +309,10 @@ public class EntitySkeletonMinion extends EntityTameable implements IMob, IRange
     }
 
     private void updateSize(int p_184726_1_) {
-        if (p_184726_1_ == 1)
+        if(p_184726_1_ == 1)
             setSize(0.7F, 2.4F);
         else
-            setSize(0.6F, 1.99F);
+            setSize(0.75F, 2.25F);
     }
 
     @Override
@@ -291,10 +343,9 @@ public class EntitySkeletonMinion extends EntityTameable implements IMob, IRange
     
     @Override
     public double getYOffset() { return super.getYOffset() - 0.5D; }
-
     
     @SideOnly(Side.CLIENT)
-    public boolean func_184725_db() { return ((Boolean)dataWatcher.get(field_184728_b)).booleanValue(); }
+    public boolean func_184725_db() { return (dataWatcher.get(field_184728_b)).booleanValue(); }
 
     public void func_184724_a(boolean p_184724_1_) { dataWatcher.set(field_184728_b, Boolean.valueOf(p_184724_1_)); }
 }

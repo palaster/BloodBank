@@ -25,7 +25,7 @@ public class ItemStaffSkeleton extends ItemModStaff {
 				sm.setPosition(pos.getX() + .5, pos.getY() + 1, pos.getZ() + .5);
 				sm.setTamed(true);
 				sm.setOwnerId(playerIn.getUniqueID());
-				sm.onInitialSpawn(worldIn.getDifficultyForLocation(new BlockPos(sm)), null);
+				sm.onInitialSpawn(worldIn.getDifficultyForLocation(new BlockPos(sm)), null, 1);
 				worldIn.spawnEntityInWorld(sm);
 				stack.damageItem(16, playerIn);
 				return EnumActionResult.SUCCESS;
@@ -34,7 +34,7 @@ public class ItemStaffSkeleton extends ItemModStaff {
 				sm.setPosition(pos.getX() + .5, pos.getY() + 1, pos.getZ() + .5);
 				sm.setTamed(true);
 				sm.setOwnerId(playerIn.getUniqueID());
-				sm.onInitialSpawn(worldIn.getDifficultyForLocation(new BlockPos(sm)), null);
+				sm.onInitialSpawn(worldIn.getDifficultyForLocation(new BlockPos(sm)), null, 0);
 				worldIn.spawnEntityInWorld(sm);
 				stack.damageItem(8, playerIn);
 				return EnumActionResult.SUCCESS;

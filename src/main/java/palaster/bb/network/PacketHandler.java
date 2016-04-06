@@ -10,7 +10,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import palaster.bb.libs.LibMod;
 import palaster.bb.network.server.ChangeBlockMessage;
 import palaster.bb.network.server.GuiButtonMessage;
-import palaster.bb.network.server.MiddleClickMessage;
+import palaster.bb.network.server.KeyClickMessage;
 import palaster.bb.network.server.OpenGuiMessage;
 
 public class PacketHandler {
@@ -22,7 +22,7 @@ public class PacketHandler {
 		registerMessage(OpenGuiMessage.class);
 		registerMessage(ChangeBlockMessage.class);
 		registerMessage(GuiButtonMessage.class);
-		registerMessage(MiddleClickMessage.class);
+		registerMessage(KeyClickMessage.class);
 	}
 	
 	private static final <T extends AbstractMessage<T> & IMessageHandler<T, IMessage>> void registerMessage(Class<T> clazz) {

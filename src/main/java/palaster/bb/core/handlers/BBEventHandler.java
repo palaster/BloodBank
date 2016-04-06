@@ -23,7 +23,7 @@ import net.minecraftforge.fml.common.gameevent.InputEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.input.Mouse;
+import org.lwjgl.input.Keyboard;
 import palaster.bb.BloodBank;
 import palaster.bb.api.BBApi;
 import palaster.bb.api.capabilities.entities.BloodBankCapabilityProvider;
@@ -34,7 +34,7 @@ import palaster.bb.items.ItemModStaff;
 import palaster.bb.items.ItemTrident;
 import palaster.bb.libs.LibMod;
 import palaster.bb.network.PacketHandler;
-import palaster.bb.network.server.MiddleClickMessage;
+import palaster.bb.network.server.KeyClickMessage;
 import palaster.bb.world.WorldEventListener;
 
 import java.io.File;
@@ -142,12 +142,11 @@ public class BBEventHandler {
 					}
 	}
 
-	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
-	public void onMouseInput(InputEvent.MouseInputEvent e) {
+	public void onKeyboardInput(InputEvent.KeyInputEvent e) {
 		if(Minecraft.getMinecraft().inGameHasFocus)
-			if(Mouse.isButtonDown(2))
-				PacketHandler.sendToServer(new MiddleClickMessage());
+			if(Keyboard.isKeyDown(Keyboard.KEY_U))
+				PacketHandler.sendToServer(new KeyClickMessage());
 	}
 
 	@SideOnly(Side.CLIENT)

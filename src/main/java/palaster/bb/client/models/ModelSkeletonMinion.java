@@ -4,7 +4,6 @@ import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
@@ -44,7 +43,7 @@ public class ModelSkeletonMinion extends ModelBiped {
         leftArmPose = ModelBiped.ArmPose.EMPTY;
         ItemStack itemstack = p_78086_1_.getHeldItem(EnumHand.MAIN_HAND);
 
-        if(itemstack != null && itemstack.getItem() == Items.bow && ((EntitySkeleton)p_78086_1_).func_184725_db())
+        if(itemstack != null && itemstack.getItem() == Items.bow && ((EntitySkeletonMinion)p_78086_1_).func_184725_db())
             if(p_78086_1_.getPrimaryHand() == EnumHandSide.RIGHT)
                 rightArmPose = ModelBiped.ArmPose.BOW_AND_ARROW;
             else
