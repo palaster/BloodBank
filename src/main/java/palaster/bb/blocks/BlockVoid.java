@@ -5,13 +5,16 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.init.MobEffects;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import palaster.bb.blocks.tile.TileEntityVoid;
+import palaster.bb.libs.LibMod;
 
 public class BlockVoid extends BlockModContainer {
 
@@ -25,7 +28,7 @@ public class BlockVoid extends BlockModContainer {
 		if(!worldIn.isRemote)
 			if(entityIn instanceof EntityLivingBase) {
 				entityIn.attackEntityFrom(DamageSource.outOfWorld, 1f);
-				((EntityLivingBase) entityIn).addPotionEffect(new PotionEffect(Potion.wither.id, 60));
+				((EntityLivingBase) entityIn).addPotionEffect(new PotionEffect(MobEffects.wither, 60));
 				if(worldIn.getTileEntity(pos) != null && worldIn.getTileEntity(pos) instanceof TileEntityVoid && ((TileEntityVoid) worldIn.getTileEntity(pos)).getOriginalBlock() != null)
 					worldIn.setBlockState(pos, ((TileEntityVoid) worldIn.getTileEntity(pos)).getOriginalBlock().getDefaultState());
 			}

@@ -1,14 +1,14 @@
 package palaster.bb.network.server;
 
-import java.io.IOException;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.relauncher.Side;
 import palaster.bb.blocks.tile.TileEntityModInventory;
 import palaster.bb.network.AbstractMessage.AbstractServerMessage;
+
+import java.io.IOException;
 
 public class GuiButtonMessage extends AbstractServerMessage<GuiButtonMessage> {
 	

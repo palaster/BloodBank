@@ -24,7 +24,7 @@ public class InventoryModLetter extends InventoryMod {
     }
 
     @Override
-    public boolean isUseableByPlayer(EntityPlayer player) { return player.getHeldItem() == stack; }
+    public boolean isUseableByPlayer(EntityPlayer player) { return player.getHeldItemMainhand() == stack; }
 
     @Override
     public boolean isItemValidForSlot(int index, ItemStack stack) { return !(stack.getItem() instanceof ItemLetter); }

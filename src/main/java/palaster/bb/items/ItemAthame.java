@@ -5,8 +5,12 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
-import palaster.bb.entities.extended.BBExtendedPlayer;
+import palaster.bb.BloodBank;
+import palaster.bb.api.BBApi;
 
 public class ItemAthame extends ItemModSpecial {
 
@@ -16,24 +20,23 @@ public class ItemAthame extends ItemModSpecial {
     }
 
     @Override
-    public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
-        if(!playerIn.worldObj.isRemote)
-            if(BBExtendedPlayer.get(playerIn) != null) {
-                playerIn.attackEntityFrom(BBExtendedPlayer.bbBlood, 1f);
-                BBExtendedPlayer.get(playerIn).addBlood(100);
-            }
-        return itemStackIn;
+    public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
+        if(!playerIn.worldObj.isRemote) {
+                playerIn.attackEntityFrom(BloodBank.proxy.bbBlood, 1f);
+                BBApi.addBlood(playerIn, 100);
+                return new ActionResult(EnumActionResult.SUCCESS, itemStackIn);
+        }
+        return super.onItemRightClick(itemStackIn, worldIn, playerIn, hand);
     }
 
     @Override
     public boolean onLeftClickEntity(ItemStack stack, EntityPlayer player, Entity entity) {
         if(!player.worldObj.isRemote)
-            if(entity instanceof EntityLivingBase)
-                if(BBExtendedPlayer.get(player) != null) {
-                    entity.attackEntityFrom(BBExtendedPlayer.bbBlood, 1f);
-                    BBExtendedPlayer.get(player).addBlood(100);
-                    return true;
-                }
+            if(entity instanceof EntityLivingBase) {
+                entity.attackEntityFrom(BloodBank.proxy.bbBlood, 1f);
+                BBApi.addBlood(player, 100);
+                return true;
+            }
         return false;
     }
 

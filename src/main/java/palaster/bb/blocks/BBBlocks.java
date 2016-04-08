@@ -4,31 +4,29 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import palaster.bb.blocks.tile.TileEntityCommunityTool;
 import palaster.bb.blocks.tile.TileEntityModInventory;
-import palaster.bb.blocks.tile.TileEntityPlayerManipulator;
 import palaster.bb.blocks.tile.TileEntityVoid;
-import palaster.bb.blocks.tile.TileEntityWorldManipulator;
 
 public class BBBlocks {
 	
-	public static Block playerManipulator,
-	worldManipulator,
-	voidAnchor;
-	
+	public static Block voidAnchor,
+	communityTool;
+
 	public static Block touchVoid;
 	
 	public static void init() {
-		playerManipulator = new BlockPlayerManipulator(Material.wood);
-		worldManipulator = new BlockWorldManipulator(Material.rock);
 		voidAnchor = new BlockVoidAnchor(Material.rock);
-		
+		communityTool = new BlockCommunityTool(Material.rock);
+
 		touchVoid = new BlockVoid(Material.barrier);
+
+		registerTileEntities();
 	}
 	
 	public static void registerTileEntities() {
 		registerTileEntity(TileEntityModInventory.class, "tileEntityModInventory");
-		registerTileEntity(TileEntityPlayerManipulator.class, "playerManipulator");
-		registerTileEntity(TileEntityWorldManipulator.class, "worldManipulator");
+		registerTileEntity(TileEntityCommunityTool.class, "communityTool");
 		
 		registerTileEntity(TileEntityVoid.class, "void");
 	}

@@ -1,15 +1,14 @@
 package palaster.bb.items;
 
-import net.minecraft.client.resources.model.ModelBakery;
+import net.minecraft.init.SoundEvents;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.EnumHelper;
-import palaster.bb.libs.LibMod;
 
 public class BBItems {
 
-	public static ItemArmor.ArmorMaterial bound = EnumHelper.addArmorMaterial("bound", "bound", -1, new int[]{3, 7, 6, 3}, 0);
+	public static ItemArmor.ArmorMaterial bound = EnumHelper.addArmorMaterial("bound", "bound", -1, new int[]{3, 7, 6, 3}, 0, SoundEvents.item_armor_equip_generic);
 	
 	public static Item playerBinder,
 	worldBinder,
@@ -54,15 +53,13 @@ public class BBItems {
 		bloodBook = new ItemBookBlood();
 		letter = new ItemLetter();
 
-		boundHelmet = new BBArmor(bound, 0,0);
-		boundChestplate = new BBArmor(bound, 0,1);
-		boundLeggings = new BBArmor(bound, 0,2);
-		boundBoots = new BBArmor(bound, 0,3);
+		boundHelmet = new BBArmor(bound, 0, EntityEquipmentSlot.HEAD);
+		boundChestplate = new BBArmor(bound, 0, EntityEquipmentSlot.CHEST);
+		boundLeggings = new BBArmor(bound, 0, EntityEquipmentSlot.LEGS);
+		boundBoots = new BBArmor(bound, 0, EntityEquipmentSlot.FEET);
 		
 		debug = new ItemDebug();
 		yinYang = new ItemYinYang();
 		bbResources = new ItemBBResources();
-
-		ModelBakery.registerItemVariants(bbResources, new ResourceLocation(LibMod.modid + ":bankContract"), new ResourceLocation(LibMod.modid + ":bankID"), new ResourceLocation(LibMod.modid + ":magicDust"));
 	}
 }

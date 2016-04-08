@@ -8,11 +8,10 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
 import palaster.bb.libs.LibMod;
-import palaster.bb.network.server.OpenGuiMessage;
-import palaster.bb.network.client.SyncPlayerPropsMessage;
 import palaster.bb.network.server.ChangeBlockMessage;
 import palaster.bb.network.server.GuiButtonMessage;
-import palaster.bb.network.server.MiddleClickMessage;
+import palaster.bb.network.server.KeyClickMessage;
+import palaster.bb.network.server.OpenGuiMessage;
 
 public class PacketHandler {
 	
@@ -21,10 +20,9 @@ public class PacketHandler {
 
 	public static final void registerPackets() {
 		registerMessage(OpenGuiMessage.class);
-		registerMessage(SyncPlayerPropsMessage.class);
 		registerMessage(ChangeBlockMessage.class);
 		registerMessage(GuiButtonMessage.class);
-		registerMessage(MiddleClickMessage.class);
+		registerMessage(KeyClickMessage.class);
 	}
 	
 	private static final <T extends AbstractMessage<T> & IMessageHandler<T, IMessage>> void registerMessage(Class<T> clazz) {
@@ -46,7 +44,7 @@ public class PacketHandler {
 
 	public static final void sendToAllAround(IMessage message, int dimension, double x, double y, double z, double range) { PacketHandler.sendToAllAround(message, new NetworkRegistry.TargetPoint(dimension, x, y, z, range)); }
 
-	public static final void sendToAllAround(IMessage message, EntityPlayer player, double range) { PacketHandler.sendToAllAround(message, player.worldObj.provider.getDimensionId(), player.posX, player.posY, player.posZ, range); }
+	public static final void sendToAllAround(IMessage message, EntityPlayer player, double range) { PacketHandler.sendToAllAround(message, player.worldObj.provider.getDimension(), player.posX, player.posY, player.posZ, range); }
 
 	public static final void sendToDimension(IMessage message, int dimensionId) { PacketHandler.instance.sendToDimension(message, dimensionId); }
 

@@ -5,6 +5,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeHooks;
 import palaster.bb.items.BBItems;
 
 public class TapeHeartRecipe implements IRecipe {
@@ -52,10 +53,5 @@ public class TapeHeartRecipe implements IRecipe {
 	public ItemStack getRecipeOutput() { return null; }
 
 	@Override
-	public ItemStack[] getRemainingItems(InventoryCrafting p_179532_1_) {
-		ItemStack[] aitemstack = new ItemStack[p_179532_1_.getSizeInventory()];
-		for(int i = 0; i < aitemstack.length; ++i)
-	        aitemstack[i] = net.minecraftforge.common.ForgeHooks.getContainerItem(p_179532_1_.getStackInSlot(i));
-		return aitemstack;
-    }
+	public ItemStack[] getRemainingItems(InventoryCrafting p_179532_1_) { return ForgeHooks.defaultRecipeGetRemainingItems(p_179532_1_); }
 }

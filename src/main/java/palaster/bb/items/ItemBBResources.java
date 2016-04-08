@@ -1,23 +1,22 @@
 package palaster.bb.items;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.*;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import palaster.bb.entities.EntityDemonicBankTeller;
-import palaster.bb.entities.extended.BBExtendedPlayer;
-import palaster.bb.libs.LibMod;
+import palaster.bb.api.BBApi;
 import palaster.bb.core.CreativeTabBB;
 import palaster.bb.core.helpers.BBPlayerHelper;
+import palaster.bb.entities.EntityDemonicBankTeller;
+import palaster.bb.libs.LibMod;
 
 import java.util.List;
 
@@ -35,33 +34,35 @@ public class ItemBBResources extends Item {
     }
 
     @Override
-    public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
+    public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
         if(!worldIn.isRemote)
-            if(itemStackIn.getItemDamage() == 0)
-                if(BBExtendedPlayer.get(playerIn) != null && BBExtendedPlayer.get(playerIn).getBloodMax() <= 0) {
-                    BBExtendedPlayer.get(playerIn).setBloodMax(2000);
+            if(itemStackIn.getItemDamage() == 0) {
+                if(BBApi.getMaxBlood(playerIn) <= 0) {
+                    BBApi.setMaxBlood(playerIn, 2000);
                     BBPlayerHelper.sendChatMessageToPlayer(playerIn, "Welcome to the First National Bank of Blood, you start out with a max balance of 2000. Use this bank ID card to keep in contact.");
-                    return new ItemStack(this, 1, 1);
+                    return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, new ItemStack(this, 1, 1));
                 }
-        return itemStackIn;
+            }
+        return super.onItemRightClick(itemStackIn, worldIn, playerIn, hand);
     }
 
     @Override
-    public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
+    public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         if(!worldIn.isRemote)
-            if(stack.getItemDamage() == 1)
-                if(BBExtendedPlayer.get(playerIn) != null && BBExtendedPlayer.get(playerIn).getBloodMax() > 0) {
+            if(stack.getItemDamage() == 1) {
+                if(BBApi.getMaxBlood(playerIn) > 0) {
                     EntityDemonicBankTeller dbt = new EntityDemonicBankTeller(worldIn);
                     dbt.setPosition(pos.getX(), pos.getY() + 1, pos.getZ());
                     worldIn.spawnEntityInWorld(dbt);
-                    playerIn.setCurrentItemOrArmor(0, null);
-                    return true;
+                    playerIn.setHeldItem(hand, null);
+                    return EnumActionResult.SUCCESS;
                 }
-        return false;
+            }
+        return EnumActionResult.PASS;
     }
 
     @Override
-    public String getUnlocalizedName(ItemStack stack) { return super.getUnlocalizedName() + "." + names[stack.getItemDamage()]; }
+    public String getUnlocalizedName(ItemStack stack) { return super.getUnlocalizedName(stack) + "." + names[stack.getItemDamage()]; }
 
     @Override
     public void getSubItems(Item itemIn, CreativeTabs tab, List<ItemStack> subItems) {
@@ -71,10 +72,15 @@ public class ItemBBResources extends Item {
 
     @Override
     public Item setUnlocalizedName(String unlocalizedName) {
-        GameRegistry.registerItem(this, unlocalizedName);
-        return super.setUnlocalizedName(unlocalizedName);
+        setRegistryName(new ResourceLocation(LibMod.modid, unlocalizedName));
+        GameRegistry.register(this);
+        setCustomModelResourceLocation();
+        return super.setUnlocalizedName(LibMod.modid + ":" + unlocalizedName);
     }
 
     @SideOnly(Side.CLIENT)
-    public void setItemRender(String name, int i) { Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(this, i, new ModelResourceLocation(LibMod.modid + ":" + name, "inventory")); }
+    public void setCustomModelResourceLocation() {
+        for(int i = 0; i < names.length; i++)
+            ModelLoader.setCustomModelResourceLocation(this, i, new ModelResourceLocation(LibMod.modid + ":" + names[i], "inventory"));
+    }
 }

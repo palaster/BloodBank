@@ -1,32 +1,33 @@
 package palaster.bb.world;
 
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
-import net.minecraft.world.IWorldAccess;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IWorldEventListener;
+import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.DimensionManager;
 import palaster.bb.blocks.tile.TileEntityModInventory;
 
-public class WorldManager implements IWorldAccess {
+public class WorldEventListener implements IWorldEventListener {
 
 	@Override
-	public void markBlockForUpdate(BlockPos pos) {}
+	public void notifyBlockUpdate(World worldIn, BlockPos pos, IBlockState oldState, IBlockState newState, int flags) {}
+
+	@Override
+	public void playSoundToAllNearExcept(EntityPlayer player, SoundEvent soundIn, SoundCategory category, double x, double y, double z, float volume, float pitch) {}
 
 	@Override
 	public void notifyLightSet(BlockPos pos) {}
 
 	@Override
 	public void markBlockRangeForRenderUpdate(int x1, int y1, int z1, int x2, int y2, int z2) {}
-
-	@Override
-	public void playSound(String soundName, double x, double y, double z, float volume, float pitch) {}
-
-	@Override
-	public void playSoundToNearExcept(EntityPlayer except, String soundName, double x, double y, double z, float volume, float pitch) {}
 
 	@Override
 	public void spawnParticle(int p_180442_1_, boolean p_180442_2_, double p_180442_3_, double p_180442_5_, double p_180442_7_, double p_180442_9_, double p_180442_11_, double p_180442_13_, int... p_180442_15_) {}
@@ -59,7 +60,7 @@ public class WorldManager implements IWorldAccess {
 	}
 
 	@Override
-	public void playRecord(String recordName, BlockPos blockPosIn) {}
+	public void playRecord(SoundEvent soundIn, BlockPos pos) {}
 
 	@Override
 	public void broadcastSound(int p_180440_1_, BlockPos p_180440_2_, int p_180440_3_) {}
