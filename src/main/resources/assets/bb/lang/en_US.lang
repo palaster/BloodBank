@@ -10,6 +10,7 @@ entity.bb.yinYang.name=Yin Yang
 entity.bb.demonicBankTeller.name=Demonic Bank Teller
 
 tile.bb:void.name=Touch of Void
+tile.bb:communityTool.name=Community Tools
 tile.bb:voidAnchor.name=Void Anchor
 
 item.bb:playerBinder.name=Player Binder
@@ -51,6 +52,7 @@ bb.misc.player=Player
 bb.misc.tapeHeart=Tape Heart
 bb.misc.reuse=Reuse Timer
 bb.misc.alreadyLinked=Can't link to more than one entity.
+bb.misc.countDown=Community Item
 
 bb.psm.home=Home
 bb.psm.potions=Potions

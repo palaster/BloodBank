@@ -84,4 +84,18 @@ public class BBItemStackHelper {
 		}
 		return null;
 	}
+
+	public static ItemStack setCountDown(ItemStack stack, int timer) {
+		if(!stack.hasTagCompound())
+			stack.setTagCompound(new NBTTagCompound());
+		stack.getTagCompound().setBoolean("BBCommunityItem", true);
+		stack.getItem().setMaxDamage(timer);
+		return stack;
+	}
+
+	public static boolean getCountDown(ItemStack stack) {
+		if(stack.hasTagCompound())
+			return stack.getTagCompound().getBoolean("BBCommunityItem");
+		return false;
+	}
 }

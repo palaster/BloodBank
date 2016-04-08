@@ -11,6 +11,7 @@ import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
@@ -27,6 +28,7 @@ import org.lwjgl.input.Keyboard;
 import palaster.bb.BloodBank;
 import palaster.bb.api.BBApi;
 import palaster.bb.api.capabilities.entities.BloodBankCapabilityProvider;
+import palaster.bb.core.helpers.BBItemStackHelper;
 import palaster.bb.entities.knowledge.BBKnowledge;
 import palaster.bb.items.BBItems;
 import palaster.bb.items.ItemBookBlood;
@@ -118,14 +120,18 @@ public class BBEventHandler {
 	
 	@SubscribeEvent
 	public void tooltip(ItemTooltipEvent e) {
-		if(e.getItemStack() != null && e.getItemStack().hasTagCompound() && e.getItemStack().getTagCompound().getBoolean("HasTapeHeart"))
-			e.getToolTip().add(I18n.translateToLocal("bb.misc.tapeHeart"));
+		if(e.getItemStack() != null && e.getItemStack().hasTagCompound()) {
+			if(e.getItemStack().getTagCompound().getBoolean("HasTapeHeart"))
+				e.getToolTip().add(I18n.translateToLocal("bb.misc.tapeHeart"));
+			if(BBItemStackHelper.getCountDown(e.getItemStack()))
+				e.getToolTip().add(I18n.translateToFallback("bb.misc.countDown"));
+		}
 	}
 
 	@SubscribeEvent
 	public void onPlayerTick(TickEvent.PlayerTickEvent e) {
 		if(!e.player.worldObj.isRemote)
-			if(e.phase == TickEvent.Phase.START)
+			if(e.phase == TickEvent.Phase.START) {
 				for(int i = 0; i < e.player.inventory.armorInventory.length; i++)
 					if(e.player.inventory.armorInventory[i] != null) {
 						if(e.player.inventory.armorInventory[i].getItem() == BBItems.boundHelmet)
@@ -137,6 +143,22 @@ public class BBEventHandler {
 						if(e.player.inventory.armorInventory[i].getItem() == BBItems.boundBoots)
 							e.player.inventory.armorInventory[i].getItem().onUpdate(e.player.inventory.armorInventory[i], e.player.worldObj, e.player, 100, false);
 					}
+				for(int i = 0; i < e.player.inventory.getSizeInventory(); i++)
+					if(e.player.inventory.getStackInSlot(i) != null && e.player.inventory.getStackInSlot(i).hasTagCompound())
+						if(BBItemStackHelper.getCountDown(e.player.inventory.getStackInSlot(i))) {
+							if(e.player.inventory.getStackInSlot(0).getItemDamage() < e.player.inventory.getStackInSlot(0).getMaxDamage())
+								e.player.inventory.getStackInSlot(0).damageItem(1, e.player);
+							else
+								e.player.inventory.setInventorySlotContents(i, null);
+						}
+			}
+	}
+
+	@SubscribeEvent
+	public void onItemToss(ItemTossEvent e) {
+		if(!e.getPlayer().worldObj.isRemote)
+			if(e.getEntityItem().getEntityItem().hasTagCompound() && BBItemStackHelper.getCountDown(e.getEntityItem().getEntityItem()))
+				e.setCanceled(true);
 	}
 
 	@SubscribeEvent
