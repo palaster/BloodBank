@@ -1,6 +1,6 @@
 {
     "parent": "bb:item/bbStandard",
     "textures": {
-        "layer0": "bb:items/tapeHeart"
+        "layer0": "bb:items/bloodBottle"
     }
 }

@@ -5,6 +5,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.translation.I18n;
@@ -30,10 +31,7 @@ import palaster.bb.api.BBApi;
 import palaster.bb.api.capabilities.entities.BloodBankCapabilityProvider;
 import palaster.bb.core.helpers.BBItemStackHelper;
 import palaster.bb.entities.knowledge.BBKnowledge;
-import palaster.bb.items.BBItems;
-import palaster.bb.items.ItemBookBlood;
-import palaster.bb.items.ItemModStaff;
-import palaster.bb.items.ItemTrident;
+import palaster.bb.items.*;
 import palaster.bb.libs.LibMod;
 import palaster.bb.network.PacketHandler;
 import palaster.bb.network.server.KeyClickMessage;
@@ -105,10 +103,11 @@ public class BBEventHandler {
 						}
 			if(e.getSource().getEntity() != null)
 				if(BBApi.getLinked(p) != null) {
-					EntityLiving link = BBApi.getLinked(p);
-					link.attackEntityFrom(BloodBank.proxy.bbBlood, e.getAmount());
+					BBApi.getLinked(p).attackEntityFrom(BloodBank.proxy.bbBlood, e.getAmount());
 					e.setCanceled(true);
 				}
+			if(e.getSource().isMagicDamage() && p.inventory.hasItemStack(new ItemStack(BBItems.bbResources, 1, 2)))
+				e.setCanceled(true);
 		}
 	}
 	
@@ -121,8 +120,8 @@ public class BBEventHandler {
 	@SubscribeEvent
 	public void tooltip(ItemTooltipEvent e) {
 		if(e.getItemStack() != null && e.getItemStack().hasTagCompound()) {
-			if(e.getItemStack().getTagCompound().getBoolean("HasTapeHeart"))
-				e.getToolTip().add(I18n.translateToLocal("bb.misc.tapeHeart"));
+			if(e.getItemStack().getTagCompound().getBoolean("HasVampireSigil"))
+				e.getToolTip().add(I18n.translateToLocal("bb.misc.vampireSigil"));
 			if(BBItemStackHelper.getCountDown(e.getItemStack()))
 				e.getToolTip().add(I18n.translateToFallback("bb.misc.countDown"));
 		}
@@ -151,6 +150,10 @@ public class BBEventHandler {
 							else
 								e.player.inventory.setInventorySlotContents(i, null);
 						}
+				for(PotionEffect potionEffect : e.player.getActivePotionEffects())
+					if(potionEffect != null)
+						if(e.player.inventory.hasItemStack(new ItemStack(BBItems.bbResources, 1, 2)))
+							e.player.removePotionEffect(potionEffect.getPotion());
 			}
 	}
 

@@ -8,7 +8,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 import palaster.bb.items.BBItems;
 
-public class TapeHeartRecipe implements IRecipe {
+public class VampireSigilRecipe implements IRecipe {
 
 	@Override
 	public boolean matches(InventoryCrafting p_77569_1_, World worldIn) {
@@ -17,15 +17,15 @@ public class TapeHeartRecipe implements IRecipe {
 		for(int i = 0; i < p_77569_1_.getSizeInventory(); i++) {
 			ItemStack stack = p_77569_1_.getStackInSlot(i);
 			if(stack != null)
-				if(stack.getItem().isRepairable() && !(stack.hasTagCompound() && stack.getTagCompound().getBoolean("HasTapeHeart")))
+				if(stack.getItem().isRepairable() && !(stack.hasTagCompound() && stack.getTagCompound().getBoolean("HasVampireSigil")))
 					tool = stack;
-				else if(stack.getItem() == BBItems.tapeHeart)
+				else if(stack.isItemEqual(new ItemStack(BBItems.bbResources, 1, 3)))
 					foundHeart = true;
 		}
 		for(int i = 0; i < p_77569_1_.getSizeInventory(); i++) {
 			ItemStack stack = p_77569_1_.getStackInSlot(i);
 			if(stack != null)
-				if(stack != tool && stack.getItem() != BBItems.tapeHeart)
+				if(stack != tool && !stack.isItemEqual(new ItemStack(BBItems.bbResources, 1, 3)))
 					return false;
 		}
 		return tool != null && foundHeart;
@@ -42,7 +42,7 @@ public class TapeHeartRecipe implements IRecipe {
 		ItemStack toolCopy = tool.copy();
 		if(!toolCopy.hasTagCompound())
 			toolCopy.setTagCompound(new NBTTagCompound());
-		toolCopy.getTagCompound().setBoolean("HasTapeHeart", true);
+		toolCopy.getTagCompound().setBoolean("HasVampireSigil", true);
 		return toolCopy;
 	}
 	

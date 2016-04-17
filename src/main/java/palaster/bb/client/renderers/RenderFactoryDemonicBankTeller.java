@@ -11,7 +11,5 @@ import palaster.bb.entities.EntityDemonicBankTeller;
 public class RenderFactoryDemonicBankTeller implements IRenderFactory<EntityDemonicBankTeller> {
 
     @Override
-    public Render<? super EntityDemonicBankTeller> createRenderFor(RenderManager manager) {
-        return new RenderDemonicBankTeller(manager);
-    }
+    public Render<? super EntityDemonicBankTeller> createRenderFor(RenderManager manager) { return new RenderDemonicBankTeller(manager); }
 }

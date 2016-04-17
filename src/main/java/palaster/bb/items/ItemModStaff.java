@@ -7,11 +7,11 @@ import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import palaster.bb.api.capabilities.items.IDuctTapeable;
+import palaster.bb.api.capabilities.items.IVampiric;
 
 import java.util.List;
 
-public abstract class ItemModStaff extends ItemModSpecial implements IDuctTapeable {
+public abstract class ItemModStaff extends ItemModSpecial implements IVampiric {
 	
 	public String[] powers = new String[] {};
 

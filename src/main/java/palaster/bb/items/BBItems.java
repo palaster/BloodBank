@@ -18,8 +18,7 @@ public class BBItems {
 	staffVoidWalker,
 	staffHungryShadows,
 	animalHerder,
-	magicDuctTape,
-	tapeHeart,
+	bloodBottle,
 	hephaestusHammer,
 	trident,
 	athame,
@@ -45,10 +44,9 @@ public class BBItems {
 		staffVoidWalker = new ItemStaffVoidWalker();
 		staffHungryShadows = new ItemStaffHungryShadows();
 		animalHerder = new ItemAnimalHerder();
-		magicDuctTape = new ItemMagicDuctTape();
-		tapeHeart = new ItemTapeHeart();
+		bloodBottle = new ItemBloodBottle();
 		hephaestusHammer = new ItemHephaestusHammer();
-		trident = new ItemTrident(EnumHelper.addToolMaterial("trident", 3, 1024, 4.0f, 3.0f, 22));
+		trident = new ItemTrident(EnumHelper.addToolMaterial("trident", 3, -1, 4.0f, 6.0f, 22));
 		athame = new ItemAthame();
 		bloodBook = new ItemBookBlood();
 		letter = new ItemLetter();
