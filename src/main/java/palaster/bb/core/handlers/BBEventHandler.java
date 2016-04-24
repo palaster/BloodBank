@@ -2,15 +2,14 @@ package palaster.bb.core.handlers;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.translation.I18n;
-import net.minecraft.world.WorldSavedData;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
@@ -33,6 +32,7 @@ import palaster.bb.api.BBApi;
 import palaster.bb.api.capabilities.entities.BloodBankCapabilityProvider;
 import palaster.bb.api.capabilities.entities.UndeadCapabilityProvider;
 import palaster.bb.core.helpers.BBItemStackHelper;
+import palaster.bb.core.helpers.BBPlayerHelper;
 import palaster.bb.entities.knowledge.BBKnowledge;
 import palaster.bb.items.*;
 import palaster.bb.libs.LibMod;
@@ -85,6 +85,7 @@ public class BBEventHandler {
 			BBApi.linkEntity(e.getEntityPlayer(), BBApi.getLinked(e.getOriginal()));
 
 			// Clone Player from death for Blood Bank.
+			BBApi.setUndead(e.getEntityPlayer(), BBApi.isUndead(e.getOriginal()));
 			BBApi.setSoul(e.getEntityPlayer(), BBApi.getSoul(e.getOriginal()));
 			BBApi.setVigor(e.getEntityPlayer(), BBApi.getVigor(e.getOriginal()));
 			BBApi.setAttunement(e.getEntityPlayer(), BBApi.getAttunement(e.getOriginal()));
@@ -93,8 +94,23 @@ public class BBEventHandler {
 			BBApi.setStrength(e.getEntityPlayer(), BBApi.getStrength(e.getOriginal()));
 			BBApi.setDexterity(e.getEntityPlayer(), BBApi.getDexterity(e.getOriginal()));
 			BBApi.setIntelligence(e.getEntityPlayer(), BBApi.getIntelligence(e.getOriginal()));
+			BBApi.setFaith(e.getEntityPlayer(), BBApi.getFaith(e.getOriginal()));
 			BBApi.setLuck(e.getEntityPlayer(), BBApi.getLuck(e.getOriginal()));
+
+			if(BBApi.isUndead(e.getOriginal())) {
+				BBWorldSaveData bbWorldSaveData = BBWorldSaveData.get(e.getOriginal().worldObj);
+				if(bbWorldSaveData != null) {
+					BlockPos closetBonfire = bbWorldSaveData.getNearestBonfireToPlayer(e.getOriginal(), e.getOriginal().getPosition());
+					if(closetBonfire != null)
+						e.getEntityPlayer().setPosition(closetBonfire.getX(), closetBonfire.getY() + .25D, closetBonfire.getZ());
+				}
+			}
 		}
+	}
+
+	@SubscribeEvent
+	public void onPlayerRespawn(net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerRespawnEvent e) {
+		// TODO: Keep undead invenotry on death. Goto bookmark for how to do this efficiently.
 	}
 
 	@SubscribeEvent

@@ -10,9 +10,7 @@ public class BBItems {
 
 	public static ItemArmor.ArmorMaterial bound = EnumHelper.addArmorMaterial("bound", "bound", -1, new int[]{3, 7, 6, 3}, 0, SoundEvents.item_armor_equip_generic);
 	
-	public static Item playerBinder,
-	worldBinder,
-	staffSkeleton,
+	public static Item staffSkeleton,
 	staffEfreet,
 	staffTime,
 	staffVoidWalker,
@@ -36,8 +34,6 @@ public class BBItems {
 	bbResources;
 	
 	public static void init() {
-		playerBinder = new ItemPlayerBinder();
-		worldBinder = new ItemWorldBinder();
 		staffSkeleton = new ItemStaffSkeleton();
 		staffEfreet = new ItemStaffEfreet();
 		staffTime = new ItemStaffTime();

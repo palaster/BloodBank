@@ -13,9 +13,8 @@ entity.bb.itztiliTablet.name=Itztili Tablet
 tile.bb:void.name=Touch of Void
 tile.bb:communityTool.name=Community Tools
 tile.bb:voidAnchor.name=Void Anchor
+tile.bb:bonfire.name=Bonfire
 
-item.bb:playerBinder.name=Player Binder
-item.bb:worldBinder.name=World Binder
 item.bb:staffSkeleton.name=Skeleton Staff
 item.bb:staffEfreet.name=Efreet Staff
 item.bb:staffTime.name=Staff of Time
@@ -54,10 +53,6 @@ bb.misc.vampireSigil=Vampire Sigil
 bb.misc.reuse=Reuse Timer
 bb.misc.alreadyLinked=Can't link to more than one entity.
 bb.misc.countDown=Community Item
-
-bb.psm.home=Home
-bb.psm.potions=Potions
-bb.psm.hotswap=Hot Swap
 
 bb.staff.active=Active Power
 bb.staff.time.0=Time

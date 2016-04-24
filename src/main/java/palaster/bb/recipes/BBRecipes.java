@@ -34,8 +34,6 @@ public class BBRecipes {
 		BBApi.registerLetterRecipe(new ItemStack(BBBlocks.voidAnchor), new ItemStack(Blocks.obsidian, 4), new ItemStack(Items.ender_pearl, 4), new ItemStack(Blocks.ender_chest));
 
 		// Items
-		BBApi.registerLetterRecipe(new ItemStack(BBItems.playerBinder), new ItemStack(Items.gold_nugget, 4), new ItemStack(Items.ender_pearl), new ItemStack(Blocks.redstone_block, 4));
-		BBApi.registerLetterRecipe(new ItemStack(BBItems.worldBinder), new ItemStack(Items.gold_nugget, 4), new ItemStack(Items.ender_pearl), new ItemStack(Blocks.quartz_block, 4));
 		BBApi.registerLetterRecipe(new ItemStack(BBItems.staffSkeleton), new ItemStack(Items.stick, 2), new ItemStack(Items.bone));
 		BBApi.registerLetterRecipe(new ItemStack(BBItems.staffEfreet), new ItemStack(Items.stick, 2), new ItemStack(Items.magma_cream));
 		BBApi.registerLetterRecipe(new ItemStack(BBItems.staffTime), new ItemStack(Items.stick, 2), new ItemStack(Items.clock));
