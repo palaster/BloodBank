@@ -4,7 +4,7 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public interface IUndead {
 
-    // TODO: Add modifiers, respawn at bonfires and keep items, add magic.
+    // TODO: Add modifiers and add magic.
 
     boolean isUndead();
 

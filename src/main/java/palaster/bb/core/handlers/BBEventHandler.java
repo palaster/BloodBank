@@ -17,6 +17,7 @@ import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+import net.minecraftforge.event.entity.player.PlayerDropsEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
@@ -104,13 +105,19 @@ public class BBEventHandler {
 					if(closetBonfire != null)
 						e.getEntityPlayer().setPosition(closetBonfire.getX(), closetBonfire.getY() + .25D, closetBonfire.getZ());
 				}
+				e.getEntityPlayer().inventory.copyInventory(e.getOriginal().inventory);
 			}
 		}
 	}
 
 	@SubscribeEvent
-	public void onPlayerRespawn(net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerRespawnEvent e) {
-		// TODO: Keep undead invenotry on death. Goto bookmark for how to do this efficiently.
+	public void onPlayerDrops(PlayerDropsEvent e) {
+		if(e.getEntityPlayer() != null && BBApi.isUndead(e.getEntityPlayer())) {
+			for(EntityItem entityItem : e.getDrops())
+				if(entityItem != null && entityItem.getEntityItem() != null)
+					e.getEntityPlayer().inventory.addItemStackToInventory(entityItem.getEntityItem());
+			e.setCanceled(true);
+		}
 	}
 
 	@SubscribeEvent
