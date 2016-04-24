@@ -5,6 +5,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import palaster.bb.api.capabilities.entities.BloodBankCapabilityProvider;
 import palaster.bb.api.capabilities.entities.IBloodBank;
+import palaster.bb.api.capabilities.entities.IUndead;
+import palaster.bb.api.capabilities.entities.UndeadCapabilityProvider;
 import palaster.bb.api.recipes.RecipeLetter;
 
 import java.util.ArrayList;
@@ -114,5 +116,155 @@ public class BBApi {
         if(bloodBank != null)
             return bloodBank.getLinked();
         return null;
+    }
+
+    // Undead Methods
+
+    public static boolean isUndead(EntityPlayer player) {
+        final IUndead undead = UndeadCapabilityProvider.get(player);
+        if(undead != null)
+            return undead.isUndead();
+        return false;
+    }
+
+    public static void setUndead(EntityPlayer player, boolean bool) {
+        final IUndead undead = UndeadCapabilityProvider.get(player);
+        if(undead != null)
+            undead.setUndead(bool);
+    }
+
+    public static void addSoul(EntityPlayer player, int amt) {
+        if(amt > 0)
+            setSoul(player, getSoul(player) + amt);
+    }
+
+    public static int getSoul(EntityPlayer player) {
+        final IUndead undead = UndeadCapabilityProvider.get(player);
+        if(undead != null)
+            return undead.getSoul();
+        return 0;
+    }
+
+    public static void setSoul(EntityPlayer player, int amt) {
+        final IUndead undead = UndeadCapabilityProvider.get(player);
+        if(undead != null)
+            undead.setSoul(amt);
+    }
+
+    public static int getVigor(EntityPlayer player) {
+        final IUndead undead = UndeadCapabilityProvider.get(player);
+        if(undead != null)
+            return undead.getVigor();
+        return 0;
+    }
+
+    public static void setVigor(EntityPlayer player, int amt) {
+        final IUndead undead = UndeadCapabilityProvider.get(player);
+        if(undead != null)
+            undead.setVigor(amt);
+    }
+
+    public static int getAttunement(EntityPlayer player) {
+        final IUndead undead = UndeadCapabilityProvider.get(player);
+        if(undead != null)
+            return undead.getAttunement();
+        return 0;
+    }
+
+    public static void setAttunement(EntityPlayer player, int amt) {
+        final IUndead undead = UndeadCapabilityProvider.get(player);
+        if(undead != null)
+            undead.setAttunement(amt);
+    }
+
+    public static int getEndurance(EntityPlayer player) {
+        final IUndead undead = UndeadCapabilityProvider.get(player);
+        if(undead != null)
+            return undead.getEndurance();
+        return 0;
+    }
+
+    public static void setEndurance(EntityPlayer player, int amt) {
+        final IUndead undead = UndeadCapabilityProvider.get(player);
+        if(undead != null)
+            undead.setEndurance(amt);
+    }
+
+    public static int getVitality(EntityPlayer player) {
+        final IUndead undead = UndeadCapabilityProvider.get(player);
+        if(undead != null)
+            return undead.getVitality();
+        return 0;
+    }
+
+    public static void setVitality(EntityPlayer player, int amt) {
+        final IUndead undead = UndeadCapabilityProvider.get(player);
+        if(undead != null)
+            undead.setVitality(amt);
+    }
+
+    public static int getStrength(EntityPlayer player) {
+        final IUndead undead = UndeadCapabilityProvider.get(player);
+        if(undead != null)
+            return undead.getStrength();
+        return 0;
+    }
+
+    public static void setStrength(EntityPlayer player, int amt) {
+        final IUndead undead = UndeadCapabilityProvider.get(player);
+        if(undead != null)
+            undead.setStrength(amt);
+    }
+
+    public static int getDexterity(EntityPlayer player) {
+        final IUndead undead = UndeadCapabilityProvider.get(player);
+        if(undead != null)
+            return undead.getDexterity();
+        return 0;
+    }
+
+    public static void setDexterity(EntityPlayer player, int amt) {
+        final IUndead undead = UndeadCapabilityProvider.get(player);
+        if(undead != null)
+            undead.setDexterity(amt);
+    }
+
+    public static int getIntelligence(EntityPlayer player) {
+        final IUndead undead = UndeadCapabilityProvider.get(player);
+        if(undead != null)
+            return undead.getIntelligence();
+        return 0;
+    }
+
+    public static void setIntelligence(EntityPlayer player, int amt) {
+        final IUndead undead = UndeadCapabilityProvider.get(player);
+        if(undead != null)
+            undead.setIntelligence(amt);
+    }
+
+    public static int getFaith(EntityPlayer player) {
+        final IUndead undead = UndeadCapabilityProvider.get(player);
+        if(undead != null)
+            return undead.getFaith();
+        return 0;
+    }
+
+    public static void setFaith(EntityPlayer player, int amt) {
+        final IUndead undead = UndeadCapabilityProvider.get(player);
+        if(undead != null)
+            undead.setFaith(amt);
+    }
+
+    public static int getLuck(EntityPlayer player) {
+        final IUndead undead = UndeadCapabilityProvider.get(player);
+        if(undead != null)
+            return undead.getLuck();
+        return 0;
+    }
+
+    public static void setLuck(EntityPlayer player, int amt) {
+        final IUndead undead = UndeadCapabilityProvider.get(player);
+        if(undead != null)
+            undead.setLuck(amt);
     }
 }

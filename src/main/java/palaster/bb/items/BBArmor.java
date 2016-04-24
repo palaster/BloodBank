@@ -48,16 +48,6 @@ public class BBArmor extends ItemArmor {
     public void setCustomModelResourceLocation() { ModelLoader.setCustomModelResourceLocation(this, 0, new ModelResourceLocation(getRegistryName(), "inventory")); }
 
     @Override
-    public Entity createEntity(World world, Entity location, ItemStack itemstack) {
-        if(!world.isRemote)
-            if(itemstack != null && itemstack.getItem() instanceof BBArmor)
-                if(itemstack.getItem() == BBItems.boundHelmet || itemstack.getItem() == BBItems.boundChestplate || itemstack.getItem() == BBItems.boundLeggings || itemstack.getItem() == BBItems.boundBoots)
-                    if(BBItemStackHelper.getItemStackFromItemStack(itemstack) != null)
-                        return new EntityItem(world, location.posX, location.posY, location.posZ, BBItemStackHelper.getItemStackFromItemStack(itemstack));
-        return null;
-    }
-
-    @Override
     public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
         if(!worldIn.isRemote)
             if(entityIn instanceof EntityPlayer) {

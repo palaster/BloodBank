@@ -40,7 +40,6 @@ public class BBItemStackHelper {
                     ws.playRecord(pos, null);
 				}
 				jb.setRecord(stack);
-				// TODO: Look into if this effects anything : Removed markBlockForUpdate(BlockPos) from WorldServer
 			}
 		}
 	}

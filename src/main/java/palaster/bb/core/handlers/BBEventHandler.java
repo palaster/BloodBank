@@ -3,12 +3,14 @@ package palaster.bb.core.handlers;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.translation.I18n;
+import net.minecraft.world.WorldSavedData;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
@@ -29,12 +31,14 @@ import org.lwjgl.input.Keyboard;
 import palaster.bb.BloodBank;
 import palaster.bb.api.BBApi;
 import palaster.bb.api.capabilities.entities.BloodBankCapabilityProvider;
+import palaster.bb.api.capabilities.entities.UndeadCapabilityProvider;
 import palaster.bb.core.helpers.BBItemStackHelper;
 import palaster.bb.entities.knowledge.BBKnowledge;
 import palaster.bb.items.*;
 import palaster.bb.libs.LibMod;
 import palaster.bb.network.PacketHandler;
 import palaster.bb.network.server.KeyClickMessage;
+import palaster.bb.world.BBWorldSaveData;
 import palaster.bb.world.WorldEventListener;
 
 import java.io.File;
@@ -67,47 +71,82 @@ public class BBEventHandler {
 			EntityPlayer player = (EntityPlayer) e.getEntity();
 			if(player != null && !player.hasCapability(BloodBankCapabilityProvider.bloodBankCap, null))
 				e.addCapability(new ResourceLocation(LibMod.modid, "IBloodBank"), new BloodBankCapabilityProvider());
+			if(player != null && !player.hasCapability(UndeadCapabilityProvider.undeadCap, null))
+				e.addCapability(new ResourceLocation(LibMod.modid, "IUndead"), new UndeadCapabilityProvider());
 		}
 	}
 
 	@SubscribeEvent
 	public void onClonePlayer(PlayerEvent.Clone e) {
 		if(e.isWasDeath()) {
+			// Clone Player from death for Blood Bank.
 			BBApi.setMaxBlood(e.getEntityPlayer(), BBApi.getMaxBlood(e.getOriginal()));
 			BBApi.setCurrentBlood(e.getEntityPlayer(), BBApi.getCurrentBlood(e.getOriginal()));
 			BBApi.linkEntity(e.getEntityPlayer(), BBApi.getLinked(e.getOriginal()));
+
+			// Clone Player from death for Blood Bank.
+			BBApi.setSoul(e.getEntityPlayer(), BBApi.getSoul(e.getOriginal()));
+			BBApi.setVigor(e.getEntityPlayer(), BBApi.getVigor(e.getOriginal()));
+			BBApi.setAttunement(e.getEntityPlayer(), BBApi.getAttunement(e.getOriginal()));
+			BBApi.setEndurance(e.getEntityPlayer(), BBApi.getEndurance(e.getOriginal()));
+			BBApi.setVitality(e.getEntityPlayer(), BBApi.getVitality(e.getOriginal()));
+			BBApi.setStrength(e.getEntityPlayer(), BBApi.getStrength(e.getOriginal()));
+			BBApi.setDexterity(e.getEntityPlayer(), BBApi.getDexterity(e.getOriginal()));
+			BBApi.setIntelligence(e.getEntityPlayer(), BBApi.getIntelligence(e.getOriginal()));
+			BBApi.setLuck(e.getEntityPlayer(), BBApi.getLuck(e.getOriginal()));
 		}
 	}
 
 	@SubscribeEvent
 	public void onLivingDeath(LivingDeathEvent e) {
-		if(!e.getEntityLiving().worldObj.isRemote)
+		if(!e.getEntityLiving().worldObj.isRemote) {
 			for(Entity entity : e.getEntityLiving().worldObj.loadedEntityList)
 				if(entity instanceof EntityPlayer) {
 					EntityPlayer player = (EntityPlayer) entity;
 					if(BBApi.getLinked(player) != null && BBApi.getLinked(player).getUniqueID() == e.getEntityLiving().getUniqueID())
 						BBApi.linkEntity(player, null);
 				}
+			if(e.getEntityLiving() instanceof EntityPlayer) {
+				if(BBApi.isUndead((EntityPlayer) e.getEntityLiving())) {
+					if(e.getSource().getEntity() instanceof EntityPlayer) {
+						EntityPlayer killer = (EntityPlayer) e.getSource().getEntity();
+						if(BBApi.isUndead(killer))
+							BBApi.addSoul(killer, BBApi.getSoul((EntityPlayer) e.getEntityLiving()));
+					}
+					BBApi.setSoul((EntityPlayer) e.getEntityLiving(), 0);
+				}
+			}
+		}
 	}
 
 	@SubscribeEvent
 	public void onLivingAttack(LivingAttackEvent e) {
-		if(!e.getEntityLiving().worldObj.isRemote && e.getEntityLiving() instanceof EntityPlayer) {
-			EntityPlayer p = (EntityPlayer) e.getEntityLiving();
-			if(e.getSource() == DamageSource.drown)
-				if(p.inventory.hasItemStack(new ItemStack(BBItems.trident)))
-					for(int i = 0; i < 9; i++)
-						if(p.inventory.getStackInSlot(i) != null && p.inventory.getStackInSlot(i).getItem() instanceof ItemTrident) {
-							e.setCanceled(true);
-							p.inventory.getStackInSlot(i).damageItem(1, p);
-						}
-			if(e.getSource().getEntity() != null)
-				if(BBApi.getLinked(p) != null) {
-					BBApi.getLinked(p).attackEntityFrom(BloodBank.proxy.bbBlood, e.getAmount());
+		if(!e.getEntityLiving().worldObj.isRemote) {
+			if(e.getEntityLiving() instanceof EntityPlayer) {
+				EntityPlayer p = (EntityPlayer) e.getEntityLiving();
+				if(e.getSource() == DamageSource.drown)
+					if(p.inventory.hasItemStack(new ItemStack(BBItems.trident)))
+						for(int i = 0; i < 9; i++)
+							if(p.inventory.getStackInSlot(i) != null && p.inventory.getStackInSlot(i).getItem() instanceof ItemTrident) {
+								e.setCanceled(true);
+								p.inventory.getStackInSlot(i).damageItem(1, p);
+							}
+				if(e.getSource().getEntity() != null)
+					if(BBApi.getLinked(p) != null) {
+						BBApi.getLinked(p).attackEntityFrom(BloodBank.proxy.bbBlood, e.getAmount());
+						e.setCanceled(true);
+					}
+				if(e.getSource().isMagicDamage() && p.inventory.hasItemStack(new ItemStack(BBItems.bbResources, 1, 2)))
 					e.setCanceled(true);
+			}
+			if(e.getSource().getEntity() instanceof EntityPlayer && e.getSource().damageType.equals("player")) {
+				if(BBApi.isUndead((EntityPlayer) e.getSource().getEntity()) && BBApi.getStrength((EntityPlayer) e.getSource().getEntity()) > 0) {
+					int strengthLvl = BBApi.getStrength((EntityPlayer) e.getSource().getEntity());
+					float damageBefore = e.getAmount();
+					e.setCanceled(true);
+					e.getEntityLiving().attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer) e.getSource().getEntity()), damageBefore + (float) (strengthLvl * .25));
 				}
-			if(e.getSource().isMagicDamage() && p.inventory.hasItemStack(new ItemStack(BBItems.bbResources, 1, 2)))
-				e.setCanceled(true);
+			}
 		}
 	}
 	
@@ -162,6 +201,12 @@ public class BBEventHandler {
 		if(!e.getPlayer().worldObj.isRemote)
 			if(e.getEntityItem().getEntityItem().hasTagCompound() && BBItemStackHelper.getCountDown(e.getEntityItem().getEntityItem()))
 				e.setCanceled(true);
+			if(e.getEntityItem().getEntityItem() != null && e.getEntityItem().getEntityItem().getItem() instanceof BBArmor) {
+				if(e.getEntityItem().getEntityItem().getItem() == BBItems.boundHelmet || e.getEntityItem().getEntityItem().getItem() == BBItems.boundChestplate || e.getEntityItem().getEntityItem().getItem() == BBItems.boundLeggings || e.getEntityItem().getEntityItem().getItem() == BBItems.boundBoots)
+					if(BBItemStackHelper.getItemStackFromItemStack(e.getEntityItem().getEntityItem()) != null)
+						e.getPlayer().worldObj.spawnEntityInWorld(new EntityItem(e.getPlayer().worldObj, e.getPlayer().posX, e.getPlayer().posY, e.getPlayer().posZ, BBItemStackHelper.getItemStackFromItemStack(e.getEntityItem().getEntityItem())));
+				e.setCanceled(true);
+			}
 	}
 
 	@SubscribeEvent
