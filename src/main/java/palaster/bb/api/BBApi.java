@@ -1,6 +1,9 @@
 package palaster.bb.api;
 
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import palaster.bb.api.capabilities.entities.BloodBankCapabilityProvider;
@@ -11,6 +14,7 @@ import palaster.bb.api.recipes.RecipeLetter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class BBApi {
 
@@ -151,6 +155,11 @@ public class BBApi {
             undead.setSoul(amt);
     }
 
+    public static void addVigor(EntityPlayer player, int amt) {
+        if(amt > 0)
+            setVigor(player, getVigor(player) + amt);
+    }
+
     public static int getVigor(EntityPlayer player) {
         final IUndead undead = UndeadCapabilityProvider.get(player);
         if(undead != null)
@@ -160,8 +169,13 @@ public class BBApi {
 
     public static void setVigor(EntityPlayer player, int amt) {
         final IUndead undead = UndeadCapabilityProvider.get(player);
-        if(undead != null)
+        if(undead != null) {
             undead.setVigor(amt);
+            if(undead.getVigor() <= 0)
+                player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(20D);
+            else
+                player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(20D + (getVigor(player) * .2));
+        }
     }
 
     public static int getAttunement(EntityPlayer player) {
@@ -177,32 +191,6 @@ public class BBApi {
             undead.setAttunement(amt);
     }
 
-    public static int getEndurance(EntityPlayer player) {
-        final IUndead undead = UndeadCapabilityProvider.get(player);
-        if(undead != null)
-            return undead.getEndurance();
-        return 0;
-    }
-
-    public static void setEndurance(EntityPlayer player, int amt) {
-        final IUndead undead = UndeadCapabilityProvider.get(player);
-        if(undead != null)
-            undead.setEndurance(amt);
-    }
-
-    public static int getVitality(EntityPlayer player) {
-        final IUndead undead = UndeadCapabilityProvider.get(player);
-        if(undead != null)
-            return undead.getVitality();
-        return 0;
-    }
-
-    public static void setVitality(EntityPlayer player, int amt) {
-        final IUndead undead = UndeadCapabilityProvider.get(player);
-        if(undead != null)
-            undead.setVitality(amt);
-    }
-
     public static int getStrength(EntityPlayer player) {
         final IUndead undead = UndeadCapabilityProvider.get(player);
         if(undead != null)
@@ -214,19 +202,6 @@ public class BBApi {
         final IUndead undead = UndeadCapabilityProvider.get(player);
         if(undead != null)
             undead.setStrength(amt);
-    }
-
-    public static int getDexterity(EntityPlayer player) {
-        final IUndead undead = UndeadCapabilityProvider.get(player);
-        if(undead != null)
-            return undead.getDexterity();
-        return 0;
-    }
-
-    public static void setDexterity(EntityPlayer player, int amt) {
-        final IUndead undead = UndeadCapabilityProvider.get(player);
-        if(undead != null)
-            undead.setDexterity(amt);
     }
 
     public static int getIntelligence(EntityPlayer player) {
@@ -253,18 +228,5 @@ public class BBApi {
         final IUndead undead = UndeadCapabilityProvider.get(player);
         if(undead != null)
             undead.setFaith(amt);
-    }
-
-    public static int getLuck(EntityPlayer player) {
-        final IUndead undead = UndeadCapabilityProvider.get(player);
-        if(undead != null)
-            return undead.getLuck();
-        return 0;
-    }
-
-    public static void setLuck(EntityPlayer player, int amt) {
-        final IUndead undead = UndeadCapabilityProvider.get(player);
-        if(undead != null)
-            undead.setLuck(amt);
     }
 }

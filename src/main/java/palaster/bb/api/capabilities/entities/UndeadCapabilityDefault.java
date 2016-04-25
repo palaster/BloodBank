@@ -4,17 +4,17 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public class UndeadCapabilityDefault implements IUndead {
 
+    private static final int maxLevel = 99;
+
+    // Find out what the difference between miracles (Talismans or Sacred Chimes), sorceries (Staves), and pyromancies (Pyromancy Flame)
+
     private boolean isUndead;
     private int souls;
     private int vigor;
-    private int attunement;
-    private int endurance;
-    private int vitality;
-    private int strength;
-    private int dexterity;
-    private int intelligence;
-    private int faith;
-    private int luck;
+    private int attunement; // FP Amount and amount of attunements that can be carried at the same time
+    private int strength; // Amount of damage dealt
+    private int intelligence; // Reduces magic damage, increase spell potency, increases sorcery, pyromancy, and dark miracle(?)
+    private int faith; // Increases Miracles(?), increases pyromancy, increase dark miracles
 
     @Override
     public boolean isUndead() { return isUndead; }
@@ -50,6 +50,8 @@ public class UndeadCapabilityDefault implements IUndead {
             vigor = 0;
         else
             vigor = amt;
+        if(amt >= maxLevel)
+            vigor = maxLevel;
     }
 
     @Override
@@ -65,36 +67,8 @@ public class UndeadCapabilityDefault implements IUndead {
             attunement = 0;
         else
             attunement = amt;
-    }
-
-    @Override
-    public int getEndurance() {
-        if(isUndead)
-            return endurance;
-        return 0;
-    }
-
-    @Override
-    public void setEndurance(int amt) {
-        if(amt <= 0)
-            endurance = 0;
-        else
-            endurance = amt;
-    }
-
-    @Override
-    public int getVitality() {
-        if(isUndead)
-            return vitality;
-        return 0;
-    }
-
-    @Override
-    public void setVitality(int amt) {
-        if(amt <= 0)
-            vitality = 0;
-        else
-            vitality = amt;
+        if(amt >= maxLevel)
+            attunement = maxLevel;
     }
 
     @Override
@@ -106,21 +80,8 @@ public class UndeadCapabilityDefault implements IUndead {
             strength = 0;
         else
             strength = amt;
-    }
-
-    @Override
-    public int getDexterity() {
-        if(isUndead)
-            return dexterity;
-        return 0;
-    }
-
-    @Override
-    public void setDexterity(int amt) {
-        if(amt <= 0)
-            dexterity = 0;
-        else
-            dexterity = amt;
+        if(amt >= maxLevel)
+            strength = maxLevel;
     }
 
     @Override
@@ -136,6 +97,8 @@ public class UndeadCapabilityDefault implements IUndead {
             intelligence = 0;
         else
             intelligence = amt;
+        if(amt >= maxLevel)
+            intelligence = maxLevel;
     }
 
     @Override
@@ -151,21 +114,8 @@ public class UndeadCapabilityDefault implements IUndead {
             faith = 0;
         else
             faith = amt;
-    }
-
-    @Override
-    public int getLuck() {
-        if(isUndead)
-            return luck;
-        return 0;
-    }
-
-    @Override
-    public void setLuck(int amt) {
-        if(amt <= 0)
-            luck = 0;
-        else
-            luck = amt;
+        if(amt >= maxLevel)
+            faith = maxLevel;
     }
 
     @Override
@@ -175,13 +125,9 @@ public class UndeadCapabilityDefault implements IUndead {
         tagCompound.setInteger("Souls", souls);
         tagCompound.setInteger("Vigor", vigor);
         tagCompound.setInteger("Attunement", attunement);
-        tagCompound.setInteger("Endurance", endurance);
-        tagCompound.setInteger("Vitality", vitality);
         tagCompound.setInteger("Strength", strength);
-        tagCompound.setInteger("Dexterity", dexterity);
         tagCompound.setInteger("Intelligence", intelligence);
         tagCompound.setInteger("Faith", faith);
-        tagCompound.setInteger("Luck", luck);
         return tagCompound;
     }
 
@@ -191,12 +137,8 @@ public class UndeadCapabilityDefault implements IUndead {
         souls = nbt.getInteger("Souls");
         vigor = nbt.getInteger("Vigor");
         attunement = nbt.getInteger("Attunement");
-        endurance = nbt.getInteger("Endurance");
-        vitality = nbt.getInteger("Vitality");
         strength = nbt.getInteger("Strength");
-        dexterity= nbt.getInteger("Dexterity");
         intelligence = nbt.getInteger("Intelligence");
         faith = nbt.getInteger("Faith");
-        luck = nbt.getInteger("Luck");
     }
 }

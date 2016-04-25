@@ -90,13 +90,9 @@ public class BBEventHandler {
 			BBApi.setSoul(e.getEntityPlayer(), BBApi.getSoul(e.getOriginal()));
 			BBApi.setVigor(e.getEntityPlayer(), BBApi.getVigor(e.getOriginal()));
 			BBApi.setAttunement(e.getEntityPlayer(), BBApi.getAttunement(e.getOriginal()));
-			BBApi.setEndurance(e.getEntityPlayer(), BBApi.getEndurance(e.getOriginal()));
-			BBApi.setVitality(e.getEntityPlayer(), BBApi.getVitality(e.getOriginal()));
 			BBApi.setStrength(e.getEntityPlayer(), BBApi.getStrength(e.getOriginal()));
-			BBApi.setDexterity(e.getEntityPlayer(), BBApi.getDexterity(e.getOriginal()));
 			BBApi.setIntelligence(e.getEntityPlayer(), BBApi.getIntelligence(e.getOriginal()));
 			BBApi.setFaith(e.getEntityPlayer(), BBApi.getFaith(e.getOriginal()));
-			BBApi.setLuck(e.getEntityPlayer(), BBApi.getLuck(e.getOriginal()));
 
 			if(BBApi.isUndead(e.getOriginal())) {
 				BBWorldSaveData bbWorldSaveData = BBWorldSaveData.get(e.getOriginal().worldObj);

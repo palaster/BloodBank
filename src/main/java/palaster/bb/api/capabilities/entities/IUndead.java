@@ -22,21 +22,9 @@ public interface IUndead {
 
     void setAttunement(int amt);
 
-    int getEndurance();
-
-    void setEndurance(int amt);
-
-    int getVitality();
-
-    void setVitality(int amt);
-
     int getStrength();
 
     void setStrength(int amt);
-
-    int getDexterity();
-
-    void setDexterity(int amt);
 
     int getIntelligence();
 
@@ -45,10 +33,6 @@ public interface IUndead {
     int getFaith();
 
     void setFaith(int amt);
-
-    int getLuck();
-
-    void setLuck(int amt);
 
     NBTTagCompound saveNBT();
 
