@@ -174,7 +174,7 @@ public class BBApi {
             if(undead.getVigor() <= 0)
                 player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(20D);
             else
-                player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(20D + (getVigor(player) * .2));
+                player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MAX_HEALTH).getAttributeValue() + (getVigor(player) * .2));
         }
     }
 
