@@ -14,6 +14,14 @@ public interface IUndead {
 
     void setSoul(int amt);
 
+    int getFocus();
+
+    void setFocus(int amt);
+
+    int getFocusMax();
+
+    void setFocusMax(int amt);
+
     int getVigor();
 
     void setVigor(int amt);

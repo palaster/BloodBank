@@ -152,6 +152,32 @@ public class BBApi {
             undead.setSoul(amt);
     }
 
+    public static int getFocus(EntityPlayer player) {
+        final IUndead undead = UndeadCapabilityProvider.get(player);
+        if(undead != null)
+            return undead.getFocus();
+        return 0;
+    }
+
+    public static void setFocus(EntityPlayer player, int amt) {
+        final IUndead undead = UndeadCapabilityProvider.get(player);
+        if(undead != null)
+            undead.setFocus(amt);
+    }
+
+    public static int getFocusMax(EntityPlayer player) {
+        final IUndead undead = UndeadCapabilityProvider.get(player);
+        if(undead != null)
+            return undead.getFocusMax();
+        return 0;
+    }
+
+    public static void setFocusMax(EntityPlayer player, int amt) {
+        final IUndead undead = UndeadCapabilityProvider.get(player);
+        if(undead != null)
+            undead.setFocusMax(amt);
+    }
+
     public static void addVigor(EntityPlayer player, int amt) {
         if(amt > 0)
             setVigor(player, getVigor(player) + amt);

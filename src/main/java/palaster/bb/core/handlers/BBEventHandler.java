@@ -19,10 +19,8 @@ import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerDropsEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.event.entity.player.SleepingLocationCheckEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
-import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
@@ -35,7 +33,6 @@ import palaster.bb.api.BBApi;
 import palaster.bb.api.capabilities.entities.BloodBankCapabilityProvider;
 import palaster.bb.api.capabilities.entities.UndeadCapabilityProvider;
 import palaster.bb.core.helpers.BBItemStackHelper;
-import palaster.bb.core.helpers.BBPlayerHelper;
 import palaster.bb.entities.knowledge.BBKnowledge;
 import palaster.bb.items.*;
 import palaster.bb.libs.LibMod;
@@ -91,6 +88,8 @@ public class BBEventHandler {
 			// Clone Player from death for Blood Bank.
 			BBApi.setUndead(e.getEntityPlayer(), BBApi.isUndead(e.getOriginal()));
 			BBApi.setSoul(e.getEntityPlayer(), BBApi.getSoul(e.getOriginal()));
+			BBApi.setFocus(e.getEntityPlayer(), BBApi.getFocus(e.getEntityPlayer()));
+			BBApi.setFocusMax(e.getEntityPlayer(), BBApi.getFocusMax(e.getEntityPlayer()));
 			BBApi.setVigor(e.getEntityPlayer(), BBApi.getVigor(e.getOriginal()));
 			BBApi.setAttunement(e.getEntityPlayer(), BBApi.getAttunement(e.getOriginal()));
 			BBApi.setStrength(e.getEntityPlayer(), BBApi.getStrength(e.getOriginal()));
@@ -137,6 +136,11 @@ public class BBEventHandler {
 					}
 					BBApi.setSoul((EntityPlayer) e.getEntityLiving(), 0);
 				}
+			}
+			if(e.getSource().getEntity() instanceof EntityPlayer) {
+				EntityPlayer p = (EntityPlayer) e.getSource().getEntity();
+				if(BBApi.isUndead(p))
+					BBApi.addSoul(p, (int) e.getEntityLiving().getHealth());
 			}
 		}
 	}
