@@ -33,7 +33,6 @@ import palaster.bb.api.BBApi;
 import palaster.bb.api.capabilities.entities.BloodBankCapabilityProvider;
 import palaster.bb.api.capabilities.entities.UndeadCapabilityProvider;
 import palaster.bb.core.helpers.BBItemStackHelper;
-import palaster.bb.core.helpers.BBPlayerHelper;
 import palaster.bb.entities.knowledge.BBKnowledge;
 import palaster.bb.items.*;
 import palaster.bb.libs.LibMod;
@@ -157,14 +156,6 @@ public class BBEventHandler {
 					}
 				if(e.getSource().isMagicDamage() && p.inventory.hasItemStack(new ItemStack(BBItems.bbResources, 1, 2)))
 					e.setCanceled(true);
-			}
-			if(e.getSource().getEntity() instanceof EntityPlayer && e.getSource().damageType.equals("player")) {
-				if(BBApi.isUndead((EntityPlayer) e.getSource().getEntity()) && BBApi.getStrength((EntityPlayer) e.getSource().getEntity()) > 0) {
-					int strengthLvl = BBApi.getStrength((EntityPlayer) e.getSource().getEntity());
-					float damageBefore = e.getAmount();
-					e.setCanceled(true);
-					e.getEntityLiving().attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer) e.getSource().getEntity()), damageBefore + (float) (strengthLvl * .25));
-				}
 			}
 		}
 	}

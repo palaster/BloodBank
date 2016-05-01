@@ -2,17 +2,22 @@ package palaster.bb.api.capabilities.entities;
 
 import net.minecraft.nbt.NBTTagCompound;
 
+import java.util.UUID;
+
 public class UndeadCapabilityDefault implements IUndead {
 
     private static final int maxLevel = 99;
 
-    // Find out what the difference between miracles (Talismans or Sacred Chimes), sorceries (Staves), and pyromancies (Pyromancy Flame)
+    public static final UUID healthID = UUID.fromString("246c351b-566e-401d-bd32-d2acbac366d4");
+    public static final UUID strengthID = UUID.fromString("9e804b09-8713-4186-a5ae-09380c674204");
+
+    // Miracles - Talismans, Pyromancy - Pyromancy Flame, and Sorceries - Staff
 
     private boolean isUndead;
     private int souls;
     private int vigor;
-    private int attunement; // FP Amount and amount of attunements that can be carried at the same time
-    private int strength; // Amount of damage dealt
+    private int attunement; // FP Amount
+    private int strength;
     private int intelligence; // Reduces magic damage, increase spell potency, increases sorcery, pyromancy, and dark miracle(?)
     private int faith; // Increases Miracles(?), increases pyromancy, increase dark miracles
 

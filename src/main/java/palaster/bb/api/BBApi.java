@@ -6,10 +6,7 @@ import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import palaster.bb.api.capabilities.entities.BloodBankCapabilityProvider;
-import palaster.bb.api.capabilities.entities.IBloodBank;
-import palaster.bb.api.capabilities.entities.IUndead;
-import palaster.bb.api.capabilities.entities.UndeadCapabilityProvider;
+import palaster.bb.api.capabilities.entities.*;
 import palaster.bb.api.recipes.RecipeLetter;
 
 import java.util.ArrayList;
@@ -171,10 +168,18 @@ public class BBApi {
         final IUndead undead = UndeadCapabilityProvider.get(player);
         if(undead != null) {
             undead.setVigor(amt);
-            if(undead.getVigor() <= 0)
-                player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(20D);
-            else
-                player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MAX_HEALTH).getAttributeValue() + (getVigor(player) * .2));
+            if(undead.getVigor() <= 0) {
+                IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MAX_HEALTH);
+                try {
+                    iAttributeInstance.removeModifier(iAttributeInstance.getModifier(UndeadCapabilityDefault.healthID));
+                } catch(Exception e) {}
+            } else {
+                IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MAX_HEALTH);
+                try {
+                    iAttributeInstance.removeModifier(iAttributeInstance.getModifier(UndeadCapabilityDefault.healthID));
+                } catch(Exception e) {}
+                iAttributeInstance.applyModifier(new AttributeModifier(UndeadCapabilityDefault.healthID, "bb.vigor", getVigor(player) * .2, 0));
+            }
         }
     }
 
@@ -191,6 +196,11 @@ public class BBApi {
             undead.setAttunement(amt);
     }
 
+    public static void addStrength(EntityPlayer player, int amt) {
+        if(amt > 0)
+            setStrength(player, getStrength(player) + amt);
+    }
+
     public static int getStrength(EntityPlayer player) {
         final IUndead undead = UndeadCapabilityProvider.get(player);
         if(undead != null)
@@ -200,8 +210,21 @@ public class BBApi {
 
     public static void setStrength(EntityPlayer player, int amt) {
         final IUndead undead = UndeadCapabilityProvider.get(player);
-        if(undead != null)
+        if(undead != null) {
             undead.setStrength(amt);
+            if(undead.getStrength() <= 0) {
+                IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ATTACK_DAMAGE);
+                try {
+                    iAttributeInstance.removeModifier(iAttributeInstance.getModifier(UndeadCapabilityDefault.strengthID));
+                } catch(Exception e) {}
+            } else {
+                IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ATTACK_DAMAGE);
+                try {
+                    iAttributeInstance.removeModifier(iAttributeInstance.getModifier(UndeadCapabilityDefault.strengthID));
+                } catch(Exception e) {}
+                iAttributeInstance.applyModifier(new AttributeModifier(UndeadCapabilityDefault.strengthID, "bb.strength", undead.getStrength() * .25, 0));
+            }
+        }
     }
 
     public static int getIntelligence(EntityPlayer player) {
