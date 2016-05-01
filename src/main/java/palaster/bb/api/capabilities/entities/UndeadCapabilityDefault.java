@@ -15,10 +15,12 @@ public class UndeadCapabilityDefault implements IUndead {
 
     private boolean isUndead;
     private int souls;
+    private int focus;
+    private int focusMax;
     private int vigor;
-    private int attunement; // FP Amount
+    private int attunement;
     private int strength;
-    private int intelligence; // Reduces magic damage, increase spell potency, increases sorcery, pyromancy, and dark miracle(?)
+    private int intelligence; // Increase spell potency, increases sorcery, pyromancy, and dark miracle(?)
     private int faith; // Increases Miracles(?), increases pyromancy, increase dark miracles
 
     @Override
@@ -40,6 +42,36 @@ public class UndeadCapabilityDefault implements IUndead {
             souls = 0;
         else
             souls = amt;
+    }
+
+    @Override
+    public int getFocus() {
+        if(isUndead)
+            return focus;
+        return 0;
+    }
+
+    @Override
+    public void setFocus(int amt) {
+        if(amt <= 0)
+            focus = 0;
+        else
+            focus = amt;
+    }
+
+    @Override
+    public int getFocusMax() {
+        if(isUndead)
+            return focusMax;
+        return focusMax;
+    }
+
+    @Override
+    public void setFocusMax(int amt) {
+        if(amt <= 0)
+            focusMax = 0;
+        else
+            focusMax = amt;
     }
 
     @Override
@@ -70,10 +102,14 @@ public class UndeadCapabilityDefault implements IUndead {
     public void setAttunement(int amt) {
         if(amt <= 0)
             attunement = 0;
-        else
+        else {
             attunement = amt;
-        if(amt >= maxLevel)
+            setFocusMax(100 + (10 * attunement));
+        }
+        if(amt >= maxLevel) {
             attunement = maxLevel;
+            setFocusMax(100 + (10 * maxLevel));
+        }
     }
 
     @Override
@@ -128,6 +164,8 @@ public class UndeadCapabilityDefault implements IUndead {
         NBTTagCompound tagCompound = new NBTTagCompound();
         tagCompound.setBoolean("IsUndead", isUndead);
         tagCompound.setInteger("Souls", souls);
+        tagCompound.setInteger("Focus", focus);
+        tagCompound.setInteger("FocusMax", focusMax);
         tagCompound.setInteger("Vigor", vigor);
         tagCompound.setInteger("Attunement", attunement);
         tagCompound.setInteger("Strength", strength);
@@ -140,6 +178,8 @@ public class UndeadCapabilityDefault implements IUndead {
     public void loadNBT(NBTTagCompound nbt) {
         isUndead = nbt.getBoolean("IsUndead");
         souls = nbt.getInteger("Souls");
+        focus = nbt.getInteger("Focus");
+        focusMax = nbt.getInteger("FocusMax");
         vigor = nbt.getInteger("Vigor");
         attunement = nbt.getInteger("Attunement");
         strength = nbt.getInteger("Strength");
