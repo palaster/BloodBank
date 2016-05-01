@@ -50,7 +50,6 @@ public class BBEventHandler {
 
 	// Config Values
 	public static Configuration config;
-	public static boolean allowUndeadToSleep = false;
 
 	public static void init(File configFile) {
 		if(config == null) {
@@ -66,7 +65,6 @@ public class BBEventHandler {
 	}
 
 	private static void loadConfiguration() {
-		allowUndeadToSleep = config.getBoolean("AllowUndeadToSleep", Configuration.CATEGORY_GENERAL, false, I18n.translateToLocal("bb.config.allowUndeadToSleep"));
 		if(config.hasChanged())
 			config.save();
 	}
@@ -210,16 +208,6 @@ public class BBEventHandler {
 						if(e.player.inventory.hasItemStack(new ItemStack(BBItems.bbResources, 1, 2)))
 							e.player.removePotionEffect(potionEffect.getPotion());
 			}
-	}
-
-	@SubscribeEvent
-	public void onBedCheck(SleepingLocationCheckEvent e) {
-		if(!e.getEntityPlayer().worldObj.isRemote)
-			if(BBApi.isUndead(e.getEntityPlayer()))
-				if(!allowUndeadToSleep) {
-					BBPlayerHelper.sendChatMessageToPlayer(e.getEntityPlayer(), I18n.translateToLocal("bb.misc.undeadSleep"));
-					e.setResult(Event.Result.DENY);
-				}
 	}
 
 	@SubscribeEvent

@@ -1,5 +1,4 @@
 itemGroup.tabBB=Blood Bank
-bb.config.allowUndeadToSleep=Allow the Undead Players to sleep at night
 
 death.attack.bbBlood=%1$s died of anemia.
 
@@ -54,7 +53,6 @@ bb.misc.vampireSigil=Vampire Sigil
 bb.misc.reuse=Reuse Timer
 bb.misc.alreadyLinked=Can't link to more than one entity.
 bb.misc.countDown=Community Item
-bb.misc.undeadSleep=You are not tired.
 
 bb.staff.active=Active Power
 bb.staff.time.0=Time
