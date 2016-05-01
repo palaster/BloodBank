@@ -6,6 +6,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.relauncher.Side;
 import palaster.bb.blocks.tile.TileEntityModInventory;
+import palaster.bb.items.ItemUndeadMonitor;
 import palaster.bb.network.AbstractMessage.AbstractServerMessage;
 
 import java.io.IOException;
@@ -53,5 +54,8 @@ public class GuiButtonMessage extends AbstractServerMessage<GuiButtonMessage> {
 		TileEntity te = player.worldObj.getTileEntity(pos);
 		if(te != null && te instanceof TileEntityModInventory)
 			((TileEntityModInventory) te).receiveButtonEvent(id, player);
+		if(pos != null)
+			if(player.getHeldItemMainhand() != null && player.getHeldItemMainhand().getItem() instanceof ItemUndeadMonitor)
+				((ItemUndeadMonitor) player.getHeldItemMainhand().getItem()).receiveButtonEvent(id, player);
 	}
 }

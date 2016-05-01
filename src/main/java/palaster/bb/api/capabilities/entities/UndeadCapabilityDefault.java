@@ -11,8 +11,6 @@ public class UndeadCapabilityDefault implements IUndead {
     public static final UUID healthID = UUID.fromString("246c351b-566e-401d-bd32-d2acbac366d4");
     public static final UUID strengthID = UUID.fromString("9e804b09-8713-4186-a5ae-09380c674204");
 
-    // Miracles - Talismans, Pyromancy - Pyromancy Flame, and Sorceries - Staff
-
     private boolean isUndead;
     private int souls;
     private int focus;
@@ -21,7 +19,7 @@ public class UndeadCapabilityDefault implements IUndead {
     private int attunement;
     private int strength;
     private int intelligence; // Increase spell potency, increases sorcery, pyromancy, and dark miracle(?)
-    private int faith; // Increases Miracles(?), increases pyromancy, increase dark miracles
+    private int faith; // Increases Miracles(?), increase dark miracles
 
     @Override
     public boolean isUndead() { return isUndead; }

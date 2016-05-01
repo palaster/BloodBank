@@ -21,7 +21,10 @@ public class BBItems {
 	trident,
 	athame,
 	bloodBook,
-	letter;
+	letter,
+	undeadMonitor;
+
+	public static Item carthusFlameArc;
 
 	public static ItemArmor
 	boundHelmet,
@@ -46,6 +49,9 @@ public class BBItems {
 		athame = new ItemAthame();
 		bloodBook = new ItemBookBlood();
 		letter = new ItemLetter();
+		undeadMonitor = new ItemUndeadMonitor();
+
+		carthusFlameArc = new ItemCarthusFlameArc();
 
 		boundHelmet = new BBArmor(bound, 0, EntityEquipmentSlot.HEAD);
 		boundChestplate = new BBArmor(bound, 0, EntityEquipmentSlot.CHEST);

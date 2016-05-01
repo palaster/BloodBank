@@ -13,6 +13,8 @@ import net.minecraft.world.World;
 
 public interface IFlameSpell {
 
+    int getSpellCost();
+
     boolean onSpellLeftClickEntity(ItemStack stack, EntityPlayer player, Entity entity);
 
     EnumActionResult onSpellUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ);

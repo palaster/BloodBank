@@ -28,6 +28,8 @@ item.bb:athame.name=Athame
 item.bb:bookBlood.name=Bloody Book
 item.bb:letter.name=Letter
 
+item.bb:carthusFlameArc.name=Carthus Flame Arc
+
 item.bb:bound.HEAD.name=Bound Helmet
 item.bb:bound.CHEST.name=Bound Chestplate
 item.bb:bound.LEGS.name=Bound Leggings
