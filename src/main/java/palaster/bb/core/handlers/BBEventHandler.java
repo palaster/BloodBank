@@ -19,8 +19,10 @@ import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerDropsEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.entity.player.SleepingLocationCheckEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
+import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
@@ -33,6 +35,7 @@ import palaster.bb.api.BBApi;
 import palaster.bb.api.capabilities.entities.BloodBankCapabilityProvider;
 import palaster.bb.api.capabilities.entities.UndeadCapabilityProvider;
 import palaster.bb.core.helpers.BBItemStackHelper;
+import palaster.bb.core.helpers.BBPlayerHelper;
 import palaster.bb.entities.knowledge.BBKnowledge;
 import palaster.bb.items.*;
 import palaster.bb.libs.LibMod;
@@ -45,7 +48,9 @@ import java.io.File;
 
 public class BBEventHandler {
 
+	// Config Values
 	public static Configuration config;
+	public static boolean allowUndeadToSleep = false;
 
 	public static void init(File configFile) {
 		if(config == null) {
@@ -61,6 +66,7 @@ public class BBEventHandler {
 	}
 
 	private static void loadConfiguration() {
+		allowUndeadToSleep = config.getBoolean("AllowUndeadToSleep", Configuration.CATEGORY_GENERAL, false, I18n.translateToLocal("bb.config.allowUndeadToSleep"));
 		if(config.hasChanged())
 			config.save();
 	}
@@ -204,6 +210,16 @@ public class BBEventHandler {
 						if(e.player.inventory.hasItemStack(new ItemStack(BBItems.bbResources, 1, 2)))
 							e.player.removePotionEffect(potionEffect.getPotion());
 			}
+	}
+
+	@SubscribeEvent
+	public void onBedCheck(SleepingLocationCheckEvent e) {
+		if(!e.getEntityPlayer().worldObj.isRemote)
+			if(BBApi.isUndead(e.getEntityPlayer()))
+				if(!allowUndeadToSleep) {
+					BBPlayerHelper.sendChatMessageToPlayer(e.getEntityPlayer(), I18n.translateToLocal("bb.misc.undeadSleep"));
+					e.setResult(Event.Result.DENY);
+				}
 	}
 
 	@SubscribeEvent
