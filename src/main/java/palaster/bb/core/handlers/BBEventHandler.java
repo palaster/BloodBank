@@ -5,8 +5,10 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemSword;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.translation.I18n;
@@ -16,9 +18,7 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.event.entity.player.ItemTooltipEvent;
-import net.minecraftforge.event.entity.player.PlayerDropsEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.entity.player.*;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
@@ -165,6 +165,10 @@ public class BBEventHandler {
 				if(e.getSource().isMagicDamage() && p.inventory.hasItemStack(new ItemStack(BBItems.bbResources, 1, 2)))
 					e.setCanceled(true);
 			}
+			if(e.getSource().getSourceOfDamage() instanceof EntityPlayer)
+				if(((EntityPlayer )e.getSource().getSourceOfDamage()).getHeldItemMainhand() != null && ((EntityPlayer )e.getSource().getSourceOfDamage()).getHeldItemMainhand().getItem() instanceof ItemSword)
+					if(((EntityPlayer) e.getSource().getSourceOfDamage()).getHeldItem(EnumHand.OFF_HAND) != null && ((EntityPlayer) e.getSource().getSourceOfDamage()).getHeldItem(EnumHand.OFF_HAND).getItem() == new ItemStack(BBItems.bbResources, 1, 3).getItem() && ((EntityPlayer) e.getSource().getSourceOfDamage()).getHeldItem(EnumHand.OFF_HAND).getItemDamage() == 3)
+						BBApi.addBlood(((EntityPlayer) e.getSource().getSourceOfDamage()), (int) e.getAmount());
 		}
 	}
 	
@@ -212,6 +216,16 @@ public class BBEventHandler {
 						if(e.player.inventory.hasItemStack(new ItemStack(BBItems.bbResources, 1, 2)))
 							e.player.removePotionEffect(potionEffect.getPotion());
 			}
+	}
+
+	@SubscribeEvent
+	public void onPlayerRightClickItem(PlayerInteractEvent.RightClickItem e) {
+		if(!e.getWorld().isRemote && e.getSide().isServer())
+			if(e.getEntityPlayer().getHeldItemMainhand() != null && e.getEntityPlayer().getHeldItemMainhand().getItem() instanceof ItemSword)
+				if(e.getEntityPlayer().getHeldItem(EnumHand.OFF_HAND) != null && e.getEntityPlayer().getHeldItem(EnumHand.OFF_HAND).getItem() == new ItemStack(BBItems.bbResources, 1, 3).getItem() && e.getEntityPlayer().getHeldItem(EnumHand.OFF_HAND).getItemDamage() == 3) {
+					e.getEntityPlayer().attackEntityFrom(BloodBank.proxy.bbBlood, 1f);
+					BBApi.addBlood(e.getEntityPlayer(), 50);
+				}
 	}
 
 	@SubscribeEvent

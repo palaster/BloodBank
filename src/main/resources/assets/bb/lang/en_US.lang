@@ -24,9 +24,9 @@ item.bb:animalHerder.name=Animal Herder
 item.bb:bloodBottle.name=Blood Bottle
 item.bb:hephaestusHammer.name=Hephaestus Hammer
 item.bb:trident.name=Trident of Poseidon
-item.bb:athame.name=Athame
 item.bb:bookBlood.name=Bloody Book
 item.bb:letter.name=Letter
+item.bb:undeadMonitor.name=Undead Monitor
 
 item.bb:carthusFlameArc.name=Carthus Flame Arc
 
@@ -55,6 +55,12 @@ bb.misc.vampireSigil=Vampire Sigil
 bb.misc.reuse=Reuse Timer
 bb.misc.alreadyLinked=Can't link to more than one entity.
 bb.misc.countDown=Community Item
+
+bb.undead.vigor=Vigor
+bb.undead.attunement=Attunement
+bb.undead.strength=Strength
+bb.undead.intelligence=Intelligence
+bb.undead.faith=Faith
 
 bb.staff.active=Active Power
 bb.staff.time.0=Time

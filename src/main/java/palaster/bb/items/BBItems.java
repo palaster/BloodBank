@@ -19,7 +19,6 @@ public class BBItems {
 	bloodBottle,
 	hephaestusHammer,
 	trident,
-	athame,
 	bloodBook,
 	letter,
 	undeadMonitor;
@@ -46,7 +45,6 @@ public class BBItems {
 		bloodBottle = new ItemBloodBottle();
 		hephaestusHammer = new ItemHephaestusHammer();
 		trident = new ItemTrident(EnumHelper.addToolMaterial("trident", 3, -1, 4.0f, 6.0f, 22));
-		athame = new ItemAthame();
 		bloodBook = new ItemBookBlood();
 		letter = new ItemLetter();
 		undeadMonitor = new ItemUndeadMonitor();

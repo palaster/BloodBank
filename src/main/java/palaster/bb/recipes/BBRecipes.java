@@ -24,6 +24,7 @@ public class BBRecipes {
 	private static void registerCraftingRecipes() {
 		GameRegistry.addRecipe(new ItemStack(BBItems.bbResources, 1, 0), "xxx", "xyx", "xxx", 'x', Items.paper, 'y', Blocks.netherrack);
 		GameRegistry.addRecipe(new ItemStack(BBItems.letter), "xxx", "xyx", "xxx", 'x', Items.paper, 'y', Items.feather);
+		GameRegistry.addRecipe(new ItemStack(BBItems.bbResources, 1, 3), "xyx", "yzy", "xyx", 'x', Blocks.stone, 'y', Items.emerald, 'z', Items.rotten_flesh);
 
 		GameRegistry.addRecipe(new VampireSigilRecipe());
 		RecipeSorter.register("bb:vampireSigil", VampireSigilRecipe.class, RecipeSorter.Category.SHAPELESS, "");
@@ -40,9 +41,7 @@ public class BBRecipes {
 		BBApi.registerLetterRecipe(new ItemStack(BBItems.staffVoidWalker), new ItemStack(Items.stick, 2), new ItemStack(Blocks.end_stone));
 		BBApi.registerLetterRecipe(new ItemStack(BBItems.staffHungryShadows), new ItemStack(Items.stick, 2), new ItemStack(Items.nether_star));
 		BBApi.registerLetterRecipe(new ItemStack(BBItems.animalHerder), new ItemStack(Items.stick, 2), new ItemStack(Items.wheat));
-		BBApi.registerLetterRecipe(new ItemStack(BBItems.bbResources, 1, 3), new ItemStack(BBItems.bloodBottle, 4), new ItemStack(Items.emerald));
-		BBApi.registerLetterRecipe(new ItemStack(BBItems.athame), new ItemStack(Items.stick), new ItemStack(Items.iron_ingot, 2));
-		BBApi.registerLetterRecipe(new ItemStack(BBItems.bloodBook), new ItemStack(Items.paper, 8), new ItemStack(BBItems.athame));
+		BBApi.registerLetterRecipe(new ItemStack(BBItems.bloodBook), new ItemStack(Items.paper, 8), new ItemStack(BBItems.bbResources, 1, 3));
 
 		ItemStack health = new ItemStack(Items.potionitem, 2);
 		PotionUtils.addPotionToItemStack(health, PotionType.getPotionTypeForName("strong_healing"));

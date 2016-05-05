@@ -209,6 +209,11 @@ public class BBApi {
         }
     }
 
+    public static void addAttunement(EntityPlayer player, int amt) {
+        if(amt > 0)
+            setAttunement(player, getAttunement(player) + amt);
+    }
+
     public static int getAttunement(EntityPlayer player) {
         final IUndead undead = UndeadCapabilityProvider.get(player);
         if(undead != null)
@@ -253,6 +258,11 @@ public class BBApi {
         }
     }
 
+    public static void addIntelligence(EntityPlayer player, int amt) {
+        if(amt > 0)
+            setIntelligence(player, getIntelligence(player) + amt);
+    }
+
     public static int getIntelligence(EntityPlayer player) {
         final IUndead undead = UndeadCapabilityProvider.get(player);
         if(undead != null)
@@ -264,6 +274,11 @@ public class BBApi {
         final IUndead undead = UndeadCapabilityProvider.get(player);
         if(undead != null)
             undead.setIntelligence(amt);
+    }
+
+    public static void addFaith(EntityPlayer player, int amt) {
+        if(amt > 0)
+            setFaith(player, getFaith(player) + amt);
     }
 
     public static int getFaith(EntityPlayer player) {

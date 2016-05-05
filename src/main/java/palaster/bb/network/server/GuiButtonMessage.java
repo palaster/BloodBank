@@ -54,8 +54,7 @@ public class GuiButtonMessage extends AbstractServerMessage<GuiButtonMessage> {
 		TileEntity te = player.worldObj.getTileEntity(pos);
 		if(te != null && te instanceof TileEntityModInventory)
 			((TileEntityModInventory) te).receiveButtonEvent(id, player);
-		if(pos != null)
-			if(player.getHeldItemMainhand() != null && player.getHeldItemMainhand().getItem() instanceof ItemUndeadMonitor)
-				((ItemUndeadMonitor) player.getHeldItemMainhand().getItem()).receiveButtonEvent(id, player);
+		if(player.getHeldItemMainhand() != null && player.getHeldItemMainhand().getItem() instanceof ItemUndeadMonitor)
+			((ItemUndeadMonitor) player.getHeldItemMainhand().getItem()).receiveButtonEvent(id, player);
 	}
 }
