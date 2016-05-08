@@ -11,6 +11,8 @@ import palaster.bb.api.BBApi;
 
 public class ItemUndeadMonitor extends ItemModSpecial {
 
+    // TODO: Spend souls when leveling up skills, get the buttons and words to line up, sync values.
+
     public ItemUndeadMonitor() {
         super();
         setUnlocalizedName("undeadMonitor");

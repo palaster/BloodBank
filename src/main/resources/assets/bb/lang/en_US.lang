@@ -57,6 +57,8 @@ bb.misc.reuse=Reuse Timer
 bb.misc.alreadyLinked=Can't link to more than one entity.
 bb.misc.countDown=Community Item
 
+bb.undead.soul=Soul
+bb.undead.focus=Focus
 bb.undead.vigor=Vigor
 bb.undead.attunement=Attunement
 bb.undead.strength=Strength
