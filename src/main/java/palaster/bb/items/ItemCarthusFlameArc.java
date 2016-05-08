@@ -11,6 +11,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import palaster.bb.api.capabilities.items.IFlameSpell;
+import palaster.bb.core.helpers.BBPlayerHelper;
 
 public class ItemCarthusFlameArc extends ItemModSpecial implements IFlameSpell {
 
@@ -23,14 +24,26 @@ public class ItemCarthusFlameArc extends ItemModSpecial implements IFlameSpell {
     public int getSpellCost() { return 30; }
 
     @Override
-    public boolean onSpellLeftClickEntity(ItemStack stack, EntityPlayer player, Entity entity) { return false; }
+    public boolean onSpellLeftClickEntity(ItemStack stack, EntityPlayer player, Entity entity) {
+        BBPlayerHelper.sendChatMessageToPlayer(player, "Carthus Flame Arc Spell Left Click Entity");
+        return false;
+    }
 
     @Override
-    public EnumActionResult onSpellUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) { return null; }
+    public EnumActionResult onSpellUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+        BBPlayerHelper.sendChatMessageToPlayer(playerIn, "Carthus Flame Arc Spell Use");
+        return null;
+    }
 
     @Override
-    public ActionResult<ItemStack> onSpellRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) { return null; }
+    public ActionResult<ItemStack> onSpellRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
+        BBPlayerHelper.sendChatMessageToPlayer(playerIn, "Carthus Flame Arc Spell Right Click");
+        return null;
+    }
 
     @Override
-    public boolean spellInteractionForEntity(ItemStack stack, EntityPlayer playerIn, EntityLivingBase target, EnumHand hand) { return false; }
+    public boolean spellInteractionForEntity(ItemStack stack, EntityPlayer playerIn, EntityLivingBase target, EnumHand hand) {
+        BBPlayerHelper.sendChatMessageToPlayer(playerIn, "Carthus Flame Arc Spell Interaction For Entity");
+        return false;
+    }
 }

@@ -23,7 +23,8 @@ public class BBItems {
 	letter,
 	undeadMonitor;
 
-	public static Item carthusFlameArc;
+	public static Item flames,
+	carthusFlameArc;
 
 	public static ItemArmor
 	boundHelmet,
@@ -49,6 +50,7 @@ public class BBItems {
 		letter = new ItemLetter();
 		undeadMonitor = new ItemUndeadMonitor();
 
+		flames = new ItemFlames();
 		carthusFlameArc = new ItemCarthusFlameArc();
 
 		boundHelmet = new BBArmor(bound, 0, EntityEquipmentSlot.HEAD);

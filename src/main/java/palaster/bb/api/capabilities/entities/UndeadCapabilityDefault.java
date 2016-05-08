@@ -53,6 +53,8 @@ public class UndeadCapabilityDefault implements IUndead {
     public void setFocus(int amt) {
         if(amt <= 0)
             focus = 0;
+        else if(amt >= focusMax)
+            focus = focusMax;
         else
             focus = amt;
     }

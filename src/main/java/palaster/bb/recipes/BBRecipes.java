@@ -28,6 +28,8 @@ public class BBRecipes {
 
 		GameRegistry.addRecipe(new VampireSigilRecipe());
 		RecipeSorter.register("bb:vampireSigil", VampireSigilRecipe.class, RecipeSorter.Category.SHAPELESS, "");
+		GameRegistry.addRecipe(new FlamesSpellRecipe());
+		RecipeSorter.register("bb:flames", FlamesSpellRecipe.class, RecipeSorter.Category.SHAPELESS, "");
 	}
 
 	private static void registerLetterRecipes() {

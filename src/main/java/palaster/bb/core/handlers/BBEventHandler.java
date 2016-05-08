@@ -19,12 +19,12 @@ import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.*;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.InputEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.common.gameevent.*;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Keyboard;
@@ -47,6 +47,8 @@ public class BBEventHandler {
 
 	// Config Values
 	public static Configuration config;
+
+	private int tickCounter;
 
 	public static void init(File configFile) {
 		if(config == null) {
@@ -215,6 +217,11 @@ public class BBEventHandler {
 					if(potionEffect != null)
 						if(e.player.inventory.hasItemStack(new ItemStack(BBItems.bbResources, 1, 2)))
 							e.player.removePotionEffect(potionEffect.getPotion());
+				if(tickCounter >= 20) {
+					BBApi.addFocus(e.player, 1);
+					tickCounter = 0;
+				} else
+					tickCounter++;
 			}
 	}
 
@@ -239,6 +246,15 @@ public class BBEventHandler {
 						e.getPlayer().worldObj.spawnEntityInWorld(new EntityItem(e.getPlayer().worldObj, e.getPlayer().posX, e.getPlayer().posY, e.getPlayer().posZ, BBItemStackHelper.getItemStackFromItemStack(e.getEntityItem().getEntityItem())));
 				e.setCanceled(true);
 			}
+	}
+
+	@SubscribeEvent
+	public void onItemCrafted(net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemCraftedEvent e) {
+		if(!e.player.worldObj.isRemote)
+			for(int i = 0; i < e.craftMatrix.getSizeInventory(); i++)
+				if(e.craftMatrix.getStackInSlot(i) != null && e.craftMatrix.getStackInSlot(i).getItem() instanceof ItemFlames)
+					if(BBItemStackHelper.getItemStackFromItemStack(e.craftMatrix.getStackInSlot(i)) != null)
+						e.player.worldObj.spawnEntityInWorld(new EntityItem(e.player.worldObj, e.player.posX, e.player.posY, e.player.posZ, BBItemStackHelper.getItemStackFromItemStack(e.craftMatrix.getStackInSlot(i))));
 	}
 
 	@SubscribeEvent
