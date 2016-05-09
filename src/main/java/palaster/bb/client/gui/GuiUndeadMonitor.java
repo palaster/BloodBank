@@ -39,7 +39,7 @@ public class GuiUndeadMonitor extends GuiContainer {
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         fontRendererObj.drawString(I18n.translateToLocal("bb.undead.soul") + ": " + BBApi.getSoul(invPlayer.player), 6, 6, 4210752);
-        fontRendererObj.drawString(I18n.translateToLocal("bb.undead.focus") + ": " + BBApi.getFocus(invPlayer.player), 6, 16, 4210752);
+        fontRendererObj.drawString(I18n.translateToLocal("bb.undead.focus") + ": " + BBApi.getFocus(invPlayer.player) + " / " + BBApi.getFocusMax(invPlayer.player), 6, 16, 4210752);
 
         fontRendererObj.drawString(I18n.translateToLocal("bb.undead.vigor") + ": " + BBApi.getVigor(invPlayer.player), 6, 36, 4210752);
         fontRendererObj.drawString(I18n.translateToLocal("bb.undead.attunement") + ": " + BBApi.getAttunement(invPlayer.player), 6, 46, 4210752);

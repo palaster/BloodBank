@@ -17,8 +17,6 @@ public class BBItems {
 	staffHungryShadows,
 	animalHerder,
 	bloodBottle,
-	hephaestusHammer,
-	trident,
 	bloodBook,
 	letter,
 	undeadMonitor;
@@ -44,8 +42,6 @@ public class BBItems {
 		staffHungryShadows = new ItemStaffHungryShadows();
 		animalHerder = new ItemAnimalHerder();
 		bloodBottle = new ItemBloodBottle();
-		hephaestusHammer = new ItemHephaestusHammer();
-		trident = new ItemTrident(EnumHelper.addToolMaterial("trident", 3, -1, 4.0f, 6.0f, 22));
 		bloodBook = new ItemBookBlood();
 		letter = new ItemLetter();
 		undeadMonitor = new ItemUndeadMonitor();

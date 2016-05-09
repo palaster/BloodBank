@@ -35,9 +35,13 @@ public class ItemFlames extends ItemModSpecial {
     public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         if(!worldIn.isRemote)
             if(BBItemStackHelper.getItemStackFromItemStack(stack) != null && BBItemStackHelper.getItemStackFromItemStack(stack).getItem() instanceof IFlameSpell)
-                if(BBApi.getFocus(playerIn) >= ((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack).getItem()).getSpellCost())
-                    if(((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack).getItem()).onSpellUse(stack, playerIn, worldIn, pos, hand, facing, hitX, hitY, hitZ) != null)
+                if(BBApi.getFocus(playerIn) >= ((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack).getItem()).getSpellCost()) {
+                    System.out.println("Success 1");
+                    if(((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack).getItem()).onSpellUse(stack, playerIn, worldIn, pos, hand, facing, hitX, hitY, hitZ) != null) {
+                        System.out.println("Success 2");
                         BBApi.useFocus(playerIn, ((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack).getItem()).getSpellCost());
+                    }
+                }
         return super.onItemUse(stack, playerIn, worldIn, pos, hand, facing, hitX, hitY, hitZ);
     }
 

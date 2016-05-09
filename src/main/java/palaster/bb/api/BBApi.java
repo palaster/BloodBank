@@ -5,13 +5,15 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import palaster.bb.api.capabilities.entities.*;
 import palaster.bb.api.recipes.RecipeLetter;
+import palaster.bb.network.PacketHandler;
+import palaster.bb.network.client.SyncPlayerPropsMessage;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class BBApi {
 
@@ -150,6 +152,7 @@ public class BBApi {
         final IUndead undead = UndeadCapabilityProvider.get(player);
         if(undead != null)
             undead.setSoul(amt);
+        syncServerToClient(player);
     }
 
     public static void addFocus(EntityPlayer player, int amt) {
@@ -180,6 +183,7 @@ public class BBApi {
         final IUndead undead = UndeadCapabilityProvider.get(player);
         if(undead != null)
             undead.setFocus(amt);
+        syncServerToClient(player);
     }
 
     public static int getFocusMax(EntityPlayer player) {
@@ -193,6 +197,7 @@ public class BBApi {
         final IUndead undead = UndeadCapabilityProvider.get(player);
         if(undead != null)
             undead.setFocusMax(amt);
+        syncServerToClient(player);
     }
 
     public static void addVigor(EntityPlayer player, int amt) {
@@ -224,6 +229,7 @@ public class BBApi {
                 iAttributeInstance.applyModifier(new AttributeModifier(UndeadCapabilityDefault.healthID, "bb.vigor", getVigor(player) * .2, 0));
             }
         }
+        syncServerToClient(player);
     }
 
     public static void addAttunement(EntityPlayer player, int amt) {
@@ -242,6 +248,7 @@ public class BBApi {
         final IUndead undead = UndeadCapabilityProvider.get(player);
         if(undead != null)
             undead.setAttunement(amt);
+        syncServerToClient(player);
     }
 
     public static void addStrength(EntityPlayer player, int amt) {
@@ -273,6 +280,7 @@ public class BBApi {
                 iAttributeInstance.applyModifier(new AttributeModifier(UndeadCapabilityDefault.strengthID, "bb.strength", undead.getStrength() * .25, 0));
             }
         }
+        syncServerToClient(player);
     }
 
     public static void addIntelligence(EntityPlayer player, int amt) {
@@ -291,6 +299,7 @@ public class BBApi {
         final IUndead undead = UndeadCapabilityProvider.get(player);
         if(undead != null)
             undead.setIntelligence(amt);
+        syncServerToClient(player);
     }
 
     public static void addFaith(EntityPlayer player, int amt) {
@@ -309,5 +318,8 @@ public class BBApi {
         final IUndead undead = UndeadCapabilityProvider.get(player);
         if(undead != null)
             undead.setFaith(amt);
+        syncServerToClient(player);
     }
+
+    public static void syncServerToClient(EntityPlayer player) { PacketHandler.sendTo(new SyncPlayerPropsMessage(player), (EntityPlayerMP) player); }
 }

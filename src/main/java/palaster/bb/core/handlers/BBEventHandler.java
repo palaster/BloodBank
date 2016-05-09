@@ -142,7 +142,7 @@ public class BBEventHandler {
 			if(e.getSource().getEntity() instanceof EntityPlayer) {
 				EntityPlayer p = (EntityPlayer) e.getSource().getEntity();
 				if(BBApi.isUndead(p))
-					BBApi.addSoul(p, (int) e.getEntityLiving().getHealth());
+					BBApi.addSoul(p, (int) e.getEntityLiving().getMaxHealth());
 			}
 		}
 	}
@@ -152,13 +152,6 @@ public class BBEventHandler {
 		if(!e.getEntityLiving().worldObj.isRemote) {
 			if(e.getEntityLiving() instanceof EntityPlayer) {
 				EntityPlayer p = (EntityPlayer) e.getEntityLiving();
-				if(e.getSource() == DamageSource.drown)
-					if(p.inventory.hasItemStack(new ItemStack(BBItems.trident)))
-						for(int i = 0; i < 9; i++)
-							if(p.inventory.getStackInSlot(i) != null && p.inventory.getStackInSlot(i).getItem() instanceof ItemTrident) {
-								e.setCanceled(true);
-								p.inventory.getStackInSlot(i).damageItem(1, p);
-							}
 				if(e.getSource().getEntity() != null)
 					if(BBApi.getLinked(p) != null) {
 						BBApi.getLinked(p).attackEntityFrom(BloodBank.proxy.bbBlood, e.getAmount());

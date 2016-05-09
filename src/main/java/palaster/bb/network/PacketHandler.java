@@ -8,6 +8,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
 import palaster.bb.libs.LibMod;
+import palaster.bb.network.client.SyncPlayerPropsMessage;
 import palaster.bb.network.server.ChangeBlockMessage;
 import palaster.bb.network.server.GuiButtonMessage;
 import palaster.bb.network.server.KeyClickMessage;
@@ -23,6 +24,7 @@ public class PacketHandler {
 		registerMessage(ChangeBlockMessage.class);
 		registerMessage(GuiButtonMessage.class);
 		registerMessage(KeyClickMessage.class);
+		registerMessage(SyncPlayerPropsMessage.class);
 	}
 	
 	private static final <T extends AbstractMessage<T> & IMessageHandler<T, IMessage>> void registerMessage(Class<T> clazz) {

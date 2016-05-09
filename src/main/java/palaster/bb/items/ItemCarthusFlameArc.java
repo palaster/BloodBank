@@ -26,24 +26,24 @@ public class ItemCarthusFlameArc extends ItemModSpecial implements IFlameSpell {
     @Override
     public boolean onSpellLeftClickEntity(ItemStack stack, EntityPlayer player, Entity entity) {
         BBPlayerHelper.sendChatMessageToPlayer(player, "Carthus Flame Arc Spell Left Click Entity");
-        return false;
+        return true;
     }
 
     @Override
     public EnumActionResult onSpellUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         BBPlayerHelper.sendChatMessageToPlayer(playerIn, "Carthus Flame Arc Spell Use");
-        return null;
+        return EnumActionResult.SUCCESS;
     }
 
     @Override
     public ActionResult<ItemStack> onSpellRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
         BBPlayerHelper.sendChatMessageToPlayer(playerIn, "Carthus Flame Arc Spell Right Click");
-        return null;
+        return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStackIn);
     }
 
     @Override
     public boolean spellInteractionForEntity(ItemStack stack, EntityPlayer playerIn, EntityLivingBase target, EnumHand hand) {
         BBPlayerHelper.sendChatMessageToPlayer(playerIn, "Carthus Flame Arc Spell Interaction For Entity");
-        return false;
+        return true;
     }
 }

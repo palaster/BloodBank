@@ -1,6 +1,8 @@
 package palaster.bb.api.capabilities.entities;
 
 import net.minecraft.nbt.NBTTagCompound;
+import palaster.bb.network.PacketHandler;
+import palaster.bb.network.client.SyncPlayerPropsMessage;
 
 import java.util.UUID;
 
