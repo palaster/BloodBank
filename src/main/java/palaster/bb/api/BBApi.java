@@ -321,5 +321,10 @@ public class BBApi {
         syncServerToClient(player);
     }
 
+    public static int getSoulCostForNextLevel(EntityPlayer player) {
+        int soulLevel = getVigor(player) + getAttunement(player) + getStrength(player) + getIntelligence(player) + getFaith(player);
+        return (int)( .02 * (soulLevel ^ 3) + 3.06 * (soulLevel ^ 2) + 105.6 * soulLevel - 895);
+    }
+
     public static void syncServerToClient(EntityPlayer player) { PacketHandler.sendTo(new SyncPlayerPropsMessage(player), (EntityPlayerMP) player); }
 }

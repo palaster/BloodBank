@@ -1,16 +1,15 @@
 package palaster.bb.client.gui;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import palaster.bb.api.BBApi;
+import palaster.bb.blocks.BBBlocks;
+import palaster.bb.core.helpers.BBWorldHelper;
 import palaster.bb.inventories.ContainerUndeadMonitor;
 import palaster.bb.libs.LibResource;
 import palaster.bb.network.PacketHandler;
@@ -46,6 +45,18 @@ public class GuiUndeadMonitor extends GuiContainer {
         fontRendererObj.drawString(I18n.translateToLocal("bb.undead.strength") + ": " + BBApi.getStrength(invPlayer.player), 6, 56, 4210752);
         fontRendererObj.drawString(I18n.translateToLocal("bb.undead.intelligence") + ": " + BBApi.getIntelligence(invPlayer.player), 6, 66, 4210752);
         fontRendererObj.drawString(I18n.translateToLocal("bb.undead.faith") + ": " + BBApi.getFaith(invPlayer.player), 6, 76, 4210752);
+
+        if(BBApi.getSoulCostForNextLevel(invPlayer.player) > BBApi.getSoul(invPlayer.player))
+            fontRendererObj.drawString(I18n.translateToLocal("bb.undead.soulCost") + ": " + BBApi.getSoulCostForNextLevel(invPlayer.player), 6, 96, 0x8A0707);
+        else
+            fontRendererObj.drawString(I18n.translateToLocal("bb.undead.soulCost") + ": " + BBApi.getSoulCostForNextLevel(invPlayer.player), 6, 96, 0x009900);
+
+        /*
+        TODO: Fix block not being found on client side.
+
+        if(BBWorldHelper.findBlockVicinityFromPlayer(BBBlocks.bonfire, invPlayer.player.worldObj, invPlayer.player, 10, 4) == null)
+            fontRendererObj.drawString(I18n.translateToLocal("bb.undead.bonFireNotFound"), 6, 106, 0x8A0707);
+        */
     }
 
     @Override

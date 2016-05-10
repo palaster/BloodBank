@@ -7,6 +7,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -22,7 +23,7 @@ import java.util.List;
 
 public class ItemBBResources extends Item {
 
-    public static String[] names = new String[]{"bankContract", "bankID", "wormEater", "vampireSigil"};
+    public static String[] names = new String[]{"bankContract", "bankID", "wormEater", "vampireSigil", "urn"};
 
     public ItemBBResources() {
         super();
@@ -37,11 +38,14 @@ public class ItemBBResources extends Item {
     public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
         if(!worldIn.isRemote)
             if(itemStackIn.getItemDamage() == 0) {
-                if(BBApi.getMaxBlood(playerIn) <= 0) {
+                if(BBApi.isUndead(playerIn))
+                    BBPlayerHelper.sendChatMessageToPlayer(playerIn, I18n.translateToLocal("bb.bank.undead"));
+                else if(BBApi.getMaxBlood(playerIn) <= 0) {
                     BBApi.setMaxBlood(playerIn, 2000);
-                    BBPlayerHelper.sendChatMessageToPlayer(playerIn, "Welcome to the First National Bank of Blood, you start out with a max balance of 2000. Use this bank ID card to keep in contact.");
+                    BBPlayerHelper.sendChatMessageToPlayer(playerIn, I18n.translateToLocal("bb.bank.join"));
                     return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, new ItemStack(this, 1, 1));
-                }
+                } else
+                    BBPlayerHelper.sendChatMessageToPlayer(playerIn, I18n.translateToLocal("bb.bank.refuse"));
             }
         return super.onItemRightClick(itemStackIn, worldIn, playerIn, hand);
     }

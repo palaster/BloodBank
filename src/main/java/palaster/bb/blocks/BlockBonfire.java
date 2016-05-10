@@ -5,11 +5,15 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemClock;
+import net.minecraft.item.ItemFireball;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import palaster.bb.api.BBApi;
+import palaster.bb.items.BBItems;
 import palaster.bb.world.BBWorldSaveData;
 
 public class BlockBonfire extends BlockMod {
@@ -18,6 +22,19 @@ public class BlockBonfire extends BlockMod {
         super(material);
         setUnlocalizedName("bonfire");
         setHarvestLevel("axe", 0);
+    }
+
+    @Override
+    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+        if(!worldIn.isRemote)
+            if(heldItem != null) {
+                if(heldItem.getItem() instanceof ItemClock)
+                    playerIn.setHeldItem(hand, new ItemStack(BBItems.undeadMonitor));
+                if(heldItem.getItem() instanceof ItemFireball)
+                    playerIn.setHeldItem(hand, new ItemStack(BBItems.flames));
+                return true;
+            }
+        return super.onBlockActivated(worldIn, pos, state, playerIn, hand, heldItem, side, hitX, hitY, hitZ);
     }
 
     @Override

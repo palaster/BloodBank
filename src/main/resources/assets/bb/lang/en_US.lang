@@ -40,6 +40,7 @@ item.bb:bbResources.bankContract.name=Bank Contract
 item.bb:bbResources.bankID.name=Bank ID
 item.bb:bbResources.wormEater.name=Worm Eater
 item.bb:bbResources.vampireSigil.name=Vampire Sigil
+item.bb:bbResources.urn.name=Urn
 
 bb.misc.activated=Activated
 bb.misc.broken=BROKEN (Normal Fix is a simple right-click)
@@ -55,6 +56,10 @@ bb.misc.reuse=Reuse Timer
 bb.misc.alreadyLinked=Can't link to more than one entity.
 bb.misc.countDown=Community Item
 
+bb.bank.join=Welcome to the First National Bank of Blood, you start out with a max balance of 2000. Use this bank ID card to keep in contact.
+bb.bank.refuse=You already have an account with this bank.
+bb.bank.undead=Sorry, we don't take your type here.
+
 bb.undead.soul=Soul
 bb.undead.focus=Focus
 bb.undead.vigor=Vigor
@@ -62,6 +67,8 @@ bb.undead.attunement=Attunement
 bb.undead.strength=Strength
 bb.undead.intelligence=Intelligence
 bb.undead.faith=Faith
+bb.undead.soulCost=Soul Cost
+bb.undead.bonFireNotFound=Bonfire not found
 
 bb.staff.active=Active Power
 bb.staff.time.0=Time

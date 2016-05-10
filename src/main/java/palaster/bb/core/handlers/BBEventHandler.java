@@ -130,6 +130,7 @@ public class BBEventHandler {
 						BBApi.linkEntity(player, null);
 				}
 			if(e.getEntityLiving() instanceof EntityPlayer) {
+				EntityPlayer p = (EntityPlayer) e.getEntityLiving();
 				if(BBApi.isUndead((EntityPlayer) e.getEntityLiving())) {
 					if(e.getSource().getEntity() instanceof EntityPlayer) {
 						EntityPlayer killer = (EntityPlayer) e.getSource().getEntity();
@@ -137,6 +138,15 @@ public class BBEventHandler {
 							BBApi.addSoul(killer, BBApi.getSoul((EntityPlayer) e.getEntityLiving()));
 					}
 					BBApi.setSoul((EntityPlayer) e.getEntityLiving(), 0);
+				}
+				if(e.getSource().isFireDamage()) {
+					if(p.inventory.hasItemStack(new ItemStack(BBItems.bbResources, 1, 4)))
+						BBApi.setUndead(p, true);
+					if(BBApi.getMaxBlood(p) > 0)
+						BBApi.setMaxBlood(p, 0);
+					for(int i = 0; i < p.inventory.getSizeInventory(); i++)
+						if(p.inventory.getStackInSlot(i) != null && p.inventory.getStackInSlot(i).getItem() == BBItems.bbResources && p.inventory.getStackInSlot(i).getItemDamage() == 4)
+							p.inventory.setInventorySlotContents(i, null);
 				}
 			}
 			if(e.getSource().getEntity() instanceof EntityPlayer) {

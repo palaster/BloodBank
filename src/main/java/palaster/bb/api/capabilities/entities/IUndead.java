@@ -4,8 +4,6 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public interface IUndead {
 
-    // TODO: Finish adding modifiers and add magic.
-
     boolean isUndead();
 
     void setUndead(boolean bool);
