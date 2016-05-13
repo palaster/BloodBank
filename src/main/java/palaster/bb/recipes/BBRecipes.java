@@ -6,12 +6,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionType;
 import net.minecraft.potion.PotionUtils;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.oredict.OreDictionary;
-import net.minecraftforge.oredict.RecipeSorter;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import palaster.bb.api.BBApi;
 import palaster.bb.blocks.BBBlocks;
-import palaster.bb.blocks.BlockBonfire;
 import palaster.bb.items.BBItems;
 
 public class BBRecipes {
@@ -35,11 +32,6 @@ public class BBRecipes {
 		GameRegistry.addRecipe(new ItemStack(BBItems.letter), "xxx", "xyx", "xxx", 'x', Items.paper, 'y', Items.feather);
 		GameRegistry.addRecipe(new ItemStack(BBItems.bbResources, 1, 3), "xyx", "yzy", "xyx", 'x', Blocks.stone, 'y', Items.emerald, 'z', Items.rotten_flesh);
 		GameRegistry.addRecipe(new ItemStack(BBItems.bbResources, 1, 4), "   ", "yzy", " y ", 'y', Items.netherbrick, 'z', Items.fire_charge);
-
-		GameRegistry.addRecipe(new VampireSigilRecipe());
-		RecipeSorter.register("bb:vampireSigil", VampireSigilRecipe.class, RecipeSorter.Category.SHAPELESS, "");
-		GameRegistry.addRecipe(new FlamesSpellRecipe());
-		RecipeSorter.register("bb:flames", FlamesSpellRecipe.class, RecipeSorter.Category.SHAPELESS, "");
 	}
 
 	private static void registerLetterRecipes() {

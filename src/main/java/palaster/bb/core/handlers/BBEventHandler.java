@@ -6,25 +6,26 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.event.AnvilUpdateEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.*;
-import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.*;
+import net.minecraftforge.fml.common.gameevent.InputEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Keyboard;
@@ -32,6 +33,7 @@ import palaster.bb.BloodBank;
 import palaster.bb.api.BBApi;
 import palaster.bb.api.capabilities.entities.BloodBankCapabilityProvider;
 import palaster.bb.api.capabilities.entities.UndeadCapabilityProvider;
+import palaster.bb.api.capabilities.items.IFlameSpell;
 import palaster.bb.core.helpers.BBItemStackHelper;
 import palaster.bb.entities.knowledge.BBKnowledge;
 import palaster.bb.items.*;
@@ -252,12 +254,44 @@ public class BBEventHandler {
 	}
 
 	@SubscribeEvent
-	public void onItemCrafted(net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemCraftedEvent e) {
-		if(!e.player.worldObj.isRemote)
-			for(int i = 0; i < e.craftMatrix.getSizeInventory(); i++)
-				if(e.craftMatrix.getStackInSlot(i) != null && e.craftMatrix.getStackInSlot(i).getItem() instanceof ItemFlames)
-					if(BBItemStackHelper.getItemStackFromItemStack(e.craftMatrix.getStackInSlot(i)) != null)
-						e.player.worldObj.spawnEntityInWorld(new EntityItem(e.player.worldObj, e.player.posX, e.player.posY, e.player.posZ, BBItemStackHelper.getItemStackFromItemStack(e.craftMatrix.getStackInSlot(i))));
+	public void onAnvilUpdate(AnvilUpdateEvent e) {
+		if(e.getLeft() != null && e.getRight() != null) {
+			ItemStack copy = e.getLeft().copy();
+			if(e.getLeft().getItem().isRepairable() && !(e.getLeft().hasTagCompound() && e.getLeft().getTagCompound().getBoolean("HasVampireSigil")))
+				if(e.getRight().getItem() instanceof ItemBBResources && e.getRight().getItemDamage() == 3) {
+					if(!copy.hasTagCompound())
+						copy.setTagCompound(new NBTTagCompound());
+					copy.getTagCompound().setBoolean("HasVampireSigil", true);
+					e.setMaterialCost(1);
+					e.setCost(1);
+					e.setOutput(copy);
+				}
+			if(e.getLeft().getItem() instanceof ItemFlames)
+				if(e.getRight().getItem() instanceof IFlameSpell) {
+					copy = e.getLeft().copy();
+					if(!copy.hasTagCompound())
+						copy.setTagCompound(new NBTTagCompound());
+					if(copy.getTagCompound().getInteger("FlameSet") == 0)
+						copy.getTagCompound().setInteger("FlameSet", 1);
+					else if(copy.getTagCompound().getInteger("FlameSet") == 1)
+						copy.getTagCompound().setInteger("FlameSet", 2);
+					BBItemStackHelper.setItemStackInsideItemStack(copy, e.getRight());
+					e.setMaterialCost(1);
+					e.setCost(1);
+					e.setOutput(copy);
+				}
+		}
+	}
+
+	@SubscribeEvent
+	public void onAnvilRepair(AnvilRepairEvent e) {
+		// getLeft() is Right Slot and getRight() is Left Slot.
+		if(!e.getEntityPlayer().worldObj.isRemote)
+			if(e.getLeft() != null && e.getRight() != null)
+				if(e.getRight().getItem() instanceof ItemFlames && e.getLeft().getItem() instanceof IFlameSpell)
+					if(e.getRight().hasTagCompound())
+						if(BBItemStackHelper.getItemStackFromItemStack(e.getRight()) != null && e.getRight().getTagCompound().getInteger("FlameSet") == 2)
+							e.getEntityPlayer().worldObj.spawnEntityInWorld(new EntityItem(e.getEntityPlayer().worldObj, e.getEntityPlayer().posX, e.getEntityPlayer().posY + .1, e.getEntityPlayer().posZ, BBItemStackHelper.getItemStackFromItemStack(e.getRight())));
 	}
 
 	@SubscribeEvent

@@ -56,7 +56,8 @@ public class BBItemStackHelper {
 		if(toHold != null) {
 			NBTTagCompound holding = new NBTTagCompound();
 			toHold.writeToNBT(holding);
-			holder.setTagCompound(new NBTTagCompound());
+			if(!holder.hasTagCompound())
+				holder.setTagCompound(new NBTTagCompound());
 			holder.getTagCompound().setTag("BBItemHolder", holding);
 		}
 		return holder;
