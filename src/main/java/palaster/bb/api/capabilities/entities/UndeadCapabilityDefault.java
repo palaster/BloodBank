@@ -62,11 +62,7 @@ public class UndeadCapabilityDefault implements IUndead {
     }
 
     @Override
-    public int getFocusMax() {
-        if(isUndead)
-            return focusMax;
-        return 0;
-    }
+    public int getFocusMax() { return focusMax; }
 
     @Override
     public void setFocusMax(int amt) {
@@ -77,11 +73,7 @@ public class UndeadCapabilityDefault implements IUndead {
     }
 
     @Override
-    public int getVigor() {
-        if(isUndead)
-            return vigor;
-        return 0;
-    }
+    public int getVigor() { return vigor; }
 
     @Override
     public void setVigor(int amt) {
@@ -94,11 +86,7 @@ public class UndeadCapabilityDefault implements IUndead {
     }
 
     @Override
-    public int getAttunement() {
-        if(isUndead)
-            return attunement;
-        return 0;
-    }
+    public int getAttunement() { return attunement; }
 
     @Override
     public void setAttunement(int amt) {
@@ -128,11 +116,7 @@ public class UndeadCapabilityDefault implements IUndead {
     }
 
     @Override
-    public int getIntelligence() {
-        if(isUndead)
-            return intelligence;
-        return 0;
-    }
+    public int getIntelligence() { return intelligence; }
 
     @Override
     public void setIntelligence(int amt) {
@@ -145,11 +129,7 @@ public class UndeadCapabilityDefault implements IUndead {
     }
 
     @Override
-    public int getFaith() {
-        if(isUndead)
-            return faith;
-        return 0;
-    }
+    public int getFaith() { return faith; }
 
     @Override
     public void setFaith(int amt) {

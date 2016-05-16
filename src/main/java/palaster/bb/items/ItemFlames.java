@@ -24,40 +24,40 @@ public class ItemFlames extends ItemModSpecial {
     @Override
     public boolean onLeftClickEntity(ItemStack stack, EntityPlayer player, Entity entity) {
         if(!player.worldObj.isRemote)
-            if(BBItemStackHelper.getItemStackFromItemStack(stack) != null && BBItemStackHelper.getItemStackFromItemStack(stack).getItem() instanceof IFlameSpell)
-                if(BBApi.getFocus(player) >= ((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack).getItem()).getSpellCost())
-                    if(((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack).getItem()).onSpellLeftClickEntity(stack, player, entity))
-                        BBApi.useFocus(player, ((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack).getItem()).getSpellCost());
+            if(BBItemStackHelper.getSpellFromFlames(stack) != null && BBItemStackHelper.getSpellFromFlames(stack).getItem() instanceof IFlameSpell)
+                if(BBApi.getFocus(player) >= ((IFlameSpell) BBItemStackHelper.getSpellFromFlames(stack).getItem()).getSpellCost())
+                    if(((IFlameSpell) BBItemStackHelper.getSpellFromFlames(stack).getItem()).onSpellLeftClickEntity(stack, player, entity))
+                        BBApi.useFocus(player, ((IFlameSpell) BBItemStackHelper.getSpellFromFlames(stack).getItem()).getSpellCost());
         return super.onLeftClickEntity(stack, player, entity);
     }
 
     @Override
     public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         if(!worldIn.isRemote)
-            if(BBItemStackHelper.getItemStackFromItemStack(stack) != null && BBItemStackHelper.getItemStackFromItemStack(stack).getItem() instanceof IFlameSpell)
-                if(BBApi.getFocus(playerIn) >= ((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack).getItem()).getSpellCost())
-                    if(((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack).getItem()).onSpellUse(stack, playerIn, worldIn, pos, hand, facing, hitX, hitY, hitZ) == EnumActionResult.SUCCESS)
-                        BBApi.useFocus(playerIn, ((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack).getItem()).getSpellCost());
+            if(BBItemStackHelper.getSpellFromFlames(stack) != null && BBItemStackHelper.getSpellFromFlames(stack).getItem() instanceof IFlameSpell)
+                if(BBApi.getFocus(playerIn) >= ((IFlameSpell) BBItemStackHelper.getSpellFromFlames(stack).getItem()).getSpellCost())
+                    if(((IFlameSpell) BBItemStackHelper.getSpellFromFlames(stack).getItem()).onSpellUse(stack, playerIn, worldIn, pos, hand, facing, hitX, hitY, hitZ) == EnumActionResult.SUCCESS)
+                        BBApi.useFocus(playerIn, ((IFlameSpell) BBItemStackHelper.getSpellFromFlames(stack).getItem()).getSpellCost());
         return super.onItemUse(stack, playerIn, worldIn, pos, hand, facing, hitX, hitY, hitZ);
     }
 
     @Override
     public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
         if(!worldIn.isRemote)
-            if(BBItemStackHelper.getItemStackFromItemStack(itemStackIn) != null && BBItemStackHelper.getItemStackFromItemStack(itemStackIn).getItem() instanceof IFlameSpell)
-                if(BBApi.getFocus(playerIn) >= ((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(itemStackIn).getItem()).getSpellCost())
-                    if(((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(itemStackIn).getItem()).onSpellRightClick(itemStackIn, worldIn, playerIn, hand).getType() == EnumActionResult.SUCCESS)
-                        BBApi.useFocus(playerIn, ((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(itemStackIn).getItem()).getSpellCost());
+            if(BBItemStackHelper.getSpellFromFlames(itemStackIn) != null && BBItemStackHelper.getSpellFromFlames(itemStackIn).getItem() instanceof IFlameSpell)
+                if(BBApi.getFocus(playerIn) >= ((IFlameSpell) BBItemStackHelper.getSpellFromFlames(itemStackIn).getItem()).getSpellCost())
+                    if(((IFlameSpell) BBItemStackHelper.getSpellFromFlames(itemStackIn).getItem()).onSpellRightClick(itemStackIn, worldIn, playerIn, hand).getType() == EnumActionResult.SUCCESS)
+                        BBApi.useFocus(playerIn, ((IFlameSpell) BBItemStackHelper.getSpellFromFlames(itemStackIn).getItem()).getSpellCost());
         return super.onItemRightClick(itemStackIn, worldIn, playerIn, hand);
     }
 
     @Override
     public boolean itemInteractionForEntity(ItemStack stack, EntityPlayer playerIn, EntityLivingBase target, EnumHand hand) {
         if(!playerIn.worldObj.isRemote)
-            if(BBItemStackHelper.getItemStackFromItemStack(stack) != null && BBItemStackHelper.getItemStackFromItemStack(stack).getItem() instanceof IFlameSpell)
-                if(BBApi.getFocus(playerIn) >= ((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack).getItem()).getSpellCost())
-                    if(((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack).getItem()).spellInteractionForEntity(stack, playerIn, target, hand))
-                        BBApi.useFocus(playerIn, ((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack).getItem()).getSpellCost());
+            if(BBItemStackHelper.getSpellFromFlames(stack) != null && BBItemStackHelper.getSpellFromFlames(stack).getItem() instanceof IFlameSpell)
+                if(BBApi.getFocus(playerIn) >= ((IFlameSpell) BBItemStackHelper.getSpellFromFlames(stack).getItem()).getSpellCost())
+                    if(((IFlameSpell) BBItemStackHelper.getSpellFromFlames(stack).getItem()).spellInteractionForEntity(stack, playerIn, target, hand))
+                        BBApi.useFocus(playerIn, ((IFlameSpell) BBItemStackHelper.getSpellFromFlames(stack).getItem()).getSpellCost());
         return super.itemInteractionForEntity(stack, playerIn, target, hand);
     }
 }

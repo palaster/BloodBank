@@ -22,6 +22,7 @@ import palaster.bb.client.gui.GuiVoidAnchor;
 import palaster.bb.core.CreativeTabBB;
 import palaster.bb.core.handlers.BBEventHandler;
 import palaster.bb.entities.BBEntities;
+import palaster.bb.entities.effects.BBPotions;
 import palaster.bb.inventories.ContainerLetter;
 import palaster.bb.inventories.ContainerUndeadMonitor;
 import palaster.bb.inventories.ContainerVoidAnchor;
@@ -42,6 +43,7 @@ public class CommonProxy implements IGuiHandler {
 		BBBlocks.init();
 		BBEntities.init();
 		BBItems.init();
+		BBPotions.init();
 		CapabilityManager.INSTANCE.register(IBloodBank.class, new BloodBankCapabilityStorage(), new BloodBankCapabilityFactory());
 		CapabilityManager.INSTANCE.register(IUndead.class, new UndeadCapabilityStorage(), new UndeadCapabilityFactory());
 		MinecraftForge.EVENT_BUS.register(new BBEventHandler());
@@ -70,7 +72,7 @@ public class CommonProxy implements IGuiHandler {
 			}
 			case 2: {
 				if(player.getHeldItem(EnumHand.MAIN_HAND) != null && player.getHeldItem(EnumHand.MAIN_HAND).getItem() instanceof ItemUndeadMonitor)
-					return new ContainerUndeadMonitor(player.inventory);
+					return new ContainerUndeadMonitor(player);
 				break;
 			}
 			case 3: {
@@ -94,7 +96,7 @@ public class CommonProxy implements IGuiHandler {
 			}
 			case 2: {
 				if(player.getHeldItem(EnumHand.MAIN_HAND) != null && player.getHeldItem(EnumHand.MAIN_HAND).getItem() instanceof ItemUndeadMonitor)
-					return new GuiUndeadMonitor(player.inventory);
+					return new GuiUndeadMonitor(player);
 				break;
 			}
 			case 3: {

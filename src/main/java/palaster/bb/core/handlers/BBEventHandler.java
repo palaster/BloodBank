@@ -19,6 +19,7 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.*;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
@@ -35,6 +36,8 @@ import palaster.bb.api.capabilities.entities.BloodBankCapabilityProvider;
 import palaster.bb.api.capabilities.entities.UndeadCapabilityProvider;
 import palaster.bb.api.capabilities.items.IFlameSpell;
 import palaster.bb.core.helpers.BBItemStackHelper;
+import palaster.bb.entities.effects.BBPotion;
+import palaster.bb.entities.effects.BBPotions;
 import palaster.bb.entities.knowledge.BBKnowledge;
 import palaster.bb.items.*;
 import palaster.bb.libs.LibMod;
@@ -83,33 +86,34 @@ public class BBEventHandler {
 
 	@SubscribeEvent
 	public void onClonePlayer(PlayerEvent.Clone e) {
-		if(e.isWasDeath()) {
-			// Clone Player from death for Blood Bank.
-			BBApi.setMaxBlood(e.getEntityPlayer(), BBApi.getMaxBlood(e.getOriginal()));
-			BBApi.setCurrentBlood(e.getEntityPlayer(), BBApi.getCurrentBlood(e.getOriginal()));
-			BBApi.linkEntity(e.getEntityPlayer(), BBApi.getLinked(e.getOriginal()));
+		if(!e.getEntityPlayer().worldObj.isRemote)
+			if(e.isWasDeath()) {
+				// Clone Player from death for Blood Bank.
+				BBApi.setMaxBlood(e.getEntityPlayer(), BBApi.getMaxBlood(e.getOriginal()));
+				BBApi.setCurrentBlood(e.getEntityPlayer(), BBApi.getCurrentBlood(e.getOriginal()));
+				BBApi.linkEntity(e.getEntityPlayer(), BBApi.getLinked(e.getOriginal()));
 
-			// Clone Player from death for Blood Bank.
-			BBApi.setUndead(e.getEntityPlayer(), BBApi.isUndead(e.getOriginal()));
-			BBApi.setSoul(e.getEntityPlayer(), BBApi.getSoul(e.getOriginal()));
-			BBApi.setFocus(e.getEntityPlayer(), BBApi.getFocus(e.getEntityPlayer()));
-			BBApi.setFocusMax(e.getEntityPlayer(), BBApi.getFocusMax(e.getEntityPlayer()));
-			BBApi.setVigor(e.getEntityPlayer(), BBApi.getVigor(e.getOriginal()));
-			BBApi.setAttunement(e.getEntityPlayer(), BBApi.getAttunement(e.getOriginal()));
-			BBApi.setStrength(e.getEntityPlayer(), BBApi.getStrength(e.getOriginal()));
-			BBApi.setIntelligence(e.getEntityPlayer(), BBApi.getIntelligence(e.getOriginal()));
-			BBApi.setFaith(e.getEntityPlayer(), BBApi.getFaith(e.getOriginal()));
+				// Clone Player from death for Blood Bank.
+				BBApi.setUndead(e.getEntityPlayer(), BBApi.isUndead(e.getOriginal()));
+				BBApi.setSoul(e.getEntityPlayer(), BBApi.getSoul(e.getOriginal()));
+				BBApi.setFocus(e.getEntityPlayer(), BBApi.getFocus(e.getEntityPlayer()));
+				BBApi.setFocusMax(e.getEntityPlayer(), BBApi.getFocusMax(e.getEntityPlayer()));
+				BBApi.setVigor(e.getEntityPlayer(), BBApi.getVigor(e.getOriginal()));
+				BBApi.setAttunement(e.getEntityPlayer(), BBApi.getAttunement(e.getOriginal()));
+				BBApi.setStrength(e.getEntityPlayer(), BBApi.getStrength(e.getOriginal()));
+				BBApi.setIntelligence(e.getEntityPlayer(), BBApi.getIntelligence(e.getOriginal()));
+				BBApi.setFaith(e.getEntityPlayer(), BBApi.getFaith(e.getOriginal()));
 
-			if(BBApi.isUndead(e.getOriginal())) {
-				BBWorldSaveData bbWorldSaveData = BBWorldSaveData.get(e.getOriginal().worldObj);
-				if(bbWorldSaveData != null) {
-					BlockPos closetBonfire = bbWorldSaveData.getNearestBonfireToPlayer(e.getOriginal(), e.getOriginal().getPosition());
-					if(closetBonfire != null)
-						e.getEntityPlayer().setPosition(closetBonfire.getX(), closetBonfire.getY() + .25D, closetBonfire.getZ());
+				if(BBApi.isUndead(e.getOriginal())) {
+					BBWorldSaveData bbWorldSaveData = BBWorldSaveData.get(e.getOriginal().worldObj);
+					if(bbWorldSaveData != null) {
+						BlockPos closetBonfire = bbWorldSaveData.getNearestBonfireToPlayer(e.getOriginal(), e.getOriginal().getPosition());
+						if(closetBonfire != null)
+							e.getEntityPlayer().setPosition(closetBonfire.getX(), closetBonfire.getY() + .25D, closetBonfire.getZ());
+					}
+					e.getEntityPlayer().inventory.copyInventory(e.getOriginal().inventory);
 				}
-				e.getEntityPlayer().inventory.copyInventory(e.getOriginal().inventory);
 			}
-		}
 	}
 
 	@SubscribeEvent
@@ -196,6 +200,13 @@ public class BBEventHandler {
 	}
 
 	@SubscribeEvent
+	public void onLivingUpdate(LivingEvent.LivingUpdateEvent e) {
+		if(!e.getEntityLiving().worldObj.isRemote)
+			if(e.getEntityLiving().getActivePotionEffect(BBPotions.timedFlame) != null && e.getEntityLiving().getActivePotionEffect(BBPotions.timedFlame).getDuration() == 1)
+				e.getEntityLiving().setFire(300);
+	}
+
+	@SubscribeEvent
 	public void onPlayerTick(TickEvent.PlayerTickEvent e) {
 		if(!e.player.worldObj.isRemote)
 			if(e.phase == TickEvent.Phase.START) {
@@ -271,11 +282,14 @@ public class BBEventHandler {
 					copy = e.getLeft().copy();
 					if(!copy.hasTagCompound())
 						copy.setTagCompound(new NBTTagCompound());
-					if(copy.getTagCompound().getInteger("FlameSet") == 0)
+					if(copy.getTagCompound().getInteger("FlameSet") == 0) {
 						copy.getTagCompound().setInteger("FlameSet", 1);
-					else if(copy.getTagCompound().getInteger("FlameSet") == 1)
+						BBItemStackHelper.setFirstSpellInsideFlames(copy, e.getRight());
+					} else if(copy.getTagCompound().getInteger("FlameSet") == 1) {
 						copy.getTagCompound().setInteger("FlameSet", 2);
-					BBItemStackHelper.setItemStackInsideItemStack(copy, e.getRight());
+						BBItemStackHelper.setSpellInsideFlames(copy, e.getRight());
+					} else if(copy.getTagCompound().getInteger("FlameSet") == 2)
+						BBItemStackHelper.setSpellInsideFlames(copy, e.getRight());
 					e.setMaterialCost(1);
 					e.setCost(1);
 					e.setOutput(copy);
@@ -290,8 +304,8 @@ public class BBEventHandler {
 			if(e.getLeft() != null && e.getRight() != null)
 				if(e.getRight().getItem() instanceof ItemFlames && e.getLeft().getItem() instanceof IFlameSpell)
 					if(e.getRight().hasTagCompound())
-						if(BBItemStackHelper.getItemStackFromItemStack(e.getRight()) != null && e.getRight().getTagCompound().getInteger("FlameSet") == 2)
-							e.getEntityPlayer().worldObj.spawnEntityInWorld(new EntityItem(e.getEntityPlayer().worldObj, e.getEntityPlayer().posX, e.getEntityPlayer().posY + .1, e.getEntityPlayer().posZ, BBItemStackHelper.getItemStackFromItemStack(e.getRight())));
+						if(BBItemStackHelper.getPreviousSpellFromFlames(e.getRight()) != null && e.getRight().getTagCompound().getInteger("FlameSet") == 2)
+							e.getEntityPlayer().worldObj.spawnEntityInWorld(new EntityItem(e.getEntityPlayer().worldObj, e.getEntityPlayer().posX, e.getEntityPlayer().posY + .1, e.getEntityPlayer().posZ, BBItemStackHelper.getPreviousSpellFromFlames(e.getRight())));
 	}
 
 	@SubscribeEvent

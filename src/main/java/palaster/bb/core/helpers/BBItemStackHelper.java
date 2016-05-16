@@ -69,6 +69,41 @@ public class BBItemStackHelper {
 		return null;
 	}
 
+	public static ItemStack setFirstSpellInsideFlames(ItemStack flames, ItemStack spell) {
+		if(flames != null && spell != null) {
+			NBTTagCompound holding = new NBTTagCompound();
+			spell.writeToNBT(holding);
+			if(!flames.hasTagCompound())
+				flames.setTagCompound(new NBTTagCompound());
+			flames.getTagCompound().setTag("BBFlameHolder", holding);
+		}
+		return flames;
+	}
+
+	public static ItemStack setSpellInsideFlames(ItemStack flames, ItemStack spell) {
+		if(flames != null && spell != null) {
+			NBTTagCompound holding = new NBTTagCompound();
+			spell.writeToNBT(holding);
+			if(!flames.hasTagCompound())
+				flames.setTagCompound(new NBTTagCompound());
+			flames.getTagCompound().setTag("BBPreviousHolder", flames.getTagCompound().getCompoundTag("BBFlameHolder"));
+			flames.getTagCompound().setTag("BBFlameHolder", holding);
+		}
+		return flames;
+	}
+
+	public static ItemStack getSpellFromFlames(ItemStack flames) {
+		if(flames != null && flames.hasTagCompound() && flames.getTagCompound() != null)
+			return ItemStack.loadItemStackFromNBT(flames.getTagCompound().getCompoundTag("BBFlameHolder"));
+		return null;
+	}
+
+	public static ItemStack getPreviousSpellFromFlames(ItemStack flames) {
+		if(flames != null && flames.hasTagCompound() && flames.getTagCompound() != null)
+			return ItemStack.loadItemStackFromNBT(flames.getTagCompound().getCompoundTag("BBPreviousHolder"));
+		return null;
+	}
+
 	public static List<ItemStack> getItemStacksFromOreDictionary(String ore, int amt) {
 		if(OreDictionary.doesOreNameExist(ore)) {
 			List<ItemStack> itemStacks = OreDictionary.getOres(ore);

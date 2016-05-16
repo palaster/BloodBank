@@ -6,7 +6,7 @@ import net.minecraft.inventory.Container;
 
 public class ContainerUndeadMonitor extends Container {
 
-    public ContainerUndeadMonitor(InventoryPlayer invPlayer) {}
+    public ContainerUndeadMonitor(EntityPlayer player) {}
 
     @Override
     public boolean canInteractWith(EntityPlayer playerIn) { return true; }

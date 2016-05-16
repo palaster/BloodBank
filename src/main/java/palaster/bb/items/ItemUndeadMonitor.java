@@ -26,6 +26,7 @@ public class ItemUndeadMonitor extends ItemModSpecial {
     public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
         if(!worldIn.isRemote)
             if(BBApi.isUndead(playerIn)) {
+                BBApi.syncServerToClient(playerIn);
                 playerIn.openGui(BloodBank.instance, 2, worldIn, (int) playerIn.posX, (int) playerIn.posY, (int) playerIn.posZ);
                 return new ActionResult(EnumActionResult.SUCCESS, itemStackIn);
             }
