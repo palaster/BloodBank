@@ -41,6 +41,7 @@ import palaster.bb.entities.effects.BBPotions;
 import palaster.bb.entities.knowledge.BBKnowledge;
 import palaster.bb.items.*;
 import palaster.bb.libs.LibMod;
+import palaster.bb.libs.LibNBT;
 import palaster.bb.network.PacketHandler;
 import palaster.bb.network.server.KeyClickMessage;
 import palaster.bb.world.BBWorldSaveData;
@@ -192,7 +193,7 @@ public class BBEventHandler {
 	@SubscribeEvent
 	public void tooltip(ItemTooltipEvent e) {
 		if(e.getItemStack() != null && e.getItemStack().hasTagCompound()) {
-			if(e.getItemStack().getTagCompound().getBoolean("HasVampireSigil"))
+			if(e.getItemStack().getTagCompound().getBoolean(LibNBT.hasVampireSigil))
 				e.getToolTip().add(I18n.translateToLocal("bb.misc.vampireSigil"));
 			if(BBItemStackHelper.getCountDown(e.getItemStack()))
 				e.getToolTip().add(I18n.translateToFallback("bb.misc.countDown"));
@@ -268,11 +269,11 @@ public class BBEventHandler {
 	public void onAnvilUpdate(AnvilUpdateEvent e) {
 		if(e.getLeft() != null && e.getRight() != null) {
 			ItemStack copy = e.getLeft().copy();
-			if(e.getLeft().getItem().isRepairable() && !(e.getLeft().hasTagCompound() && e.getLeft().getTagCompound().getBoolean("HasVampireSigil")))
+			if(e.getLeft().getItem().isRepairable() && !(e.getLeft().hasTagCompound() && e.getLeft().getTagCompound().getBoolean(LibNBT.hasVampireSigil)))
 				if(e.getRight().getItem() instanceof ItemBBResources && e.getRight().getItemDamage() == 3) {
 					if(!copy.hasTagCompound())
 						copy.setTagCompound(new NBTTagCompound());
-					copy.getTagCompound().setBoolean("HasVampireSigil", true);
+					copy.getTagCompound().setBoolean(LibNBT.hasVampireSigil, true);
 					e.setMaterialCost(1);
 					e.setCost(1);
 					e.setOutput(copy);
@@ -282,13 +283,13 @@ public class BBEventHandler {
 					copy = e.getLeft().copy();
 					if(!copy.hasTagCompound())
 						copy.setTagCompound(new NBTTagCompound());
-					if(copy.getTagCompound().getInteger("FlameSet") == 0) {
-						copy.getTagCompound().setInteger("FlameSet", 1);
+					if(copy.getTagCompound().getInteger(LibNBT.flameSet) == 0) {
+						copy.getTagCompound().setInteger(LibNBT.flameSet, 1);
 						BBItemStackHelper.setFirstSpellInsideFlames(copy, e.getRight());
-					} else if(copy.getTagCompound().getInteger("FlameSet") == 1) {
-						copy.getTagCompound().setInteger("FlameSet", 2);
+					} else if(copy.getTagCompound().getInteger(LibNBT.flameSet) == 1) {
+						copy.getTagCompound().setInteger(LibNBT.flameSet, 2);
 						BBItemStackHelper.setSpellInsideFlames(copy, e.getRight());
-					} else if(copy.getTagCompound().getInteger("FlameSet") == 2)
+					} else if(copy.getTagCompound().getInteger(LibNBT.flameSet) == 2)
 						BBItemStackHelper.setSpellInsideFlames(copy, e.getRight());
 					e.setMaterialCost(1);
 					e.setCost(1);
@@ -304,7 +305,7 @@ public class BBEventHandler {
 			if(e.getLeft() != null && e.getRight() != null)
 				if(e.getRight().getItem() instanceof ItemFlames && e.getLeft().getItem() instanceof IFlameSpell)
 					if(e.getRight().hasTagCompound())
-						if(BBItemStackHelper.getPreviousSpellFromFlames(e.getRight()) != null && e.getRight().getTagCompound().getInteger("FlameSet") == 2)
+						if(BBItemStackHelper.getPreviousSpellFromFlames(e.getRight()) != null && e.getRight().getTagCompound().getInteger(LibNBT.flameSet) == 2)
 							e.getEntityPlayer().worldObj.spawnEntityInWorld(new EntityItem(e.getEntityPlayer().worldObj, e.getEntityPlayer().posX, e.getEntityPlayer().posY + .1, e.getEntityPlayer().posZ, BBItemStackHelper.getPreviousSpellFromFlames(e.getRight())));
 	}
 
@@ -327,7 +328,7 @@ public class BBEventHandler {
 						Minecraft.getMinecraft().fontRendererObj.drawString(I18n.translateToLocal("bb.staff.active") + ": " + power, 2, 2, 0);
 					} else if(Minecraft.getMinecraft().thePlayer.getHeldItemMainhand().getItem() instanceof ItemBookBlood && Minecraft.getMinecraft().thePlayer.getHeldItemMainhand().hasTagCompound()) {
 						ItemStack book = Minecraft.getMinecraft().thePlayer.getHeldItemMainhand();
-						String spell = I18n.translateToLocal("bb.knowledgePiece") + ": " + I18n.translateToLocal(BBKnowledge.getKnowledgePiece(book.getTagCompound().getInteger("Knowledge Piece")).getName());
+						String spell = I18n.translateToLocal("bb.knowledgePiece") + ": " + I18n.translateToLocal(BBKnowledge.getKnowledgePiece(book.getTagCompound().getInteger(LibNBT.knowledgePiece)).getName());
 						Minecraft.getMinecraft().fontRendererObj.drawString(I18n.translateToLocal("bb.kp.active") + ": " + spell, 2, 2, 0x8A0707);
 					}
 				}

@@ -19,7 +19,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
@@ -33,12 +32,14 @@ import net.minecraft.world.storage.loot.LootTableList;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import palaster.bb.entities.ai.EntityModAIAttackRangedBow;
+import palaster.bb.libs.LibMod;
+import palaster.bb.libs.LibNBT;
 
 import java.util.Calendar;
 
 public class EntitySkeletonMinion extends EntityTameable implements IMob, IRangedAttackMob {
 
-    private int temp;
+    private int timer;
 
     private static final DataParameter<Integer> SKELETON_MINION_VARIANT = EntityDataManager.<Integer>createKey(EntitySkeletonMinion.class, DataSerializers.VARINT);
     private static final DataParameter<Boolean> field_184728_b = EntityDataManager.<Boolean>createKey(EntitySkeletonMinion.class, DataSerializers.BOOLEAN);
@@ -170,11 +171,11 @@ public class EntitySkeletonMinion extends EntityTameable implements IMob, IRange
     @Override
     public void onLivingUpdate() {
         if(!worldObj.isRemote) {
-            if(temp >= 6000) {
+            if(timer >= 6000) {
                 setDead();
-                temp = 0;
+                timer = 0;
             } else
-                temp++;
+                timer++;
             if(worldObj.isDaytime()) {
                 float f = getBrightness(1.0F);
                 BlockPos blockpos = getRidingEntity() instanceof EntityBoat ? (new BlockPos(posX, (double)Math.round(posY), posZ)).up() : new BlockPos(posX, (double)Math.round(posY), posZ);
@@ -316,19 +317,21 @@ public class EntitySkeletonMinion extends EntityTameable implements IMob, IRange
     }
 
     @Override
-    public void readEntityFromNBT(NBTTagCompound tagCompund) {
-        super.readEntityFromNBT(tagCompund);
-        if(tagCompund.hasKey("SkeletonType", 99)) {
-            int i = tagCompund.getByte("SkeletonType");
+    public void readEntityFromNBT(NBTTagCompound tagCompound) {
+        super.readEntityFromNBT(tagCompound);
+        if(tagCompound.hasKey("SkeletonType", 99)) {
+            int i = tagCompound.getByte("SkeletonType");
             setSkeletonType(i);
         }
         setCombatTask();
+        timer = tagCompound.getInteger(LibNBT.timer);
     }
 
     @Override
     public void writeEntityToNBT(NBTTagCompound tagCompound) {
         super.writeEntityToNBT(tagCompound);
         tagCompound.setByte("SkeletonType", (byte)getSkeletonType());
+        tagCompound.setInteger(LibNBT.timer, timer);
     }
 
     @Override

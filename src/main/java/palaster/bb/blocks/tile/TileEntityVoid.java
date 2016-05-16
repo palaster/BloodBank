@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
+import palaster.bb.libs.LibNBT;
 
 public class TileEntityVoid extends TileEntity implements ITickable {
 
@@ -18,15 +19,15 @@ public class TileEntityVoid extends TileEntity implements ITickable {
 	@Override
 	public void readFromNBT(NBTTagCompound compound) {
 		super.readFromNBT(compound);
-		ogBlock = Block.getBlockById(compound.getInteger("OriginalBlockID"));
-		timer = compound.getInteger("Timer");
+		ogBlock = Block.getBlockById(compound.getInteger(LibNBT.originalBlockID));
+		timer = compound.getInteger(LibNBT.timer);
 	}
 	
 	@Override
 	public void writeToNBT(NBTTagCompound compound) {
 		super.writeToNBT(compound);
-		compound.setInteger("OriginalBlockID", Block.getIdFromBlock(ogBlock));
-		compound.setInteger("Timer", timer);
+		compound.setInteger(LibNBT.originalBlockID, Block.getIdFromBlock(ogBlock));
+		compound.setInteger(LibNBT.timer, timer);
 	}
 
 	@Override

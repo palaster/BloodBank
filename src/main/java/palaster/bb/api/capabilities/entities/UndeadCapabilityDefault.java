@@ -1,6 +1,7 @@
 package palaster.bb.api.capabilities.entities;
 
 import net.minecraft.nbt.NBTTagCompound;
+import palaster.bb.libs.LibNBT;
 import palaster.bb.network.PacketHandler;
 import palaster.bb.network.client.SyncPlayerPropsMessage;
 
@@ -144,28 +145,28 @@ public class UndeadCapabilityDefault implements IUndead {
     @Override
     public NBTTagCompound saveNBT() {
         NBTTagCompound tagCompound = new NBTTagCompound();
-        tagCompound.setBoolean("IsUndead", isUndead);
-        tagCompound.setInteger("Souls", souls);
-        tagCompound.setInteger("Focus", focus);
-        tagCompound.setInteger("FocusMax", focusMax);
-        tagCompound.setInteger("Vigor", vigor);
-        tagCompound.setInteger("Attunement", attunement);
-        tagCompound.setInteger("Strength", strength);
-        tagCompound.setInteger("Intelligence", intelligence);
-        tagCompound.setInteger("Faith", faith);
+        tagCompound.setBoolean(LibNBT.isUndead, isUndead);
+        tagCompound.setInteger(LibNBT.souls, souls);
+        tagCompound.setInteger(LibNBT.focus, focus);
+        tagCompound.setInteger(LibNBT.focusMax, focusMax);
+        tagCompound.setInteger(LibNBT.vigor, vigor);
+        tagCompound.setInteger(LibNBT.attunement, attunement);
+        tagCompound.setInteger(LibNBT.strength, strength);
+        tagCompound.setInteger(LibNBT.intelligence, intelligence);
+        tagCompound.setInteger(LibNBT.faith, faith);
         return tagCompound;
     }
 
     @Override
     public void loadNBT(NBTTagCompound nbt) {
-        isUndead = nbt.getBoolean("IsUndead");
-        souls = nbt.getInteger("Souls");
-        focus = nbt.getInteger("Focus");
-        focusMax = nbt.getInteger("FocusMax");
-        vigor = nbt.getInteger("Vigor");
-        attunement = nbt.getInteger("Attunement");
-        strength = nbt.getInteger("Strength");
-        intelligence = nbt.getInteger("Intelligence");
-        faith = nbt.getInteger("Faith");
+        isUndead = nbt.getBoolean(LibNBT.isUndead);
+        souls = nbt.getInteger(LibNBT.souls);
+        focus = nbt.getInteger(LibNBT.focus);
+        focusMax = nbt.getInteger(LibNBT.focusMax);
+        vigor = nbt.getInteger(LibNBT.vigor);
+        attunement = nbt.getInteger(LibNBT.attunement);
+        strength = nbt.getInteger(LibNBT.strength);
+        intelligence = nbt.getInteger(LibNBT.intelligence);
+        faith = nbt.getInteger(LibNBT.faith);
     }
 }

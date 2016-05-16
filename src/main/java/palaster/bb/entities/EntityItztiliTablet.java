@@ -10,13 +10,14 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.BossInfo;
 import net.minecraft.world.BossInfoServer;
 import net.minecraft.world.World;
+import palaster.bb.libs.LibNBT;
 
 public class EntityItztiliTablet extends EntityCreature {
 
-    // TODO: Scale boss bar to amount left in temp, create a spawn mechanic, and give it cool drop.
+    // TODO: Scale boss bar to amount left in enemyCount, create a spawn mechanic, and give it cool drop.
 
     private final BossInfoServer bossInfo = (BossInfoServer)(new BossInfoServer(getDisplayName(), BossInfo.Color.GREEN, BossInfo.Overlay.PROGRESS));
-    private int temp;
+    private int enemyCount;
     private int delay;
 
     public EntityItztiliTablet(World world) {
@@ -28,11 +29,11 @@ public class EntityItztiliTablet extends EntityCreature {
     @Override
     public void onLivingUpdate() {
         if(!worldObj.isRemote) {
-            int temp1 = 30 - temp;
+            int temp1 = 30 - enemyCount;
             bossInfo.setPercent(temp1 / 30);
             if(getAttackTarget() != null && getAttackTarget() instanceof EntityPlayer) {
                 if(delay == 0) {
-                    if(temp < 30) {
+                    if(enemyCount < 30) {
                         int rand = worldObj.rand.nextInt(3);
                         for(int i = 0; i < 4; i++) {
                             if(rand == 0) {
@@ -40,19 +41,19 @@ public class EntityItztiliTablet extends EntityCreature {
                                 pigZombie.setPosition(posX + worldObj.rand.nextInt(4), posY + .25, posZ + worldObj.rand.nextInt(4));
                                 pigZombie.setAttackTarget(getAttackTarget());
                                 worldObj.spawnEntityInWorld(pigZombie);
-                                temp++;
+                                enemyCount++;
                             } else if(rand == 1) {
                                 EntityPigZombie pigZombie = new EntityPigZombie(worldObj);
                                 pigZombie.setPosition(posX + worldObj.rand.nextInt(4), posY + .25, posZ + worldObj.rand.nextInt(4));
                                 pigZombie.setAttackTarget(getAttackTarget());
                                 worldObj.spawnEntityInWorld(pigZombie);
-                                temp++;
+                                enemyCount++;
                             } else if(rand == 2) {
                                 EntityPigZombie pigZombie = new EntityPigZombie(worldObj);
                                 pigZombie.setPosition(posX + worldObj.rand.nextInt(4), posY + .25, posZ + worldObj.rand.nextInt(4));
                                 pigZombie.setAttackTarget(getAttackTarget());
                                 worldObj.spawnEntityInWorld(pigZombie);
-                                temp++;
+                                enemyCount++;
                             }
                         }
                     } else
@@ -75,15 +76,15 @@ public class EntityItztiliTablet extends EntityCreature {
     @Override
     public void writeEntityToNBT(NBTTagCompound tagCompound) {
         super.writeEntityToNBT(tagCompound);
-        tagCompound.setInteger("Temp", temp);
-        tagCompound.setInteger("Delay", delay);
+        tagCompound.setInteger(LibNBT.enemyCount, enemyCount);
+        tagCompound.setInteger(LibNBT.delay, delay);
     }
 
     @Override
     public void readEntityFromNBT(NBTTagCompound tagCompund) {
         super.readEntityFromNBT(tagCompund);
-        temp = tagCompund.getInteger("Temp");
-        delay = tagCompund.getInteger("Delay");
+        enemyCount = tagCompund.getInteger(LibNBT.enemyCount);
+        delay = tagCompund.getInteger(LibNBT.delay);
     }
 
     @Override

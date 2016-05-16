@@ -6,6 +6,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.text.ITextComponent;
+import palaster.bb.libs.LibNBT;
 
 public class InventoryMod implements IInventory {
 	
@@ -94,10 +95,10 @@ public class InventoryMod implements IInventory {
 	}
 	
 	public void readFromNBT(NBTTagCompound compound) {
-		NBTTagList items = compound.getTagList("Items", compound.getId());
+		NBTTagList items = compound.getTagList(LibNBT.items, compound.getId());
 		for(int i = 0; i < items.tagCount(); i++) {
 			NBTTagCompound item = items.getCompoundTagAt(i);
-			int slot = item.getByte("Slot");
+			int slot = item.getByte(LibNBT.slot);
 			if(slot >= 0 && slot < getSizeInventory())
 				setInventorySlotContents(slot, ItemStack.loadItemStackFromNBT(item));
 		}
@@ -109,12 +110,12 @@ public class InventoryMod implements IInventory {
 			ItemStack stack = getStackInSlot(i);	
 			if(stack != null) {
 				NBTTagCompound item = new NBTTagCompound();
-				item.setByte("Slot", (byte)i);
+				item.setByte(LibNBT.slot, (byte)i);
 				stack.writeToNBT(item);
 				items.appendTag(item);
 			}
 		}
-		compound.setTag("Items", items);
+		compound.setTag(LibNBT.items, items);
 	}
 	
 	public void receiveButtonEvent(int buttonID, EntityPlayer player) {}
