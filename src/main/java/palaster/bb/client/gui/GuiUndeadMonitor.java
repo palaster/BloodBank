@@ -3,14 +3,11 @@ package palaster.bb.client.gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import palaster.bb.api.BBApi;
-import palaster.bb.blocks.BBBlocks;
-import palaster.bb.core.helpers.BBWorldHelper;
 import palaster.bb.inventories.ContainerUndeadMonitor;
 import palaster.bb.libs.LibResource;
 import palaster.bb.network.PacketHandler;
@@ -38,24 +35,24 @@ public class GuiUndeadMonitor extends GuiContainer {
 
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        fontRendererObj.drawString(I18n.translateToLocal("bb.undead.soul") + ": " + BBApi.getSoul(player), 6, 6, 4210752);
-        fontRendererObj.drawString(I18n.translateToLocal("bb.undead.focus") + ": " + BBApi.getFocus(player) + " / " + BBApi.getFocusMax(player), 6, 16, 4210752);
+        fontRendererObj.drawString(I18n.format("bb.undead.soul") + ": " + BBApi.getSoul(player), 6, 6, 4210752);
+        fontRendererObj.drawString(I18n.format("bb.undead.focus") + ": " + BBApi.getFocus(player) + " / " + BBApi.getFocusMax(player), 6, 16, 4210752);
 
-        fontRendererObj.drawString(I18n.translateToLocal("bb.undead.vigor") + ": " + BBApi.getVigor(player), 6, 36, 4210752);
-        fontRendererObj.drawString(I18n.translateToLocal("bb.undead.attunement") + ": " + BBApi.getAttunement(player), 6, 46, 4210752);
-        fontRendererObj.drawString(I18n.translateToLocal("bb.undead.strength") + ": " + BBApi.getStrength(player), 6, 56, 4210752);
-        fontRendererObj.drawString(I18n.translateToLocal("bb.undead.intelligence") + ": " + BBApi.getIntelligence(player), 6, 66, 4210752);
-        fontRendererObj.drawString(I18n.translateToLocal("bb.undead.faith") + ": " + BBApi.getFaith(player), 6, 76, 4210752);
+        fontRendererObj.drawString(I18n.format("bb.undead.vigor") + ": " + BBApi.getVigor(player), 6, 36, 4210752);
+        fontRendererObj.drawString(I18n.format("bb.undead.attunement") + ": " + BBApi.getAttunement(player), 6, 46, 4210752);
+        fontRendererObj.drawString(I18n.format("bb.undead.strength") + ": " + BBApi.getStrength(player), 6, 56, 4210752);
+        fontRendererObj.drawString(I18n.format("bb.undead.intelligence") + ": " + BBApi.getIntelligence(player), 6, 66, 4210752);
+        fontRendererObj.drawString(I18n.format("bb.undead.faith") + ": " + BBApi.getFaith(player), 6, 76, 4210752);
 
         if(BBApi.getSoulCostForNextLevel(player) > BBApi.getSoul(player))
-            fontRendererObj.drawString(I18n.translateToLocal("bb.undead.soulCost") + ": " + BBApi.getSoulCostForNextLevel(player), 6, 96, 0x8A0707);
+            fontRendererObj.drawString(I18n.format("bb.undead.soulCost") + ": " + BBApi.getSoulCostForNextLevel(player), 6, 96, 0x8A0707);
         else if(BBApi.getSoulCostForNextLevel(player) < BBApi.getSoul(player))
-            fontRendererObj.drawString(I18n.translateToLocal("bb.undead.soulCost") + ": Free", 6, 96, 0x009900);
+            fontRendererObj.drawString(I18n.format("bb.undead.soulCost") + ": Free", 6, 96, 0x009900);
         else
-            fontRendererObj.drawString(I18n.translateToLocal("bb.undead.soulCost") + ": " + BBApi.getSoulCostForNextLevel(player), 6, 96, 0x009900);
+            fontRendererObj.drawString(I18n.format("bb.undead.soulCost") + ": " + BBApi.getSoulCostForNextLevel(player), 6, 96, 0x009900);
 
         /*
-        TODO: Fix block not being found on client side.
+        TODO: Fix bonfire not being found on client side.
         if(BBWorldHelper.findBlockVicinityFromPlayer(BBBlocks.bonfire, invPlayer.player.worldObj, invPlayer.player, 10, 4) == null)
             fontRendererObj.drawString(I18n.translateToLocal("bb.undead.bonFireNotFound"), 6, 106, 0x8A0707);
         */

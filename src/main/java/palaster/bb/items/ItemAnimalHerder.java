@@ -30,8 +30,7 @@ public class ItemAnimalHerder extends ItemModSpecial {
 		if(!playerIn.worldObj.isRemote) {
 			if(target instanceof EntityAnimal) {
 				if(!playerIn.isBeingRidden()) {
-					((EntityAnimal) target).startRiding(playerIn, true);
-					playerIn.updateRidden();
+					playerIn.startRiding(target);
 					return true;
 				}
 			} else if(target instanceof EntityLiving && !(target instanceof EntityAnimal)) {

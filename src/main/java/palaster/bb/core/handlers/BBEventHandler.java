@@ -1,6 +1,7 @@
 package palaster.bb.core.handlers;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -11,7 +12,6 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.event.AnvilUpdateEvent;
@@ -36,7 +36,6 @@ import palaster.bb.api.capabilities.entities.BloodBankCapabilityProvider;
 import palaster.bb.api.capabilities.entities.UndeadCapabilityProvider;
 import palaster.bb.api.capabilities.items.IFlameSpell;
 import palaster.bb.core.helpers.BBItemStackHelper;
-import palaster.bb.entities.effects.BBPotion;
 import palaster.bb.entities.effects.BBPotions;
 import palaster.bb.entities.knowledge.BBKnowledge;
 import palaster.bb.items.*;
@@ -194,9 +193,9 @@ public class BBEventHandler {
 	public void tooltip(ItemTooltipEvent e) {
 		if(e.getItemStack() != null && e.getItemStack().hasTagCompound()) {
 			if(e.getItemStack().getTagCompound().getBoolean(LibNBT.hasVampireSigil))
-				e.getToolTip().add(I18n.translateToLocal("bb.misc.vampireSigil"));
+				e.getToolTip().add(I18n.format("bb.misc.vampireSigil"));
 			if(BBItemStackHelper.getCountDown(e.getItemStack()))
-				e.getToolTip().add(I18n.translateToFallback("bb.misc.countDown"));
+				e.getToolTip().add(I18n.format("bb.misc.countDown"));
 		}
 	}
 
@@ -324,12 +323,12 @@ public class BBEventHandler {
 				if(Minecraft.getMinecraft().fontRendererObj != null && Minecraft.getMinecraft().thePlayer != null && Minecraft.getMinecraft().thePlayer.getHeldItemMainhand() != null) {
 					if(Minecraft.getMinecraft().thePlayer.getHeldItemMainhand().getItem() instanceof ItemModStaff && Minecraft.getMinecraft().thePlayer.getHeldItemMainhand().hasTagCompound()) {
 						ItemStack staff = Minecraft.getMinecraft().thePlayer.getHeldItemMainhand();
-						String power = I18n.translateToLocal(((ItemModStaff) staff.getItem()).powers[ItemModStaff.getActivePower(staff)]);
-						Minecraft.getMinecraft().fontRendererObj.drawString(I18n.translateToLocal("bb.staff.active") + ": " + power, 2, 2, 0);
+						String power = I18n.format(((ItemModStaff) staff.getItem()).powers[ItemModStaff.getActivePower(staff)]);
+						Minecraft.getMinecraft().fontRendererObj.drawString(I18n.format("bb.staff.active") + ": " + power, 2, 2, 0);
 					} else if(Minecraft.getMinecraft().thePlayer.getHeldItemMainhand().getItem() instanceof ItemBookBlood && Minecraft.getMinecraft().thePlayer.getHeldItemMainhand().hasTagCompound()) {
 						ItemStack book = Minecraft.getMinecraft().thePlayer.getHeldItemMainhand();
-						String spell = I18n.translateToLocal("bb.knowledgePiece") + ": " + I18n.translateToLocal(BBKnowledge.getKnowledgePiece(book.getTagCompound().getInteger(LibNBT.knowledgePiece)).getName());
-						Minecraft.getMinecraft().fontRendererObj.drawString(I18n.translateToLocal("bb.kp.active") + ": " + spell, 2, 2, 0x8A0707);
+						String spell = I18n.format("bb.knowledgePiece") + ": " + I18n.format(BBKnowledge.getKnowledgePiece(book.getTagCompound().getInteger(LibNBT.knowledgePiece)).getName());
+						Minecraft.getMinecraft().fontRendererObj.drawString(I18n.format("bb.kp.active") + ": " + spell, 2, 2, 0x8A0707);
 					}
 				}
 		}
