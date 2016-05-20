@@ -17,11 +17,11 @@ public class BBBlocks {
 	public static Block touchVoid;
 	
 	public static void init() {
-		voidAnchor = new BlockVoidAnchor(Material.rock);
-		communityTool = new BlockCommunityTool(Material.rock);
-		bonfire = new BlockBonfire(Material.wood);
+		voidAnchor = new BlockVoidAnchor(Material.ROCK);
+		communityTool = new BlockCommunityTool(Material.ROCK);
+		bonfire = new BlockBonfire(Material.WOOD);
 
-		touchVoid = new BlockVoid(Material.barrier);
+		touchVoid = new BlockVoid(Material.BARRIER);
 
 		registerTileEntities();
 	}

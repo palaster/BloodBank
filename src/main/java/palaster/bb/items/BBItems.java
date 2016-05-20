@@ -1,14 +1,12 @@
 package palaster.bb.items;
 
-import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
-import net.minecraftforge.common.util.EnumHelper;
 
 public class BBItems {
 
-	public static ItemArmor.ArmorMaterial bound = EnumHelper.addArmorMaterial("bound", "bound", -1, new int[]{3, 7, 6, 3}, 0, SoundEvents.item_armor_equip_generic);
+	//EnumHelper.addArmorMaterial("bound", "bound", -1, new int[]{3, 7, 6, 3}, 0, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC);
 	
 	public static Item staffSkeleton,
 	staffEfreet,
@@ -51,10 +49,12 @@ public class BBItems {
 		carthusFlameArc = new ItemCarthusFlameArc();
 		sacredFlame = new ItemSacredFlame();
 
+		/* TODO: Wait for enum fix.
 		boundHelmet = new BBArmor(bound, 0, EntityEquipmentSlot.HEAD);
 		boundChestplate = new BBArmor(bound, 0, EntityEquipmentSlot.CHEST);
 		boundLeggings = new BBArmor(bound, 0, EntityEquipmentSlot.LEGS);
 		boundBoots = new BBArmor(bound, 0, EntityEquipmentSlot.FEET);
+		*/
 		
 		debug = new ItemDebug();
 		yinYang = new ItemYinYang();

@@ -24,10 +24,10 @@ public class TileEntityCommunityTool extends TileEntityModInventory {
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound compound) {
-        super.writeToNBT(compound);
+    public NBTTagCompound writeToNBT(NBTTagCompound compound) {
         if(owner != null)
             compound.setString(LibNBT.ownerUUID, owner.toString());
+        return super.writeToNBT(compound);
     }
 
     public UUID getOwner() { return owner; }

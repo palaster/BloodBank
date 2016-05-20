@@ -8,6 +8,8 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumBlockRenderType;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -19,22 +21,14 @@ public abstract class BlockModContainer extends BlockMod implements ITileEntityP
 	}
 	
 //	@Override
-//	public int getRenderType() { return -1; }
+//	public EnumBlockRenderType getRenderType(IBlockState state) { return EnumBlockRenderType.INVISIBLE; }
 
 	@Override
 	public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
-
 		TileEntity te = worldIn.getTileEntity(pos);
-		if (te != null && te instanceof IInventory)
+		if(te != null && te instanceof IInventory)
 			InventoryHelper.dropInventoryItems(worldIn, pos, (IInventory) te);
 		super.breakBlock(worldIn, pos, state);
 		worldIn.removeTileEntity(pos);
 	}
-
-    @Override
-    public boolean onBlockEventReceived(World worldIn, BlockPos pos, IBlockState state, int eventID, int eventParam) {
-    	super.onBlockEventReceived(worldIn, pos, state, eventID, eventParam);
-    	TileEntity tileentity = worldIn.getTileEntity(pos);
-    	return tileentity == null ? false : tileentity.receiveClientEvent(eventID, eventParam);
-    }
 }

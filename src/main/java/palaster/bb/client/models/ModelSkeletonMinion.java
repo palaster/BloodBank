@@ -43,7 +43,7 @@ public class ModelSkeletonMinion extends ModelBiped {
         leftArmPose = ModelBiped.ArmPose.EMPTY;
         ItemStack itemstack = p_78086_1_.getHeldItem(EnumHand.MAIN_HAND);
 
-        if(itemstack != null && itemstack.getItem() == Items.bow && ((EntitySkeletonMinion)p_78086_1_).func_184725_db())
+        if(itemstack != null && itemstack.getItem() == Items.BOW && ((EntitySkeletonMinion)p_78086_1_).func_184725_db())
             if(p_78086_1_.getPrimaryHand() == EnumHandSide.RIGHT)
                 rightArmPose = ModelBiped.ArmPose.BOW_AND_ARROW;
             else

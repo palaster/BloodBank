@@ -23,15 +23,15 @@ public class BBRecipes {
 
 	private static void registerCraftingRecipes() {
 		//Blocks
-		GameRegistry.addRecipe(new ItemStack(BBBlocks.voidAnchor), "xyx", "yzy", "xyx", 'x', new ItemStack(Blocks.obsidian), 'y', new ItemStack(Items.ender_pearl), 'z', new ItemStack(Blocks.ender_chest));
-		GameRegistry.addRecipe(new ItemStack(BBBlocks.communityTool), "xyx", "yzy", "xyx", 'x', new ItemStack(Items.emerald), 'y', new ItemStack(Blocks.quartz_block), 'z', new ItemStack(Blocks.chest));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BBBlocks.bonfire), "xyx", "yzy", "xyx", 'x', new ItemStack(Blocks.torch), 'y', "logWood", 'z', new ItemStack(Items.fire_charge)));
+		GameRegistry.addRecipe(new ItemStack(BBBlocks.voidAnchor), "xyx", "yzy", "xyx", 'x', new ItemStack(Blocks.OBSIDIAN), 'y', new ItemStack(Items.ENDER_PEARL), 'z', new ItemStack(Blocks.ENDER_CHEST));
+		GameRegistry.addRecipe(new ItemStack(BBBlocks.communityTool), "xyx", "yzy", "xyx", 'x', new ItemStack(Items.EMERALD), 'y', new ItemStack(Blocks.QUARTZ_BLOCK), 'z', new ItemStack(Blocks.CHEST));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BBBlocks.bonfire), "xyx", "yzy", "xyx", 'x', new ItemStack(Blocks.TORCH), 'y', "logWood", 'z', new ItemStack(Items.FIRE_CHARGE)));
 
 		// Items
-		GameRegistry.addRecipe(new ItemStack(BBItems.bbResources, 1, 0), "xxx", "xyx", "xxx", 'x', Items.paper, 'y', Blocks.netherrack);
-		GameRegistry.addRecipe(new ItemStack(BBItems.letter), "xxx", "xyx", "xxx", 'x', Items.paper, 'y', Items.feather);
-		GameRegistry.addRecipe(new ItemStack(BBItems.bbResources, 1, 3), "xyx", "yzy", "xyx", 'x', Blocks.stone, 'y', Items.emerald, 'z', Items.rotten_flesh);
-		GameRegistry.addRecipe(new ItemStack(BBItems.bbResources, 1, 4), "   ", "yzy", " y ", 'y', Items.netherbrick, 'z', Items.fire_charge);
+		GameRegistry.addRecipe(new ItemStack(BBItems.bbResources, 1, 0), "xxx", "xyx", "xxx", 'x', Items.PAPER, 'y', Blocks.NETHERRACK);
+		GameRegistry.addRecipe(new ItemStack(BBItems.letter), "xxx", "xyx", "xxx", 'x', Items.PAPER, 'y', Items.FEATHER);
+		GameRegistry.addRecipe(new ItemStack(BBItems.bbResources, 1, 3), "xyx", "yzy", "xyx", 'x', Blocks.STONE, 'y', Items.EMERALD, 'z', Items.ROTTEN_FLESH);
+		GameRegistry.addRecipe(new ItemStack(BBItems.bbResources, 1, 4), "   ", "yzy", " y ", 'y', Items.NETHERBRICK, 'z', Items.FIRE_CHARGE);
 	}
 
 	private static void registerLetterRecipes() {
@@ -39,18 +39,18 @@ public class BBRecipes {
 
 
 		// Items
-		BBApi.registerLetterRecipe(new ItemStack(BBItems.staffSkeleton), new ItemStack(Items.stick, 2), new ItemStack(Items.bone));
-		BBApi.registerLetterRecipe(new ItemStack(BBItems.staffEfreet), new ItemStack(Items.stick, 2), new ItemStack(Items.magma_cream));
-		BBApi.registerLetterRecipe(new ItemStack(BBItems.staffTime), new ItemStack(Items.stick, 2), new ItemStack(Items.clock));
-		BBApi.registerLetterRecipe(new ItemStack(BBItems.staffVoidWalker), new ItemStack(Items.stick, 2), new ItemStack(Blocks.end_stone));
-		BBApi.registerLetterRecipe(new ItemStack(BBItems.staffHungryShadows), new ItemStack(Items.stick, 2), new ItemStack(Items.nether_star));
-		BBApi.registerLetterRecipe(new ItemStack(BBItems.animalHerder), new ItemStack(Items.stick, 2), new ItemStack(Items.wheat));
-		BBApi.registerLetterRecipe(new ItemStack(BBItems.bloodBook), new ItemStack(Items.paper, 8), new ItemStack(BBItems.bbResources, 1, 3));
+		BBApi.registerLetterRecipe(new ItemStack(BBItems.staffSkeleton), new ItemStack(Items.STICK, 2), new ItemStack(Items.BONE));
+		BBApi.registerLetterRecipe(new ItemStack(BBItems.staffEfreet), new ItemStack(Items.STICK, 2), new ItemStack(Items.MAGMA_CREAM));
+		BBApi.registerLetterRecipe(new ItemStack(BBItems.staffTime), new ItemStack(Items.STICK, 2), new ItemStack(Items.CLOCK));
+		BBApi.registerLetterRecipe(new ItemStack(BBItems.staffVoidWalker), new ItemStack(Items.STICK, 2), new ItemStack(Blocks.END_STONE));
+		BBApi.registerLetterRecipe(new ItemStack(BBItems.staffHungryShadows), new ItemStack(Items.STICK, 2), new ItemStack(Items.NETHER_STAR));
+		BBApi.registerLetterRecipe(new ItemStack(BBItems.animalHerder), new ItemStack(Items.STICK, 2), new ItemStack(Items.WHEAT));
+		BBApi.registerLetterRecipe(new ItemStack(BBItems.bloodBook), new ItemStack(Items.PAPER, 8), new ItemStack(BBItems.bbResources, 1, 3));
 
-		ItemStack health = new ItemStack(Items.potionitem, 2);
+		ItemStack health = new ItemStack(Items.POTIONITEM, 2);
 		PotionUtils.addPotionToItemStack(health, PotionType.getPotionTypeForName("strong_healing"));
-		ItemStack damage = new ItemStack(Items.potionitem, 2);
+		ItemStack damage = new ItemStack(Items.POTIONITEM, 2);
 		PotionUtils.addPotionToItemStack(damage, PotionType.getPotionTypeForName("strong_harming"));
-		BBApi.registerLetterRecipe(new ItemStack(BBItems.bbResources, 1, 2), health, damage, new ItemStack(Items.skull, 1, 1), new ItemStack(Blocks.obsidian, 4));
+		BBApi.registerLetterRecipe(new ItemStack(BBItems.bbResources, 1, 2), health, damage, new ItemStack(Items.SKULL, 1, 1), new ItemStack(Blocks.OBSIDIAN, 4));
 	}
 }

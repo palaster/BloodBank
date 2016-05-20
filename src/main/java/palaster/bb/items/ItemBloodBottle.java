@@ -25,7 +25,7 @@ public class ItemBloodBottle extends ItemModSpecial {
 						p.inventory.getStackInSlot(i).setItemDamage(p.inventory.getStackInSlot(i).getItemDamage() - 1);
 						stack.damageItem(1, p);
 					} else if(p.inventory.getStackInSlot(i).getItemDamage() <= 1) {
-						p.inventory.setInventorySlotContents(i, new ItemStack(Items.glass_bottle));
+						p.inventory.setInventorySlotContents(i, new ItemStack(Items.GLASS_BOTTLE));
 						stack.damageItem(1, p);
 					}
 			for(int i = 0; i < p.inventory.armorInventory.length; i++)
@@ -34,7 +34,7 @@ public class ItemBloodBottle extends ItemModSpecial {
 						p.inventory.armorItemInSlot(i).setItemDamage(p.inventory.armorItemInSlot(i).getItemDamage() - 1);
 						stack.damageItem(1, p);
 					} else if(p.inventory.getStackInSlot(i).getItemDamage() <= 1) {
-						p.inventory.setInventorySlotContents(i, new ItemStack(Items.glass_bottle));
+						p.inventory.setInventorySlotContents(i, new ItemStack(Items.GLASS_BOTTLE));
 						stack.damageItem(1, p);
 					}
 		}

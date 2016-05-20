@@ -43,7 +43,7 @@ public class BlockBonfire extends BlockMod {
             if(placer instanceof EntityPlayer)
                 if(BBApi.isUndead((EntityPlayer) placer))
                     return super.onBlockPlaced(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer);
-        return Blocks.air.getDefaultState();
+        return Blocks.AIR.getDefaultState();
     }
 
     @Override

@@ -37,7 +37,7 @@ public class BBItemStackHelper {
 			} else if(ws.getTileEntity(pos) != null && ws.getTileEntity(pos) instanceof TileEntityJukebox) {
 				TileEntityJukebox jb = (TileEntityJukebox) ws.getTileEntity(pos);
 				if(stack == null) {
-					ws.playAuxSFX(1005, pos, 0);
+					ws.playBroadcastSound(1005, pos, 0);
                     ws.playRecord(pos, null);
 				}
 				jb.setRecord(stack);
@@ -111,7 +111,7 @@ public class BBItemStackHelper {
 			List<ItemStack> newStacks = new ArrayList<ItemStack>();
 			if(itemStacks != null)
 				for(ItemStack stack : itemStacks) {
-					if(Block.getBlockFromItem(stack.getItem()) == Blocks.planks)
+					if(Block.getBlockFromItem(stack.getItem()) == Blocks.PLANKS)
 						newStacks.add(new ItemStack(stack.getItem(), amt, Short.MAX_VALUE));
 					else
 						newStacks.add(new ItemStack(stack.getItem(), amt, stack.getItemDamage()));

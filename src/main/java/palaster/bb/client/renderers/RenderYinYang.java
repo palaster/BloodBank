@@ -33,7 +33,7 @@ public class RenderYinYang extends Render {
         GlStateManager.scale(0.5F, 0.5F, 0.5F);
         GlStateManager.rotate(-renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
         GlStateManager.rotate(renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
-        bindTexture(TextureMap.locationBlocksTexture);
+        bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
         field_177083_e.renderItem(func_177082_d(entity), ItemCameraTransforms.TransformType.GROUND);
         GlStateManager.disableRescaleNormal();
         GlStateManager.popMatrix();
@@ -43,5 +43,5 @@ public class RenderYinYang extends Render {
     public ItemStack func_177082_d(Entity p_177082_1_) { return new ItemStack(field_177084_a, 1, 0); }
 
 	@Override
-	protected ResourceLocation getEntityTexture(Entity entity) { return TextureMap.locationBlocksTexture; }
+	protected ResourceLocation getEntityTexture(Entity entity) { return TextureMap.LOCATION_BLOCKS_TEXTURE; }
 }

@@ -49,16 +49,13 @@ public class CommonProxy implements IGuiHandler {
 		MinecraftForge.EVENT_BUS.register(new BBEventHandler());
 	}
 	
-	public void init() {
-		// TODO: Broken till new loot system : ChestGenHooks.addItem(ChestGenHooks.VILLAGE_BLACKSMITH, new WeightedRandomChestContent(BBItems.hephaestusHammer, 0, 1, 1, 7));
-		NetworkRegistry.INSTANCE.registerGuiHandler(BloodBank.instance, this);
-	}
+	public void init() { NetworkRegistry.INSTANCE.registerGuiHandler(BloodBank.instance, this); }
 	
 	public void postInit() { BBRecipes.init(); }
 	
 	public EntityPlayer getPlayerEntity(MessageContext ctx) { return ctx.getServerHandler().playerEntity; }
 	
-	public IThreadListener getThreadFromContext(MessageContext ctx) { return ctx.getServerHandler().playerEntity.getServerForPlayer(); }
+	public IThreadListener getThreadFromContext(MessageContext ctx) { return ctx.getServerHandler().playerEntity.getServerWorld(); }
 
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {

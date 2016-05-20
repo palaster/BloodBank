@@ -91,21 +91,21 @@ public class EntitySkeletonMinion extends EntityTameable implements IMob, IRange
     @Override
     protected void entityInit() {
         super.entityInit();
-        dataWatcher.register(SKELETON_MINION_VARIANT, Integer.valueOf(0));
-        dataWatcher.register(field_184728_b, Boolean.valueOf(false));
+        dataManager.register(SKELETON_MINION_VARIANT, 0);
+        dataManager.register(field_184728_b, false);
     }
 
     @Override
-    protected SoundEvent getAmbientSound() { return SoundEvents.entity_skeleton_ambient; }
+    protected SoundEvent getAmbientSound() { return SoundEvents.ENTITY_SKELETON_AMBIENT; }
 
     @Override
-    protected SoundEvent getHurtSound() { return SoundEvents.entity_skeleton_hurt; }
+    protected SoundEvent getHurtSound() { return SoundEvents.ENTITY_SKELETON_HURT; }
 
     @Override
-    protected SoundEvent getDeathSound() { return SoundEvents.entity_skeleton_death; }
+    protected SoundEvent getDeathSound() { return SoundEvents.ENTITY_SKELETON_DEATH; }
 
     @Override
-    protected void playStepSound(BlockPos pos, Block blockIn) { playSound(SoundEvents.entity_skeleton_step, 0.15F,1.0F); }
+    protected void playStepSound(BlockPos pos, Block blockIn) { playSound(SoundEvents.ENTITY_SKELETON_STEP, 0.15F,1.0F); }
     
     @Override
     public boolean attackEntityFrom(DamageSource source, float amount) {
@@ -124,7 +124,7 @@ public class EntitySkeletonMinion extends EntityTameable implements IMob, IRange
     public boolean attackEntityAsMob(Entity p_70652_1_) {
         if(attackEntityAsMobSuper(p_70652_1_)) {
             if(getSkeletonType() == 1 && p_70652_1_ instanceof EntityLivingBase)
-                ((EntityLivingBase)p_70652_1_).addPotionEffect(new PotionEffect(MobEffects.wither, 200));
+                ((EntityLivingBase)p_70652_1_).addPotionEffect(new PotionEffect(MobEffects.WITHER, 200));
             return true;
         } else
             return false;
@@ -151,10 +151,10 @@ public class EntitySkeletonMinion extends EntityTameable implements IMob, IRange
                 EntityPlayer entityplayer = (EntityPlayer)entityIn;
                 ItemStack itemstack = getHeldItemMainhand();
                 ItemStack itemstack1 = entityplayer.isHandActive() ? entityplayer.getActiveItemStack() : null;
-                if(itemstack != null && itemstack1 != null && itemstack.getItem() instanceof ItemAxe && itemstack1.getItem() == Items.shield) {
+                if(itemstack != null && itemstack1 != null && itemstack.getItem() instanceof ItemAxe && itemstack1.getItem() == Items.SHIELD) {
                     float f1 = 0.25F + (float)EnchantmentHelper.getEfficiencyModifier(this) * 0.05F;
                     if(rand.nextFloat() < f1) {
-                        entityplayer.getCooldownTracker().setCooldown(Items.shield, 100);
+                        entityplayer.getCooldownTracker().setCooldown(Items.SHIELD, 100);
                         worldObj.setEntityState(entityplayer, (byte)30);
                     }
                 }
@@ -208,7 +208,7 @@ public class EntitySkeletonMinion extends EntityTameable implements IMob, IRange
     @Override
     protected void setEquipmentBasedOnDifficulty(DifficultyInstance difficulty) {
         super.setEquipmentBasedOnDifficulty(difficulty);
-        setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(Items.bow));
+        setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(Items.BOW));
     }
     
     public void setCombatTask() {
@@ -216,7 +216,7 @@ public class EntitySkeletonMinion extends EntityTameable implements IMob, IRange
             tasks.removeTask(aiAttackOnCollide);
             tasks.removeTask(aiArrowAttack);
             ItemStack itemstack = getHeldItemMainhand();
-            if(itemstack != null && itemstack.getItem() == Items.bow)
+            if(itemstack != null && itemstack.getItem() == Items.BOW)
                 tasks.addTask(4, aiArrowAttack);
             else
                 tasks.addTask(4, aiAttackOnCollide);
@@ -235,7 +235,7 @@ public class EntitySkeletonMinion extends EntityTameable implements IMob, IRange
         if(worldObj.provider instanceof WorldProviderHell && getRNG().nextInt(5) > 0) {
             tasks.addTask(4, aiAttackOnCollide);
             setSkeletonType(1);
-            setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(Items.stone_sword));
+            setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(Items.STONE_SWORD));
             getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(4.0D);
         } else {
             tasks.addTask(4, aiArrowAttack);
@@ -246,7 +246,7 @@ public class EntitySkeletonMinion extends EntityTameable implements IMob, IRange
         if(getItemStackFromSlot(EntityEquipmentSlot.HEAD) == null) {
             Calendar calendar = worldObj.getCurrentDate();
             if(calendar.get(2) + 1 == 10 && calendar.get(5) == 31 && rand.nextFloat() < 0.25F) {
-                setItemStackToSlot(EntityEquipmentSlot.HEAD, new ItemStack(rand.nextFloat() < 0.1F ? Blocks.lit_pumpkin : Blocks.pumpkin));
+                setItemStackToSlot(EntityEquipmentSlot.HEAD, new ItemStack(rand.nextFloat() < 0.1F ? Blocks.LIT_PUMPKIN : Blocks.PUMPKIN));
                 inventoryArmorDropChances[EntityEquipmentSlot.HEAD.getIndex()] = 0.0F;
             }
         }
@@ -258,7 +258,7 @@ public class EntitySkeletonMinion extends EntityTameable implements IMob, IRange
         if(value == 1) {
             tasks.addTask(4, aiAttackOnCollide);
             setSkeletonType(1);
-            setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(Items.stone_sword));
+            setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(Items.STONE_SWORD));
             getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(4.0D);
         } else {
             tasks.addTask(4, aiArrowAttack);
@@ -269,7 +269,7 @@ public class EntitySkeletonMinion extends EntityTameable implements IMob, IRange
         if(getItemStackFromSlot(EntityEquipmentSlot.HEAD) == null) {
             Calendar calendar = worldObj.getCurrentDate();
             if(calendar.get(2) + 1 == 10 && calendar.get(5) == 31 && rand.nextFloat() < 0.25F) {
-                setItemStackToSlot(EntityEquipmentSlot.HEAD, new ItemStack(rand.nextFloat() < 0.1F ? Blocks.lit_pumpkin : Blocks.pumpkin));
+                setItemStackToSlot(EntityEquipmentSlot.HEAD, new ItemStack(rand.nextFloat() < 0.1F ? Blocks.LIT_PUMPKIN : Blocks.PUMPKIN));
                 inventoryArmorDropChances[EntityEquipmentSlot.HEAD.getIndex()] = 0.0F;
             }
         }
@@ -284,8 +284,8 @@ public class EntitySkeletonMinion extends EntityTameable implements IMob, IRange
         double d2 = target.posZ - posZ;
         double d3 = (double) MathHelper.sqrt_double(d0 * d0 + d2 * d2);
         entityarrow.setThrowableHeading(d0, d1 + d3 * 0.20000000298023224D, d2, 1.6F, (float)(14 - worldObj.getDifficulty().getDifficultyId() * 4));
-        int i = EnchantmentHelper.getMaxEnchantmentLevel(Enchantments.power, this);
-        int j = EnchantmentHelper.getMaxEnchantmentLevel(Enchantments.punch, this);
+        int i = EnchantmentHelper.getMaxEnchantmentLevel(Enchantments.POWER, this);
+        int j = EnchantmentHelper.getMaxEnchantmentLevel(Enchantments.PUNCH, this);
         entityarrow.setDamage((double)(p_82196_2_ * 2.0F) + rand.nextGaussian() * 0.25D + (double)((float)worldObj.getDifficulty().getDifficultyId() * 0.11F));
 
         if(i > 0)
@@ -294,17 +294,17 @@ public class EntitySkeletonMinion extends EntityTameable implements IMob, IRange
         if(j > 0)
             entityarrow.setKnockbackStrength(j);
 
-        if(EnchantmentHelper.getMaxEnchantmentLevel(Enchantments.flame, this) > 0 || getSkeletonType() == 1)
+        if(EnchantmentHelper.getMaxEnchantmentLevel(Enchantments.FLAME, this) > 0 || getSkeletonType() == 1)
             entityarrow.setFire(100);
 
-        playSound(SoundEvents.entity_skeleton_shoot, 1.0F, 1.0F / (getRNG().nextFloat() * 0.4F + 0.8F));
+        playSound(SoundEvents.ENTITY_SKELETON_SHOOT, 1.0F, 1.0F / (getRNG().nextFloat() * 0.4F + 0.8F));
         worldObj.spawnEntityInWorld(entityarrow);
     }
 
-    public int getSkeletonType() { return (dataWatcher.get(SKELETON_MINION_VARIANT)).intValue(); }
+    public int getSkeletonType() { return (dataManager.get(SKELETON_MINION_VARIANT)).intValue(); }
 
     public void setSkeletonType(int p_82201_1_) {
-        dataWatcher.set(SKELETON_MINION_VARIANT, Integer.valueOf(p_82201_1_));
+        dataManager.set(SKELETON_MINION_VARIANT, p_82201_1_);
         isImmuneToFire = p_82201_1_ == 1;
         updateSize(p_82201_1_);
     }
@@ -348,7 +348,7 @@ public class EntitySkeletonMinion extends EntityTameable implements IMob, IRange
     public double getYOffset() { return super.getYOffset() - 0.5D; }
     
     @SideOnly(Side.CLIENT)
-    public boolean func_184725_db() { return (dataWatcher.get(field_184728_b)).booleanValue(); }
+    public boolean func_184725_db() { return (dataManager.get(field_184728_b)).booleanValue(); }
 
-    public void func_184724_a(boolean p_184724_1_) { dataWatcher.set(field_184728_b, Boolean.valueOf(p_184724_1_)); }
+    public void func_184724_a(boolean p_184724_1_) { dataManager.set(field_184728_b, Boolean.valueOf(p_184724_1_)); }
 }

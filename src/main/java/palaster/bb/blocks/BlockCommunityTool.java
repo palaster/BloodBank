@@ -34,7 +34,7 @@ public class BlockCommunityTool extends BlockModContainer {
                 else {
                     if(playerIn.isSneaking() && ct.getOwner().equals(playerIn.getUniqueID())) {
                         breakBlock(worldIn, pos, state);
-                        worldIn.setBlockState(pos, Blocks.air.getDefaultState());
+                        worldIn.setBlockState(pos, Blocks.AIR.getDefaultState());
                         worldIn.spawnEntityInWorld(new EntityItem(worldIn, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(this)));
                         return true;
                     }

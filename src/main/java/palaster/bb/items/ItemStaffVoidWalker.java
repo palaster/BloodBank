@@ -27,13 +27,13 @@ public class ItemStaffVoidWalker extends ItemModStaff {
 		if(!worldIn.isRemote) {
 			if(!playerIn.isSneaking()) {
 				EntityYinYang yinYang = new EntityYinYang(worldIn, playerIn, 0);
-				yinYang.func_184538_a(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.5F, 1.0F);
+				yinYang.setHeadingFromThrower(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.5F, 1.0F);
 				worldIn.spawnEntityInWorld(yinYang);
 				itemStackIn.damageItem(1, playerIn);
 				return new ActionResult(EnumActionResult.SUCCESS, itemStackIn);
 			} else {
 				EntityYinYang yinYang = new EntityYinYang(worldIn, playerIn, 1);
-				yinYang.func_184538_a(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.5F, 1.0F);
+				yinYang.setHeadingFromThrower(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.5F, 1.0F);
 				worldIn.spawnEntityInWorld(yinYang);
 				itemStackIn.damageItem(1, playerIn);
 				return new ActionResult(EnumActionResult.SUCCESS, itemStackIn);
