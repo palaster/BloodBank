@@ -3,6 +3,8 @@ package palaster.bb.core.handlers;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityList;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -196,6 +198,11 @@ public class BBEventHandler {
 				e.getToolTip().add(I18n.format("bb.misc.vampireSigil"));
 			if(BBItemStackHelper.getCountDown(e.getItemStack()))
 				e.getToolTip().add(I18n.format("bb.misc.countDown"));
+			if(e.getItemStack().getItem() instanceof ItemAnimalHerder && e.getItemStack().getTagCompound().getBoolean(LibNBT.isSet)) {
+				Entity animal = EntityList.createEntityFromNBT(e.getItemStack().getTagCompound().getCompoundTag(LibNBT.entityTag), Minecraft.getMinecraft().theWorld);
+				if(animal != null)
+					e.getToolTip().add(I18n.format("bb.misc.entityTag") + " : " + animal.getName());
+			}
 		}
 	}
 

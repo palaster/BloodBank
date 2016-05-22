@@ -39,4 +39,6 @@ public class LibNBT {
     public static String delay = "Delay";
     public static String isSneaking = "IsSneaking";
     public static String activePower = "ActivePower";
+    public static String entityTag = "EntityTag";
+    public static String isSet = "IsSet";
 }
