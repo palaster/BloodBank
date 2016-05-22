@@ -2,6 +2,8 @@ itemGroup.tabBB=Blood Bank
 
 death.attack.bbBlood=%1$s died of anemia.
 
+effect.timedFlame=Timed Flame
+
 key.categories.bb=Blood Bank
 key.staffChange=Change Staff Power
 
@@ -56,6 +58,7 @@ bb.misc.vampireSigil=Vampire Sigil
 bb.misc.reuse=Reuse Timer
 bb.misc.alreadyLinked=Can't link to more than one entity.
 bb.misc.countDown=Community Item
+bb.misc.entityTag=Capture Entity
 
 bb.bank.join=Welcome to the First National Bank of Blood, you start out with a max balance of 2000. Use this bank ID card to keep in contact.
 bb.bank.refuse=You already have an account with this bank.

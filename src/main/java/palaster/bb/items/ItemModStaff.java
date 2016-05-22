@@ -1,9 +1,9 @@
 package palaster.bb.items;
 
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -25,7 +25,7 @@ public abstract class ItemModStaff extends ItemModSpecial implements IVampiric {
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer playerIn, List tooltip, boolean advanced) {
 		if(stack.hasTagCompound())
-			tooltip.add(I18n.translateToLocal("bb.staff.active") + ": " + I18n.translateToLocal(((ItemModStaff) stack.getItem()).powers[getActivePower(stack)]));
+			tooltip.add(I18n.format("bb.staff.active") + ": " + I18n.format(((ItemModStaff) stack.getItem()).powers[getActivePower(stack)]));
 	}
 	
 	@Override

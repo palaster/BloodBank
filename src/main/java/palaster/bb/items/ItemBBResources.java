@@ -1,13 +1,13 @@
 package palaster.bb.items;
 
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -39,13 +39,13 @@ public class ItemBBResources extends Item {
         if(!worldIn.isRemote)
             if(itemStackIn.getItemDamage() == 0) {
                 if(BBApi.isUndead(playerIn))
-                    BBPlayerHelper.sendChatMessageToPlayer(playerIn, I18n.translateToLocal("bb.bank.undead"));
+                    BBPlayerHelper.sendChatMessageToPlayer(playerIn, I18n.format("bb.bank.undead"));
                 else if(BBApi.getMaxBlood(playerIn) <= 0) {
                     BBApi.setMaxBlood(playerIn, 2000);
-                    BBPlayerHelper.sendChatMessageToPlayer(playerIn, I18n.translateToLocal("bb.bank.join"));
+                    BBPlayerHelper.sendChatMessageToPlayer(playerIn, I18n.format("bb.bank.join"));
                     return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, new ItemStack(this, 1, 1));
                 } else
-                    BBPlayerHelper.sendChatMessageToPlayer(playerIn, I18n.translateToLocal("bb.bank.refuse"));
+                    BBPlayerHelper.sendChatMessageToPlayer(playerIn, I18n.format("bb.bank.refuse"));
             }
         return super.onItemRightClick(itemStackIn, worldIn, playerIn, hand);
     }

@@ -1,5 +1,6 @@
 package palaster.bb.items;
 
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.entity.passive.EntityAnimal;
@@ -12,6 +13,8 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import palaster.bb.libs.LibNBT;
 
 import java.util.List;
@@ -23,6 +26,17 @@ public class ItemAnimalHerder extends ItemModSpecial {
 	public ItemAnimalHerder() {
 		super();
 		setUnlocalizedName("animalHerder");
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void addInformation(ItemStack stack, EntityPlayer playerIn, List tooltip, boolean advanced) {
+		if(stack.hasTagCompound())
+			if(stack.getItem() instanceof ItemAnimalHerder && stack.getTagCompound().getBoolean(LibNBT.isSet)) {
+				Entity animal = EntityList.createEntityFromNBT(stack.getTagCompound().getCompoundTag(LibNBT.entityTag), playerIn.worldObj);
+				if(animal != null)
+					tooltip.add(I18n.format("bb.misc.entityTag") + " : " + animal.getName());
+			}
 	}
 
 	@Override
@@ -58,8 +72,8 @@ public class ItemAnimalHerder extends ItemModSpecial {
 
 	@Override
 	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if(!worldIn.isRemote) {
-			if(stack.hasTagCompound()) {
+		if(!worldIn.isRemote)
+			if(stack.hasTagCompound())
 				if(stack.getTagCompound() != null && stack.getTagCompound().getBoolean(LibNBT.isSet) && stack.getTagCompound().getCompoundTag(LibNBT.entityTag) != null) {
 					Entity animal = EntityList.createEntityFromNBT(stack.getTagCompound().getCompoundTag(LibNBT.entityTag), worldIn);
 					if(animal != null) {
@@ -71,8 +85,6 @@ public class ItemAnimalHerder extends ItemModSpecial {
 						return EnumActionResult.SUCCESS;
 					}
 				}
-			}
-		}
 		return super.onItemUse(stack, playerIn, worldIn, pos, hand, facing, hitX, hitY, hitZ);
 	}
 }
