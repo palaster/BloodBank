@@ -15,6 +15,9 @@ repositories {
 	maven {
 		url "http://dvs1.progwml6.com/files/maven"
 	}
+	maven {
+		url "http://tehnut.info/maven/"
+	}
 }
 
 apply plugin: 'net.minecraftforge.gradle.forge'
@@ -42,6 +45,7 @@ minecraft {
 
 dependencies {
 	deobfCompile "mezz.jei:jei_${config.mc_version}:${config.jei_version}"
+	deobfCompile "com.wayoftime.bloodmagic:BloodMagic:${config.mc_version}-${config.bm_version}"
 }
 
 processResources {

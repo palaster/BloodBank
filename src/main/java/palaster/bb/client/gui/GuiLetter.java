@@ -12,8 +12,6 @@ import palaster.bb.libs.LibResource;
 @SideOnly(Side.CLIENT)
 public class GuiLetter extends GuiContainer {
 
-    private InventoryMod invLetter;
-
     public GuiLetter(InventoryPlayer invPlayer, InventoryMod invMod) { super(new ContainerLetter(invPlayer, invMod)); }
 
     @Override
