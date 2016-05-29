@@ -22,7 +22,6 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void init() {
 		super.init();
-
 		staffChange = new KeyBinding("key.staffChange", Keyboard.KEY_U, "key.categories.bb");
 		ClientRegistry.registerKeyBinding(staffChange);
 	}
