@@ -2,7 +2,6 @@ package palaster.bb.items;
 
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
@@ -22,7 +21,7 @@ public class BBArmor extends ItemArmor {
 
     public BBArmor(ItemArmor.ArmorMaterial material, int renderIndex, EntityEquipmentSlot entityEquipmentSlot) {
         super(material, renderIndex, entityEquipmentSlot);
-        setCreativeTab(CreativeTabBB.tabSS);
+        setCreativeTab(CreativeTabBB.tabBB);
         setUnlocalizedName(material.getName() + "." + armorType);
         setMaxDamage(6000);
     }

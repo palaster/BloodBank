@@ -1,8 +1,6 @@
 package palaster.bb.entities.effects;
 
 import net.minecraft.potion.Potion;
-import net.minecraft.util.ResourceLocation;
-import palaster.bb.libs.LibMod;
 
 public class BBPotions {
 

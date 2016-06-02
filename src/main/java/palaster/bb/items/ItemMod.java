@@ -7,7 +7,6 @@ import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import palaster.bb.blocks.BBBlocks;
 import palaster.bb.core.CreativeTabBB;
 import palaster.bb.libs.LibMod;
 
@@ -15,7 +14,7 @@ public abstract class ItemMod extends Item {
 	
 	public ItemMod() {
 		super();
-		setCreativeTab(CreativeTabBB.tabSS);
+		setCreativeTab(CreativeTabBB.tabBB);
 	}
 	
 	@Override
