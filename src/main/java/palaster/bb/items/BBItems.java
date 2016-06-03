@@ -8,7 +8,7 @@ import net.minecraftforge.common.util.EnumHelper;
 
 public class BBItems {
 
-	public static ItemArmor.ArmorMaterial bound = EnumHelper.addArmorMaterial("bound", "bound", -1, new int[]{3, 7, 6, 3}, 0, SoundEvents.item_armor_equip_generic);
+	public static ItemArmor.ArmorMaterial bound = EnumHelper.addArmorMaterial("bound", "bound", -1, new int[]{3, 7, 6, 3}, 0, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0f);
 	
 	public static Item staffSkeleton,
 	staffEfreet,

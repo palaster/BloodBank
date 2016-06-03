@@ -1,18 +1,21 @@
 package palaster.bb.items;
 
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+import palaster.bb.libs.LibNBT;
 
 import java.util.List;
 
@@ -26,14 +29,28 @@ public class ItemAnimalHerder extends ItemModSpecial {
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
+	public void addInformation(ItemStack stack, EntityPlayer playerIn, List tooltip, boolean advanced) {
+		if(stack.hasTagCompound())
+			if(stack.getItem() instanceof ItemAnimalHerder && stack.getTagCompound().getBoolean(LibNBT.isSet)) {
+				Entity animal = EntityList.createEntityFromNBT(stack.getTagCompound().getCompoundTag(LibNBT.entityTag), playerIn.worldObj);
+				if(animal != null)
+					tooltip.add(I18n.format("bb.misc.entityTag") + " : " + animal.getName());
+			}
+	}
+
+	@Override
 	public boolean itemInteractionForEntity(ItemStack stack, EntityPlayer playerIn, EntityLivingBase target, EnumHand hand) {
 		if(!playerIn.worldObj.isRemote) {
 			if(target instanceof EntityAnimal) {
-				if(!playerIn.isBeingRidden()) {
-					((EntityAnimal) target).startRiding(playerIn, true);
-					playerIn.updateRidden();
-					return true;
-				}
+				NBTTagCompound nbtTagCompound = new NBTTagCompound();
+				target.writeToNBTAtomically(nbtTagCompound);
+				if(!stack.hasTagCompound())
+					stack.setTagCompound(new NBTTagCompound());
+				stack.getTagCompound().setBoolean(LibNBT.isSet, true);
+				stack.getTagCompound().setTag(LibNBT.entityTag, nbtTagCompound);
+				target.setDead();
+				return  true;
 			} else if(target instanceof EntityLiving && !(target instanceof EntityAnimal)) {
 				List<EntityAnimal> animals = playerIn.worldObj.getEntitiesWithinAABB(EntityAnimal.class, new AxisAlignedBB(playerIn.posX + range, playerIn.posY + 2, playerIn.posZ + range, playerIn.posX - range, playerIn.posY - 1, playerIn.posZ - range));
 				if(animals != null) {
@@ -56,10 +73,18 @@ public class ItemAnimalHerder extends ItemModSpecial {
 	@Override
 	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if(!worldIn.isRemote)
-			if(playerIn.isBeingRidden()) {
-				playerIn.dismountRidingEntity();
-				return EnumActionResult.SUCCESS;
-			}
+			if(stack.hasTagCompound())
+				if(stack.getTagCompound() != null && stack.getTagCompound().getBoolean(LibNBT.isSet) && stack.getTagCompound().getCompoundTag(LibNBT.entityTag) != null) {
+					Entity animal = EntityList.createEntityFromNBT(stack.getTagCompound().getCompoundTag(LibNBT.entityTag), worldIn);
+					if(animal != null) {
+						// TODO: Set position based on side of block
+						animal.setPosition(pos.getX(), pos.getY() + 1, pos.getZ());
+						worldIn.spawnEntityInWorld(animal);
+						stack.getTagCompound().setBoolean(LibNBT.isSet, false);
+						stack.getTagCompound().setTag(LibNBT.entityTag, new NBTTagCompound());
+						return EnumActionResult.SUCCESS;
+					}
+				}
 		return super.onItemUse(stack, playerIn, worldIn, pos, hand, facing, hitX, hitY, hitZ);
 	}
 }

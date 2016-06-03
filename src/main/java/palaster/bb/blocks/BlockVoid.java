@@ -22,18 +22,18 @@ public class BlockVoid extends BlockModContainer {
 		super(p_i45394_1_);
 		setUnlocalizedName("void");
 	}
-	
+
 	@Override
-	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, Entity entityIn) {
+	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
 		if(!worldIn.isRemote)
 			if(entityIn instanceof EntityLivingBase) {
 				entityIn.attackEntityFrom(DamageSource.outOfWorld, 1f);
-				((EntityLivingBase) entityIn).addPotionEffect(new PotionEffect(MobEffects.wither, 60));
+				((EntityLivingBase) entityIn).addPotionEffect(new PotionEffect(MobEffects.WITHER, 60));
 				if(worldIn.getTileEntity(pos) != null && worldIn.getTileEntity(pos) instanceof TileEntityVoid && ((TileEntityVoid) worldIn.getTileEntity(pos)).getOriginalBlock() != null)
 					worldIn.setBlockState(pos, ((TileEntityVoid) worldIn.getTileEntity(pos)).getOriginalBlock().getDefaultState());
 			}
 	}
-	
+
 	@Override
 	public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
 		if(!worldIn.isRemote) {

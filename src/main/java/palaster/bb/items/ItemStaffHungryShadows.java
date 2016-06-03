@@ -20,7 +20,7 @@ public class ItemStaffHungryShadows extends ItemModStaff {
 	public boolean itemInteractionForEntity(ItemStack stack, EntityPlayer playerIn, EntityLivingBase target, EnumHand hand) {
 		if(!playerIn.worldObj.isRemote) {
 			if(getActivePower(stack) == 0) {
-				target.addPotionEffect(new PotionEffect(MobEffects.weakness, 2400));
+				target.addPotionEffect(new PotionEffect(MobEffects.WEAKNESS, 2400));
 				stack.damageItem(12, playerIn);
 				return true;
 			} else if(getActivePower(stack) == 1) {

@@ -88,14 +88,14 @@ public class EntityItztiliTablet extends EntityCreature {
     }
 
     @Override
-    public void setBossVisibleTo(EntityPlayerMP player) {
-        super.setBossVisibleTo(player);
+    public void addTrackingPlayer(EntityPlayerMP player) {
+        super.addTrackingPlayer(player);
         bossInfo.addPlayer(player);
     }
 
     @Override
-    public void setBossNonVisibleTo(EntityPlayerMP player) {
-        super.setBossNonVisibleTo(player);
+    public void removeTrackingPlayer(EntityPlayerMP player) {
+        super.removeTrackingPlayer(player);
         bossInfo.removePlayer(player);
     }
 

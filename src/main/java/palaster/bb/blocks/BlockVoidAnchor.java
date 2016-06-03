@@ -7,14 +7,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import palaster.bb.BloodBank;
 import palaster.bb.blocks.tile.TileEntityModInventory;
-import palaster.bb.libs.LibMod;
 
 public class BlockVoidAnchor extends BlockModContainer {
 
@@ -23,6 +21,7 @@ public class BlockVoidAnchor extends BlockModContainer {
 		setUnlocalizedName("voidAnchor");
 	}
 
+	// TODO : Look into this
 	@Override
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) { return new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.25D, 1.0D); }
 
@@ -34,8 +33,10 @@ public class BlockVoidAnchor extends BlockModContainer {
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World worldIn, int meta) { return new TileEntityModInventory(18) {
-		@Override
-		public String getName() { return "container.voidAnchor"; }
-	};}
+	public TileEntity createNewTileEntity(World worldIn, int meta) {
+		return new TileEntityModInventory(18) {
+			@Override
+			public String getName() { return "container.voidAnchor"; }
+		};
+	}
 }

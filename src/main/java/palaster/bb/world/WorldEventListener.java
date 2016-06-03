@@ -66,7 +66,7 @@ public class WorldEventListener implements IWorldEventListener {
 	public void broadcastSound(int p_180440_1_, BlockPos p_180440_2_, int p_180440_3_) {}
 
 	@Override
-	public void playAuxSFX(EntityPlayer player, int sfxType, BlockPos blockPosIn, int p_180439_4_) {}
+	public void playEvent(EntityPlayer player, int type, BlockPos blockPosIn, int data) {}
 
 	@Override
 	public void sendBlockBreakProgress(int breakerId, BlockPos pos, int progress) {}

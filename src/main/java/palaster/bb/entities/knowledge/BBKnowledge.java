@@ -1,5 +1,6 @@
 package palaster.bb.entities.knowledge;
 
+import palaster.bb.api.capabilities.items.IKnowledgePiece;
 import palaster.bb.entities.knowledge.pieces.KPBloodLink;
 import palaster.bb.entities.knowledge.pieces.KPBoilingBlood;
 import palaster.bb.entities.knowledge.pieces.KPBoundArmor;
@@ -9,15 +10,15 @@ import java.util.List;
 
 public class BBKnowledge {
 
-    private static List<BBKnowledgePiece> knowledge = new ArrayList<BBKnowledgePiece>();
+    private static List<IKnowledgePiece> knowledge = new ArrayList<IKnowledgePiece>();
 
-    public static void addKnowledgePiece(BBKnowledgePiece kp) {
+    public static void addKnowledgePiece(IKnowledgePiece kp) {
         if(kp != null) {
             if(knowledge.isEmpty()) {
                 knowledge.add(kp);
                 return;
             } else
-                for(BBKnowledgePiece tkp : knowledge)
+                for(IKnowledgePiece tkp : knowledge)
                     if(tkp.getName().equals(kp.getName())) {
                         System.out.println(tkp.getName() + " has already been registered.");
                         return;
@@ -26,9 +27,9 @@ public class BBKnowledge {
         }
     }
 
-    public static BBKnowledgePiece getKnowledgePiece(int id) { return knowledge.get(id); }
+    public static IKnowledgePiece getKnowledgePiece(int id) { return knowledge.get(id); }
 
-    public static int getKnowledgePieceID(BBKnowledgePiece kp) {
+    public static int getKnowledgePieceID(IKnowledgePiece kp) {
         for(int i = 0; i < knowledge.size(); i++)
             if(knowledge.get(i).getName().equals(kp.getName()))
                 return i;
@@ -38,8 +39,8 @@ public class BBKnowledge {
     public static int getKnowledgeSize() { return knowledge.size(); }
 
     static {
-        new KPBoilingBlood();
-        new KPBloodLink();
-        new KPBoundArmor();
+        addKnowledgePiece(new KPBoilingBlood());
+        addKnowledgePiece(new KPBloodLink());
+        addKnowledgePiece(new KPBoundArmor());
     }
 }

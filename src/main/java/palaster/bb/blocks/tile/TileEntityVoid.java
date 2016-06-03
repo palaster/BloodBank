@@ -24,10 +24,10 @@ public class TileEntityVoid extends TileEntity implements ITickable {
 	}
 	
 	@Override
-	public void writeToNBT(NBTTagCompound compound) {
-		super.writeToNBT(compound);
+	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
 		compound.setInteger(LibNBT.originalBlockID, Block.getIdFromBlock(ogBlock));
 		compound.setInteger(LibNBT.timer, timer);
+		return super.writeToNBT(compound);
 	}
 
 	@Override

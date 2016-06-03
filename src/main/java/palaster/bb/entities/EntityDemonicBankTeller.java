@@ -43,7 +43,7 @@ public class EntityDemonicBankTeller extends EntityLiving {
                     if(temp != null) {
                         int temp1 = 0;
                         for(int x = 0; x < temp.getSizeInventory(); x++)
-                            if(temp.getStackInSlot(x) != null && temp.getStackInSlot(x).getItem() != Item.getItemFromBlock(Blocks.air))
+                            if(temp.getStackInSlot(x) != null && temp.getStackInSlot(x).getItem() != Item.getItemFromBlock(Blocks.AIR))
                                 temp1++;
                         ItemStack[] inputs = new ItemStack[temp1];
                         for(int i = 0; i < temp.getSizeInventory(); i++)

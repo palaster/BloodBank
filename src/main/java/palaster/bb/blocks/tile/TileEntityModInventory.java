@@ -9,6 +9,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.text.ITextComponent;
 import palaster.bb.libs.LibNBT;
 
+import javax.annotation.Nullable;
+
 public abstract class TileEntityModInventory extends TileEntity implements IInventory {
 	
 	private ItemStack[] items;
@@ -28,9 +30,11 @@ public abstract class TileEntityModInventory extends TileEntity implements IInve
 	public int getSizeInventory() { return items.length; }
 
 	@Override
+	@Nullable
 	public ItemStack getStackInSlot(int slotIn) { return items[slotIn]; }
 
 	@Override
+	@Nullable
 	public ItemStack decrStackSize(int index, int count) {
 		ItemStack stack = getStackInSlot(index);
 		if(stack != null) {
@@ -44,6 +48,7 @@ public abstract class TileEntityModInventory extends TileEntity implements IInve
 	}
 
 	@Override
+	@Nullable
 	public ItemStack removeStackFromSlot(int index) {
 		ItemStack stack = getStackInSlot(index);
 		setInventorySlotContents(index, null);
@@ -51,7 +56,7 @@ public abstract class TileEntityModInventory extends TileEntity implements IInve
 	}
 
 	@Override
-	public void setInventorySlotContents(int index, ItemStack stack) {
+	public void setInventorySlotContents(int index, @Nullable ItemStack stack) {
 		items[index] = stack;
 		if(stack != null && stack.stackSize > getInventoryStackLimit())
 			stack.stackSize = getInventoryStackLimit();
@@ -101,8 +106,7 @@ public abstract class TileEntityModInventory extends TileEntity implements IInve
 	}
 	
 	@Override
-	public void writeToNBT(NBTTagCompound compound) {
-		super.writeToNBT(compound);
+	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
 		NBTTagList items = new NBTTagList();
 		for(int i = 0; i < getSizeInventory(); i++) {		
 			ItemStack stack = getStackInSlot(i);	
@@ -114,6 +118,7 @@ public abstract class TileEntityModInventory extends TileEntity implements IInve
 			}
 		}
 		compound.setTag(LibNBT.items, items);
+		return super.writeToNBT(compound);
 	}
 	
 	public void receiveButtonEvent(int buttonID, EntityPlayer player) {}

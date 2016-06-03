@@ -3,26 +3,27 @@ package palaster.bb.entities.knowledge.pieces;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import palaster.bb.api.capabilities.items.IKnowledgePiece;
 import palaster.bb.core.helpers.BBItemStackHelper;
-import palaster.bb.entities.knowledge.BBKnowledgePiece;
 import palaster.bb.items.BBArmor;
 import palaster.bb.items.BBItems;
 
-public class KPBoundArmor extends BBKnowledgePiece {
-
-    public KPBoundArmor() {
-        super("bb.kp.boundArmor", 0);
-    }
+public class KPBoundArmor implements IKnowledgePiece {
 
     @Override
-    public void onBookInteract(ItemStack stack, EntityPlayer playerIn, EntityLivingBase target) {}
+    public String getName() { return "bb.kp.boundArmor"; }
 
     @Override
-    public void onBookRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
+    public int getPrice() { return 5000; }
+
+    @Override
+    public ActionResult<ItemStack> onKnowledgePieceRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
         for(int i = 0; i < 4; i++) {
             if(playerIn.inventory.armorInventory[i] != null) {
                 if(playerIn.inventory.armorInventory[i].getItem() == BBItems.boundHelmet || playerIn.inventory.armorInventory[i].getItem() == BBItems.boundChestplate || playerIn.inventory.armorInventory[i].getItem() == BBItems.boundLeggings || playerIn.inventory.armorInventory[i].getItem() == BBItems.boundBoots) {
@@ -67,8 +68,12 @@ public class KPBoundArmor extends BBKnowledgePiece {
                 playerIn.inventory.armorInventory[i] = boundArmor;
             }
         }
+        return new ActionResult<ItemStack>(EnumActionResult.PASS, itemStackIn);
     }
 
     @Override
-    public void onBookUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {}
+    public EnumActionResult onKnowledgePieceUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) { return EnumActionResult.PASS; }
+
+    @Override
+    public boolean knowledgePieceInteractionForEntity(ItemStack stack, EntityPlayer playerIn, EntityLivingBase target, EnumHand hand) { return false; }
 }

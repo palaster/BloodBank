@@ -63,8 +63,11 @@ public class BloodBankCapabilityDefault implements IBloodBank {
         NBTTagCompound tagCompound = new NBTTagCompound();
         tagCompound.setInteger(LibNBT.currentBlood, bloodCurrent);
         tagCompound.setInteger(LibNBT.maxBlood, bloodMax);
-        if(link != null)
-            tagCompound.setTag(LibNBT.linkEntity, link.getEntityData());
+        NBTTagCompound nbtTagCompound = new NBTTagCompound();
+        if(link != null) {
+            link.writeToNBTAtomically(nbtTagCompound);
+            tagCompound.setTag(LibNBT.linkEntity, nbtTagCompound);
+        }
         return tagCompound;
     }
 

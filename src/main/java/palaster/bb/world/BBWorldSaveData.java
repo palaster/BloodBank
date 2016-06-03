@@ -5,9 +5,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSavedData;
-import net.minecraft.world.biome.BiomeCache;
-import net.minecraft.world.storage.MapStorage;
-import palaster.bb.core.helpers.BBPlayerHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +48,7 @@ public class BBWorldSaveData extends WorldSavedData {
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound nbt) {
+    public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
         int i = 0;
         for(BlockPos bp : bonFirePos) {
             if(bp != null) {
@@ -62,10 +59,11 @@ public class BBWorldSaveData extends WorldSavedData {
             i++;
         }
         nbt.setInteger("BonFireAmt", i);
+        return nbt;
     }
 
     public static BBWorldSaveData get(World world) {
-        BBWorldSaveData data = (BBWorldSaveData)world.getPerWorldStorage().loadData(BBWorldSaveData.class, IDENTIFIER);
+        BBWorldSaveData data = (BBWorldSaveData)world.getPerWorldStorage().getOrLoadData(BBWorldSaveData.class, IDENTIFIER);
         if(data == null) {
             data = new BBWorldSaveData();
             world.getPerWorldStorage().setData(IDENTIFIER, data);
