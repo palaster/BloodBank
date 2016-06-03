@@ -8,26 +8,27 @@ key.staffChange=Change Staff Power
 entity.bb.skeletonMinion.name=Skeleton Minion
 entity.bb.yinYang.name=Yin Yang
 entity.bb.demonicBankTeller.name=Demonic Bank Teller
+entity.bb.itztiliTablet.name=Itztili Tablet
 
 tile.bb:void.name=Touch of Void
 tile.bb:communityTool.name=Community Tools
 tile.bb:voidAnchor.name=Void Anchor
+tile.bb:bonfire.name=Bonfire
 
-item.bb:playerBinder.name=Player Binder
-item.bb:worldBinder.name=World Binder
 item.bb:staffSkeleton.name=Skeleton Staff
 item.bb:staffEfreet.name=Efreet Staff
 item.bb:staffTime.name=Staff of Time
 item.bb:staffVoidWalker.name=Staff of Void Walker
 item.bb:staffHungryShadows.name=Staff of Hungry Shadows
 item.bb:animalHerder.name=Animal Herder
-item.bb:magicDuctTape.name=Magic Duct Tape
-item.bb:tapeHeart.name=Tape Heart
-item.bb:hephaestusHammer.name=Hephaestus Hammer
-item.bb:trident.name=Trident of Poseidon
-item.bb:athame.name=Athame
+item.bb:bloodBottle.name=Blood Bottle
 item.bb:bookBlood.name=Bloody Book
 item.bb:letter.name=Letter
+item.bb:undeadMonitor.name=Undead Monitor
+
+item.bb:flames.name=Flames
+item.bb:carthusFlameArc.name=Carthus Flame Arc
+item.bb:sacredFlame.name=Sacred Flame
 
 item.bb:bound.HEAD.name=Bound Helmet
 item.bb:bound.CHEST.name=Bound Chestplate
@@ -38,7 +39,9 @@ item.bb:debug.name=Debug
 item.bb:yinYang.name=Yin Yang
 item.bb:bbResources.bankContract.name=Bank Contract
 item.bb:bbResources.bankID.name=Bank ID
-item.bb:bbResources.magicDust.name=Magic Dust
+item.bb:bbResources.wormEater.name=Worm Eater
+item.bb:bbResources.vampireSigil.name=Vampire Sigil
+item.bb:bbResources.urn.name=Urn
 
 bb.misc.activated=Activated
 bb.misc.broken=BROKEN (Normal Fix is a simple right-click)
@@ -49,14 +52,24 @@ bb.misc.brokenPlayer=Player is either offline or broken UUID
 bb.misc.pos=Position
 bb.misc.dimensionID=Dimension ID
 bb.misc.player=Player
-bb.misc.tapeHeart=Tape Heart
+bb.misc.vampireSigil=Vampire Sigil
 bb.misc.reuse=Reuse Timer
 bb.misc.alreadyLinked=Can't link to more than one entity.
 bb.misc.countDown=Community Item
 
-bb.psm.home=Home
-bb.psm.potions=Potions
-bb.psm.hotswap=Hot Swap
+bb.bank.join=Welcome to the First National Bank of Blood, you start out with a max balance of 2000. Use this bank ID card to keep in contact.
+bb.bank.refuse=You already have an account with this bank.
+bb.bank.undead=Sorry, we don't take your type here.
+
+bb.undead.soul=Soul
+bb.undead.focus=Focus
+bb.undead.vigor=Vigor
+bb.undead.attunement=Attunement
+bb.undead.strength=Strength
+bb.undead.intelligence=Intelligence
+bb.undead.faith=Faith
+bb.undead.soulCost=Soul Cost
+bb.undead.bonFireNotFound=Bonfire not found
 
 bb.staff.active=Active Power
 bb.staff.time.0=Time

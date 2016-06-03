@@ -1,11 +1,16 @@
 package palaster.bb.api;
 
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
-import palaster.bb.api.capabilities.entities.BloodBankCapabilityProvider;
-import palaster.bb.api.capabilities.entities.IBloodBank;
+import palaster.bb.api.capabilities.entities.*;
 import palaster.bb.api.recipes.RecipeLetter;
+import palaster.bb.network.PacketHandler;
+import palaster.bb.network.client.SyncPlayerPropsMessage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -115,4 +120,211 @@ public class BBApi {
             return bloodBank.getLinked();
         return null;
     }
+
+    // Undead Methods
+
+    public static boolean isUndead(EntityPlayer player) {
+        final IUndead undead = UndeadCapabilityProvider.get(player);
+        if(undead != null)
+            return undead.isUndead();
+        return false;
+    }
+
+    public static void setUndead(EntityPlayer player, boolean bool) {
+        final IUndead undead = UndeadCapabilityProvider.get(player);
+        if(undead != null)
+            undead.setUndead(bool);
+    }
+
+    public static void addSoul(EntityPlayer player, int amt) {
+        if(amt > 0)
+            setSoul(player, getSoul(player) + amt);
+    }
+
+    public static int getSoul(EntityPlayer player) {
+        final IUndead undead = UndeadCapabilityProvider.get(player);
+        if(undead != null)
+            return undead.getSoul();
+        return 0;
+    }
+
+    public static void setSoul(EntityPlayer player, int amt) {
+        final IUndead undead = UndeadCapabilityProvider.get(player);
+        if(undead != null)
+            undead.setSoul(amt);
+        syncServerToClient(player);
+    }
+
+    public static void addFocus(EntityPlayer player, int amt) {
+        if(getFocus(player) + amt <= getFocusMax(player))
+            setFocus(player, getFocusMax(player));
+        else
+            setFocus(player, getFocus(player) + amt);
+    }
+
+    public static boolean useFocus(EntityPlayer player, int amt) {
+        if(amt > getFocusMax(player) || amt > getFocus(player))
+            return false;
+        else if(amt <= getFocus(player)) {
+            setFocus(player, getFocus(player) - amt);
+            return true;
+        }
+        return false;
+    }
+
+    public static int getFocus(EntityPlayer player) {
+        final IUndead undead = UndeadCapabilityProvider.get(player);
+        if(undead != null)
+            return undead.getFocus();
+        return 0;
+    }
+
+    public static void setFocus(EntityPlayer player, int amt) {
+        final IUndead undead = UndeadCapabilityProvider.get(player);
+        if(undead != null)
+            undead.setFocus(amt);
+        syncServerToClient(player);
+    }
+
+    public static int getFocusMax(EntityPlayer player) {
+        final IUndead undead = UndeadCapabilityProvider.get(player);
+        if(undead != null)
+            return undead.getFocusMax();
+        return 0;
+    }
+
+    public static void setFocusMax(EntityPlayer player, int amt) {
+        final IUndead undead = UndeadCapabilityProvider.get(player);
+        if(undead != null)
+            undead.setFocusMax(amt);
+        syncServerToClient(player);
+    }
+
+    public static void addVigor(EntityPlayer player, int amt) {
+        if(amt > 0)
+            setVigor(player, getVigor(player) + amt);
+    }
+
+    public static int getVigor(EntityPlayer player) {
+        final IUndead undead = UndeadCapabilityProvider.get(player);
+        if(undead != null)
+            return undead.getVigor();
+        return 0;
+    }
+
+    public static void setVigor(EntityPlayer player, int amt) {
+        final IUndead undead = UndeadCapabilityProvider.get(player);
+        if(undead != null) {
+            undead.setVigor(amt);
+            if(undead.getVigor() <= 0) {
+                IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MAX_HEALTH);
+                try {
+                    iAttributeInstance.removeModifier(iAttributeInstance.getModifier(UndeadCapabilityDefault.healthID));
+                } catch(Exception e) {}
+            } else {
+                IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MAX_HEALTH);
+                try {
+                    iAttributeInstance.removeModifier(iAttributeInstance.getModifier(UndeadCapabilityDefault.healthID));
+                } catch(Exception e) {}
+                iAttributeInstance.applyModifier(new AttributeModifier(UndeadCapabilityDefault.healthID, "bb.vigor", getVigor(player) * .2, 0));
+            }
+        }
+        syncServerToClient(player);
+    }
+
+    public static void addAttunement(EntityPlayer player, int amt) {
+        if(amt > 0)
+            setAttunement(player, getAttunement(player) + amt);
+    }
+
+    public static int getAttunement(EntityPlayer player) {
+        final IUndead undead = UndeadCapabilityProvider.get(player);
+        if(undead != null)
+            return undead.getAttunement();
+        return 0;
+    }
+
+    public static void setAttunement(EntityPlayer player, int amt) {
+        final IUndead undead = UndeadCapabilityProvider.get(player);
+        if(undead != null)
+            undead.setAttunement(amt);
+        syncServerToClient(player);
+    }
+
+    public static void addStrength(EntityPlayer player, int amt) {
+        if(amt > 0)
+            setStrength(player, getStrength(player) + amt);
+    }
+
+    public static int getStrength(EntityPlayer player) {
+        final IUndead undead = UndeadCapabilityProvider.get(player);
+        if(undead != null)
+            return undead.getStrength();
+        return 0;
+    }
+
+    public static void setStrength(EntityPlayer player, int amt) {
+        final IUndead undead = UndeadCapabilityProvider.get(player);
+        if(undead != null) {
+            undead.setStrength(amt);
+            if(undead.getStrength() <= 0) {
+                IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ATTACK_DAMAGE);
+                try {
+                    iAttributeInstance.removeModifier(iAttributeInstance.getModifier(UndeadCapabilityDefault.strengthID));
+                } catch(Exception e) {}
+            } else {
+                IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ATTACK_DAMAGE);
+                try {
+                    iAttributeInstance.removeModifier(iAttributeInstance.getModifier(UndeadCapabilityDefault.strengthID));
+                } catch(Exception e) {}
+                iAttributeInstance.applyModifier(new AttributeModifier(UndeadCapabilityDefault.strengthID, "bb.strength", undead.getStrength() * .25, 0));
+            }
+        }
+        syncServerToClient(player);
+    }
+
+    public static void addIntelligence(EntityPlayer player, int amt) {
+        if(amt > 0)
+            setIntelligence(player, getIntelligence(player) + amt);
+    }
+
+    public static int getIntelligence(EntityPlayer player) {
+        final IUndead undead = UndeadCapabilityProvider.get(player);
+        if(undead != null)
+            return undead.getIntelligence();
+        return 0;
+    }
+
+    public static void setIntelligence(EntityPlayer player, int amt) {
+        final IUndead undead = UndeadCapabilityProvider.get(player);
+        if(undead != null)
+            undead.setIntelligence(amt);
+        syncServerToClient(player);
+    }
+
+    public static void addFaith(EntityPlayer player, int amt) {
+        if(amt > 0)
+            setFaith(player, getFaith(player) + amt);
+    }
+
+    public static int getFaith(EntityPlayer player) {
+        final IUndead undead = UndeadCapabilityProvider.get(player);
+        if(undead != null)
+            return undead.getFaith();
+        return 0;
+    }
+
+    public static void setFaith(EntityPlayer player, int amt) {
+        final IUndead undead = UndeadCapabilityProvider.get(player);
+        if(undead != null)
+            undead.setFaith(amt);
+        syncServerToClient(player);
+    }
+
+    public static int getSoulCostForNextLevel(EntityPlayer player) {
+        int soulLevel = getVigor(player) + getAttunement(player) + getStrength(player) + getIntelligence(player) + getFaith(player);
+        return (int)( .02 * (soulLevel ^ 3) + 3.06 * (soulLevel ^ 2) + 105.6 * soulLevel - 895);
+    }
+
+    public static void syncServerToClient(EntityPlayer player) { PacketHandler.sendTo(new SyncPlayerPropsMessage(player), (EntityPlayerMP) player); }
 }

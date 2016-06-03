@@ -6,6 +6,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.DimensionManager;
 import palaster.bb.BloodBank;
+import palaster.bb.libs.LibNBT;
 
 public class BloodBankCapabilityDefault implements IBloodBank {
 
@@ -60,20 +61,20 @@ public class BloodBankCapabilityDefault implements IBloodBank {
     @Override
     public NBTTagCompound saveNBT() {
         NBTTagCompound tagCompound = new NBTTagCompound();
-        tagCompound.setInteger("CurrentBlood", bloodCurrent);
-        tagCompound.setInteger("MaxBlood", bloodMax);
+        tagCompound.setInteger(LibNBT.currentBlood, bloodCurrent);
+        tagCompound.setInteger(LibNBT.maxBlood, bloodMax);
         if(link != null)
-            tagCompound.setTag("LinkEntity", link.getEntityData());
+            tagCompound.setTag(LibNBT.linkEntity, link.getEntityData());
         return tagCompound;
     }
 
     @Override
     public void loadNBT(NBTTagCompound nbt) {
         if(nbt != null) {
-            bloodCurrent = nbt.getInteger("CurrentBlood");
-            bloodMax = nbt.getInteger("MaxBlood");
-            if(nbt.getCompoundTag("LinkEntity") != null)
-                link = (EntityLiving) EntityList.createEntityFromNBT(nbt.getCompoundTag("LinkEntity"), DimensionManager.getWorld(0));
+            bloodCurrent = nbt.getInteger(LibNBT.currentBlood);
+            bloodMax = nbt.getInteger(LibNBT.maxBlood);
+            if(nbt.getCompoundTag(LibNBT.linkEntity) != null)
+                link = (EntityLiving) EntityList.createEntityFromNBT(nbt.getCompoundTag(LibNBT.linkEntity), DimensionManager.getWorld(0));
         }
     }
 }

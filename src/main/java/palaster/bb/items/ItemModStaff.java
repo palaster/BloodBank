@@ -7,11 +7,12 @@ import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import palaster.bb.api.capabilities.items.IDuctTapeable;
+import palaster.bb.api.capabilities.items.IVampiric;
+import palaster.bb.libs.LibNBT;
 
 import java.util.List;
 
-public abstract class ItemModStaff extends ItemModSpecial implements IDuctTapeable {
+public abstract class ItemModStaff extends ItemModSpecial implements IVampiric {
 	
 	public String[] powers = new String[] {};
 
@@ -31,21 +32,21 @@ public abstract class ItemModStaff extends ItemModSpecial implements IDuctTapeab
 	public void onCreated(ItemStack stack, World worldIn, EntityPlayer playerIn) {
 		if(!stack.hasTagCompound())
 			stack.setTagCompound(new NBTTagCompound());
-		stack.getTagCompound().setInteger("Active Power", 0);
+		stack.getTagCompound().setInteger(LibNBT.activePower, 0);
 	}
 	
 	public static final void setActivePower(ItemStack stack, int value) {
 		if(!stack.hasTagCompound())
 			stack.setTagCompound(new NBTTagCompound());
 		if(getActiveMax(stack) == 0)
-			stack.getTagCompound().setInteger("Active Power", 0);
+			stack.getTagCompound().setInteger(LibNBT.activePower, 0);
 		else
-			stack.getTagCompound().setInteger("Active Power", value);
+			stack.getTagCompound().setInteger(LibNBT.activePower, value);
 	}
 	
 	public static final int getActivePower(ItemStack stack) {
 		if(stack.hasTagCompound())
-			return stack.getTagCompound().getInteger("Active Power");
+			return stack.getTagCompound().getInteger(LibNBT.activePower);
 		return 0;
 	}
 	

@@ -10,21 +10,20 @@ public class BBItems {
 
 	public static ItemArmor.ArmorMaterial bound = EnumHelper.addArmorMaterial("bound", "bound", -1, new int[]{3, 7, 6, 3}, 0, SoundEvents.item_armor_equip_generic);
 	
-	public static Item playerBinder,
-	worldBinder,
-	staffSkeleton,
+	public static Item staffSkeleton,
 	staffEfreet,
 	staffTime,
 	staffVoidWalker,
 	staffHungryShadows,
 	animalHerder,
-	magicDuctTape,
-	tapeHeart,
-	hephaestusHammer,
-	trident,
-	athame,
+	bloodBottle,
 	bloodBook,
-	letter;
+	letter,
+	undeadMonitor;
+
+	public static Item flames,
+	carthusFlameArc,
+	sacredFlame;
 
 	public static ItemArmor
 	boundHelmet,
@@ -37,21 +36,20 @@ public class BBItems {
 	bbResources;
 	
 	public static void init() {
-		playerBinder = new ItemPlayerBinder();
-		worldBinder = new ItemWorldBinder();
 		staffSkeleton = new ItemStaffSkeleton();
 		staffEfreet = new ItemStaffEfreet();
 		staffTime = new ItemStaffTime();
 		staffVoidWalker = new ItemStaffVoidWalker();
 		staffHungryShadows = new ItemStaffHungryShadows();
 		animalHerder = new ItemAnimalHerder();
-		magicDuctTape = new ItemMagicDuctTape();
-		tapeHeart = new ItemTapeHeart();
-		hephaestusHammer = new ItemHephaestusHammer();
-		trident = new ItemTrident(EnumHelper.addToolMaterial("trident", 3, 1024, 4.0f, 3.0f, 22));
-		athame = new ItemAthame();
+		bloodBottle = new ItemBloodBottle();
 		bloodBook = new ItemBookBlood();
 		letter = new ItemLetter();
+		undeadMonitor = new ItemUndeadMonitor();
+
+		flames = new ItemFlames();
+		carthusFlameArc = new ItemCarthusFlameArc();
+		sacredFlame = new ItemSacredFlame();
 
 		boundHelmet = new BBArmor(bound, 0, EntityEquipmentSlot.HEAD);
 		boundChestplate = new BBArmor(bound, 0, EntityEquipmentSlot.CHEST);

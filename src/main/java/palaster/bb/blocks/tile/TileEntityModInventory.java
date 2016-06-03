@@ -7,6 +7,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.text.ITextComponent;
+import palaster.bb.libs.LibNBT;
 
 public abstract class TileEntityModInventory extends TileEntity implements IInventory {
 	
@@ -90,10 +91,10 @@ public abstract class TileEntityModInventory extends TileEntity implements IInve
 	@Override
 	public void readFromNBT(NBTTagCompound compound) {
 		super.readFromNBT(compound);
-		NBTTagList items = compound.getTagList("Items", compound.getId());
+		NBTTagList items = compound.getTagList(LibNBT.items, compound.getId());
 		for(int i = 0; i < items.tagCount(); i++) {
 			NBTTagCompound item = items.getCompoundTagAt(i);
-			int slot = item.getByte("Slot");
+			int slot = item.getByte(LibNBT.slot);
 			if(slot >= 0 && slot < getSizeInventory())
 				setInventorySlotContents(slot, ItemStack.loadItemStackFromNBT(item));
 		}
@@ -107,12 +108,12 @@ public abstract class TileEntityModInventory extends TileEntity implements IInve
 			ItemStack stack = getStackInSlot(i);	
 			if(stack != null) {
 				NBTTagCompound item = new NBTTagCompound();
-				item.setByte("Slot", (byte)i);
+				item.setInteger(LibNBT.slot, i);
 				stack.writeToNBT(item);
 				items.appendTag(item);
 			}
 		}
-		compound.setTag("Items", items);
+		compound.setTag(LibNBT.items, items);
 	}
 	
 	public void receiveButtonEvent(int buttonID, EntityPlayer player) {}

@@ -10,6 +10,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.oredict.OreDictionary;
+import palaster.bb.libs.LibNBT;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +41,6 @@ public class BBItemStackHelper {
                     ws.playRecord(pos, null);
 				}
 				jb.setRecord(stack);
-				// TODO: Look into if this effects anything : Removed markBlockForUpdate(BlockPos) from WorldServer
 			}
 		}
 	}
@@ -57,15 +57,51 @@ public class BBItemStackHelper {
 		if(toHold != null) {
 			NBTTagCompound holding = new NBTTagCompound();
 			toHold.writeToNBT(holding);
-			holder.setTagCompound(new NBTTagCompound());
-			holder.getTagCompound().setTag("BBItemHolder", holding);
+			if(!holder.hasTagCompound())
+				holder.setTagCompound(new NBTTagCompound());
+			holder.getTagCompound().setTag(LibNBT.holderItem, holding);
 		}
 		return holder;
 	}
 
 	public static ItemStack getItemStackFromItemStack(ItemStack holder) {
 		if(holder.hasTagCompound() && holder.getTagCompound() != null)
-			return ItemStack.loadItemStackFromNBT(holder.getTagCompound().getCompoundTag("BBItemHolder"));
+			return ItemStack.loadItemStackFromNBT(holder.getTagCompound().getCompoundTag(LibNBT.holderItem));
+		return null;
+	}
+
+	public static ItemStack setFirstSpellInsideFlames(ItemStack flames, ItemStack spell) {
+		if(flames != null && spell != null) {
+			NBTTagCompound holding = new NBTTagCompound();
+			spell.writeToNBT(holding);
+			if(!flames.hasTagCompound())
+				flames.setTagCompound(new NBTTagCompound());
+			flames.getTagCompound().setTag(LibNBT.holderFlame, holding);
+		}
+		return flames;
+	}
+
+	public static ItemStack setSpellInsideFlames(ItemStack flames, ItemStack spell) {
+		if(flames != null && spell != null) {
+			NBTTagCompound holding = new NBTTagCompound();
+			spell.writeToNBT(holding);
+			if(!flames.hasTagCompound())
+				flames.setTagCompound(new NBTTagCompound());
+			flames.getTagCompound().setTag(LibNBT.previousHolderFlame, flames.getTagCompound().getCompoundTag(LibNBT.holderFlame));
+			flames.getTagCompound().setTag(LibNBT.holderFlame, holding);
+		}
+		return flames;
+	}
+
+	public static ItemStack getSpellFromFlames(ItemStack flames) {
+		if(flames != null && flames.hasTagCompound() && flames.getTagCompound() != null)
+			return ItemStack.loadItemStackFromNBT(flames.getTagCompound().getCompoundTag(LibNBT.holderFlame));
+		return null;
+	}
+
+	public static ItemStack getPreviousSpellFromFlames(ItemStack flames) {
+		if(flames != null && flames.hasTagCompound() && flames.getTagCompound() != null)
+			return ItemStack.loadItemStackFromNBT(flames.getTagCompound().getCompoundTag(LibNBT.previousHolderFlame));
 		return null;
 	}
 
@@ -88,14 +124,14 @@ public class BBItemStackHelper {
 	public static ItemStack setCountDown(ItemStack stack, int timer) {
 		if(!stack.hasTagCompound())
 			stack.setTagCompound(new NBTTagCompound());
-		stack.getTagCompound().setBoolean("BBCommunityItem", true);
+		stack.getTagCompound().setBoolean(LibNBT.communityItem, true);
 		stack.getItem().setMaxDamage(timer);
 		return stack;
 	}
 
 	public static boolean getCountDown(ItemStack stack) {
 		if(stack.hasTagCompound())
-			return stack.getTagCompound().getBoolean("BBCommunityItem");
+			return stack.getTagCompound().getBoolean(LibNBT.communityItem);
 		return false;
 	}
 }

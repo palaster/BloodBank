@@ -11,13 +11,15 @@ import palaster.bb.blocks.tile.TileEntityVoid;
 public class BBBlocks {
 	
 	public static Block voidAnchor,
-	communityTool;
+	communityTool,
+	bonfire;
 
 	public static Block touchVoid;
 	
 	public static void init() {
 		voidAnchor = new BlockVoidAnchor(Material.rock);
 		communityTool = new BlockCommunityTool(Material.rock);
+		bonfire = new BlockBonfire(Material.wood);
 
 		touchVoid = new BlockVoid(Material.barrier);
 

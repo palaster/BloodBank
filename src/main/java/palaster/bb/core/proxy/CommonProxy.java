@@ -13,21 +13,23 @@ import net.minecraftforge.fml.common.network.IGuiHandler;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import palaster.bb.BloodBank;
-import palaster.bb.api.capabilities.entities.BloodBankCapabilityFactory;
-import palaster.bb.api.capabilities.entities.BloodBankCapabilityStorage;
-import palaster.bb.api.capabilities.entities.IBloodBank;
+import palaster.bb.api.capabilities.entities.*;
 import palaster.bb.blocks.BBBlocks;
 import palaster.bb.blocks.tile.TileEntityModInventory;
 import palaster.bb.client.gui.GuiLetter;
+import palaster.bb.client.gui.GuiUndeadMonitor;
 import palaster.bb.client.gui.GuiVoidAnchor;
 import palaster.bb.core.CreativeTabBB;
 import palaster.bb.core.handlers.BBEventHandler;
 import palaster.bb.entities.BBEntities;
+import palaster.bb.entities.effects.BBPotions;
 import palaster.bb.inventories.ContainerLetter;
+import palaster.bb.inventories.ContainerUndeadMonitor;
 import palaster.bb.inventories.ContainerVoidAnchor;
 import palaster.bb.inventories.InventoryModLetter;
 import palaster.bb.items.BBItems;
 import palaster.bb.items.ItemLetter;
+import palaster.bb.items.ItemUndeadMonitor;
 import palaster.bb.network.PacketHandler;
 import palaster.bb.recipes.BBRecipes;
 
@@ -41,12 +43,14 @@ public class CommonProxy implements IGuiHandler {
 		BBBlocks.init();
 		BBEntities.init();
 		BBItems.init();
+		BBPotions.init();
 		CapabilityManager.INSTANCE.register(IBloodBank.class, new BloodBankCapabilityStorage(), new BloodBankCapabilityFactory());
+		CapabilityManager.INSTANCE.register(IUndead.class, new UndeadCapabilityStorage(), new UndeadCapabilityFactory());
 		MinecraftForge.EVENT_BUS.register(new BBEventHandler());
 	}
 	
 	public void init() {
-		// Broken till new loot system : ChestGenHooks.addItem(ChestGenHooks.VILLAGE_BLACKSMITH, new WeightedRandomChestContent(BBItems.hephaestusHammer, 0, 1, 1, 7));
+		// TODO: Broken till new loot system : ChestGenHooks.addItem(ChestGenHooks.VILLAGE_BLACKSMITH, new WeightedRandomChestContent(BBItems.hephaestusHammer, 0, 1, 1, 7));
 		NetworkRegistry.INSTANCE.registerGuiHandler(BloodBank.instance, this);
 	}
 	
@@ -64,10 +68,17 @@ public class CommonProxy implements IGuiHandler {
 				if(te != null && te instanceof TileEntityModInventory)
 					if(((TileEntityModInventory) te).getName().equals("container.voidAnchor"))
 						return new ContainerVoidAnchor(player.inventory, (TileEntityModInventory) te);
+				break;
+			}
+			case 2: {
+				if(player.getHeldItem(EnumHand.MAIN_HAND) != null && player.getHeldItem(EnumHand.MAIN_HAND).getItem() instanceof ItemUndeadMonitor)
+					return new ContainerUndeadMonitor(player);
+				break;
 			}
 			case 3: {
 				if(player.getHeldItem(EnumHand.MAIN_HAND) != null && player.getHeldItem(EnumHand.MAIN_HAND).getItem() instanceof ItemLetter)
 					return new ContainerLetter(player.inventory, new InventoryModLetter(player.getHeldItem(EnumHand.MAIN_HAND)));
+				break;
 			}
 		}
 		return null;
@@ -81,10 +92,17 @@ public class CommonProxy implements IGuiHandler {
 				if(te != null && te instanceof TileEntityModInventory)
 					if(((TileEntityModInventory) te).getName().equals("container.voidAnchor"))
 						return new GuiVoidAnchor(player.inventory, (TileEntityModInventory) te);
+				break;
+			}
+			case 2: {
+				if(player.getHeldItem(EnumHand.MAIN_HAND) != null && player.getHeldItem(EnumHand.MAIN_HAND).getItem() instanceof ItemUndeadMonitor)
+					return new GuiUndeadMonitor(player);
+				break;
 			}
 			case 3: {
 				if(player.getHeldItem(EnumHand.MAIN_HAND) != null && player.getHeldItem(EnumHand.MAIN_HAND).getItem() instanceof ItemLetter)
 					return new GuiLetter(player.inventory, new InventoryModLetter(player.getHeldItem(EnumHand.MAIN_HAND)));
+				break;
 			}
 		}
 		return null;
