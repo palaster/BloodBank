@@ -19,7 +19,9 @@ public class BBItems {
 	bloodBottle,
 	bloodBook,
 	letter,
-	undeadMonitor;
+	undeadMonitor,
+	estusFlask,
+	ashenEstusFlask;
 
 	public static Item flames,
 	carthusFlameArc,
@@ -46,6 +48,8 @@ public class BBItems {
 		bloodBook = new ItemBookBlood();
 		letter = new ItemLetter();
 		undeadMonitor = new ItemUndeadMonitor();
+		estusFlask = new ItemEstusFlask();
+		ashenEstusFlask = new ItemAshenEstusFlask();
 
 		flames = new ItemFlames();
 		carthusFlameArc = new ItemCarthusFlameArc();

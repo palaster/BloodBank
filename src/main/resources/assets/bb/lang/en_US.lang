@@ -16,6 +16,7 @@ tile.bb:void.name=Touch of Void
 tile.bb:communityTool.name=Community Tools
 tile.bb:voidAnchor.name=Void Anchor
 tile.bb:bonfire.name=Bonfire
+tile.bb:tntAbsorber.name=TNT Absorber
 
 item.bb:staffSkeleton.name=Skeleton Staff
 item.bb:staffEfreet.name=Efreet Staff
@@ -27,6 +28,8 @@ item.bb:bloodBottle.name=Blood Bottle
 item.bb:bookBlood.name=Bloody Book
 item.bb:letter.name=Letter
 item.bb:undeadMonitor.name=Undead Monitor
+item.bb:estusFlask.name=Estus Flask
+item.bb:ashenEstusFlask.name=Ashen Estus Flask
 
 item.bb:flames.name=Flames
 item.bb:carthusFlameArc.name=Carthus Flame Arc
@@ -59,6 +62,7 @@ bb.misc.reuse=Reuse Timer
 bb.misc.alreadyLinked=Can't link to more than one entity.
 bb.misc.countDown=Community Item
 bb.misc.entityTag=Capture Entity
+bb.misc.amountLeft=Amount Left
 
 bb.bank.join=Welcome to the First National Bank of Blood, you start out with a max balance of 2000. Use this bank ID card to keep in contact.
 bb.bank.refuse=You already have an account with this bank.

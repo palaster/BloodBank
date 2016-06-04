@@ -7,13 +7,18 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemClock;
 import net.minecraft.item.ItemFireball;
+import net.minecraft.item.ItemGlassBottle;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import palaster.bb.api.BBApi;
 import palaster.bb.items.BBItems;
+import palaster.bb.items.ItemAshenEstusFlask;
+import palaster.bb.items.ItemEstusFlask;
+import palaster.bb.libs.LibNBT;
 import palaster.bb.world.BBWorldSaveData;
 
 public class BlockBonfire extends BlockMod {
@@ -32,6 +37,19 @@ public class BlockBonfire extends BlockMod {
                     playerIn.setHeldItem(hand, new ItemStack(BBItems.undeadMonitor));
                 if(heldItem.getItem() instanceof ItemFireball)
                     playerIn.setHeldItem(hand, new ItemStack(BBItems.flames));
+                if(heldItem.getItem() instanceof ItemGlassBottle) {
+                	ItemStack estusFlask = new ItemStack(BBItems.estusFlask);
+                	if(!estusFlask.hasTagCompound())
+                		estusFlask.setTagCompound(new NBTTagCompound());
+                	estusFlask.getTagCompound().setInteger(LibNBT.amount, 6);
+                	playerIn.setHeldItem(hand, estusFlask);
+                }
+                if(heldItem.getItem() instanceof ItemEstusFlask || heldItem.getItem() instanceof ItemAshenEstusFlask) {
+                	if(!heldItem.hasTagCompound())
+                		heldItem.setTagCompound(new NBTTagCompound());
+                	heldItem.getTagCompound().setInteger(LibNBT.amount, 6);
+                	playerIn.setHeldItem(hand, heldItem);
+                }
                 return true;
             }
         return super.onBlockActivated(worldIn, pos, state, playerIn, hand, heldItem, side, hitX, hitY, hitZ);

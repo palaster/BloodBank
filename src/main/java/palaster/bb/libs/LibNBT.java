@@ -33,6 +33,7 @@ public class LibNBT {
     public static String holderFlame = "FlameHolder";
     public static String previousHolderFlame = "BBPreviousHolder";
     public static String communityItem = "BBCommunityItem";
+    public static String amount = "Amount";
 
     // Entities
     public static String enemyCount = "EnemyCount";
