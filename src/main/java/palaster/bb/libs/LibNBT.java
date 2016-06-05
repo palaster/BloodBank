@@ -19,7 +19,8 @@ public class LibNBT {
     public static String faith = "Faith";
 
     // TileEntity
-    public static String ownerUUID = "OwnerUUID";
+    public static String mostUUID = "MostSignificantBitsUUID";
+    public static String leastUUID = "LeastSignificantBitsUUID";
     public static String items = "Items";
     public static String slot = "Slot";
     public static String originalBlockID = "OriginalBlockID";

@@ -1,13 +1,13 @@
 package palaster.bb.blocks.tile;
 
+import java.util.UUID;
+
 import net.minecraft.nbt.NBTTagCompound;
 import palaster.bb.libs.LibNBT;
 
-import java.util.UUID;
-
 public class TileEntityCommunityTool extends TileEntityModInventory {
 
-    private UUID owner;
+	private UUID owner;
 
     public TileEntityCommunityTool() { super(1); }
 
@@ -16,22 +16,23 @@ public class TileEntityCommunityTool extends TileEntityModInventory {
 
     @Override
     public String getName() { return "container.communityTool"; }
-
+    
     @Override
     public void readFromNBT(NBTTagCompound compound) {
         super.readFromNBT(compound);
-        if(compound.getString(LibNBT.ownerUUID).isEmpty())
-            owner = UUID.fromString(compound.getString(LibNBT.ownerUUID));
+        UUID test = new UUID(compound.getLong(LibNBT.mostUUID), compound.getLong(LibNBT.leastUUID));
+    	if(test != null)
+    		owner = test;
     }
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound compound) {
-        if(owner != null)
-            compound.setString(LibNBT.ownerUUID, owner.toString());
+    	compound.setLong(LibNBT.mostUUID, owner.getMostSignificantBits());
+        compound.setLong(LibNBT.leastUUID, owner.getLeastSignificantBits());
         return super.writeToNBT(compound);
     }
 
     public UUID getOwner() { return owner; }
 
-    public void setOwner(UUID owner) { this.owner = owner; }
+    public void setOwner(UUID player) { this.owner = player; }
 }
