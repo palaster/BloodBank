@@ -20,9 +20,9 @@ public class TileEntityCommunityTool extends TileEntityModInventory {
     @Override
     public void readFromNBT(NBTTagCompound compound) {
         super.readFromNBT(compound);
-        UUID test = new UUID(compound.getLong(LibNBT.mostUUID), compound.getLong(LibNBT.leastUUID));
-    	if(test != null)
-    		owner = test;
+        UUID uuid = new UUID(compound.getLong(LibNBT.mostUUID), compound.getLong(LibNBT.leastUUID));
+    	if(uuid != null)
+    		owner = uuid;
     }
 
     @Override

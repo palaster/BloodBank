@@ -1,5 +1,7 @@
 package palaster.bb.items;
 
+import java.util.List;
+
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -9,8 +11,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import palaster.bb.api.capabilities.items.IVampiric;
 import palaster.bb.libs.LibNBT;
-
-import java.util.List;
 
 public abstract class ItemModStaff extends ItemModSpecial implements IVampiric {
 	
@@ -23,7 +23,7 @@ public abstract class ItemModStaff extends ItemModSpecial implements IVampiric {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack stack, EntityPlayer playerIn, List tooltip, boolean advanced) {
+	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
 		if(stack.hasTagCompound())
 			tooltip.add(I18n.format("bb.staff.active") + ": " + I18n.format(((ItemModStaff) stack.getItem()).powers[getActivePower(stack)]));
 	}

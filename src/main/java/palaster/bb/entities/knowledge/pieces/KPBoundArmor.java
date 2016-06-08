@@ -11,8 +11,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import palaster.bb.api.capabilities.items.IKnowledgePiece;
 import palaster.bb.core.helpers.BBItemStackHelper;
-import palaster.bb.items.BBArmor;
 import palaster.bb.items.BBItems;
+import palaster.bb.items.BoundArmor;
 
 public class KPBoundArmor implements IKnowledgePiece {
 
@@ -28,13 +28,13 @@ public class KPBoundArmor implements IKnowledgePiece {
             if(playerIn.inventory.armorInventory[i] != null) {
                 if(playerIn.inventory.armorInventory[i].getItem() == BBItems.boundHelmet || playerIn.inventory.armorInventory[i].getItem() == BBItems.boundChestplate || playerIn.inventory.armorInventory[i].getItem() == BBItems.boundLeggings || playerIn.inventory.armorInventory[i].getItem() == BBItems.boundBoots) {
                     if(playerIn.inventory.armorInventory[i].getItem() == BBItems.boundHelmet)
-                        BBArmor.removeBoundArmorFromArmor(playerIn.inventory.armorInventory[i], playerIn, 3);
+                        BoundArmor.removeBoundArmorFromArmor(playerIn.inventory.armorInventory[i], playerIn, 3);
                     else if(playerIn.inventory.armorInventory[i].getItem() == BBItems.boundChestplate)
-                        BBArmor.removeBoundArmorFromArmor(playerIn.inventory.armorInventory[i], playerIn, 2);
+                    	BoundArmor.removeBoundArmorFromArmor(playerIn.inventory.armorInventory[i], playerIn, 2);
                     else if(playerIn.inventory.armorInventory[i].getItem() == BBItems.boundLeggings)
-                        BBArmor.removeBoundArmorFromArmor(playerIn.inventory.armorInventory[i], playerIn, 1);
+                    	BoundArmor.removeBoundArmorFromArmor(playerIn.inventory.armorInventory[i], playerIn, 1);
                     else if(playerIn.inventory.armorInventory[i].getItem() == BBItems.boundBoots)
-                        BBArmor.removeBoundArmorFromArmor(playerIn.inventory.armorInventory[i], playerIn, 0);
+                    	BoundArmor.removeBoundArmorFromArmor(playerIn.inventory.armorInventory[i], playerIn, 0);
                 } else {
                     ItemStack boundArmor = new ItemStack(BBItems.boundHelmet);
                     switch(i) {

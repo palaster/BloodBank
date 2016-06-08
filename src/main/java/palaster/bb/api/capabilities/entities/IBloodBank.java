@@ -1,16 +1,11 @@
 package palaster.bb.api.capabilities.entities;
 
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 
 public interface IBloodBank {
 
-    void consumeBlood(EntityPlayer player, int amt);
-
     int getCurrentBlood();
-
-    void addBlood(int amt);
 
     void setCurrentBlood(int amt);
 

@@ -1,5 +1,6 @@
 package palaster.bb.items;
 
+import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
@@ -9,6 +10,7 @@ import net.minecraftforge.common.util.EnumHelper;
 public class BBItems {
 
 	public static ItemArmor.ArmorMaterial bound = EnumHelper.addArmorMaterial("bound", "bound", -1, new int[]{3, 7, 6, 3}, 0, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0f);
+	public static ItemArmor.ArmorMaterial sand = EnumHelper.addArmorMaterial("sand", "sand", 5, new int[]{1, 2, 3, 1}, 15, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0.0F);
 	
 	public static Item staffSkeleton,
 	staffEfreet,
@@ -21,7 +23,8 @@ public class BBItems {
 	letter,
 	undeadMonitor,
 	estusFlask,
-	ashenEstusFlask;
+	ashenEstusFlask,
+	armorActivator;
 
 	public static Item flames,
 	carthusFlameArc,
@@ -31,13 +34,19 @@ public class BBItems {
 	boundHelmet,
 	boundChestplate,
 	boundLeggings,
-	boundBoots;
+	boundBoots,
+	sandHelmet,
+	sandChestplate,
+	sandLeggings,
+	sandBoots;
 	
 	public static Item debug,
 	yinYang,
 	bbResources;
 	
 	public static void init() {
+		sand.customCraftingMaterial = Item.getItemFromBlock(Blocks.SAND);
+		
 		staffSkeleton = new ItemStaffSkeleton();
 		staffEfreet = new ItemStaffEfreet();
 		staffTime = new ItemStaffTime();
@@ -50,15 +59,20 @@ public class BBItems {
 		undeadMonitor = new ItemUndeadMonitor();
 		estusFlask = new ItemEstusFlask();
 		ashenEstusFlask = new ItemAshenEstusFlask();
+		armorActivator = new ItemArmorActivator();
 
 		flames = new ItemFlames();
 		carthusFlameArc = new ItemCarthusFlameArc();
 		sacredFlame = new ItemSacredFlame();
 
-		boundHelmet = new BBArmor(bound, 0, EntityEquipmentSlot.HEAD);
-		boundChestplate = new BBArmor(bound, 0, EntityEquipmentSlot.CHEST);
-		boundLeggings = new BBArmor(bound, 0, EntityEquipmentSlot.LEGS);
-		boundBoots = new BBArmor(bound, 0, EntityEquipmentSlot.FEET);
+		boundHelmet = new BoundArmor(bound, 0, EntityEquipmentSlot.HEAD);
+		boundChestplate = new BoundArmor(bound, 0, EntityEquipmentSlot.CHEST);
+		boundLeggings = new BoundArmor(bound, 0, EntityEquipmentSlot.LEGS);
+		boundBoots = new BoundArmor(bound, 0, EntityEquipmentSlot.FEET);
+		sandHelmet = new SandArmor(sand, 0, EntityEquipmentSlot.HEAD);
+		sandChestplate = new SandArmor(sand, 0, EntityEquipmentSlot.CHEST);
+		sandLeggings = new SandArmor(sand, 0, EntityEquipmentSlot.LEGS);
+		sandBoots = new SandArmor(sand, 0, EntityEquipmentSlot.FEET);
 		
 		debug = new ItemDebug();
 		yinYang = new ItemYinYang();

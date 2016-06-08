@@ -13,7 +13,12 @@ import net.minecraftforge.fml.common.network.IGuiHandler;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import palaster.bb.BloodBank;
-import palaster.bb.api.capabilities.entities.*;
+import palaster.bb.api.capabilities.entities.BloodBankCapabilityFactory;
+import palaster.bb.api.capabilities.entities.BloodBankCapabilityStorage;
+import palaster.bb.api.capabilities.entities.IBloodBank;
+import palaster.bb.api.capabilities.entities.IUndead;
+import palaster.bb.api.capabilities.entities.UndeadCapabilityFactory;
+import palaster.bb.api.capabilities.entities.UndeadCapabilityStorage;
 import palaster.bb.blocks.BBBlocks;
 import palaster.bb.blocks.tile.TileEntityModInventory;
 import palaster.bb.client.gui.GuiLetter;
@@ -34,7 +39,7 @@ import palaster.bb.network.PacketHandler;
 import palaster.bb.recipes.BBRecipes;
 
 public class CommonProxy implements IGuiHandler {
-
+	
 	public DamageSource bbBlood = (new DamageSource("bbBlood")).setDamageBypassesArmor().setMagicDamage();
 	
 	public void preInit() {

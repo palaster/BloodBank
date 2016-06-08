@@ -1,11 +1,14 @@
 package palaster.bb.items;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.MobEffects;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
@@ -40,7 +43,7 @@ import palaster.bb.libs.LibNBT;
 
 public class ItemBBResources extends Item {
 
-    public static String[] names = new String[]{"bankContract", "bankID", "wormEater", "vampireSigil", "urn"};
+    public static String[] names = new String[]{"bankContract", "bankID", "wormEater", "vampireSigil", "urn", "denseSandParticle"};
 
     public ItemBBResources() {
         super();
@@ -156,6 +159,19 @@ public class ItemBBResources extends Item {
                 }
             }
         return EnumActionResult.PASS;
+    }
+    
+    @Override
+    public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+    	if(!worldIn.isRemote)
+    		if(stack.getItemDamage() == 5 && entityIn instanceof EntityPlayer)
+    			if(((EntityPlayer) entityIn).getActivePotionEffect(MobEffects.SLOWNESS) != null) {
+    				WeakReference<PotionEffect> pe = new WeakReference<PotionEffect>(((EntityPlayer) entityIn).getActivePotionEffect(MobEffects.SLOWNESS));
+    				((EntityPlayer) entityIn).removeActivePotionEffect(MobEffects.SLOWNESS);
+    				if(pe != null && pe.get() != null)
+    					((EntityPlayer) entityIn).addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 1, pe.get().getAmplifier() + 1, false, true));
+    			} else 
+    				((EntityPlayer) entityIn).addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 1, 0, false, true));    				
     }
 
     @Override

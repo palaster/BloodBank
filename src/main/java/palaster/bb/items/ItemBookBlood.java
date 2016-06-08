@@ -1,5 +1,7 @@
 package palaster.bb.items;
 
+import java.util.List;
+
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -17,8 +19,6 @@ import palaster.bb.api.BBApi;
 import palaster.bb.entities.knowledge.BBKnowledge;
 import palaster.bb.libs.LibNBT;
 
-import java.util.List;
-
 public class ItemBookBlood extends ItemModSpecial {
 
     public ItemBookBlood() {
@@ -28,7 +28,7 @@ public class ItemBookBlood extends ItemModSpecial {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack stack, EntityPlayer playerIn, List tooltip, boolean advanced) {
+    public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
         if(stack.hasTagCompound() && stack.getTagCompound().getInteger(LibNBT.knowledgePiece) >= 0)
             tooltip.add(I18n.format("bb.knowledgePiece") + ": " + I18n.format(BBKnowledge.getKnowledgePiece(stack.getTagCompound().getInteger(LibNBT.knowledgePiece)).getName()));
     }

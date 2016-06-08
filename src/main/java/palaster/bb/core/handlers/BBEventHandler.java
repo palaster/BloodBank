@@ -7,15 +7,17 @@ import org.lwjgl.input.Keyboard;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
-import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
@@ -26,17 +28,14 @@ import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import palaster.bb.BloodBank;
 import palaster.bb.api.BBApi;
 import palaster.bb.api.capabilities.entities.BloodBankCapabilityProvider;
 import palaster.bb.api.capabilities.entities.UndeadCapabilityProvider;
-import palaster.bb.core.helpers.BBItemStackHelper;
 import palaster.bb.entities.effects.BBPotions;
 import palaster.bb.entities.knowledge.BBKnowledge;
-import palaster.bb.items.BBArmor;
 import palaster.bb.items.BBItems;
 import palaster.bb.items.ItemBookBlood;
 import palaster.bb.items.ItemModStaff;
@@ -154,11 +153,20 @@ public class BBEventHandler {
 		if(!e.getEntityLiving().worldObj.isRemote) {
 			if(e.getEntityLiving() instanceof EntityPlayer) {
 				EntityPlayer p = (EntityPlayer) e.getEntityLiving();
-				if(e.getSource().getEntity() != null)
+				if(e.getSource().getEntity() != null) {
 					if(BBApi.getLinked(p) != null) {
 						BBApi.getLinked(p).attackEntityFrom(BloodBank.proxy.bbBlood, e.getAmount());
 						e.setCanceled(true);
 					}
+					if(p.getActivePotionEffect(BBPotions.sandBody) != null)
+						if(e.getSource().getEntity() instanceof EntityPlayer) {
+							((EntityPlayer) e.getSource().getEntity()).inventory.addItemStackToInventory(new ItemStack(BBItems.bbResources, 1, 5));
+							e.setCanceled(true);
+						} else if(e.getSource().getEntity() instanceof EntityLiving) {
+							((EntityLiving) e.getSource().getEntity()).addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 600, 2, false, true));
+							e.setCanceled(true);
+						}
+				}
 			}
 		}
 	}
@@ -174,34 +182,6 @@ public class BBEventHandler {
 		if(!e.getEntityLiving().worldObj.isRemote)
 			if(e.getEntityLiving().getActivePotionEffect(BBPotions.timedFlame) != null && e.getEntityLiving().getActivePotionEffect(BBPotions.timedFlame).getDuration() == 1)
 				e.getEntityLiving().setFire(300);
-	}
-
-	@SubscribeEvent
-	public void onPlayerTick(TickEvent.PlayerTickEvent e) {
-		if(!e.player.worldObj.isRemote)
-			if(e.phase == TickEvent.Phase.START)
-				for(int i = 0; i < e.player.inventory.armorInventory.length; i++)
-					if(e.player.inventory.armorInventory[i] != null) {
-						if(e.player.inventory.armorInventory[i].getItem() == BBItems.boundHelmet)
-							e.player.inventory.armorInventory[i].getItem().onUpdate(e.player.inventory.armorInventory[i], e.player.worldObj, e.player, 103, false);
-						if(e.player.inventory.armorInventory[i].getItem() == BBItems.boundChestplate)
-							e.player.inventory.armorInventory[i].getItem().onUpdate(e.player.inventory.armorInventory[i], e.player.worldObj, e.player, 102, false);
-						if(e.player.inventory.armorInventory[i].getItem() == BBItems.boundLeggings)
-							e.player.inventory.armorInventory[i].getItem().onUpdate(e.player.inventory.armorInventory[i], e.player.worldObj, e.player, 101, false);
-						if(e.player.inventory.armorInventory[i].getItem() == BBItems.boundBoots)
-							e.player.inventory.armorInventory[i].getItem().onUpdate(e.player.inventory.armorInventory[i], e.player.worldObj, e.player, 100, false);
-					}
-	}
-
-	@SubscribeEvent
-	public void onItemToss(ItemTossEvent e) {
-		if(!e.getPlayer().worldObj.isRemote)
-			if(e.getEntityItem().getEntityItem() != null && e.getEntityItem().getEntityItem().getItem() instanceof BBArmor) {
-				if(e.getEntityItem().getEntityItem().getItem() == BBItems.boundHelmet || e.getEntityItem().getEntityItem().getItem() == BBItems.boundChestplate || e.getEntityItem().getEntityItem().getItem() == BBItems.boundLeggings || e.getEntityItem().getEntityItem().getItem() == BBItems.boundBoots)
-					if(BBItemStackHelper.getItemStackFromItemStack(e.getEntityItem().getEntityItem()) != null)
-						e.getPlayer().worldObj.spawnEntityInWorld(new EntityItem(e.getPlayer().worldObj, e.getPlayer().posX, e.getPlayer().posY, e.getPlayer().posZ, BBItemStackHelper.getItemStackFromItemStack(e.getEntityItem().getEntityItem())));
-				e.setCanceled(true);
-			}
 	}
 
 	@SubscribeEvent
