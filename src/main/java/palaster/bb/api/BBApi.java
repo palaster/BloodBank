@@ -118,6 +118,13 @@ public class BBApi {
             bloodBank.setBloodMax(amt);
         syncServerToClient(player);
     }
+    
+    public static boolean isLinked(EntityPlayer player) {
+        final IBloodBank bloodBank = BloodBankCapabilityProvider.get(player);
+        if(bloodBank != null)
+            return bloodBank.isLinked();
+        return false;
+    }
 
     public static void linkEntity(EntityPlayer player, EntityLiving entityLiving) {
         final IBloodBank bloodBank = BloodBankCapabilityProvider.get(player);

@@ -30,6 +30,11 @@ public class BloodBankCapabilityDefault implements IBloodBank {
 
     @Override
     public void setBloodMax(int amt) { bloodMax = (amt > 0 ? amt : 0); }
+    
+    @Override
+    public boolean isLinked() {
+    	return link != null && link.get() != null;
+    }
 
     @Override
     public void linkEntity(EntityLiving entityLiving) {

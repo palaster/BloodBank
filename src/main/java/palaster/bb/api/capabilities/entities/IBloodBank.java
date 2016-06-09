@@ -12,6 +12,8 @@ public interface IBloodBank {
     int getBloodMax();
 
     void setBloodMax(int amt);
+    
+    boolean isLinked();
 
     void linkEntity(EntityLiving entityLiving);
 

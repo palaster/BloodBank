@@ -87,7 +87,8 @@ public class BBEventHandler {
 				// Clone Player from death for Blood Bank.
 				BBApi.setMaxBlood(e.getEntityPlayer(), BBApi.getMaxBlood(e.getOriginal()));
 				BBApi.setCurrentBlood(e.getEntityPlayer(), BBApi.getCurrentBlood(e.getOriginal()));
-				BBApi.linkEntity(e.getEntityPlayer(), BBApi.getLinked(e.getOriginal()));
+				if(BBApi.isLinked(e.getOriginal()))
+					BBApi.linkEntity(e.getEntityPlayer(), BBApi.getLinked(e.getOriginal()));
 
 				// Clone Player from death for Blood Bank.
 				BBApi.setUndead(e.getEntityPlayer(), BBApi.isUndead(e.getOriginal()));
@@ -128,7 +129,7 @@ public class BBEventHandler {
 			for(Entity entity : e.getEntityLiving().worldObj.loadedEntityList)
 				if(entity instanceof EntityPlayer) {
 					EntityPlayer player = (EntityPlayer) entity;
-					if(BBApi.getLinked(player) != null && BBApi.getLinked(player).getUniqueID() == e.getEntityLiving().getUniqueID())
+					if(BBApi.isLinked(player) && e.getEntityLiving().getUniqueID().equals(BBApi.getLinked(player).getUniqueID()))
 						BBApi.linkEntity(player, null);
 				}
 			if(e.getEntityLiving() instanceof EntityPlayer)
@@ -154,7 +155,7 @@ public class BBEventHandler {
 			if(e.getEntityLiving() instanceof EntityPlayer) {
 				EntityPlayer p = (EntityPlayer) e.getEntityLiving();
 				if(e.getSource().getEntity() != null) {
-					if(BBApi.getLinked(p) != null) {
+					if(BBApi.isLinked(p)) {
 						BBApi.getLinked(p).attackEntityFrom(BloodBank.proxy.bbBlood, e.getAmount());
 						e.setCanceled(true);
 					}
