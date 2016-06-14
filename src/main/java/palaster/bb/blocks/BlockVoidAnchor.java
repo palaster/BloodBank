@@ -20,8 +20,10 @@ public class BlockVoidAnchor extends BlockModContainer {
 		super(p_i45394_1_);
 		setUnlocalizedName("voidAnchor");
 	}
+	
+	@Override
+	public boolean isOpaqueCube(IBlockState state) { return false; }
 
-	// TODO : Look into this
 	@Override
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) { return new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.25D, 1.0D); }
 

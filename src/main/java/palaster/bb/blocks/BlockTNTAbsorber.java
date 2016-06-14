@@ -1,9 +1,12 @@
 package palaster.bb.blocks;
 
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.common.MinecraftForge;
@@ -57,6 +60,12 @@ public class BlockTNTAbsorber extends BlockModContainer {
 				}
 		}
 	}
+	
+	@Override
+	public boolean isOpaqueCube(IBlockState state) { return false; }
+	
+	@Override
+	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) { return new AxisAlignedBB(0.25D, 0.0D, 0.25D, 0.75D, 0.8D, 0.75D); }
 
 	@Override
 	public TileEntity createNewTileEntity(World worldIn, int meta) { return new TileEntityTNTAbsorber(); }
