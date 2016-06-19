@@ -66,7 +66,7 @@ public class BlockTNTAbsorber extends BlockModContainer {
 	
 	@Override
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) { return new AxisAlignedBB(0.25D, 0.0D, 0.25D, 0.75D, 0.8D, 0.75D); }
-
+	
 	@Override
-	public TileEntity createNewTileEntity(World worldIn, int meta) { return new TileEntityTNTAbsorber(); }
+	public TileEntity createTileEntity(World world, IBlockState state) { return new TileEntityTNTAbsorber(); }
 }

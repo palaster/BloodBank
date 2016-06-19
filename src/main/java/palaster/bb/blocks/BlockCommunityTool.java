@@ -99,5 +99,5 @@ public class BlockCommunityTool extends BlockModContainer {
     }
 
     @Override
-    public TileEntity createNewTileEntity(World worldIn, int meta) { return new TileEntityCommunityTool(); }
+    public TileEntity createTileEntity(World world, IBlockState state) { return new TileEntityCommunityTool(); }
 }

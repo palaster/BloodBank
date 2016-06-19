@@ -44,7 +44,7 @@ public class BlockVoid extends BlockModContainer {
 				super.breakBlock(worldIn, pos, state);
 		}
 	}
-
+	
 	@Override
-	public TileEntity createNewTileEntity(World worldIn, int meta) { return new TileEntityVoid(); }
+	public TileEntity createTileEntity(World world, IBlockState state) { return new TileEntityVoid(); }
 }

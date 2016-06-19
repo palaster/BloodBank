@@ -1,7 +1,12 @@
 package palaster.bb.libs;
 
 public class LibNBT {
-
+	
+	// Basic
+	public static String number = "Number";
+	public static String string = "String";
+	public static String tag = "NBTTagCompound";
+	
     // Blood Mage
     public static String currentBlood = "CurrentBlood";
     public static String maxBlood = "MaxBlood";
@@ -19,8 +24,7 @@ public class LibNBT {
     public static String faith = "Faith";
 
     // TileEntity
-    public static String mostUUID = "MostSignificantBitsUUID";
-    public static String leastUUID = "LeastSignificantBitsUUID";
+    public static String uuid = "UUID";
     public static String items = "Items";
     public static String slot = "Slot";
     public static String originalBlockID = "OriginalBlockID";
