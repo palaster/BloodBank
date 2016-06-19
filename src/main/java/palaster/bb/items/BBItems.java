@@ -24,7 +24,9 @@ public class BBItems {
 	undeadMonitor,
 	estusFlask,
 	ashenEstusFlask,
-	armorActivator;
+	armorActivator,
+	resurrectionStone,
+	ghostWhisper;
 
 	public static Item flames,
 	carthusFlameArc,
@@ -60,6 +62,8 @@ public class BBItems {
 		estusFlask = new ItemEstusFlask();
 		ashenEstusFlask = new ItemAshenEstusFlask();
 		armorActivator = new ItemArmorActivator();
+		resurrectionStone = new ItemResurrectionStone();
+		ghostWhisper = new ItemGhostWhisper();
 
 		flames = new ItemFlames();
 		carthusFlameArc = new ItemCarthusFlameArc();

@@ -12,6 +12,7 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -28,6 +29,7 @@ import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import palaster.bb.BloodBank;
@@ -146,6 +148,11 @@ public class BBEventHandler {
 				if(BBApi.isUndead(p))
 					BBApi.addSoul(p, (int) e.getEntityLiving().getMaxHealth());
 			}
+			if(e.getEntityLiving() instanceof EntityLiving) {
+				NBTTagCompound nbt = new NBTTagCompound();
+				((EntityLiving) e.getEntityLiving()).writeToNBTAtomically(nbt);
+				BBWorldSaveData.get(e.getEntityLiving().worldObj).addDeadEntity(nbt);
+			}
 		}
 	}
 
@@ -183,6 +190,13 @@ public class BBEventHandler {
 		if(!e.getEntityLiving().worldObj.isRemote)
 			if(e.getEntityLiving().getActivePotionEffect(BBPotions.timedFlame) != null && e.getEntityLiving().getActivePotionEffect(BBPotions.timedFlame).getDuration() == 1)
 				e.getEntityLiving().setFire(300);
+	}
+
+	@SubscribeEvent
+	public void onWorldTick(TickEvent.WorldTickEvent e) {
+		if(e.side.isServer())
+			if((e.world.getTotalWorldTime() % 168000) == 0)
+				BBWorldSaveData.get(e.world).clearDeadEntities(e.world); // 14 Minecraft Days
 	}
 
 	@SubscribeEvent

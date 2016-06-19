@@ -29,8 +29,11 @@ public class BBRecipes {
 		GameRegistry.addRecipe(new ItemStack(BBBlocks.tntAbsorber), "xxx", "yyy", " z ", 'x', Items.WATER_BUCKET, 'y', Blocks.TNT, 'z', Items.ENDER_PEARL);
 
 		// Items
-		GameRegistry.addRecipe(new ItemStack(BBItems.bbResources, 1, 0), "xxx", "xyx", "xxx", 'x', Items.PAPER, 'y', Blocks.NETHERRACK);
 		GameRegistry.addRecipe(new ItemStack(BBItems.letter), "xxx", "xyx", "xxx", 'x', Items.PAPER, 'y', Items.FEATHER);
+		GameRegistry.addRecipe(new ItemStack(BBItems.resurrectionStone), "xyx", "yzy", "xyx", 'x', Blocks.SOUL_SAND, 'y', Items.EMERALD, 'z', Items.NETHER_STAR);
+		GameRegistry.addRecipe(new ItemStack(BBItems.ghostWhisper), "xyx", "yzy", "xyx", 'x', Blocks.SOUL_SAND, 'y', Items.DIAMOND, 'z', Blocks.GLASS);
+		
+		GameRegistry.addRecipe(new ItemStack(BBItems.bbResources, 1, 0), "xxx", "xyx", "xxx", 'x', Items.PAPER, 'y', Blocks.NETHERRACK);
 		GameRegistry.addRecipe(new ItemStack(BBItems.bbResources, 1, 3), "xyx", "yzy", "xyx", 'x', Blocks.STONE, 'y', Items.EMERALD, 'z', Items.ROTTEN_FLESH);
 		GameRegistry.addRecipe(new ItemStack(BBItems.bbResources, 1, 4), "   ", "yzy", " y ", 'y', Items.NETHERBRICK, 'z', Items.FIRE_CHARGE);
 		

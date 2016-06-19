@@ -33,6 +33,8 @@ item.bb:undeadMonitor.name=Undead Monitor
 item.bb:estusFlask.name=Estus Flask
 item.bb:ashenEstusFlask.name=Ashen Estus Flask
 item.bb:armorActivator.name=Armor Activator
+item.bb:resurrectionStone.name=Resurrection Stone
+item.bb:ghostWhisper.name=Ghost Whisper
 
 item.bb:flames.name=Flames
 item.bb:carthusFlameArc.name=Carthus Flame Arc
@@ -74,6 +76,8 @@ bb.misc.amountLeft=Amount Left
 bb.misc.timeLeft=Time Left
 bb.misc.minutes=Minutes
 bb.misc.seconds=Seconds
+bb.misc.deadEntity=Dead Entity
+bb.misc.ghostWhisper=You hear the whispers of a 
 
 bb.bank.join=Welcome to the First National Bank of Blood, you start out with a max balance of 2000. Use this bank ID card to keep in contact.
 bb.bank.refuse=You already have an account with this bank.
