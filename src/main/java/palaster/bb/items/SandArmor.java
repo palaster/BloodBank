@@ -21,6 +21,7 @@ public class SandArmor extends BBArmor implements ISpecialArmorAbility {
 
 	public SandArmor(ArmorMaterial material, int renderIndex, EntityEquipmentSlot entityEquipmentSlot) {
 		super(material, renderIndex, entityEquipmentSlot);
+		setUnlocalizedName("sand." + armorType);
 		if(entityEquipmentSlot == EntityEquipmentSlot.HEAD)
 			MinecraftForge.EVENT_BUS.register(this);
 	}

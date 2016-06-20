@@ -187,13 +187,12 @@ public class ItemBBResources extends Item {
     public Item setUnlocalizedName(String unlocalizedName) {
         setRegistryName(new ResourceLocation(LibMod.modid, unlocalizedName));
         GameRegistry.register(this);
-        setCustomModelResourceLocation();
         return super.setUnlocalizedName(LibMod.modid + ":" + unlocalizedName);
     }
 
     @SideOnly(Side.CLIENT)
-    public void setCustomModelResourceLocation() {
+    public static void setCustomModelResourceLocation(Item item) {
         for(int i = 0; i < names.length; i++)
-            ModelLoader.setCustomModelResourceLocation(this, i, new ModelResourceLocation(LibMod.modid + ":" + names[i], "inventory"));
+            ModelLoader.setCustomModelResourceLocation(item, i, new ModelResourceLocation(LibMod.modid + ":" + names[i], "inventory"));
     }
 }

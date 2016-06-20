@@ -34,7 +34,7 @@ ext.config = parseConfig(configFile)
 
 version = "${config.version}"
 group= "palaster.bb"
-archivesBaseName = "Blood Bank"
+archivesBaseName = "BloodBank"
 
 minecraft {
     version = "${config.mc_version}-${config.forge_version}"

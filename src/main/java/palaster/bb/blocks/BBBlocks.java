@@ -37,6 +37,15 @@ public class BBBlocks {
 		
 		registerTileEntity(TileEntityVoid.class, "void");
 	}
+	
+	public static void registerCustomModelResourceLocation() {
+		BlockMod.setCustomModelResourceLocation(voidAnchor);
+		BlockMod.setCustomModelResourceLocation(communityTool);
+		BlockMod.setCustomModelResourceLocation(bonfire);
+		BlockMod.setCustomModelResourceLocation(tntAbsorber);
+		
+		BlockMod.setCustomModelResourceLocation(touchVoid);
+	}
 
 	private static void registerTileEntity(Class<? extends TileEntity> tile, String name) { GameRegistry.registerTileEntity(tile, name); }
 }

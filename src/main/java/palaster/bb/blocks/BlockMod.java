@@ -27,10 +27,9 @@ public abstract class BlockMod extends Block {
 		setRegistryName(new ResourceLocation(LibMod.modid, name));
 		GameRegistry.register(this);
 		GameRegistry.register(new ItemBlock(this).setRegistryName(getRegistryName()));
-		setCustomModelResourceLocation();
 		return super.setUnlocalizedName(LibMod.modid + ":" + name);
 	}
 
 	@SideOnly(Side.CLIENT)
-	public void setCustomModelResourceLocation() { ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(this), 0, new ModelResourceLocation(getRegistryName(), "inventory")); }
+	public static void setCustomModelResourceLocation(Block block) { ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), 0, new ModelResourceLocation(block.getRegistryName(), "inventory")); }
 }

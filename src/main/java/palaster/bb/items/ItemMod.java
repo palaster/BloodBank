@@ -21,10 +21,9 @@ public abstract class ItemMod extends Item {
 	public Item setUnlocalizedName(String unlocalizedName) {
 		setRegistryName(new ResourceLocation(LibMod.modid, unlocalizedName));
 		GameRegistry.register(this);
-		setCustomModelResourceLocation();
 		return super.setUnlocalizedName(LibMod.modid + ":" + unlocalizedName);
 	}
 
 	@SideOnly(Side.CLIENT)
-	public void setCustomModelResourceLocation() { ModelLoader.setCustomModelResourceLocation(this, 0, new ModelResourceLocation(getRegistryName(), "inventory")); }
+	public static void setCustomModelResourceLocation(Item item) { ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(item.getRegistryName(), "inventory")); }
 }

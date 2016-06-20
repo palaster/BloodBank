@@ -82,4 +82,38 @@ public class BBItems {
 		yinYang = new ItemYinYang();
 		bbResources = new ItemBBResources();
 	}
+	
+	public static void registerCustomModelResourceLocation() {
+		ItemMod.setCustomModelResourceLocation(staffSkeleton);
+		ItemMod.setCustomModelResourceLocation(staffEfreet);
+		ItemMod.setCustomModelResourceLocation(staffTime);
+		ItemMod.setCustomModelResourceLocation(staffVoidWalker);
+		ItemMod.setCustomModelResourceLocation(staffHungryShadows);
+		ItemMod.setCustomModelResourceLocation(animalHerder);
+		ItemMod.setCustomModelResourceLocation(bloodBottle);
+		ItemMod.setCustomModelResourceLocation(letter);
+		ItemMod.setCustomModelResourceLocation(undeadMonitor);
+		ItemMod.setCustomModelResourceLocation(estusFlask);
+		ItemMod.setCustomModelResourceLocation(ashenEstusFlask);
+		ItemMod.setCustomModelResourceLocation(armorActivator);
+		ItemMod.setCustomModelResourceLocation(resurrectionStone);
+		ItemMod.setCustomModelResourceLocation(ghostWhisper);
+		
+		ItemMod.setCustomModelResourceLocation(flames);
+		ItemMod.setCustomModelResourceLocation(carthusFlameArc);
+		ItemMod.setCustomModelResourceLocation(sacredFlame);
+		
+		ItemMod.setCustomModelResourceLocation(boundHelmet);
+		ItemMod.setCustomModelResourceLocation(boundChestplate);
+		ItemMod.setCustomModelResourceLocation(boundLeggings);
+		ItemMod.setCustomModelResourceLocation(boundBoots);
+		ItemMod.setCustomModelResourceLocation(sandHelmet);
+		ItemMod.setCustomModelResourceLocation(sandChestplate);
+		ItemMod.setCustomModelResourceLocation(sandLeggings);
+		ItemMod.setCustomModelResourceLocation(sandBoots);
+		
+		ItemMod.setCustomModelResourceLocation(debug);
+		ItemMod.setCustomModelResourceLocation(yinYang);
+		ItemBBResources.setCustomModelResourceLocation(bbResources);
+	}
 }

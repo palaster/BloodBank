@@ -7,7 +7,10 @@ import net.minecraft.util.IThreadListener;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import org.lwjgl.input.Keyboard;
+
+import palaster.bb.blocks.BBBlocks;
 import palaster.bb.entities.BBEntities;
+import palaster.bb.items.BBItems;
 
 public class ClientProxy extends CommonProxy {
 
@@ -16,6 +19,8 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void preInit() {
 		super.preInit();
+		BBBlocks.registerCustomModelResourceLocation();
+		BBItems.registerCustomModelResourceLocation();
 		BBEntities.registerEntityRenderers();
 	}
 

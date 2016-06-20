@@ -15,6 +15,7 @@ public class BoundArmor extends BBArmor {
 
 	public BoundArmor(ArmorMaterial material, int renderIndex, EntityEquipmentSlot entityEquipmentSlot) {
 		super(material, renderIndex, entityEquipmentSlot);
+		setUnlocalizedName("bound." + armorType);
 		setMaxDamage(6000);
 		if(entityEquipmentSlot == EntityEquipmentSlot.HEAD)
 			MinecraftForge.EVENT_BUS.register(this);
