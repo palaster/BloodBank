@@ -84,25 +84,23 @@ public class BBEventHandler {
 
 	@SubscribeEvent
 	public void onClonePlayer(PlayerEvent.Clone e) {
-		if(!e.getEntityPlayer().worldObj.isRemote)
-			if(e.isWasDeath()) {
-				// Clone Player from death for Blood Bank.
-				BBApi.setMaxBlood(e.getEntityPlayer(), BBApi.getMaxBlood(e.getOriginal()));
-				BBApi.setCurrentBlood(e.getEntityPlayer(), BBApi.getCurrentBlood(e.getOriginal()));
-				if(BBApi.isLinked(e.getOriginal()))
-					BBApi.linkEntity(e.getEntityPlayer(), BBApi.getLinked(e.getOriginal()));
+		if(!e.getEntityPlayer().worldObj.isRemote) {
+			BBApi.setMaxBlood(e.getEntityPlayer(), BBApi.getMaxBlood(e.getOriginal()));
+			BBApi.setCurrentBlood(e.getEntityPlayer(), BBApi.getCurrentBlood(e.getOriginal()));
+			if(BBApi.isLinked(e.getOriginal()))
+				BBApi.linkEntity(e.getEntityPlayer(), BBApi.getLinked(e.getOriginal()));
 
-				// Clone Player from death for Blood Bank.
-				BBApi.setUndead(e.getEntityPlayer(), BBApi.isUndead(e.getOriginal()));
-				BBApi.setSoul(e.getEntityPlayer(), BBApi.getSoul(e.getOriginal()));
-				BBApi.setFocus(e.getEntityPlayer(), BBApi.getFocus(e.getEntityPlayer()));
-				BBApi.setFocusMax(e.getEntityPlayer(), BBApi.getFocusMax(e.getEntityPlayer()));
-				BBApi.setVigor(e.getEntityPlayer(), BBApi.getVigor(e.getOriginal()));
-				BBApi.setAttunement(e.getEntityPlayer(), BBApi.getAttunement(e.getOriginal()));
-				BBApi.setStrength(e.getEntityPlayer(), BBApi.getStrength(e.getOriginal()));
-				BBApi.setIntelligence(e.getEntityPlayer(), BBApi.getIntelligence(e.getOriginal()));
-				BBApi.setFaith(e.getEntityPlayer(), BBApi.getFaith(e.getOriginal()));
+			BBApi.setUndead(e.getEntityPlayer(), BBApi.isUndead(e.getOriginal()));
+			BBApi.setSoul(e.getEntityPlayer(), BBApi.getSoul(e.getOriginal()));
+			BBApi.setFocus(e.getEntityPlayer(), BBApi.getFocus(e.getEntityPlayer()));
+			BBApi.setFocusMax(e.getEntityPlayer(), BBApi.getFocusMax(e.getEntityPlayer()));
+			BBApi.setVigor(e.getEntityPlayer(), BBApi.getVigor(e.getOriginal()));
+			BBApi.setAttunement(e.getEntityPlayer(), BBApi.getAttunement(e.getOriginal()));
+			BBApi.setStrength(e.getEntityPlayer(), BBApi.getStrength(e.getOriginal()));
+			BBApi.setIntelligence(e.getEntityPlayer(), BBApi.getIntelligence(e.getOriginal()));
+			BBApi.setFaith(e.getEntityPlayer(), BBApi.getFaith(e.getOriginal()));
 
+			if(e.isWasDeath())
 				if(BBApi.isUndead(e.getOriginal())) {
 					BBWorldSaveData bbWorldSaveData = BBWorldSaveData.get(e.getOriginal().worldObj);
 					if(bbWorldSaveData != null) {
@@ -112,7 +110,7 @@ public class BBEventHandler {
 					}
 					e.getEntityPlayer().inventory.copyInventory(e.getOriginal().inventory);
 				}
-			}
+		}
 	}
 
 	@SubscribeEvent

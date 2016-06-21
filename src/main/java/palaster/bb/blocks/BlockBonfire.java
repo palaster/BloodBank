@@ -59,7 +59,7 @@ public class BlockBonfire extends BlockMod {
     public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
         if(!worldIn.isRemote)
             if(placer instanceof EntityPlayer)
-                if(BBApi.isUndead((EntityPlayer) placer))
+                if(BBApi.isUndead((EntityPlayer) placer) && worldIn.provider.getDimension() == 0)
                     return super.onBlockPlaced(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer);
         return Blocks.AIR.getDefaultState();
     }
