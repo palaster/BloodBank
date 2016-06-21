@@ -5,9 +5,9 @@ import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import palaster.bb.blocks.tile.TileEntityCommunityTool;
-import palaster.bb.blocks.tile.TileEntityModInventory;
 import palaster.bb.blocks.tile.TileEntityTNTAbsorber;
 import palaster.bb.blocks.tile.TileEntityVoid;
+import palaster.bb.blocks.tile.TileEntityVoidAnchor;
 
 public class BBBlocks {
 	
@@ -30,8 +30,7 @@ public class BBBlocks {
 	}
 	
 	public static void registerTileEntities() {
-		registerTileEntity(TileEntityModInventory.class, "tileEntityModInventory");
-		
+		registerTileEntity(TileEntityVoidAnchor.class, "voidAnchor");
 		registerTileEntity(TileEntityCommunityTool.class, "communityTool");
 		registerTileEntity(TileEntityTNTAbsorber.class, "tntAbsorber");
 		

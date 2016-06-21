@@ -12,7 +12,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import palaster.bb.BloodBank;
-import palaster.bb.blocks.tile.TileEntityModInventory;
+import palaster.bb.blocks.tile.TileEntityVoidAnchor;
 
 public class BlockVoidAnchor extends BlockModContainer {
 
@@ -35,10 +35,5 @@ public class BlockVoidAnchor extends BlockModContainer {
 	}
 	
 	@Override
-	public TileEntity createTileEntity(World world, IBlockState state) {
-		return new TileEntityModInventory(18) {
-			@Override
-			public String getName() { return "container.voidAnchor"; }
-		};
-	}
+	public TileEntity createTileEntity(World world, IBlockState state) { return new TileEntityVoidAnchor(); }
 }

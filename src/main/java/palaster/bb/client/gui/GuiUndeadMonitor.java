@@ -45,12 +45,13 @@ public class GuiUndeadMonitor extends GuiContainer {
         fontRendererObj.drawString(I18n.format("bb.undead.intelligence") + ": " + BBApi.getIntelligence(player.get()), 6, 66, 4210752);
         fontRendererObj.drawString(I18n.format("bb.undead.faith") + ": " + BBApi.getFaith(player.get()), 6, 76, 4210752);
 
-        if(BBApi.getSoulCostForNextLevel(player.get()) > BBApi.getSoul(player.get()))
+        if(BBApi.getSoulCostForNextLevel(player.get()) > BBApi.getSoul(player.get())) {
             fontRendererObj.drawString(I18n.format("bb.undead.soulCost") + ": " + BBApi.getSoulCostForNextLevel(player.get()), 6, 96, 0x8A0707);
-        else if(BBApi.getSoulCostForNextLevel(player.get()) < BBApi.getSoul(player.get()))
+        } else if(BBApi.getSoulCostForNextLevel(player.get()) <= 0) {
             fontRendererObj.drawString(I18n.format("bb.undead.soulCost") + ": Free", 6, 96, 0x009900);
-        else
-            fontRendererObj.drawString(I18n.format("bb.undead.soulCost") + ": " + BBApi.getSoulCostForNextLevel(player.get()), 6, 96, 0x009900);
+        } else {
+        	fontRendererObj.drawString(I18n.format("bb.undead.soulCost") + ": " + BBApi.getSoulCostForNextLevel(player.get()), 6, 96, 0x009900);
+        }
 
         /*
         TODO: Fix bonfire not being found on client side.

@@ -133,6 +133,7 @@ public class ItemBBResources extends Item {
             			BBPlayerHelper.sendChatMessageToPlayer(playerIn, I18n.format("bb.bank.becomeUndead"));
             		}
             		playerIn.attackEntityFrom(DamageSource.inFire, playerIn.getMaxHealth() + 5f);
+            		return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, null);
             	}
         return super.onItemRightClick(itemStackIn, worldIn, playerIn, hand);
     }
