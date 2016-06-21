@@ -15,6 +15,7 @@ import net.minecraft.item.ItemSword;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -25,7 +26,6 @@ import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AnvilUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -54,23 +54,6 @@ public class ItemBBResources extends Item {
         setUnlocalizedName("bbResources");
         MinecraftForge.EVENT_BUS.register(this);
     }
-    
-    @SubscribeEvent
-	public void onLivingDeath(LivingDeathEvent e) {
-		if(!e.getEntityLiving().worldObj.isRemote)
-			if(e.getEntityLiving() instanceof EntityPlayer) {
-				EntityPlayer p = (EntityPlayer) e.getEntityLiving();
-				if(e.getSource().isFireDamage()) {
-					if(p.inventory.hasItemStack(new ItemStack(BBItems.bbResources, 1, 4)))
-						BBApi.setUndead(p, true);
-					if(BBApi.getMaxBlood(p) > 0)
-						BBApi.setMaxBlood(p, 0);
-					for(int i = 0; i < p.inventory.getSizeInventory(); i++)
-						if(p.inventory.getStackInSlot(i) != null && p.inventory.getStackInSlot(i).getItem() == BBItems.bbResources && p.inventory.getStackInSlot(i).getItemDamage() == 4)
-							p.inventory.setInventorySlotContents(i, null);
-				}
-			}
-	}
     
     @SubscribeEvent
 	public void onLivingAttack(LivingAttackEvent e) {
@@ -142,7 +125,15 @@ public class ItemBBResources extends Item {
                     return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, new ItemStack(this, 1, 1));
                 } else
                     BBPlayerHelper.sendChatMessageToPlayer(playerIn, I18n.format("bb.bank.refuse"));
-            }
+            } else if(itemStackIn.getItemDamage() == 4)
+            	if(!BBApi.isUndead(playerIn)) {
+            		BBApi.setUndead(playerIn, true);
+            		if(BBApi.getMaxBlood(playerIn) > 0) {
+            			BBApi.setMaxBlood(playerIn, 0);
+            			BBPlayerHelper.sendChatMessageToPlayer(playerIn, I18n.format("bb.bank.becomeUndead"));
+            		}
+            		playerIn.attackEntityFrom(DamageSource.inFire, playerIn.getMaxHealth() + 5f);
+            	}
         return super.onItemRightClick(itemStackIn, worldIn, playerIn, hand);
     }
 

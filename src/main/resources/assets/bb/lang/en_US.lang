@@ -82,6 +82,7 @@ bb.misc.ghostWhisper=You hear the whispers of a
 bb.bank.join=Welcome to the First National Bank of Blood, you start out with a max balance of 2000. Use this bank ID card to keep in contact.
 bb.bank.refuse=You already have an account with this bank.
 bb.bank.undead=Sorry, we don't take your type here.
+bb.bank.becomeUndead=You have become an atrocity and we refoke your bank membership.
 
 bb.undead.soul=Soul
 bb.undead.focus=Focus
