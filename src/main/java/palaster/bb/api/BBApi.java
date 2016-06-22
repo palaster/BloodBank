@@ -9,22 +9,18 @@ import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.ItemStack;
 import palaster.bb.BloodBank;
 import palaster.bb.api.capabilities.entities.BloodBankCapabilityProvider;
 import palaster.bb.api.capabilities.entities.IBloodBank;
 import palaster.bb.api.capabilities.entities.IUndead;
 import palaster.bb.api.capabilities.entities.UndeadCapabilityDefault;
 import palaster.bb.api.capabilities.entities.UndeadCapabilityProvider;
-import palaster.bb.api.recipes.RecipeLetter;
 import palaster.bb.network.PacketHandler;
 import palaster.bb.network.client.SyncPlayerPropsMessage;
 
 public class BBApi {
 
     private static List<Class<? extends EntityLiving>> excludeFromBloodLink = new ArrayList<Class<? extends EntityLiving>>();
-
-    public static List<RecipeLetter> letterRecipes = new ArrayList<RecipeLetter>();
 
     public static void addEntityLivingToExclude(EntityLiving el) {
         if(el != null) {
@@ -61,18 +57,7 @@ public class BBApi {
                 return true;
         return false;
     }
-
-    public static RecipeLetter registerLetterRecipe(ItemStack output, Object... input) {
-        if(input.length <= 9) {
-            RecipeLetter recipe = new RecipeLetter(output, input);
-            letterRecipes.add(recipe);
-            return recipe;
-        } else {
-            System.out.println(output.getDisplayName() + " has a recipe larger than 9 items.");
-            return null;
-        }
-    }
-
+    
     // Blood Bank Methods
 
     public static void consumeBlood(EntityPlayer player, int amt) {
@@ -296,7 +281,7 @@ public class BBApi {
                 try {
                     iAttributeInstance.removeModifier(iAttributeInstance.getModifier(UndeadCapabilityDefault.strengthID));
                 } catch(Exception e) {}
-                iAttributeInstance.applyModifier(new AttributeModifier(UndeadCapabilityDefault.strengthID, "bb.strength", undead.getStrength() * .25, 0));
+                iAttributeInstance.applyModifier(new AttributeModifier(UndeadCapabilityDefault.strengthID, "bb.strength", undead.getStrength() * .3, 0));
             }
         }
         syncServerToClient(player);

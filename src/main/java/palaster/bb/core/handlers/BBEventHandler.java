@@ -12,6 +12,8 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.CraftingManager;
+import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
@@ -29,6 +31,7 @@ import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -36,9 +39,11 @@ import palaster.bb.BloodBank;
 import palaster.bb.api.BBApi;
 import palaster.bb.api.capabilities.entities.BloodBankCapabilityProvider;
 import palaster.bb.api.capabilities.entities.UndeadCapabilityProvider;
+import palaster.bb.api.recipes.ShapedBloodRecipes;
 import palaster.bb.entities.effects.BBPotions;
 import palaster.bb.entities.knowledge.BBKnowledge;
 import palaster.bb.items.BBItems;
+import palaster.bb.items.ItemBloodBottle;
 import palaster.bb.items.ItemBookBlood;
 import palaster.bb.items.ItemModStaff;
 import palaster.bb.libs.LibMod;
@@ -175,6 +180,30 @@ public class BBEventHandler {
 				}
 			}
 		}
+	}
+	
+	@SubscribeEvent
+	public void onCraft(ItemCraftedEvent e) {
+		if(!e.player.worldObj.isRemote)
+			if(CraftingManager.getInstance().getRecipeList() != null)
+				for(IRecipe recipe : CraftingManager.getInstance().getRecipeList())
+					if(recipe != null && recipe instanceof ShapedBloodRecipes)
+						if(recipe.getRecipeOutput() != null && recipe.getRecipeOutput().getItem() == e.crafting.getItem()) {
+							for(int i = 0; i < e.player.inventory.getSizeInventory(); i++)
+								if(e.player.inventory.getStackInSlot(i) != null)
+									if(e.player.inventory.getStackInSlot(i).getItem() instanceof ItemBloodBottle)
+										if((e.player.inventory.getStackInSlot(i).getMaxDamage() - e.player.inventory.getStackInSlot(i).getItemDamage()) >= ((ShapedBloodRecipes) recipe).recipeBloodCost) {
+											e.player.inventory.getStackInSlot(i).damageItem(((ShapedBloodRecipes) recipe).recipeBloodCost, e.player);
+											return;
+										}
+							if(BBApi.getMaxBlood(e.player) > 0 && BBApi.getCurrentBlood(e.player) >= ((ShapedBloodRecipes) recipe).recipeBloodCost) {
+								BBApi.consumeBlood(e.player, ((ShapedBloodRecipes) recipe).recipeBloodCost);
+								return;
+							} else {
+								e.player.attackEntityFrom(BloodBank.proxy.bbBlood, (((ShapedBloodRecipes) recipe).recipeBloodCost / 100));
+								return;
+							}
+						}
 	}
 	
 	@SubscribeEvent

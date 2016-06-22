@@ -29,7 +29,6 @@ item.bb:staffHungryShadows.name=Staff of Hungry Shadows
 item.bb:animalHerder.name=Animal Herder
 item.bb:bloodBottle.name=Blood Bottle
 item.bb:bookBlood.name=Bloody Book
-item.bb:letter.name=Letter
 item.bb:undeadMonitor.name=Undead Monitor
 item.bb:estusFlask.name=Estus Flask
 item.bb:ashenEstusFlask.name=Ashen Estus Flask
@@ -112,4 +111,5 @@ bb.kp.bloodLink=Blood Link
 bb.kp.boundArmor=Bound Armor
 bb.kp.bloodHive=Blood Hive
 
-bb.jei.letter=Letter
+bb.jei.blood=Blood
+bb.jei.bloodCost=Blood Cost

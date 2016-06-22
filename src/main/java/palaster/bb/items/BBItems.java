@@ -20,7 +20,6 @@ public class BBItems {
 	animalHerder,
 	bloodBottle,
 	bloodBook,
-	letter,
 	undeadMonitor,
 	estusFlask,
 	ashenEstusFlask,
@@ -57,7 +56,6 @@ public class BBItems {
 		animalHerder = new ItemAnimalHerder();
 		bloodBottle = new ItemBloodBottle();
 		bloodBook = new ItemBookBlood();
-		letter = new ItemLetter();
 		undeadMonitor = new ItemUndeadMonitor();
 		estusFlask = new ItemEstusFlask();
 		ashenEstusFlask = new ItemAshenEstusFlask();
@@ -91,7 +89,7 @@ public class BBItems {
 		ItemMod.setCustomModelResourceLocation(staffHungryShadows);
 		ItemMod.setCustomModelResourceLocation(animalHerder);
 		ItemMod.setCustomModelResourceLocation(bloodBottle);
-		ItemMod.setCustomModelResourceLocation(letter);
+		ItemMod.setCustomModelResourceLocation(bloodBook);
 		ItemMod.setCustomModelResourceLocation(undeadMonitor);
 		ItemMod.setCustomModelResourceLocation(estusFlask);
 		ItemMod.setCustomModelResourceLocation(ashenEstusFlask);

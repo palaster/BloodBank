@@ -1,11 +1,11 @@
 package palaster.bb.core.helpers;
 
+import java.util.UUID;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
-
-import java.util.UUID;
 
 public class BBPlayerHelper {
 	
