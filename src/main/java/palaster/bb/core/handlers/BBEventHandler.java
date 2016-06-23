@@ -40,6 +40,7 @@ import palaster.bb.api.BBApi;
 import palaster.bb.api.capabilities.entities.BloodBankCapabilityProvider;
 import palaster.bb.api.capabilities.entities.UndeadCapabilityProvider;
 import palaster.bb.api.recipes.ShapedBloodRecipes;
+import palaster.bb.core.proxy.ClientProxy;
 import palaster.bb.entities.effects.BBPotions;
 import palaster.bb.entities.knowledge.BBKnowledge;
 import palaster.bb.items.BBItems;
@@ -229,7 +230,7 @@ public class BBEventHandler {
 	@SubscribeEvent
 	public void onKeyboardInput(InputEvent.KeyInputEvent e) {
 		if(Minecraft.getMinecraft().inGameHasFocus)
-			if(Keyboard.isKeyDown(Keyboard.KEY_U))
+			if(Keyboard.isKeyDown(ClientProxy.staffChange.getKeyCode()))
 				PacketHandler.sendToServer(new KeyClickMessage());
 	}
 

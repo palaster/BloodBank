@@ -281,7 +281,7 @@ public class BBApi {
                 try {
                     iAttributeInstance.removeModifier(iAttributeInstance.getModifier(UndeadCapabilityDefault.strengthID));
                 } catch(Exception e) {}
-                iAttributeInstance.applyModifier(new AttributeModifier(UndeadCapabilityDefault.strengthID, "bb.strength", undead.getStrength() * .3, 0));
+                iAttributeInstance.applyModifier(new AttributeModifier(UndeadCapabilityDefault.strengthID, "bb.strength", undead.getStrength() * .9, 0));
             }
         }
         syncServerToClient(player);
