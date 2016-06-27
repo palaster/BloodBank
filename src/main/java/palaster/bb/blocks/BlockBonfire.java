@@ -16,7 +16,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import palaster.bb.api.BBApi;
 import palaster.bb.items.BBItems;
-import palaster.bb.items.ItemAshenEstusFlask;
 import palaster.bb.items.ItemEstusFlask;
 import palaster.bb.libs.LibNBT;
 import palaster.bb.world.BBWorldSaveData;
@@ -44,7 +43,7 @@ public class BlockBonfire extends BlockMod {
                 	estusFlask.getTagCompound().setInteger(LibNBT.amount, 6);
                 	playerIn.setHeldItem(hand, estusFlask);
                 }
-                if(heldItem.getItem() instanceof ItemEstusFlask || heldItem.getItem() instanceof ItemAshenEstusFlask) {
+                if(heldItem.getItem() instanceof ItemEstusFlask) {
                 	if(!heldItem.hasTagCompound())
                 		heldItem.setTagCompound(new NBTTagCompound());
                 	heldItem.getTagCompound().setInteger(LibNBT.amount, 6);

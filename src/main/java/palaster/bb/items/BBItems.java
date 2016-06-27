@@ -22,7 +22,6 @@ public class BBItems {
 	bloodBook,
 	undeadMonitor,
 	estusFlask,
-	ashenEstusFlask,
 	armorActivator,
 	resurrectionStone,
 	ghostWhisper;
@@ -58,7 +57,6 @@ public class BBItems {
 		bloodBook = new ItemBookBlood();
 		undeadMonitor = new ItemUndeadMonitor();
 		estusFlask = new ItemEstusFlask();
-		ashenEstusFlask = new ItemAshenEstusFlask();
 		armorActivator = new ItemArmorActivator();
 		resurrectionStone = new ItemResurrectionStone();
 		ghostWhisper = new ItemGhostWhisper();
@@ -92,7 +90,6 @@ public class BBItems {
 		ItemMod.setCustomModelResourceLocation(bloodBook);
 		ItemMod.setCustomModelResourceLocation(undeadMonitor);
 		ItemMod.setCustomModelResourceLocation(estusFlask);
-		ItemMod.setCustomModelResourceLocation(ashenEstusFlask);
 		ItemMod.setCustomModelResourceLocation(armorActivator);
 		ItemMod.setCustomModelResourceLocation(resurrectionStone);
 		ItemMod.setCustomModelResourceLocation(ghostWhisper);
