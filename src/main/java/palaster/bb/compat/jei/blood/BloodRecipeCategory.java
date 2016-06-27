@@ -8,11 +8,10 @@ import mezz.jei.api.gui.IDrawable;
 import mezz.jei.api.gui.IGuiItemStackGroup;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.recipe.BlankRecipeCategory;
-import mezz.jei.api.recipe.IRecipeWrapper;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 
-public class BloodRecipeCategory extends BlankRecipeCategory {
+public class BloodRecipeCategory extends BlankRecipeCategory<BloodRecipeWrapper> {
 	
 	public static final String categoryUID = "bb.blood";
 
@@ -41,9 +40,9 @@ public class BloodRecipeCategory extends BlankRecipeCategory {
 
 	@Override
 	public IDrawable getBackground() { return background; }
-	
+
 	@Override
-	public void setRecipe(@Nonnull IRecipeLayout recipeLayout, @Nonnull IRecipeWrapper recipeWrapper) {
+	public void setRecipe(IRecipeLayout recipeLayout, BloodRecipeWrapper recipeWrapper) {
 		IGuiItemStackGroup guiItemStacks = recipeLayout.getItemStacks();
 		guiItemStacks.init(craftOutputSlot, false, 94, 18);
 		for(int y = 0; y < 3; ++y)
