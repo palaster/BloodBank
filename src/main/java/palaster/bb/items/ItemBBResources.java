@@ -43,7 +43,7 @@ import palaster.bb.libs.LibNBT;
 
 public class ItemBBResources extends Item {
 
-    public static String[] names = new String[]{"bankContract", "bankID", "wormEater", "vampireSigil", "urn", "denseSandParticle"};
+    public static String[] names = new String[]{"bankContract", "bankID", "wormEater", "vampireSigil", "urn", "denseSandParticle", "souls"};
 
     public ItemBBResources() {
         super();
@@ -112,6 +112,13 @@ public class ItemBBResources extends Item {
 			if(e.getItemStack().getTagCompound().getBoolean(LibNBT.hasVampireSigil))
 				e.getToolTip().add(I18n.format("bb.misc.vampireSigil"));
 	}
+    
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
+    	if(stack.hasTagCompound() && stack.getItemDamage() == 6)
+    		tooltip.add(I18n.format("bb.undead.soulsAmount") + " : " + stack.getTagCompound().getInteger(LibNBT.amount));
+    }
 
     @Override
     public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
@@ -125,7 +132,7 @@ public class ItemBBResources extends Item {
                     return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, new ItemStack(this, 1, 1));
                 } else
                     BBPlayerHelper.sendChatMessageToPlayer(playerIn, I18n.format("bb.bank.refuse"));
-            } else if(itemStackIn.getItemDamage() == 4)
+            } else if(itemStackIn.getItemDamage() == 4) {
             	if(!BBApi.isUndead(playerIn)) {
             		BBApi.setUndead(playerIn, true);
             		if(BBApi.getMaxBlood(playerIn) > 0) {
@@ -135,6 +142,13 @@ public class ItemBBResources extends Item {
             		playerIn.attackEntityFrom(DamageSource.inFire, playerIn.getMaxHealth() + 5f);
             		return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, null);
             	}
+            } else if(itemStackIn.getItemDamage() == 6) {
+            	if(itemStackIn.hasTagCompound())
+            		if(BBApi.isUndead(playerIn)) {
+            			BBApi.addSoul(playerIn, itemStackIn.getTagCompound().getInteger(LibNBT.number));
+            			return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, null);
+            		}
+            }
         return super.onItemRightClick(itemStackIn, worldIn, playerIn, hand);
     }
 

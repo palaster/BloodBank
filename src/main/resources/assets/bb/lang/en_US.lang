@@ -57,6 +57,7 @@ item.bb:bbResources.wormEater.name=Worm Eater
 item.bb:bbResources.vampireSigil.name=Vampire Sigil
 item.bb:bbResources.urn.name=Urn
 item.bb:bbResources.denseSandParticle.name=Dense Sand Particle
+item.bb:bbResources.souls.name=Souls
 
 bb.misc.activated=Activated
 bb.misc.broken=BROKEN (Normal Fix is a simple right-click)
@@ -93,6 +94,7 @@ bb.undead.intelligence=Intelligence
 bb.undead.faith=Faith
 bb.undead.soulCost=Soul Cost
 bb.undead.bonFireNotFound=Bonfire not found
+bb.undead.soulsAmount=Amount of Souls
 
 bb.staff.active=Active Power
 bb.staff.time.0=Time

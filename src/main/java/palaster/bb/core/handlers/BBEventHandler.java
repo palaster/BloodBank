@@ -138,15 +138,24 @@ public class BBEventHandler {
 					if(BBApi.isLinked(player) && e.getEntityLiving().getUniqueID().equals(BBApi.getLinked(player).getUniqueID()))
 						BBApi.linkEntity(player, null);
 				}
-			if(e.getEntityLiving() instanceof EntityPlayer)
+			if(e.getEntityLiving() instanceof EntityPlayer) {
 				if(BBApi.isUndead((EntityPlayer) e.getEntityLiving())) {
 					if(e.getSource().getEntity() instanceof EntityPlayer) {
-						EntityPlayer killer = (EntityPlayer) e.getSource().getEntity();
-						if(BBApi.isUndead(killer))
-							BBApi.addSoul(killer, BBApi.getSoul((EntityPlayer) e.getEntityLiving()));
+						if(BBApi.isUndead((EntityPlayer) e.getSource().getEntity()))
+							BBApi.addSoul((EntityPlayer) e.getSource().getEntity(), BBApi.getSoul((EntityPlayer) e.getEntityLiving()));
+					} else {
+						ItemStack souls = new ItemStack(BBItems.bbResources, 1, 6);
+						if(!souls.hasTagCompound())
+							souls.setTagCompound(new NBTTagCompound());
+						souls.getTagCompound().setInteger(LibNBT.number, BBApi.getSoul((EntityPlayer) e.getEntityLiving()));
+						e.getEntityLiving().worldObj.spawnEntityInWorld(new EntityItem(e.getEntityLiving().worldObj, e.getEntityLiving().posX, e.getEntityLiving().posY, e.getEntityLiving().posZ, souls));
 					}
 					BBApi.setSoul((EntityPlayer) e.getEntityLiving(), 0);
 				}
+				NBTTagCompound nbt = new NBTTagCompound();
+				((EntityPlayer) e.getEntityLiving()).writeToNBTAtomically(nbt);
+				BBWorldSaveData.get(e.getEntityLiving().worldObj).addDeadEntity(nbt);
+			}
 			if(e.getSource().getEntity() instanceof EntityPlayer) {
 				EntityPlayer p = (EntityPlayer) e.getSource().getEntity();
 				if(BBApi.isUndead(p))
