@@ -1,7 +1,6 @@
 package palaster.bb.core.helpers;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.state.BlockStateBase;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;

@@ -1,5 +1,7 @@
 package palaster.bb.core.proxy;
 
+import net.minecraft.entity.passive.EntityVillager;
+import net.minecraft.entity.passive.EntityVillager.PriceInfo;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.DamageSource;
@@ -12,8 +14,16 @@ import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import net.minecraftforge.fml.common.registry.VillagerRegistry;
+import net.minecraftforge.fml.common.registry.VillagerRegistry.VillagerCareer;
+import net.minecraftforge.fml.common.registry.VillagerRegistry.VillagerProfession;
 import palaster.bb.BloodBank;
-import palaster.bb.api.capabilities.entities.*;
+import palaster.bb.api.capabilities.entities.BloodBankCapabilityFactory;
+import palaster.bb.api.capabilities.entities.BloodBankCapabilityStorage;
+import palaster.bb.api.capabilities.entities.IBloodBank;
+import palaster.bb.api.capabilities.entities.IUndead;
+import palaster.bb.api.capabilities.entities.UndeadCapabilityFactory;
+import palaster.bb.api.capabilities.entities.UndeadCapabilityStorage;
 import palaster.bb.blocks.BBBlocks;
 import palaster.bb.blocks.tile.TileEntityModInventory;
 import palaster.bb.client.gui.GuiLetter;
@@ -34,7 +44,7 @@ import palaster.bb.network.PacketHandler;
 import palaster.bb.recipes.BBRecipes;
 
 public class CommonProxy implements IGuiHandler {
-
+	
 	public DamageSource bbBlood = (new DamageSource("bbBlood")).setDamageBypassesArmor().setMagicDamage();
 	
 	public void preInit() {
@@ -49,7 +59,13 @@ public class CommonProxy implements IGuiHandler {
 		MinecraftForge.EVENT_BUS.register(new BBEventHandler());
 	}
 	
-	public void init() { NetworkRegistry.INSTANCE.registerGuiHandler(BloodBank.instance, this); }
+	public void init() {
+		NetworkRegistry.INSTANCE.registerGuiHandler(BloodBank.instance, this);
+		VillagerProfession villageSpellSeller = new VillagerRegistry.VillagerProfession("bb:villageSpellSeller", "bb:textures/models/spellSeller.png", "minecraft:textures/entity/zombie_villager/zombie_villager.png");
+		VillagerRegistry.instance().register(villageSpellSeller);
+		VillagerRegistry.VillagerCareer careerSpell = new VillagerCareer(villageSpellSeller, "spell");
+		careerSpell.addTrade(1, new EntityVillager.ListItemForEmeralds(BBItems.sacredFlame, new PriceInfo(1, 4)));
+	}
 	
 	public void postInit() { BBRecipes.init(); }
 	

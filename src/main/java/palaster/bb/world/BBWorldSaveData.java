@@ -1,22 +1,22 @@
 package palaster.bb.world;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSavedData;
-
-import java.util.ArrayList;
-import java.util.List;
+import palaster.bb.libs.LibNBT;
 
 public class BBWorldSaveData extends WorldSavedData {
 
     private static final String IDENTIFIER = "BloodBankWorldSaveData";
     private List<BlockPos> bonFirePos = new ArrayList<BlockPos>();
+    private List<NBTTagCompound> deadEntities = new ArrayList<NBTTagCompound>();
 
-    public BBWorldSaveData() {
-        super(IDENTIFIER);
-    }
+    public BBWorldSaveData() { super(IDENTIFIER); }
 
     public BBWorldSaveData(String identity) { super(identity); }
 
@@ -39,26 +39,50 @@ public class BBWorldSaveData extends WorldSavedData {
         }
         return nearest;
     }
-
+    
+    public List<NBTTagCompound> getDeadEntities() { return deadEntities; }
+    
+    public NBTTagCompound getDeadEntity(int numb) { return deadEntities.get(numb); }
+    
+    public void addDeadEntity(NBTTagCompound nbt) {
+    	deadEntities.add(nbt);
+    	markDirty();
+    }
+    
+    public void removeDeadEntity(NBTTagCompound nbt) {
+    	if(deadEntities.contains(nbt))
+    		deadEntities.remove(nbt);
+    	markDirty();
+    }
+    
+    public void clearDeadEntities(World world) { deadEntities.clear(); }
+    
     @Override
     public void readFromNBT(NBTTagCompound nbt) {
-        int j = nbt.getInteger("BonFireAmt");
-        for(int i = 0; i < j; i++)
+        for(int i = 0; i < nbt.getInteger("BonFireAmt"); i++)
             bonFirePos.add(new BlockPos(nbt.getInteger("BonFireX" + i), nbt.getInteger("BonFireY" + i), nbt.getInteger("BonFireZ" + i)));
+        for(int i = 0; i < nbt.getInteger(LibNBT.number); i++)
+        	addDeadEntity(nbt.getCompoundTag(LibNBT.tag + i));
     }
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
         int i = 0;
-        for(BlockPos bp : bonFirePos) {
+        for(BlockPos bp : bonFirePos)
             if(bp != null) {
                 nbt.setInteger("BonFireX" + i, bp.getX());
                 nbt.setInteger("BonFireY" + i, bp.getY());
                 nbt.setInteger("BonFireZ" + i, bp.getZ());
+                i++;
             }
-            i++;
-        }
         nbt.setInteger("BonFireAmt", i);
+        int j = 0;
+        for(NBTTagCompound tag : deadEntities)
+        	if(tag != null) {
+        		nbt.setTag(LibNBT.tag + j, tag);
+        		j++;
+        	} 
+        nbt.setInteger(LibNBT.number, j);
         return nbt;
     }
 

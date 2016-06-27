@@ -12,7 +12,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import palaster.bb.BloodBank;
-import palaster.bb.blocks.tile.TileEntityModInventory;
+import palaster.bb.blocks.tile.TileEntityVoidAnchor;
 
 public class BlockVoidAnchor extends BlockModContainer {
 
@@ -20,8 +20,10 @@ public class BlockVoidAnchor extends BlockModContainer {
 		super(p_i45394_1_);
 		setUnlocalizedName("voidAnchor");
 	}
+	
+	@Override
+	public boolean isOpaqueCube(IBlockState state) { return false; }
 
-	// TODO : Look into this
 	@Override
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) { return new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.25D, 1.0D); }
 
@@ -31,12 +33,7 @@ public class BlockVoidAnchor extends BlockModContainer {
 			playerIn.openGui(BloodBank.instance, 1, worldIn, pos.getX(), pos.getY(), pos.getZ());
 		return true;
 	}
-
+	
 	@Override
-	public TileEntity createNewTileEntity(World worldIn, int meta) {
-		return new TileEntityModInventory(18) {
-			@Override
-			public String getName() { return "container.voidAnchor"; }
-		};
-	}
+	public TileEntity createTileEntity(World world, IBlockState state) { return new TileEntityVoidAnchor(); }
 }

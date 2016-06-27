@@ -1,11 +1,9 @@
 package palaster.bb.api.capabilities.entities;
 
+import java.util.UUID;
+
 import net.minecraft.nbt.NBTTagCompound;
 import palaster.bb.libs.LibNBT;
-import palaster.bb.network.PacketHandler;
-import palaster.bb.network.client.SyncPlayerPropsMessage;
-
-import java.util.UUID;
 
 public class UndeadCapabilityDefault implements IUndead {
 

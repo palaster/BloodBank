@@ -36,7 +36,7 @@ public class ItemUndeadMonitor extends ItemModSpecial {
         if(BBWorldHelper.findBlockVicinityFromPlayer(BBBlocks.bonfire, player.worldObj, player, 10, 4) != null)
             switch(buttonId) {
                 case 0: {
-                    if(BBApi.getSoulCostForNextLevel(player) <= BBApi.getSoul(player)) {
+                    if(BBApi.getSoulCostForNextLevel(player) <= BBApi.getSoul(player) && BBApi.getVigor(player) < 99) {
                         BBApi.addVigor(player, 1);
                         if(BBApi.getSoulCostForNextLevel(player) > 0)
                             BBApi.setSoul(player, BBApi.getSoul(player) - BBApi.getSoulCostForNextLevel(player));
@@ -44,7 +44,7 @@ public class ItemUndeadMonitor extends ItemModSpecial {
                     break;
                 }
                 case 1: {
-                    if(BBApi.getSoulCostForNextLevel(player) <= BBApi.getSoul(player)) {
+                    if(BBApi.getSoulCostForNextLevel(player) <= BBApi.getSoul(player) && BBApi.getAttunement(player) < 99) {
                         BBApi.addAttunement(player, 1);
                         if(BBApi.getSoulCostForNextLevel(player) > 0)
                             BBApi.setSoul(player, BBApi.getSoul(player) - BBApi.getSoulCostForNextLevel(player));
@@ -52,7 +52,7 @@ public class ItemUndeadMonitor extends ItemModSpecial {
                     break;
                 }
                 case 2: {
-                    if(BBApi.getSoulCostForNextLevel(player) <= BBApi.getSoul(player)) {
+                    if(BBApi.getSoulCostForNextLevel(player) <= BBApi.getSoul(player) && BBApi.getStrength(player) < 99) {
                         BBApi.addStrength(player, 1);
                         if(BBApi.getSoulCostForNextLevel(player) > 0)
                             BBApi.setSoul(player, BBApi.getSoul(player) - BBApi.getSoulCostForNextLevel(player));
@@ -60,7 +60,7 @@ public class ItemUndeadMonitor extends ItemModSpecial {
                     break;
                 }
                 case 3: {
-                    if(BBApi.getSoulCostForNextLevel(player) <= BBApi.getSoul(player)) {
+                    if(BBApi.getSoulCostForNextLevel(player) <= BBApi.getSoul(player) && BBApi.getIntelligence(player) < 99) {
                         BBApi.addIntelligence(player, 1);
                         if(BBApi.getSoulCostForNextLevel(player) > 0)
                             BBApi.setSoul(player, BBApi.getSoul(player) - BBApi.getSoulCostForNextLevel(player));
@@ -68,7 +68,7 @@ public class ItemUndeadMonitor extends ItemModSpecial {
                     break;
                 }
                 case 4: {
-                    if(BBApi.getSoulCostForNextLevel(player) <= BBApi.getSoul(player)) {
+                    if(BBApi.getSoulCostForNextLevel(player) <= BBApi.getSoul(player) && BBApi.getFaith(player) < 99) {
                         BBApi.addFaith(player, 1);
                         if(BBApi.getSoulCostForNextLevel(player) > 0)
                             BBApi.setSoul(player, BBApi.getSoul(player) - BBApi.getSoulCostForNextLevel(player));

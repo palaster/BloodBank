@@ -7,15 +7,20 @@ import org.lwjgl.input.Keyboard;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.CraftingManager;
+import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
-import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
@@ -26,6 +31,7 @@ import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -33,11 +39,12 @@ import palaster.bb.BloodBank;
 import palaster.bb.api.BBApi;
 import palaster.bb.api.capabilities.entities.BloodBankCapabilityProvider;
 import palaster.bb.api.capabilities.entities.UndeadCapabilityProvider;
-import palaster.bb.core.helpers.BBItemStackHelper;
+import palaster.bb.api.recipes.ShapedBloodRecipes;
+import palaster.bb.core.proxy.ClientProxy;
 import palaster.bb.entities.effects.BBPotions;
 import palaster.bb.entities.knowledge.BBKnowledge;
-import palaster.bb.items.BBArmor;
 import palaster.bb.items.BBItems;
+import palaster.bb.items.ItemBloodBottle;
 import palaster.bb.items.ItemBookBlood;
 import palaster.bb.items.ItemModStaff;
 import palaster.bb.libs.LibMod;
@@ -83,24 +90,23 @@ public class BBEventHandler {
 
 	@SubscribeEvent
 	public void onClonePlayer(PlayerEvent.Clone e) {
-		if(!e.getEntityPlayer().worldObj.isRemote)
-			if(e.isWasDeath()) {
-				// Clone Player from death for Blood Bank.
-				BBApi.setMaxBlood(e.getEntityPlayer(), BBApi.getMaxBlood(e.getOriginal()));
-				BBApi.setCurrentBlood(e.getEntityPlayer(), BBApi.getCurrentBlood(e.getOriginal()));
+		if(!e.getEntityPlayer().worldObj.isRemote) {
+			BBApi.setMaxBlood(e.getEntityPlayer(), BBApi.getMaxBlood(e.getOriginal()));
+			BBApi.setCurrentBlood(e.getEntityPlayer(), BBApi.getCurrentBlood(e.getOriginal()));
+			if(BBApi.isLinked(e.getOriginal()))
 				BBApi.linkEntity(e.getEntityPlayer(), BBApi.getLinked(e.getOriginal()));
 
-				// Clone Player from death for Blood Bank.
-				BBApi.setUndead(e.getEntityPlayer(), BBApi.isUndead(e.getOriginal()));
-				BBApi.setSoul(e.getEntityPlayer(), BBApi.getSoul(e.getOriginal()));
-				BBApi.setFocus(e.getEntityPlayer(), BBApi.getFocus(e.getEntityPlayer()));
-				BBApi.setFocusMax(e.getEntityPlayer(), BBApi.getFocusMax(e.getEntityPlayer()));
-				BBApi.setVigor(e.getEntityPlayer(), BBApi.getVigor(e.getOriginal()));
-				BBApi.setAttunement(e.getEntityPlayer(), BBApi.getAttunement(e.getOriginal()));
-				BBApi.setStrength(e.getEntityPlayer(), BBApi.getStrength(e.getOriginal()));
-				BBApi.setIntelligence(e.getEntityPlayer(), BBApi.getIntelligence(e.getOriginal()));
-				BBApi.setFaith(e.getEntityPlayer(), BBApi.getFaith(e.getOriginal()));
+			BBApi.setUndead(e.getEntityPlayer(), BBApi.isUndead(e.getOriginal()));
+			BBApi.setSoul(e.getEntityPlayer(), BBApi.getSoul(e.getOriginal()));
+			BBApi.setFocus(e.getEntityPlayer(), BBApi.getFocus(e.getEntityPlayer()));
+			BBApi.setFocusMax(e.getEntityPlayer(), BBApi.getFocusMax(e.getEntityPlayer()));
+			BBApi.setVigor(e.getEntityPlayer(), BBApi.getVigor(e.getOriginal()));
+			BBApi.setAttunement(e.getEntityPlayer(), BBApi.getAttunement(e.getOriginal()));
+			BBApi.setStrength(e.getEntityPlayer(), BBApi.getStrength(e.getOriginal()));
+			BBApi.setIntelligence(e.getEntityPlayer(), BBApi.getIntelligence(e.getOriginal()));
+			BBApi.setFaith(e.getEntityPlayer(), BBApi.getFaith(e.getOriginal()));
 
+			if(e.isWasDeath())
 				if(BBApi.isUndead(e.getOriginal())) {
 					BBWorldSaveData bbWorldSaveData = BBWorldSaveData.get(e.getOriginal().worldObj);
 					if(bbWorldSaveData != null) {
@@ -110,7 +116,7 @@ public class BBEventHandler {
 					}
 					e.getEntityPlayer().inventory.copyInventory(e.getOriginal().inventory);
 				}
-			}
+		}
 	}
 
 	@SubscribeEvent
@@ -129,7 +135,7 @@ public class BBEventHandler {
 			for(Entity entity : e.getEntityLiving().worldObj.loadedEntityList)
 				if(entity instanceof EntityPlayer) {
 					EntityPlayer player = (EntityPlayer) entity;
-					if(BBApi.getLinked(player) != null && BBApi.getLinked(player).getUniqueID() == e.getEntityLiving().getUniqueID())
+					if(BBApi.isLinked(player) && e.getEntityLiving().getUniqueID().equals(BBApi.getLinked(player).getUniqueID()))
 						BBApi.linkEntity(player, null);
 				}
 			if(e.getEntityLiving() instanceof EntityPlayer)
@@ -146,6 +152,11 @@ public class BBEventHandler {
 				if(BBApi.isUndead(p))
 					BBApi.addSoul(p, (int) e.getEntityLiving().getMaxHealth());
 			}
+			if(e.getEntityLiving() instanceof EntityLiving) {
+				NBTTagCompound nbt = new NBTTagCompound();
+				((EntityLiving) e.getEntityLiving()).writeToNBTAtomically(nbt);
+				BBWorldSaveData.get(e.getEntityLiving().worldObj).addDeadEntity(nbt);
+			}
 		}
 	}
 
@@ -154,13 +165,46 @@ public class BBEventHandler {
 		if(!e.getEntityLiving().worldObj.isRemote) {
 			if(e.getEntityLiving() instanceof EntityPlayer) {
 				EntityPlayer p = (EntityPlayer) e.getEntityLiving();
-				if(e.getSource().getEntity() != null)
-					if(BBApi.getLinked(p) != null) {
+				if(e.getSource().getEntity() != null) {
+					if(BBApi.isLinked(p)) {
 						BBApi.getLinked(p).attackEntityFrom(BloodBank.proxy.bbBlood, e.getAmount());
 						e.setCanceled(true);
 					}
+					if(p.getActivePotionEffect(BBPotions.sandBody) != null)
+						if(e.getSource().getEntity() instanceof EntityPlayer) {
+							((EntityPlayer) e.getSource().getEntity()).inventory.addItemStackToInventory(new ItemStack(BBItems.bbResources, 1, 5));
+							e.setCanceled(true);
+						} else if(e.getSource().getEntity() instanceof EntityLiving) {
+							((EntityLiving) e.getSource().getEntity()).addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 600, 2, false, true));
+							e.setCanceled(true);
+						}
+				}
 			}
 		}
+	}
+	
+	@SubscribeEvent
+	public void onCraft(ItemCraftedEvent e) {
+		if(!e.player.worldObj.isRemote)
+			if(CraftingManager.getInstance().getRecipeList() != null)
+				for(IRecipe recipe : CraftingManager.getInstance().getRecipeList())
+					if(recipe != null && recipe instanceof ShapedBloodRecipes)
+						if(recipe.getRecipeOutput() != null && recipe.getRecipeOutput().getItem() == e.crafting.getItem()) {
+							for(int i = 0; i < e.player.inventory.getSizeInventory(); i++)
+								if(e.player.inventory.getStackInSlot(i) != null)
+									if(e.player.inventory.getStackInSlot(i).getItem() instanceof ItemBloodBottle)
+										if((e.player.inventory.getStackInSlot(i).getMaxDamage() - e.player.inventory.getStackInSlot(i).getItemDamage()) >= ((ShapedBloodRecipes) recipe).recipeBloodCost) {
+											e.player.inventory.getStackInSlot(i).damageItem(((ShapedBloodRecipes) recipe).recipeBloodCost, e.player);
+											return;
+										}
+							if(BBApi.getMaxBlood(e.player) > 0 && BBApi.getCurrentBlood(e.player) >= ((ShapedBloodRecipes) recipe).recipeBloodCost) {
+								BBApi.consumeBlood(e.player, ((ShapedBloodRecipes) recipe).recipeBloodCost);
+								return;
+							} else {
+								e.player.attackEntityFrom(BloodBank.proxy.bbBlood, (((ShapedBloodRecipes) recipe).recipeBloodCost / 100));
+								return;
+							}
+						}
 	}
 	
 	@SubscribeEvent
@@ -177,37 +221,16 @@ public class BBEventHandler {
 	}
 
 	@SubscribeEvent
-	public void onPlayerTick(TickEvent.PlayerTickEvent e) {
-		if(!e.player.worldObj.isRemote)
-			if(e.phase == TickEvent.Phase.START)
-				for(int i = 0; i < e.player.inventory.armorInventory.length; i++)
-					if(e.player.inventory.armorInventory[i] != null) {
-						if(e.player.inventory.armorInventory[i].getItem() == BBItems.boundHelmet)
-							e.player.inventory.armorInventory[i].getItem().onUpdate(e.player.inventory.armorInventory[i], e.player.worldObj, e.player, 103, false);
-						if(e.player.inventory.armorInventory[i].getItem() == BBItems.boundChestplate)
-							e.player.inventory.armorInventory[i].getItem().onUpdate(e.player.inventory.armorInventory[i], e.player.worldObj, e.player, 102, false);
-						if(e.player.inventory.armorInventory[i].getItem() == BBItems.boundLeggings)
-							e.player.inventory.armorInventory[i].getItem().onUpdate(e.player.inventory.armorInventory[i], e.player.worldObj, e.player, 101, false);
-						if(e.player.inventory.armorInventory[i].getItem() == BBItems.boundBoots)
-							e.player.inventory.armorInventory[i].getItem().onUpdate(e.player.inventory.armorInventory[i], e.player.worldObj, e.player, 100, false);
-					}
-	}
-
-	@SubscribeEvent
-	public void onItemToss(ItemTossEvent e) {
-		if(!e.getPlayer().worldObj.isRemote)
-			if(e.getEntityItem().getEntityItem() != null && e.getEntityItem().getEntityItem().getItem() instanceof BBArmor) {
-				if(e.getEntityItem().getEntityItem().getItem() == BBItems.boundHelmet || e.getEntityItem().getEntityItem().getItem() == BBItems.boundChestplate || e.getEntityItem().getEntityItem().getItem() == BBItems.boundLeggings || e.getEntityItem().getEntityItem().getItem() == BBItems.boundBoots)
-					if(BBItemStackHelper.getItemStackFromItemStack(e.getEntityItem().getEntityItem()) != null)
-						e.getPlayer().worldObj.spawnEntityInWorld(new EntityItem(e.getPlayer().worldObj, e.getPlayer().posX, e.getPlayer().posY, e.getPlayer().posZ, BBItemStackHelper.getItemStackFromItemStack(e.getEntityItem().getEntityItem())));
-				e.setCanceled(true);
-			}
+	public void onWorldTick(TickEvent.WorldTickEvent e) {
+		if(e.side.isServer())
+			if((e.world.getTotalWorldTime() % 168000) == 0)
+				BBWorldSaveData.get(e.world).clearDeadEntities(e.world); // 14 Minecraft Days
 	}
 
 	@SubscribeEvent
 	public void onKeyboardInput(InputEvent.KeyInputEvent e) {
 		if(Minecraft.getMinecraft().inGameHasFocus)
-			if(Keyboard.isKeyDown(Keyboard.KEY_U))
+			if(Keyboard.isKeyDown(ClientProxy.staffChange.getKeyCode()))
 				PacketHandler.sendToServer(new KeyClickMessage());
 	}
 

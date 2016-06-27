@@ -1,25 +1,26 @@
 package palaster.bb.api;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.ItemStack;
-import palaster.bb.api.capabilities.entities.*;
-import palaster.bb.api.recipes.RecipeLetter;
+import palaster.bb.BloodBank;
+import palaster.bb.api.capabilities.entities.BloodBankCapabilityProvider;
+import palaster.bb.api.capabilities.entities.IBloodBank;
+import palaster.bb.api.capabilities.entities.IUndead;
+import palaster.bb.api.capabilities.entities.UndeadCapabilityDefault;
+import palaster.bb.api.capabilities.entities.UndeadCapabilityProvider;
 import palaster.bb.network.PacketHandler;
 import palaster.bb.network.client.SyncPlayerPropsMessage;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class BBApi {
 
     private static List<Class<? extends EntityLiving>> excludeFromBloodLink = new ArrayList<Class<? extends EntityLiving>>();
-
-    public static List<RecipeLetter> letterRecipes = new ArrayList<RecipeLetter>();
 
     public static void addEntityLivingToExclude(EntityLiving el) {
         if(el != null) {
@@ -56,24 +57,16 @@ public class BBApi {
                 return true;
         return false;
     }
-
-    public static RecipeLetter registerLetterRecipe(ItemStack output, Object... input) {
-        if(input.length <= 9) {
-            RecipeLetter recipe = new RecipeLetter(output, input);
-            letterRecipes.add(recipe);
-            return recipe;
-        } else {
-            System.out.println(output.getDisplayName() + " has a recipe larger than 9 items.");
-            return null;
-        }
-    }
-
+    
     // Blood Bank Methods
 
     public static void consumeBlood(EntityPlayer player, int amt) {
-        final IBloodBank bloodBank = BloodBankCapabilityProvider.get(player);
-        if(bloodBank != null)
-            bloodBank.consumeBlood(player, amt);
+    	if(amt > getCurrentBlood(player)) {
+    		amt -= getCurrentBlood(player);
+    		setCurrentBlood(player, 0);
+            player.attackEntityFrom(BloodBank.proxy.bbBlood, (float) amt / 100);
+    	} else
+            setCurrentBlood(player, getCurrentBlood(player) - amt);
     }
 
     public static int getCurrentBlood(EntityPlayer player) {
@@ -84,15 +77,17 @@ public class BBApi {
     }
 
     public static void addBlood(EntityPlayer player, int amt) {
-        final IBloodBank bloodBank = BloodBankCapabilityProvider.get(player);
-        if(bloodBank != null)
-            bloodBank.addBlood(amt);
+    	if((getCurrentBlood(player) + amt) >= getMaxBlood(player))
+            setCurrentBlood(player, getMaxBlood(player));
+        else
+            setCurrentBlood(player, getCurrentBlood(player) + amt);
     }
 
     public static void setCurrentBlood(EntityPlayer player, int amt) {
         final IBloodBank bloodBank = BloodBankCapabilityProvider.get(player);
         if(bloodBank != null)
             bloodBank.setCurrentBlood(amt);
+        syncServerToClient(player);
     }
 
     public static int getMaxBlood(EntityPlayer player) {
@@ -106,12 +101,21 @@ public class BBApi {
         final IBloodBank bloodBank = BloodBankCapabilityProvider.get(player);
         if(bloodBank != null)
             bloodBank.setBloodMax(amt);
+        syncServerToClient(player);
+    }
+    
+    public static boolean isLinked(EntityPlayer player) {
+        final IBloodBank bloodBank = BloodBankCapabilityProvider.get(player);
+        if(bloodBank != null)
+            return bloodBank.isLinked();
+        return false;
     }
 
     public static void linkEntity(EntityPlayer player, EntityLiving entityLiving) {
         final IBloodBank bloodBank = BloodBankCapabilityProvider.get(player);
         if(bloodBank != null)
             bloodBank.linkEntity(entityLiving);
+        syncServerToClient(player);
     }
 
     public static EntityLiving getLinked(EntityPlayer player) {
@@ -277,7 +281,7 @@ public class BBApi {
                 try {
                     iAttributeInstance.removeModifier(iAttributeInstance.getModifier(UndeadCapabilityDefault.strengthID));
                 } catch(Exception e) {}
-                iAttributeInstance.applyModifier(new AttributeModifier(UndeadCapabilityDefault.strengthID, "bb.strength", undead.getStrength() * .25, 0));
+                iAttributeInstance.applyModifier(new AttributeModifier(UndeadCapabilityDefault.strengthID, "bb.strength", undead.getStrength() * .9, 0));
             }
         }
         syncServerToClient(player);

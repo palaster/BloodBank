@@ -1,12 +1,13 @@
 package palaster.bb.entities.knowledge;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import palaster.bb.api.capabilities.items.IKnowledgePiece;
+import palaster.bb.entities.knowledge.pieces.KPBloodHive;
 import palaster.bb.entities.knowledge.pieces.KPBloodLink;
 import palaster.bb.entities.knowledge.pieces.KPBoilingBlood;
 import palaster.bb.entities.knowledge.pieces.KPBoundArmor;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class BBKnowledge {
 
@@ -42,5 +43,6 @@ public class BBKnowledge {
         addKnowledgePiece(new KPBoilingBlood());
         addKnowledgePiece(new KPBloodLink());
         addKnowledgePiece(new KPBoundArmor());
+        addKnowledgePiece(new KPBloodHive());
     }
 }

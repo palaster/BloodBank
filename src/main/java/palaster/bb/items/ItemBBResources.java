@@ -1,17 +1,21 @@
 package palaster.bb.items;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.MobEffects;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -22,7 +26,6 @@ import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AnvilUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -40,7 +43,7 @@ import palaster.bb.libs.LibNBT;
 
 public class ItemBBResources extends Item {
 
-    public static String[] names = new String[]{"bankContract", "bankID", "wormEater", "vampireSigil", "urn"};
+    public static String[] names = new String[]{"bankContract", "bankID", "wormEater", "vampireSigil", "urn", "denseSandParticle"};
 
     public ItemBBResources() {
         super();
@@ -51,23 +54,6 @@ public class ItemBBResources extends Item {
         setUnlocalizedName("bbResources");
         MinecraftForge.EVENT_BUS.register(this);
     }
-    
-    @SubscribeEvent
-	public void onLivingDeath(LivingDeathEvent e) {
-		if(!e.getEntityLiving().worldObj.isRemote)
-			if(e.getEntityLiving() instanceof EntityPlayer) {
-				EntityPlayer p = (EntityPlayer) e.getEntityLiving();
-				if(e.getSource().isFireDamage()) {
-					if(p.inventory.hasItemStack(new ItemStack(BBItems.bbResources, 1, 4)))
-						BBApi.setUndead(p, true);
-					if(BBApi.getMaxBlood(p) > 0)
-						BBApi.setMaxBlood(p, 0);
-					for(int i = 0; i < p.inventory.getSizeInventory(); i++)
-						if(p.inventory.getStackInSlot(i) != null && p.inventory.getStackInSlot(i).getItem() == BBItems.bbResources && p.inventory.getStackInSlot(i).getItemDamage() == 4)
-							p.inventory.setInventorySlotContents(i, null);
-				}
-			}
-	}
     
     @SubscribeEvent
 	public void onLivingAttack(LivingAttackEvent e) {
@@ -139,7 +125,16 @@ public class ItemBBResources extends Item {
                     return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, new ItemStack(this, 1, 1));
                 } else
                     BBPlayerHelper.sendChatMessageToPlayer(playerIn, I18n.format("bb.bank.refuse"));
-            }
+            } else if(itemStackIn.getItemDamage() == 4)
+            	if(!BBApi.isUndead(playerIn)) {
+            		BBApi.setUndead(playerIn, true);
+            		if(BBApi.getMaxBlood(playerIn) > 0) {
+            			BBApi.setMaxBlood(playerIn, 0);
+            			BBPlayerHelper.sendChatMessageToPlayer(playerIn, I18n.format("bb.bank.becomeUndead"));
+            		}
+            		playerIn.attackEntityFrom(DamageSource.inFire, playerIn.getMaxHealth() + 5f);
+            		return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, null);
+            	}
         return super.onItemRightClick(itemStackIn, worldIn, playerIn, hand);
     }
 
@@ -157,6 +152,19 @@ public class ItemBBResources extends Item {
             }
         return EnumActionResult.PASS;
     }
+    
+    @Override
+    public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+    	if(!worldIn.isRemote)
+    		if(stack.getItemDamage() == 5 && entityIn instanceof EntityPlayer)
+    			if(((EntityPlayer) entityIn).getActivePotionEffect(MobEffects.SLOWNESS) != null) {
+    				WeakReference<PotionEffect> pe = new WeakReference<PotionEffect>(((EntityPlayer) entityIn).getActivePotionEffect(MobEffects.SLOWNESS));
+    				((EntityPlayer) entityIn).removeActivePotionEffect(MobEffects.SLOWNESS);
+    				if(pe != null && pe.get() != null)
+    					((EntityPlayer) entityIn).addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 1, pe.get().getAmplifier() + 1, false, true));
+    			} else 
+    				((EntityPlayer) entityIn).addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 1, 0, false, true));    				
+    }
 
     @Override
     public String getUnlocalizedName(ItemStack stack) { return super.getUnlocalizedName(stack) + "." + names[stack.getItemDamage()]; }
@@ -171,13 +179,12 @@ public class ItemBBResources extends Item {
     public Item setUnlocalizedName(String unlocalizedName) {
         setRegistryName(new ResourceLocation(LibMod.modid, unlocalizedName));
         GameRegistry.register(this);
-        setCustomModelResourceLocation();
         return super.setUnlocalizedName(LibMod.modid + ":" + unlocalizedName);
     }
 
     @SideOnly(Side.CLIENT)
-    public void setCustomModelResourceLocation() {
+    public static void setCustomModelResourceLocation(Item item) {
         for(int i = 0; i < names.length; i++)
-            ModelLoader.setCustomModelResourceLocation(this, i, new ModelResourceLocation(LibMod.modid + ":" + names[i], "inventory"));
+            ModelLoader.setCustomModelResourceLocation(item, i, new ModelResourceLocation(LibMod.modid + ":" + names[i], "inventory"));
     }
 }

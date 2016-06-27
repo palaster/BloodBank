@@ -3,10 +3,13 @@ itemGroup.tabBB=Blood Bank
 death.attack.bbBlood=%1$s died of anemia.
 
 effect.timedFlame=Timed Flame
+effect.bloodHive=Blood Hive
+effect.sandBody=Sand Body
 
 key.categories.bb=Blood Bank
 key.staffChange=Change Staff Power
 
+entity.Villager.spell=Spell Seller
 entity.bb.skeletonMinion.name=Skeleton Minion
 entity.bb.yinYang.name=Yin Yang
 entity.bb.demonicBankTeller.name=Demonic Bank Teller
@@ -16,6 +19,7 @@ tile.bb:void.name=Touch of Void
 tile.bb:communityTool.name=Community Tools
 tile.bb:voidAnchor.name=Void Anchor
 tile.bb:bonfire.name=Bonfire
+tile.bb:tntAbsorber.name=TNT Absorber
 
 item.bb:staffSkeleton.name=Skeleton Staff
 item.bb:staffEfreet.name=Efreet Staff
@@ -25,8 +29,12 @@ item.bb:staffHungryShadows.name=Staff of Hungry Shadows
 item.bb:animalHerder.name=Animal Herder
 item.bb:bloodBottle.name=Blood Bottle
 item.bb:bookBlood.name=Bloody Book
-item.bb:letter.name=Letter
 item.bb:undeadMonitor.name=Undead Monitor
+item.bb:estusFlask.name=Estus Flask
+item.bb:ashenEstusFlask.name=Ashen Estus Flask
+item.bb:armorActivator.name=Armor Activator
+item.bb:resurrectionStone.name=Resurrection Stone
+item.bb:ghostWhisper.name=Ghost Whisper
 
 item.bb:flames.name=Flames
 item.bb:carthusFlameArc.name=Carthus Flame Arc
@@ -36,6 +44,10 @@ item.bb:bound.HEAD.name=Bound Helmet
 item.bb:bound.CHEST.name=Bound Chestplate
 item.bb:bound.LEGS.name=Bound Leggings
 item.bb:bound.FEET.name=Bound Boots
+item.bb:sand.HEAD.name=Sand Helmet
+item.bb:sand.CHEST.name=Sand Chestplate
+item.bb:sand.LEGS.name=Sand Leggings
+item.bb:sand.FEET.name=Sand Boots
 
 item.bb:debug.name=Debug
 item.bb:yinYang.name=Yin Yang
@@ -44,6 +56,7 @@ item.bb:bbResources.bankID.name=Bank ID
 item.bb:bbResources.wormEater.name=Worm Eater
 item.bb:bbResources.vampireSigil.name=Vampire Sigil
 item.bb:bbResources.urn.name=Urn
+item.bb:bbResources.denseSandParticle.name=Dense Sand Particle
 
 bb.misc.activated=Activated
 bb.misc.broken=BROKEN (Normal Fix is a simple right-click)
@@ -59,10 +72,17 @@ bb.misc.reuse=Reuse Timer
 bb.misc.alreadyLinked=Can't link to more than one entity.
 bb.misc.countDown=Community Item
 bb.misc.entityTag=Capture Entity
+bb.misc.amountLeft=Amount Left
+bb.misc.timeLeft=Time Left
+bb.misc.minutes=Minutes
+bb.misc.seconds=Seconds
+bb.misc.deadEntity=Dead Entity
+bb.misc.ghostWhisper=You hear the whispers of a 
 
 bb.bank.join=Welcome to the First National Bank of Blood, you start out with a max balance of 2000. Use this bank ID card to keep in contact.
 bb.bank.refuse=You already have an account with this bank.
 bb.bank.undead=Sorry, we don't take your type here.
+bb.bank.becomeUndead=You have become an atrocity and we refoke your bank membership.
 
 bb.undead.soul=Soul
 bb.undead.focus=Focus
@@ -89,5 +109,7 @@ bb.kp.active=Active Spell
 bb.kp.boilingBlood=Boiling Blood
 bb.kp.bloodLink=Blood Link
 bb.kp.boundArmor=Bound Armor
+bb.kp.bloodHive=Blood Hive
 
-bb.jei.letter=Letter
+bb.jei.blood=Blood
+bb.jei.bloodCost=Blood Cost

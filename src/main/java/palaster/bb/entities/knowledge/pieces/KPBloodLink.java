@@ -31,7 +31,7 @@ public class KPBloodLink implements IKnowledgePiece {
 
     @Override
     public boolean knowledgePieceInteractionForEntity(ItemStack stack, EntityPlayer playerIn, EntityLivingBase target, EnumHand hand) {
-        if(BBApi.getLinked(playerIn) == null && target instanceof EntityLiving && BBApi.checkExcludesForEntity((EntityLiving) target)) {
+        if(!BBApi.isLinked(playerIn) && target instanceof EntityLiving && !BBApi.checkExcludesForEntity((EntityLiving) target)) {
             BBApi.linkEntity(playerIn, (EntityLiving) target);
             return true;
         } else

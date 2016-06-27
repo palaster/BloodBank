@@ -1,6 +1,6 @@
 {
   "parent": "bb:item/bbStandard",
   "textures": {
-    "layer0": "bb:items/letter"
+    "layer0": "bb:items/sandLeggings"
   }
 }

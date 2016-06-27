@@ -15,9 +15,6 @@ repositories {
 	maven {
 		url "http://dvs1.progwml6.com/files/maven"
 	}
-	maven {
-		url "http://tehnut.info/maven/"
-	}
 }
 
 apply plugin: 'net.minecraftforge.gradle.forge'
@@ -34,19 +31,16 @@ ext.config = parseConfig(configFile)
 
 version = "${config.version}"
 group= "palaster.bb"
-archivesBaseName = "Blood Bank"
+archivesBaseName = "BloodBank"
 
 minecraft {
-    version = "${config.mc_version}-${config.forge_version}-${config.mc_version}"
+    version = "${config.mc_version}-${config.forge_version}"
     runDir = "run"
     mappings = "snapshot_20160518"
 	useDepAts = true
 }
 
-dependencies {
-	deobfCompile "mezz.jei:jei_${config.mc_version}:${config.jei_version}"
-	deobfCompile "com.wayoftime.bloodmagic:BloodMagic:${config.mc_version}-${config.bm_version}"
-}
+dependencies { deobfCompile "mezz.jei:jei_${config.mc_version}:${config.jei_version}" }
 
 processResources {
     inputs.property "version", project.version

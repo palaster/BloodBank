@@ -36,10 +36,11 @@ public class ItemSacredFlame extends ItemModSpecial implements IFlameSpell {
 
     @Override
     public boolean spellInteractionForEntity(ItemStack stack, EntityPlayer playerIn, EntityLivingBase target, EnumHand hand) {
-        if(target instanceof EntityLiving || target instanceof EntityPlayer) {
-            target.addPotionEffect(new PotionEffect(BBPotions.timedFlame, 6000, 0, false, true));
-            return true;
-        }
+        if(target instanceof EntityLiving || target instanceof EntityPlayer)
+        	if(target.getActivePotionEffect(BBPotions.timedFlame) == null) {
+        		target.addPotionEffect(new PotionEffect(BBPotions.timedFlame, 6000, 0, false, true));
+            	return true;
+        	}
         return false;
     }
 }

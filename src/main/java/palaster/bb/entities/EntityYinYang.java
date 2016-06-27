@@ -51,7 +51,7 @@ public class EntityYinYang extends EntityThrowable {
 		if(result != null && result.typeOfHit == RayTraceResult.Type.ENTITY && result.entityHit != null) {
 			if(isSneaking == 0) {
 				if(result.entityHit instanceof EntityLivingBase)
-					result.entityHit.attackEntityFrom(DamageSource.outOfWorld, 3f);
+					result.entityHit.attackEntityFrom(DamageSource.outOfWorld, 8f);
 			} else if(isSneaking == 1)
 				if(result.entityHit instanceof EntityLivingBase)
 					result.entityHit.setPosition(getThrower().posX, getThrower().posY, getThrower().posZ);

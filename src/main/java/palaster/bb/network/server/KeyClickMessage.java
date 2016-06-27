@@ -1,14 +1,12 @@
 package palaster.bb.network.server;
 
+import java.io.IOException;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.relauncher.Side;
-import palaster.bb.api.capabilities.entities.BloodBankCapabilityProvider;
-import palaster.bb.api.capabilities.entities.IBloodBank;
 import palaster.bb.items.ItemModStaff;
 import palaster.bb.network.AbstractMessage.AbstractServerMessage;
-
-import java.io.IOException;
 
 public class KeyClickMessage extends AbstractServerMessage<KeyClickMessage> {
 
@@ -23,8 +21,7 @@ public class KeyClickMessage extends AbstractServerMessage<KeyClickMessage> {
 	@Override
 	public void process(EntityPlayer player, Side side) {
 		if(!player.worldObj.isRemote) {
-			final IBloodBank bloodBank = player.getCapability(BloodBankCapabilityProvider.bloodBankCap, null);
-			if(bloodBank != null && player.getHeldItemMainhand() != null && player.getHeldItemMainhand().getItem() instanceof ItemModStaff)
+			if(player.getHeldItemMainhand() != null && player.getHeldItemMainhand().getItem() instanceof ItemModStaff)
 				if(ItemModStaff.getActiveMax(player.getHeldItemMainhand()) != 0)
 					if(ItemModStaff.getActivePower(player.getHeldItemMainhand()) == (ItemModStaff.getActiveMax(player.getHeldItemMainhand()) - 1))
 						ItemModStaff.setActivePower(player.getHeldItemMainhand(), 0);
