@@ -17,7 +17,9 @@ import net.minecraftforge.oredict.RecipeSorter;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import palaster.bb.api.recipes.ShapedBloodRecipes;
 import palaster.bb.blocks.BBBlocks;
+import palaster.bb.core.helpers.BBItemStackHelper;
 import palaster.bb.items.BBItems;
+import palaster.bb.libs.LibNBT;
 
 public class BBRecipes {
 
@@ -48,6 +50,10 @@ public class BBRecipes {
 		GameRegistry.addRecipe(new ItemStack(BBItems.sandLeggings), "xxx", "x x", "x x", 'x', Items.STRING);
 		GameRegistry.addRecipe(new ItemStack(BBItems.sandBoots), "x x", "x x", 'x', Items.STRING);
 		GameRegistry.addRecipe(new ItemStack(BBItems.armorActivator), "xax", "bxc", "xdx", 'x', Items.GLOWSTONE_DUST, 'a', Items.DIAMOND_HELMET, 'b', Items.DIAMOND_CHESTPLATE, 'c', Items.DIAMOND_LEGGINGS, 'd', Items.DIAMOND_BOOTS);
+		
+		ItemStack tokenBoss = new ItemStack(BBItems.token);
+		BBItemStackHelper.addNumberTagToItemStack(tokenBoss, LibNBT.number, 0);
+		GameRegistry.addRecipe(tokenBoss, "xyx", "yzy", "xyx", 'x', Blocks.STONE, 'y', Items.GOLD_NUGGET, 'z', BBItems.token);
 		
 		RecipeSorter.register("bb:shapedblood", ShapedBloodRecipes.class, RecipeSorter.Category.SHAPED, "after:minecraft:shaped");
 		

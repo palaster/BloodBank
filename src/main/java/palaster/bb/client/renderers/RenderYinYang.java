@@ -12,9 +12,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import palaster.bb.entities.EntityYinYang;
 
 @SideOnly(Side.CLIENT)
-public class RenderYinYang extends Render {
+public class RenderYinYang extends Render<EntityYinYang> {
 	
 	protected final Item field_177084_a;
     private final RenderItem field_177083_e;
@@ -26,8 +27,8 @@ public class RenderYinYang extends Render {
 	}
 	
 	@Override
-    public void doRender(Entity entity, double x, double y, double z, float p_76986_8_, float partialTicks) {
-        GlStateManager.pushMatrix();
+	public void doRender(EntityYinYang entity, double x, double y, double z, float entityYaw, float partialTicks) {
+		GlStateManager.pushMatrix();
         GlStateManager.translate((float)x, (float)y, (float)z);
         GlStateManager.enableRescaleNormal();
         GlStateManager.scale(0.5F, 0.5F, 0.5F);
@@ -37,11 +38,11 @@ public class RenderYinYang extends Render {
         field_177083_e.renderItem(func_177082_d(entity), ItemCameraTransforms.TransformType.GROUND);
         GlStateManager.disableRescaleNormal();
         GlStateManager.popMatrix();
-        super.doRender(entity, x, y, z, p_76986_8_, partialTicks);
-    }
+		super.doRender(entity, x, y, z, entityYaw, partialTicks);
+	}
 
     public ItemStack func_177082_d(Entity p_177082_1_) { return new ItemStack(field_177084_a, 1, 0); }
 
 	@Override
-	protected ResourceLocation getEntityTexture(Entity entity) { return TextureMap.LOCATION_BLOCKS_TEXTURE; }
+	protected ResourceLocation getEntityTexture(EntityYinYang entity) { return TextureMap.LOCATION_BLOCKS_TEXTURE; }
 }

@@ -16,6 +16,7 @@ import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -24,6 +25,7 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerDropsEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.world.WorldEvent;
@@ -41,6 +43,7 @@ import palaster.bb.api.capabilities.entities.BloodBankCapabilityProvider;
 import palaster.bb.api.capabilities.entities.UndeadCapabilityProvider;
 import palaster.bb.api.recipes.ShapedBloodRecipes;
 import palaster.bb.core.proxy.ClientProxy;
+import palaster.bb.entities.EntityItztiliTablet;
 import palaster.bb.entities.effects.BBPotions;
 import palaster.bb.entities.knowledge.BBKnowledge;
 import palaster.bb.items.BBItems;
@@ -193,6 +196,15 @@ public class BBEventHandler {
 	}
 	
 	@SubscribeEvent
+	public void onLivingHurt(LivingHurtEvent e) {
+		if(e.getEntityLiving() instanceof EntityItztiliTablet) {
+			if(e.getSource() != DamageSource.outOfWorld && e.getSource() != DamageSource.inWall) {
+				e.setCanceled(true);
+			}
+		}
+	}
+	
+	@SubscribeEvent
 	public void onCraft(ItemCraftedEvent e) {
 		if(!e.player.worldObj.isRemote)
 			if(CraftingManager.getInstance().getRecipeList() != null)
@@ -232,8 +244,8 @@ public class BBEventHandler {
 	@SubscribeEvent
 	public void onWorldTick(TickEvent.WorldTickEvent e) {
 		if(e.side.isServer())
-			if((e.world.getTotalWorldTime() % 168000) == 0)
-				BBWorldSaveData.get(e.world).clearDeadEntities(e.world); // 14 Minecraft Days
+			if((e.world.getTotalWorldTime() % 84000) == 0)
+				BBWorldSaveData.get(e.world).clearDeadEntities(e.world); // 7 Minecraft Days
 	}
 
 	@SubscribeEvent
