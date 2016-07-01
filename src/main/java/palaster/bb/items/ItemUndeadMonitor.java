@@ -27,7 +27,7 @@ public class ItemUndeadMonitor extends ItemModSpecial {
             if(BBApi.isUndead(playerIn)) {
                 BBApi.syncServerToClient(playerIn);
                 playerIn.openGui(BloodBank.instance, 2, worldIn, (int) playerIn.posX, (int) playerIn.posY, (int) playerIn.posZ);
-                return new ActionResult(EnumActionResult.SUCCESS, itemStackIn);
+                return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStackIn);
             }
         return super.onItemRightClick(itemStackIn, worldIn, playerIn, hand);
     }

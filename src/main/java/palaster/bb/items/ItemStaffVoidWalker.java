@@ -30,13 +30,13 @@ public class ItemStaffVoidWalker extends ItemModStaff {
 				yinYang.setHeadingFromThrower(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.5F, 1.0F);
 				worldIn.spawnEntityInWorld(yinYang);
 				itemStackIn.damageItem(1, playerIn);
-				return new ActionResult(EnumActionResult.SUCCESS, itemStackIn);
+				return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStackIn);
 			} else {
 				EntityYinYang yinYang = new EntityYinYang(worldIn, playerIn, 1);
 				yinYang.setHeadingFromThrower(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.5F, 1.0F);
 				worldIn.spawnEntityInWorld(yinYang);
 				itemStackIn.damageItem(1, playerIn);
-				return new ActionResult(EnumActionResult.SUCCESS, itemStackIn);
+				return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStackIn);
 			}
 		}
 		return super.onItemRightClick(itemStackIn, worldIn, playerIn, hand);

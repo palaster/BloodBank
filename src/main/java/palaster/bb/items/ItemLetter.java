@@ -22,7 +22,7 @@ public class ItemLetter extends ItemModSpecial {
     public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
         if(!worldIn.isRemote && playerIn.isSneaking()) {
             playerIn.openGui(BloodBank.instance, 3, worldIn, (int) playerIn.posX, (int) playerIn.posY, (int) playerIn.posZ);
-            return new ActionResult(EnumActionResult.SUCCESS, itemStackIn);
+            return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStackIn);
         }
         return super.onItemRightClick(itemStackIn, worldIn, playerIn, hand);
     }

@@ -20,7 +20,7 @@ public class ItemStaffTime extends ItemModStaff {
 		if(!worldIn.isRemote) {
 			worldIn.provider.setWorldTime(worldIn.provider.getWorldTime() + 12000);
 			itemStackIn.damageItem(256, playerIn);
-			return new ActionResult(EnumActionResult.SUCCESS, itemStackIn);
+			return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStackIn);
 		}
 		return super.onItemRightClick(itemStackIn, worldIn, playerIn, hand);
 	}
