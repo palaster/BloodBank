@@ -77,6 +77,7 @@ public class ItemEstusFlask extends ItemModSpecial {
 	@Override
 	public boolean showDurabilityBar(ItemStack stack) { return false; }
 	
+	@SuppressWarnings("deprecation")
 	@Override
-	public String getItemStackDisplayName(ItemStack stack) { return ("" + I18n.format(getUnlocalizedNameInefficiently(stack) + "." + stack.getItemDamage() + ".name")).trim(); }
+	public String getItemStackDisplayName(ItemStack stack) { return ("" + net.minecraft.util.text.translation.I18n.translateToLocal(getUnlocalizedNameInefficiently(stack) + "." + stack.getItemDamage() + ".name")).trim(); }
 }
