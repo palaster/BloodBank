@@ -11,6 +11,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import palaster.bb.api.BBApi;
+import palaster.bb.blocks.BBBlocks;
+import palaster.bb.core.helpers.BBWorldHelper;
 import palaster.bb.inventories.ContainerUndeadMonitor;
 import palaster.bb.libs.LibResource;
 import palaster.bb.network.PacketHandler;
@@ -52,12 +54,9 @@ public class GuiUndeadMonitor extends GuiContainer {
         } else {
         	fontRendererObj.drawString(I18n.format("bb.undead.soulCost") + ": " + BBApi.getSoulCostForNextLevel(player.get()), 6, 96, 0x009900);
         }
-
-        /*
-        TODO: Fix bonfire not being found on client side.
-        if(BBWorldHelper.findBlockVicinityFromPlayer(BBBlocks.bonfire, invPlayer.player.worldObj, invPlayer.player, 10, 4) == null)
-            fontRendererObj.drawString(I18n.translateToLocal("bb.undead.bonFireNotFound"), 6, 106, 0x8A0707);
-        */
+        
+        if(BBWorldHelper.findBlockVicinityFromPlayer(BBBlocks.bonfire, player.get().worldObj, player.get(), 10, 4) == null)
+            fontRendererObj.drawString(I18n.format("bb.undead.bonFireNotFound"), 6, 106, 0x8A0707);
     }
 
     @Override

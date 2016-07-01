@@ -81,7 +81,6 @@ public class ItemAnimalHerder extends ItemModSpecial {
 				if(stack.getTagCompound() != null && stack.getTagCompound().getBoolean(LibNBT.isSet) && stack.getTagCompound().getCompoundTag(LibNBT.entityTag) != null) {
 					Entity animal = EntityList.createEntityFromNBT(stack.getTagCompound().getCompoundTag(LibNBT.entityTag), worldIn);
 					if(animal != null) {
-						// TODO: Set position based on side of block
 						animal.setPosition(pos.getX(), pos.getY() + 1, pos.getZ());
 						worldIn.spawnEntityInWorld(animal);
 						stack.getTagCompound().setBoolean(LibNBT.isSet, false);
