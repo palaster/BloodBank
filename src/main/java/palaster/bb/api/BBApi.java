@@ -15,14 +15,13 @@ import palaster.bb.api.capabilities.entities.IBloodBank;
 import palaster.bb.api.capabilities.entities.IUndead;
 import palaster.bb.api.capabilities.entities.UndeadCapabilityDefault;
 import palaster.bb.api.capabilities.entities.UndeadCapabilityProvider;
-import palaster.bb.entities.EntityItztiliTablet;
 import palaster.bb.network.PacketHandler;
 import palaster.bb.network.client.SyncPlayerPropsMessage;
 
 public class BBApi {
 
-    private static List<Class<? extends EntityLiving>> excludeFromBloodLink = new ArrayList<Class<? extends EntityLiving>>();
-    private static List<Class<? extends EntityLiving>> bossToken = new ArrayList<Class<? extends EntityLiving>>();
+    private static final List<Class<? extends EntityLiving>> excludeFromBloodLink = new ArrayList<Class<? extends EntityLiving>>();
+    private static final List<Class<? extends EntityLiving>> bossToken = new ArrayList<Class<? extends EntityLiving>>();
 
     public static void addEntityLivingToExclude(EntityLiving el) {
         if(el != null) {
@@ -96,10 +95,6 @@ public class BBApi {
     }
     
     public static int getSizeBossTokens() { return bossToken.size(); }
-    
-    static {
-    	addBossClassToToken(EntityItztiliTablet.class);
-    }
     
     // Blood Bank Methods
 

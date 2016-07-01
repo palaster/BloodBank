@@ -36,6 +36,7 @@ item.bb:armorActivator.name=Armor Activator
 item.bb:resurrectionStone.name=Resurrection Stone
 item.bb:ghostWhisper.name=Ghost Whisper
 item.bb:token.name=Token
+item.bb:pigDefense.name=Pig Defense
 
 item.bb:flames.name=Flames
 item.bb:carthusFlameArc.name=Carthus Flame Arc
@@ -59,6 +60,7 @@ item.bb:bbResources.vampireSigil.name=Vampire Sigil
 item.bb:bbResources.urn.name=Urn
 item.bb:bbResources.denseSandParticle.name=Dense Sand Particle
 item.bb:bbResources.souls.name=Souls
+item.bb:bbResources.itztiliSouls.name=Itztili's Soul
 
 bb.misc.activated=Activated
 bb.misc.broken=BROKEN (Normal Fix is a simple right-click)

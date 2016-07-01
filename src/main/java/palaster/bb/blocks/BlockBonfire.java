@@ -5,6 +5,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemClock;
 import net.minecraft.item.ItemFireball;
 import net.minecraft.item.ItemGlassBottle;
@@ -15,6 +16,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import palaster.bb.api.BBApi;
+import palaster.bb.core.helpers.BBItemStackHelper;
 import palaster.bb.items.BBItems;
 import palaster.bb.items.ItemEstusFlask;
 import palaster.bb.libs.LibNBT;
@@ -34,20 +36,25 @@ public class BlockBonfire extends BlockMod {
             if(heldItem != null && heldItem.stackSize == 1) {
                 if(heldItem.getItem() instanceof ItemClock)
                     playerIn.setHeldItem(hand, new ItemStack(BBItems.undeadMonitor));
-                if(heldItem.getItem() instanceof ItemFireball)
+                else if(heldItem.getItem() instanceof ItemFireball)
                     playerIn.setHeldItem(hand, new ItemStack(BBItems.flames));
-                if(heldItem.getItem() instanceof ItemGlassBottle) {
+                else if(heldItem.getItem() instanceof ItemGlassBottle) {
                 	ItemStack estusFlask = new ItemStack(BBItems.estusFlask);
                 	if(!estusFlask.hasTagCompound())
                 		estusFlask.setTagCompound(new NBTTagCompound());
                 	estusFlask.getTagCompound().setInteger(LibNBT.amount, 6);
                 	playerIn.setHeldItem(hand, estusFlask);
                 }
-                if(heldItem.getItem() instanceof ItemEstusFlask) {
+                else if(heldItem.getItem() instanceof ItemEstusFlask) {
                 	if(!heldItem.hasTagCompound())
                 		heldItem.setTagCompound(new NBTTagCompound());
                 	heldItem.getTagCompound().setInteger(LibNBT.amount, 6);
                 	playerIn.setHeldItem(hand, heldItem);
+                }
+                else if(heldItem.getItem() == Items.GOLD_INGOT) {
+                	ItemStack token = new ItemStack(BBItems.token);
+                	BBItemStackHelper.addNumberTagToItemStack(token, LibNBT.number, -1);
+                	playerIn.setHeldItem(hand, token);
                 }
                 return true;
             }

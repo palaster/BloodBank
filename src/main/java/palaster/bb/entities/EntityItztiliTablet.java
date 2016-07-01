@@ -19,8 +19,6 @@ import palaster.bb.libs.LibResource;
 
 public class EntityItztiliTablet extends EntityCreature {
 
-    // TODO: G	ive it cool drop.
-
     private final BossInfoServer bossInfo = (BossInfoServer)(new BossInfoServer(getDisplayName(), BossInfo.Color.GREEN, BossInfo.Overlay.PROGRESS));
     private int enemyCount;
     private int delay;

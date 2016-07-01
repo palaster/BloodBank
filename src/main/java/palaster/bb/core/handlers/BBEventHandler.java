@@ -197,11 +197,9 @@ public class BBEventHandler {
 	
 	@SubscribeEvent
 	public void onLivingHurt(LivingHurtEvent e) {
-		if(e.getEntityLiving() instanceof EntityItztiliTablet) {
-			if(e.getSource() != DamageSource.outOfWorld && e.getSource() != DamageSource.inWall) {
+		if(e.getEntityLiving() instanceof EntityItztiliTablet)
+			if(e.getSource() != DamageSource.outOfWorld && e.getSource() != DamageSource.inWall)
 				e.setCanceled(true);
-			}
-		}
 	}
 	
 	@SubscribeEvent
@@ -236,9 +234,12 @@ public class BBEventHandler {
 
 	@SubscribeEvent
 	public void onLivingUpdate(LivingEvent.LivingUpdateEvent e) {
-		if(!e.getEntityLiving().worldObj.isRemote)
+		if(!e.getEntityLiving().worldObj.isRemote) {
 			if(e.getEntityLiving().getActivePotionEffect(BBPotions.timedFlame) != null && e.getEntityLiving().getActivePotionEffect(BBPotions.timedFlame).getDuration() == 1)
 				e.getEntityLiving().setFire(300);
+			else if(e.getEntityLiving().getActivePotionEffect(BBPotions.instantDeath) != null && e.getEntityLiving().getActivePotionEffect(BBPotions.instantDeath).getDuration() == 1)
+				e.getEntityLiving().attackEntityFrom(DamageSource.outOfWorld, Float.MAX_VALUE);
+		}
 	}
 
 	@SubscribeEvent

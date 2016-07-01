@@ -43,7 +43,7 @@ import palaster.bb.libs.LibNBT;
 
 public class ItemBBResources extends Item {
 
-    public static String[] names = new String[]{"bankContract", "bankID", "wormEater", "vampireSigil", "urn", "denseSandParticle", "souls"};
+    public static String[] names = new String[]{"bankContract", "bankID", "wormEater", "vampireSigil", "urn", "denseSandParticle", "souls", "itztiliSouls"};
 
     public ItemBBResources() {
         super();

@@ -25,7 +25,8 @@ public class BBItems {
 	armorActivator,
 	resurrectionStone,
 	ghostWhisper,
-	token;
+	token,
+	pigDefense;
 
 	public static Item flames,
 	carthusFlameArc,
@@ -62,6 +63,7 @@ public class BBItems {
 		resurrectionStone = new ItemResurrectionStone();
 		ghostWhisper = new ItemGhostWhisper();
 		token = new ItemToken();
+		pigDefense = new ItemPigDefense();
 
 		flames = new ItemFlames();
 		carthusFlameArc = new ItemCarthusFlameArc();
@@ -96,6 +98,7 @@ public class BBItems {
 		ItemMod.setCustomModelResourceLocation(resurrectionStone);
 		ItemMod.setCustomModelResourceLocation(ghostWhisper);
 		ItemMod.setCustomModelResourceLocation(token);
+		ItemMod.setCustomModelResourceLocation(pigDefense);
 		
 		ItemMod.setCustomModelResourceLocation(flames);
 		ItemMod.setCustomModelResourceLocation(carthusFlameArc);
