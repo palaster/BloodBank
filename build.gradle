@@ -43,15 +43,15 @@ minecraft {
 dependencies { deobfCompile "mezz.jei:jei_${config.mc_version}:${config.jei_version}" }
 
 processResources {
-    inputs.property "version", project.version
-    inputs.property "mcversion", project.minecraft.version
+	inputs.property "version", project.version
+	inputs.property "mcversion", project.minecraft.version
+
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'                
+        expand 'version':project.version, 'mcversion':project.minecraft.version
+    }
 	
-	from(sourceSets.main.resources.srcDirs) {
-		include 'mcmod.info'
-		expand 'version':project.version, 'mcversion':project.minecraft.version
-	}
-	
-	from(sourceSets.main.resources.srcDirs) { exclude 'mcmod.info' }
+    from(sourceSets.main.resources.srcDirs) { exclude 'mcmod.info' }
 }
 
 def parseConfig(File config) {
