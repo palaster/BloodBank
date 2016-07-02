@@ -22,10 +22,11 @@ public class BBItems {
 	bloodBook,
 	undeadMonitor,
 	estusFlask,
-	ashenEstusFlask,
 	armorActivator,
 	resurrectionStone,
-	ghostWhisper;
+	ghostWhisper,
+	token,
+	pigDefense;
 
 	public static Item flames,
 	carthusFlameArc,
@@ -58,10 +59,11 @@ public class BBItems {
 		bloodBook = new ItemBookBlood();
 		undeadMonitor = new ItemUndeadMonitor();
 		estusFlask = new ItemEstusFlask();
-		ashenEstusFlask = new ItemAshenEstusFlask();
 		armorActivator = new ItemArmorActivator();
 		resurrectionStone = new ItemResurrectionStone();
 		ghostWhisper = new ItemGhostWhisper();
+		token = new ItemToken();
+		pigDefense = new ItemPigDefense();
 
 		flames = new ItemFlames();
 		carthusFlameArc = new ItemCarthusFlameArc();
@@ -92,10 +94,11 @@ public class BBItems {
 		ItemMod.setCustomModelResourceLocation(bloodBook);
 		ItemMod.setCustomModelResourceLocation(undeadMonitor);
 		ItemMod.setCustomModelResourceLocation(estusFlask);
-		ItemMod.setCustomModelResourceLocation(ashenEstusFlask);
 		ItemMod.setCustomModelResourceLocation(armorActivator);
 		ItemMod.setCustomModelResourceLocation(resurrectionStone);
 		ItemMod.setCustomModelResourceLocation(ghostWhisper);
+		ItemMod.setCustomModelResourceLocation(token);
+		ItemMod.setCustomModelResourceLocation(pigDefense);
 		
 		ItemMod.setCustomModelResourceLocation(flames);
 		ItemMod.setCustomModelResourceLocation(carthusFlameArc);

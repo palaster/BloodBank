@@ -2,5 +2,13 @@
     "parent": "bb:item/bbStandard",
     "textures": {
         "layer0": "bb:items/ashenEstusFlask"
-    }
+    },
+	"overrides": [
+	{
+		"predicate": {
+			"type": 0
+		},
+		"model":"bb:item/estusFlask"
+	}
+	]
 }

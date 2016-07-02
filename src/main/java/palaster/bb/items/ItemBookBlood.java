@@ -50,16 +50,16 @@ public class ItemBookBlood extends ItemModSpecial {
                         itemStackIn.getTagCompound().setInteger(LibNBT.knowledgePiece, temp++);
                     else if(temp++ >= BBKnowledge.getKnowledgeSize())
                         itemStackIn.getTagCompound().setInteger(LibNBT.knowledgePiece, 0);
-                    return new ActionResult(EnumActionResult.SUCCESS, itemStackIn);
+                    return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStackIn);
                 } else if(itemStackIn.getTagCompound().getInteger(LibNBT.knowledgePiece) >= 0) {
                     if(BBKnowledge.getKnowledgePiece(itemStackIn.getTagCompound().getInteger(LibNBT.knowledgePiece)).onKnowledgePieceRightClick(itemStackIn, worldIn, playerIn, hand).getType() == EnumActionResult.SUCCESS)
                         BBApi.consumeBlood(playerIn, BBKnowledge.getKnowledgePiece(itemStackIn.getTagCompound().getInteger(LibNBT.knowledgePiece)).getPrice());
-                    return new ActionResult(EnumActionResult.SUCCESS, itemStackIn);
+                    return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStackIn);
                 }
             } else {
                 itemStackIn.setTagCompound(new NBTTagCompound());
                 itemStackIn.getTagCompound().setInteger(LibNBT.knowledgePiece, 0);
-                return new ActionResult(EnumActionResult.SUCCESS, itemStackIn);
+                return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStackIn);
             }
         }
         return super.onItemRightClick(itemStackIn, worldIn, playerIn, hand);

@@ -17,7 +17,9 @@ import net.minecraftforge.oredict.RecipeSorter;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import palaster.bb.api.recipes.ShapedBloodRecipes;
 import palaster.bb.blocks.BBBlocks;
+import palaster.bb.core.helpers.BBItemStackHelper;
 import palaster.bb.items.BBItems;
+import palaster.bb.libs.LibNBT;
 
 public class BBRecipes {
 
@@ -38,6 +40,7 @@ public class BBRecipes {
 		// Items
 		GameRegistry.addRecipe(new ItemStack(BBItems.resurrectionStone), "xyx", "yzy", "xyx", 'x', Blocks.SOUL_SAND, 'y', Items.EMERALD, 'z', Items.NETHER_STAR);
 		GameRegistry.addRecipe(new ItemStack(BBItems.ghostWhisper), "xyx", "yzy", "xyx", 'x', Blocks.SOUL_SAND, 'y', Items.DIAMOND, 'z', Blocks.GLASS);
+		GameRegistry.addRecipe(new ItemStack(BBItems.pigDefense), "yxy", "xzx", "yxy", 'y', Items.ROTTEN_FLESH, 'x', Items.PORKCHOP, 'z', new ItemStack(BBItems.bbResources, 1, 7));
 		
 		GameRegistry.addRecipe(new ItemStack(BBItems.bbResources, 1, 0), "xxx", "xyx", "xxx", 'x', Items.PAPER, 'y', Blocks.NETHERRACK);
 		GameRegistry.addRecipe(new ItemStack(BBItems.bbResources, 1, 3), "xyx", "yzy", "xyx", 'x', Blocks.STONE, 'y', Items.EMERALD, 'z', Items.ROTTEN_FLESH);
@@ -48,6 +51,10 @@ public class BBRecipes {
 		GameRegistry.addRecipe(new ItemStack(BBItems.sandLeggings), "xxx", "x x", "x x", 'x', Items.STRING);
 		GameRegistry.addRecipe(new ItemStack(BBItems.sandBoots), "x x", "x x", 'x', Items.STRING);
 		GameRegistry.addRecipe(new ItemStack(BBItems.armorActivator), "xax", "bxc", "xdx", 'x', Items.GLOWSTONE_DUST, 'a', Items.DIAMOND_HELMET, 'b', Items.DIAMOND_CHESTPLATE, 'c', Items.DIAMOND_LEGGINGS, 'd', Items.DIAMOND_BOOTS);
+		
+		ItemStack tokenBoss = new ItemStack(BBItems.token);
+		BBItemStackHelper.addNumberTagToItemStack(tokenBoss, LibNBT.number, 0);
+		GameRegistry.addRecipe(tokenBoss, "xyx", "yzy", "xyx", 'x', Blocks.STONE, 'y', Items.GOLD_NUGGET, 'z', BBItems.token);
 		
 		RecipeSorter.register("bb:shapedblood", ShapedBloodRecipes.class, RecipeSorter.Category.SHAPED, "after:minecraft:shaped");
 		

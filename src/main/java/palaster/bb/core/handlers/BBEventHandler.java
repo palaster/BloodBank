@@ -16,6 +16,7 @@ import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -24,6 +25,7 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerDropsEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.world.WorldEvent;
@@ -41,6 +43,7 @@ import palaster.bb.api.capabilities.entities.BloodBankCapabilityProvider;
 import palaster.bb.api.capabilities.entities.UndeadCapabilityProvider;
 import palaster.bb.api.recipes.ShapedBloodRecipes;
 import palaster.bb.core.proxy.ClientProxy;
+import palaster.bb.entities.EntityItztiliTablet;
 import palaster.bb.entities.effects.BBPotions;
 import palaster.bb.entities.knowledge.BBKnowledge;
 import palaster.bb.items.BBItems;
@@ -138,15 +141,24 @@ public class BBEventHandler {
 					if(BBApi.isLinked(player) && e.getEntityLiving().getUniqueID().equals(BBApi.getLinked(player).getUniqueID()))
 						BBApi.linkEntity(player, null);
 				}
-			if(e.getEntityLiving() instanceof EntityPlayer)
+			if(e.getEntityLiving() instanceof EntityPlayer) {
 				if(BBApi.isUndead((EntityPlayer) e.getEntityLiving())) {
 					if(e.getSource().getEntity() instanceof EntityPlayer) {
-						EntityPlayer killer = (EntityPlayer) e.getSource().getEntity();
-						if(BBApi.isUndead(killer))
-							BBApi.addSoul(killer, BBApi.getSoul((EntityPlayer) e.getEntityLiving()));
+						if(BBApi.isUndead((EntityPlayer) e.getSource().getEntity()))
+							BBApi.addSoul((EntityPlayer) e.getSource().getEntity(), BBApi.getSoul((EntityPlayer) e.getEntityLiving()));
+					} else {
+						ItemStack souls = new ItemStack(BBItems.bbResources, 1, 6);
+						if(!souls.hasTagCompound())
+							souls.setTagCompound(new NBTTagCompound());
+						souls.getTagCompound().setInteger(LibNBT.number, BBApi.getSoul((EntityPlayer) e.getEntityLiving()));
+						e.getEntityLiving().worldObj.spawnEntityInWorld(new EntityItem(e.getEntityLiving().worldObj, e.getEntityLiving().posX, e.getEntityLiving().posY, e.getEntityLiving().posZ, souls));
 					}
 					BBApi.setSoul((EntityPlayer) e.getEntityLiving(), 0);
 				}
+				NBTTagCompound nbt = new NBTTagCompound();
+				((EntityPlayer) e.getEntityLiving()).writeToNBTAtomically(nbt);
+				BBWorldSaveData.get(e.getEntityLiving().worldObj).addDeadEntity(nbt);
+			}
 			if(e.getSource().getEntity() instanceof EntityPlayer) {
 				EntityPlayer p = (EntityPlayer) e.getSource().getEntity();
 				if(BBApi.isUndead(p))
@@ -184,6 +196,13 @@ public class BBEventHandler {
 	}
 	
 	@SubscribeEvent
+	public void onLivingHurt(LivingHurtEvent e) {
+		if(e.getEntityLiving() instanceof EntityItztiliTablet)
+			if(e.getSource() != DamageSource.outOfWorld && e.getSource() != DamageSource.inWall)
+				e.setCanceled(true);
+	}
+	
+	@SubscribeEvent
 	public void onCraft(ItemCraftedEvent e) {
 		if(!e.player.worldObj.isRemote)
 			if(CraftingManager.getInstance().getRecipeList() != null)
@@ -215,16 +234,19 @@ public class BBEventHandler {
 
 	@SubscribeEvent
 	public void onLivingUpdate(LivingEvent.LivingUpdateEvent e) {
-		if(!e.getEntityLiving().worldObj.isRemote)
+		if(!e.getEntityLiving().worldObj.isRemote) {
 			if(e.getEntityLiving().getActivePotionEffect(BBPotions.timedFlame) != null && e.getEntityLiving().getActivePotionEffect(BBPotions.timedFlame).getDuration() == 1)
 				e.getEntityLiving().setFire(300);
+			else if(e.getEntityLiving().getActivePotionEffect(BBPotions.instantDeath) != null && e.getEntityLiving().getActivePotionEffect(BBPotions.instantDeath).getDuration() == 1)
+				e.getEntityLiving().attackEntityFrom(DamageSource.outOfWorld, Float.MAX_VALUE);
+		}
 	}
 
 	@SubscribeEvent
 	public void onWorldTick(TickEvent.WorldTickEvent e) {
 		if(e.side.isServer())
-			if((e.world.getTotalWorldTime() % 168000) == 0)
-				BBWorldSaveData.get(e.world).clearDeadEntities(e.world); // 14 Minecraft Days
+			if((e.world.getTotalWorldTime() % 84000) == 0)
+				BBWorldSaveData.get(e.world).clearDeadEntities(e.world); // 7 Minecraft Days
 	}
 
 	@SubscribeEvent

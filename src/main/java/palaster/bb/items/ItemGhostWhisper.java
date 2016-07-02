@@ -24,11 +24,16 @@ public class ItemGhostWhisper extends ItemModSpecial {
 	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
 		if(!worldIn.isRemote)
 			if(BBWorldSaveData.get(worldIn) != null && BBWorldSaveData.get(worldIn).getDeadEntities() != null && !BBWorldSaveData.get(worldIn).getDeadEntities().isEmpty()) {
-				for(NBTTagCompound tag : BBWorldSaveData.get(worldIn).getDeadEntities()) {
-					EntityLiving li = (EntityLiving) EntityList.createEntityFromNBT(tag, worldIn);
-					if(li != null)
-						BBPlayerHelper.sendChatMessageToPlayer(playerIn, I18n.format("bb.misc.ghostWhisper") + li.getName());
-				}
+				for(NBTTagCompound tag : BBWorldSaveData.get(worldIn).getDeadEntities())
+					if(EntityList.createEntityFromNBT(tag, worldIn) != null) {
+						if(EntityList.createEntityFromNBT(tag, worldIn) instanceof EntityLiving) {
+							EntityLiving li = (EntityLiving) EntityList.createEntityFromNBT(tag, worldIn);
+							BBPlayerHelper.sendChatMessageToPlayer(playerIn, I18n.format("bb.misc.ghostWhisper") + li.getName());							
+						} else if(EntityList.createEntityFromNBT(tag, worldIn) instanceof EntityPlayer) {
+							EntityPlayer p = (EntityPlayer) EntityList.createEntityFromNBT(tag, worldIn);
+							BBPlayerHelper.sendChatMessageToPlayer(playerIn, I18n.format("bb.misc.ghostWhisper") + p.getName());
+						}
+					}
 				return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStackIn);
 			}
 		return super.onItemRightClick(itemStackIn, worldIn, playerIn, hand);

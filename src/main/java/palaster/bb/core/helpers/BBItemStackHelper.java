@@ -1,21 +1,22 @@
 package palaster.bb.core.helpers;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockJukebox.TileEntityJukebox;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.WorldServer;
-import net.minecraftforge.oredict.OreDictionary;
 import palaster.bb.libs.LibNBT;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class BBItemStackHelper {
+	
+	public static ItemStack addNumberTagToItemStack(ItemStack stack, String tagName, int number) {
+		if(!stack.hasTagCompound())
+			stack.setTagCompound(new NBTTagCompound());
+		stack.getTagCompound().setInteger(tagName, number);
+		return stack;
+	}
 
 	public static ItemStack getItemStackFromInventory(WorldServer ws, BlockPos pos, int slot) {
 		if(ws != null)
@@ -102,22 +103,6 @@ public class BBItemStackHelper {
 	public static ItemStack getPreviousSpellFromFlames(ItemStack flames) {
 		if(flames != null && flames.hasTagCompound() && flames.getTagCompound() != null)
 			return ItemStack.loadItemStackFromNBT(flames.getTagCompound().getCompoundTag(LibNBT.previousHolderFlame));
-		return null;
-	}
-
-	public static List<ItemStack> getItemStacksFromOreDictionary(String ore, int amt) {
-		if(OreDictionary.doesOreNameExist(ore)) {
-			List<ItemStack> itemStacks = OreDictionary.getOres(ore);
-			List<ItemStack> newStacks = new ArrayList<ItemStack>();
-			if(itemStacks != null)
-				for(ItemStack stack : itemStacks) {
-					if(Block.getBlockFromItem(stack.getItem()) == Blocks.PLANKS)
-						newStacks.add(new ItemStack(stack.getItem(), amt, Short.MAX_VALUE));
-					else
-						newStacks.add(new ItemStack(stack.getItem(), amt, stack.getItemDamage()));
-				}
-			return newStacks;
-		}
 		return null;
 	}
 

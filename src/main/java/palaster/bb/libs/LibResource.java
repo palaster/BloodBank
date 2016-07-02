@@ -17,4 +17,6 @@ public class LibResource {
 
 	public static final ResourceLocation bankTeller = new ResourceLocation(LibMod.modid, models + "demonicBankTeller.png");
 	public static final ResourceLocation itztiliTablet = new ResourceLocation(LibMod.modid, models + "itztliTablet.png");
+	
+	public static final ResourceLocation itztiliTabletLoot = new ResourceLocation(LibMod.modid, "entities/itztiliTablet");
 }
