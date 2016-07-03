@@ -12,7 +12,6 @@ import net.minecraft.world.World;
 import palaster.bb.api.capabilities.items.IKnowledgePiece;
 import palaster.bb.core.helpers.BBItemStackHelper;
 import palaster.bb.items.BBItems;
-import palaster.bb.items.BoundArmor;
 
 public class KPBoundArmor implements IKnowledgePiece {
 
@@ -26,29 +25,18 @@ public class KPBoundArmor implements IKnowledgePiece {
     public ActionResult<ItemStack> onKnowledgePieceRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
         for(int i = 0; i < 4; i++) {
             if(playerIn.inventory.armorInventory[i] != null) {
-                if(playerIn.inventory.armorInventory[i].getItem() == BBItems.boundHelmet || playerIn.inventory.armorInventory[i].getItem() == BBItems.boundChestplate || playerIn.inventory.armorInventory[i].getItem() == BBItems.boundLeggings || playerIn.inventory.armorInventory[i].getItem() == BBItems.boundBoots) {
-                    if(playerIn.inventory.armorInventory[i].getItem() == BBItems.boundHelmet)
-                        BoundArmor.removeBoundArmorFromArmor(playerIn.inventory.armorInventory[i], playerIn, 3);
-                    else if(playerIn.inventory.armorInventory[i].getItem() == BBItems.boundChestplate)
-                    	BoundArmor.removeBoundArmorFromArmor(playerIn.inventory.armorInventory[i], playerIn, 2);
-                    else if(playerIn.inventory.armorInventory[i].getItem() == BBItems.boundLeggings)
-                    	BoundArmor.removeBoundArmorFromArmor(playerIn.inventory.armorInventory[i], playerIn, 1);
-                    else if(playerIn.inventory.armorInventory[i].getItem() == BBItems.boundBoots)
-                    	BoundArmor.removeBoundArmorFromArmor(playerIn.inventory.armorInventory[i], playerIn, 0);
-                } else {
-                    ItemStack boundArmor = new ItemStack(BBItems.boundHelmet);
-                    switch(i) {
-                        case 3: boundArmor = new ItemStack(BBItems.boundHelmet);
-                            break;
-                        case 2: boundArmor = new ItemStack(BBItems.boundChestplate);
-                            break;
-                        case 1: boundArmor = new ItemStack(BBItems.boundLeggings);
-                            break;
-                        case 0: boundArmor = new ItemStack(BBItems.boundBoots);
-                            break;
-                    }
-                    playerIn.inventory.armorInventory[i] = BBItemStackHelper.setItemStackInsideItemStack(boundArmor, playerIn.inventory.armorInventory[i]);
-                }
+            	ItemStack boundArmor = new ItemStack(BBItems.boundHelmet);
+            	switch(i) {
+            		case 3: boundArmor = new ItemStack(BBItems.boundHelmet);
+            		break;
+            		case 2: boundArmor = new ItemStack(BBItems.boundChestplate);
+            		break;
+            		case 1: boundArmor = new ItemStack(BBItems.boundLeggings);
+            		break;
+            		case 0: boundArmor = new ItemStack(BBItems.boundBoots);
+            		break;
+            	}
+            	playerIn.inventory.armorInventory[i] = BBItemStackHelper.setItemStackInsideItemStack(boundArmor, playerIn.inventory.armorInventory[i]);
             } else {
                 ItemStack boundArmor = new ItemStack(BBItems.boundHelmet);
                 switch(i) {
@@ -68,7 +56,7 @@ public class KPBoundArmor implements IKnowledgePiece {
                 playerIn.inventory.armorInventory[i] = boundArmor;
             }
         }
-        return new ActionResult<ItemStack>(EnumActionResult.PASS, itemStackIn);
+        return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStackIn);
     }
 
     @Override

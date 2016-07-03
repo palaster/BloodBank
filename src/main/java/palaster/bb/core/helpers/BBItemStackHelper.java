@@ -7,6 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.WorldServer;
+import palaster.bb.items.BoundArmor;
 import palaster.bb.libs.LibNBT;
 
 public class BBItemStackHelper {
@@ -55,7 +56,7 @@ public class BBItemStackHelper {
 	}
 
 	public static ItemStack setItemStackInsideItemStack(ItemStack holder, ItemStack toHold) {
-		if(toHold != null) {
+		if(toHold != null && !(toHold.getItem() instanceof BoundArmor)) {
 			NBTTagCompound holding = new NBTTagCompound();
 			toHold.writeToNBT(holding);
 			if(!holder.hasTagCompound())

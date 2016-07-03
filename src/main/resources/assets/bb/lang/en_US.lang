@@ -99,6 +99,7 @@ bb.undead.soulCost=Soul Cost
 bb.undead.bonFireNotFound=Bonfire not found
 bb.undead.soulsAmount=Amount of Souls
 bb.undead.bossToken=Boss Token
+bb.undead.cantFind=Can't find any undead players in the world.
 
 bb.staff.active=Active Power
 bb.staff.time.0=Time
@@ -116,6 +117,7 @@ bb.kp.boilingBlood=Boiling Blood
 bb.kp.bloodLink=Blood Link
 bb.kp.boundArmor=Bound Armor
 bb.kp.bloodHive=Blood Hive
+bb.kp.undeadSummon=Undead Summon
 
 bb.jei.blood=Blood
 bb.jei.bloodCost=Blood Cost

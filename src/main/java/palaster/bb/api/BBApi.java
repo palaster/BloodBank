@@ -99,12 +99,15 @@ public class BBApi {
     // Blood Bank Methods
 
     public static void consumeBlood(EntityPlayer player, int amt) {
-    	if(amt > getCurrentBlood(player)) {
-    		amt -= getCurrentBlood(player);
-    		setCurrentBlood(player, 0);
-            player.attackEntityFrom(BloodBank.proxy.bbBlood, (float) amt / 100);
+    	if(BBApi.getMaxBlood(player) > 0) {
+    		if(amt > getCurrentBlood(player)) {
+        		amt -= getCurrentBlood(player);
+        		setCurrentBlood(player, 0);
+                player.attackEntityFrom(BloodBank.proxy.bbBlood, (float) amt / 100);
+        	} else
+                setCurrentBlood(player, getCurrentBlood(player) - amt);
     	} else
-            setCurrentBlood(player, getCurrentBlood(player) - amt);
+    		player.attackEntityFrom(BloodBank.proxy.bbBlood, (float) amt / 10);
     }
 
     public static int getCurrentBlood(EntityPlayer player) {
