@@ -34,7 +34,7 @@ public class ItemResurrectionStone extends ItemModSpecial {
 			if(BBWorldSaveData.get(worldIn) != null && BBWorldSaveData.get(worldIn).getDeadEntities() != null && !BBWorldSaveData.get(worldIn).getDeadEntities().isEmpty()) {
 				NBTTagCompound entityTag = BBWorldSaveData.get(worldIn).getDeadEntity(stack.getTagCompound().getInteger(LibNBT.number));
 				if(entityTag != null)
-					if(EntityList.createEntityFromNBT(entityTag, worldIn) != null) {
+					if(EntityList.createEntityFromNBT(entityTag, worldIn) != null)
 						if(EntityList.createEntityFromNBT(entityTag, worldIn) instanceof EntityLiving) {
 							EntityLiving li = (EntityLiving) EntityList.createEntityFromNBT(entityTag, worldIn);
 							if(li != null) {
@@ -45,9 +45,7 @@ public class ItemResurrectionStone extends ItemModSpecial {
 								playerIn.setHeldItem(hand, null);
 								return EnumActionResult.SUCCESS;
 							}
-						} else if(EntityList.createEntityFromNBT(entityTag, worldIn) instanceof EntityPlayer)
-							BBPlayerHelper.sendChatMessageToPlayer(playerIn, "Not implemented yet");
-					}
+						}
 			}
 			return EnumActionResult.SUCCESS;
 		}

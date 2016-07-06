@@ -39,8 +39,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import palaster.bb.BloodBank;
 import palaster.bb.api.BBApi;
-import palaster.bb.api.capabilities.entities.BloodBankCapabilityProvider;
-import palaster.bb.api.capabilities.entities.UndeadCapabilityProvider;
+import palaster.bb.api.capabilities.entities.BloodBankCapability.BloodBankCapabilityProvider;
+import palaster.bb.api.capabilities.entities.UndeadCapability.UndeadCapabilityProvider;
 import palaster.bb.api.recipes.ShapedBloodRecipes;
 import palaster.bb.core.proxy.ClientProxy;
 import palaster.bb.entities.EntityItztiliTablet;
@@ -155,9 +155,6 @@ public class BBEventHandler {
 					}
 					BBApi.setSoul((EntityPlayer) e.getEntityLiving(), 0);
 				}
-				NBTTagCompound nbt = new NBTTagCompound();
-				((EntityPlayer) e.getEntityLiving()).writeToNBTAtomically(nbt);
-				BBWorldSaveData.get(e.getEntityLiving().worldObj).addDeadEntity(nbt);
 			}
 			if(e.getSource().getEntity() instanceof EntityPlayer) {
 				EntityPlayer p = (EntityPlayer) e.getSource().getEntity();
