@@ -5,14 +5,14 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import palaster.bb.blocks.tile.TileEntityModInventory;
+import palaster.bb.blocks.tile.TileEntityVoidAnchor;
 import palaster.bb.inventories.ContainerVoidAnchor;
 import palaster.bb.libs.LibResource;
 
 @SideOnly(Side.CLIENT)
 public class GuiVoidAnchor extends GuiContainer {
 
-	public GuiVoidAnchor(InventoryPlayer invPlayer, TileEntityModInventory va) {
+	public GuiVoidAnchor(InventoryPlayer invPlayer, TileEntityVoidAnchor va) {
 		super(new ContainerVoidAnchor(invPlayer, va));
 		ySize = 150;
 	}

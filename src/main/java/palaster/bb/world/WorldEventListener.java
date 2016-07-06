@@ -13,7 +13,7 @@ import net.minecraft.world.IWorldEventListener;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.DimensionManager;
-import palaster.bb.blocks.tile.TileEntityModInventory;
+import palaster.bb.blocks.tile.TileEntityVoidAnchor;
 
 public class WorldEventListener implements IWorldEventListener {
 
@@ -44,15 +44,15 @@ public class WorldEventListener implements IWorldEventListener {
 					for(WorldServer ws : DimensionManager.getWorlds())
 						for(int i = 0; i < ws.loadedTileEntityList.size(); i++)
 							if(ws.loadedTileEntityList.get(i) != null && ws.loadedTileEntityList.get(i) instanceof TileEntity) {
-								if(ws.loadedTileEntityList.get(i) instanceof TileEntityModInventory && ((TileEntityModInventory) ws.loadedTileEntityList.get(i)).getName().equals("container.voidAnchor")) {
-									TileEntityModInventory va = (TileEntityModInventory) ws.loadedTileEntityList.get(i);
+								if(ws.loadedTileEntityList.get(i) instanceof TileEntityVoidAnchor) {
+									TileEntityVoidAnchor va = (TileEntityVoidAnchor) ws.loadedTileEntityList.get(i);
 									for(int j = 0; j < va.getSizeInventory(); j++)
-										if(va.getStackInSlot(j) == null) {
-											va.setInventorySlotContents(j, item.getEntityItem());
+										if(va.getItemHandler().getStackInSlot(j) == null) {
+											va.getItemHandler().setStackInSlot(j, item.getEntityItem());
 											return;
-										} else if(va.getStackInSlot(j) != null && va.getStackInSlot(j).getItem() == item.getEntityItem().getItem())
-											if(va.getStackInSlot(j).stackSize + item.getEntityItem().stackSize <= 64) {
-												va.setInventorySlotContents(j, new ItemStack(va.getStackInSlot(j).getItem(), va.getStackInSlot(j).stackSize + item.getEntityItem().stackSize, va.getStackInSlot(j).getItemDamage()));
+										} else if(va.getItemHandler().getStackInSlot(j) != null && va.getItemHandler().getStackInSlot(j).getItem() == item.getEntityItem().getItem())
+											if(va.getItemHandler().getStackInSlot(j).stackSize + item.getEntityItem().stackSize <= 64) {
+												va.getItemHandler().setStackInSlot(j, new ItemStack(va.getItemHandler().getStackInSlot(j).getItem(), va.getItemHandler().getStackInSlot(j).stackSize + item.getEntityItem().stackSize, va.getItemHandler().getStackInSlot(j).getItemDamage()));
 												return;
 											}
 								} else

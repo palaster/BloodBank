@@ -26,8 +26,7 @@ import palaster.bb.api.capabilities.entities.IUndead;
 import palaster.bb.api.capabilities.entities.UndeadCapability.UndeadCapabilityFactory;
 import palaster.bb.api.capabilities.entities.UndeadCapability.UndeadCapabilityStorage;
 import palaster.bb.blocks.BBBlocks;
-import palaster.bb.blocks.tile.TileEntityModInventory;
-import palaster.bb.client.gui.GuiLetter;
+import palaster.bb.blocks.tile.TileEntityVoidAnchor;
 import palaster.bb.client.gui.GuiUndeadMonitor;
 import palaster.bb.client.gui.GuiVoidAnchor;
 import palaster.bb.core.CreativeTabBB;
@@ -35,12 +34,9 @@ import palaster.bb.core.handlers.BBEventHandler;
 import palaster.bb.entities.BBEntities;
 import palaster.bb.entities.EntityItztiliTablet;
 import palaster.bb.entities.effects.BBPotions;
-import palaster.bb.inventories.ContainerLetter;
 import palaster.bb.inventories.ContainerUndeadMonitor;
 import palaster.bb.inventories.ContainerVoidAnchor;
-import palaster.bb.inventories.InventoryModLetter;
 import palaster.bb.items.BBItems;
-import palaster.bb.items.ItemLetter;
 import palaster.bb.items.ItemUndeadMonitor;
 import palaster.bb.network.PacketHandler;
 import palaster.bb.recipes.BBRecipes;
@@ -82,19 +78,13 @@ public class CommonProxy implements IGuiHandler {
 		TileEntity te = world.getTileEntity(new BlockPos(x, y, z));
 		switch(ID) {
 			case 1: {
-				if(te != null && te instanceof TileEntityModInventory)
-					if(((TileEntityModInventory) te).getName().equals("container.voidAnchor"))
-						return new ContainerVoidAnchor(player.inventory, (TileEntityModInventory) te);
+				if(te != null && te instanceof TileEntityVoidAnchor)
+					return new ContainerVoidAnchor(player.inventory, (TileEntityVoidAnchor) te);
 				break;
 			}
 			case 2: {
 				if(player.getHeldItem(EnumHand.MAIN_HAND) != null && player.getHeldItem(EnumHand.MAIN_HAND).getItem() instanceof ItemUndeadMonitor)
 					return new ContainerUndeadMonitor(player);
-				break;
-			}
-			case 3: {
-				if(player.getHeldItem(EnumHand.MAIN_HAND) != null && player.getHeldItem(EnumHand.MAIN_HAND).getItem() instanceof ItemLetter)
-					return new ContainerLetter(player.inventory, new InventoryModLetter(player.getHeldItem(EnumHand.MAIN_HAND)));
 				break;
 			}
 		}
@@ -106,19 +96,13 @@ public class CommonProxy implements IGuiHandler {
 		TileEntity te = world.getTileEntity(new BlockPos(x, y, z));
 		switch(ID) {
 			case 1: {
-				if(te != null && te instanceof TileEntityModInventory)
-					if(((TileEntityModInventory) te).getName().equals("container.voidAnchor"))
-						return new GuiVoidAnchor(player.inventory, (TileEntityModInventory) te);
+				if(te != null && te instanceof TileEntityVoidAnchor)
+					return new GuiVoidAnchor(player.inventory, (TileEntityVoidAnchor) te);
 				break;
 			}
 			case 2: {
 				if(player.getHeldItem(EnumHand.MAIN_HAND) != null && player.getHeldItem(EnumHand.MAIN_HAND).getItem() instanceof ItemUndeadMonitor)
 					return new GuiUndeadMonitor(player);
-				break;
-			}
-			case 3: {
-				if(player.getHeldItem(EnumHand.MAIN_HAND) != null && player.getHeldItem(EnumHand.MAIN_HAND).getItem() instanceof ItemLetter)
-					return new GuiLetter(player.inventory, new InventoryModLetter(player.getHeldItem(EnumHand.MAIN_HAND)));
 				break;
 			}
 		}

@@ -70,15 +70,15 @@ public class BlockCommunityTool extends BlockModContainer {
                         worldIn.spawnEntityInWorld(new EntityItem(worldIn, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(this)));
                         return true;
                     }
-                    if(ct.getStackInSlot(0) != null) {
+                    if(ct.getItemHandler().getStackInSlot(0) != null) {
                         if(ct.getOwner().equals(playerIn.getUniqueID())) {
                             if(heldItem == null) {
-                                playerIn.setHeldItem(EnumHand.MAIN_HAND, ct.getStackInSlot(0));
-                                ct.setInventorySlotContents(0, null);
+                                playerIn.setHeldItem(EnumHand.MAIN_HAND, ct.getItemHandler().getStackInSlot(0));
+                                ct.getItemHandler().setStackInSlot(0, null);
                                 return true;
                             }
                         } else {
-                            ItemStack ghostStack = ct.getStackInSlot(0).copy();
+                            ItemStack ghostStack = ct.getItemHandler().getStackInSlot(0).copy();
                             if(heldItem == null) {
                                 playerIn.setHeldItem(hand, BBItemStackHelper.setCountDown(ghostStack, 6000));
                                 return true;
@@ -87,7 +87,7 @@ public class BlockCommunityTool extends BlockModContainer {
                     } else {
                         if(ct.getOwner().equals(playerIn.getUniqueID()))
                             if(heldItem != null && heldItem.getMaxStackSize() == 1) {
-                                ct.setInventorySlotContents(0, heldItem);
+                                ct.getItemHandler().setStackInSlot(0, heldItem);
                                 playerIn.setHeldItem(EnumHand.MAIN_HAND, null);
                                 return true;
                             }

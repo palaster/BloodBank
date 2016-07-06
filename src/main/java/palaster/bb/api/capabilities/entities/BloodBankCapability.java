@@ -12,8 +12,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.common.util.INBTSerializable;
+import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import palaster.bb.libs.LibNBT;
 
 public class BloodBankCapability {
@@ -87,7 +86,7 @@ public class BloodBankCapability {
 	    public IBloodBank call() throws Exception { return new BloodBankCapabilityDefault(); }
 	}
 	
-	public static class BloodBankCapabilityProvider implements ICapabilityProvider, INBTSerializable {
+	public static class BloodBankCapabilityProvider implements ICapabilitySerializable<NBTBase> {
 		
 		@CapabilityInject(IBloodBank.class)
 	    public static final Capability<IBloodBank> bloodBankCap = null;

@@ -9,8 +9,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.common.util.INBTSerializable;
+import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import palaster.bb.libs.LibNBT;
 
 public class UndeadCapability {
@@ -185,7 +184,7 @@ public class UndeadCapability {
 	    public IUndead call() throws Exception { return new UndeadCapabilityDefault(); }
 	}
 	
-	public static class UndeadCapabilityProvider implements ICapabilityProvider, INBTSerializable {
+	public static class UndeadCapabilityProvider implements ICapabilitySerializable<NBTBase> {
 		
 		@CapabilityInject(IUndead.class)
 	    public static final Capability<IUndead> undeadCap = null;

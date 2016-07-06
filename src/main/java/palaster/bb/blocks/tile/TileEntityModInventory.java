@@ -1,125 +1,73 @@
 package palaster.bb.blocks.tile;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
+import javax.annotation.Nonnull;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.text.ITextComponent;
-import palaster.bb.libs.LibNBT;
+import net.minecraft.util.EnumFacing;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandlerModifiable;
+import net.minecraftforge.items.ItemStackHandler;
 
-import javax.annotation.Nullable;
+public abstract class TileEntityModInventory extends TileEntityModBase {
 
-public abstract class TileEntityModInventory extends TileEntity implements IInventory {
+	protected SimpleItemStackHandler itemHandler = createItemHandler();
 	
-	private ItemStack[] items;
-	
-	public TileEntityModInventory(int length) {
-		super();
-		items = new ItemStack[length];
+	@Override
+	public void readPacketNBT(NBTTagCompound compound) {
+		itemHandler = createItemHandler();
+		itemHandler.deserializeNBT(compound);
 	}
+	
+	@Override
+	public void writePacketNBT(NBTTagCompound compound) { compound.merge(itemHandler.serializeNBT()); }
+	
+	public abstract int getSizeInventory();
+
+	protected SimpleItemStackHandler createItemHandler() { return new SimpleItemStackHandler(this, true); }
+
+	public IItemHandlerModifiable getItemHandler() { return itemHandler; }
 
 	@Override
-	public boolean hasCustomName() { return false; }
-
+	public boolean hasCapability(@Nonnull Capability<?> cap, @Nonnull EnumFacing side) { return cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || super.hasCapability(cap, side); }
+	
+	@Nonnull
 	@Override
-	public ITextComponent getDisplayName() { return null; }
+	public <T> T getCapability(@Nonnull Capability<T> cap, @Nonnull EnumFacing side) {
+		if(cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
+			return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(itemHandler);
+		return super.getCapability(cap, side);
+	}
+	
+	protected static class SimpleItemStackHandler extends ItemStackHandler {
 
-	@Override
-	public int getSizeInventory() { return items.length; }
+		private final boolean allowWrite;
+		private final TileEntityModInventory tile;
 
-	@Override
-	@Nullable
-	public ItemStack getStackInSlot(int slotIn) { return items[slotIn]; }
-
-	@Override
-	@Nullable
-	public ItemStack decrStackSize(int index, int count) {
-		ItemStack stack = getStackInSlot(index);
-		if(stack != null) {
-			if(stack.stackSize > count) {
-				stack = stack.splitStack(count);
-				markDirty();
-			} else
-				setInventorySlotContents(index, null);
+		public SimpleItemStackHandler(TileEntityModInventory inv, boolean allowWrite) {
+			super(inv.getSizeInventory());
+			this.allowWrite = allowWrite;
+			this.tile = inv;
 		}
-		return stack;
-	}
 
-	@Override
-	@Nullable
-	public ItemStack removeStackFromSlot(int index) {
-		ItemStack stack = getStackInSlot(index);
-		setInventorySlotContents(index, null);
-		return stack;
-	}
-
-	@Override
-	public void setInventorySlotContents(int index, @Nullable ItemStack stack) {
-		items[index] = stack;
-		if(stack != null && stack.stackSize > getInventoryStackLimit())
-			stack.stackSize = getInventoryStackLimit();
-		markDirty();
-	}
-
-	@Override
-	public int getInventoryStackLimit() { return 64; }
-
-	@Override
-	public boolean isUseableByPlayer(EntityPlayer playerIn) { return playerIn.getDistanceSq(pos) <= 64; }
-
-	@Override
-	public void openInventory(EntityPlayer playerIn) {}
-
-	@Override
-	public void closeInventory(EntityPlayer playerIn) {}
-
-	@Override
-	public boolean isItemValidForSlot(int index, ItemStack stack) { return true; }
-
-	@Override
-	public int getField(int id) { return 0; }
-
-	@Override
-	public void setField(int id, int value) {}
-
-	@Override
-	public int getFieldCount() { return 0; }
-
-	@Override
-	public void clear() {
-		for(int i = 0; i < items.length; i++)
-			items[i] = null;
-	}
-	
-	@Override
-	public void readFromNBT(NBTTagCompound compound) {
-		super.readFromNBT(compound);
-		NBTTagList items = compound.getTagList(LibNBT.items, compound.getId());
-		for(int i = 0; i < items.tagCount(); i++) {
-			NBTTagCompound item = items.getCompoundTagAt(i);
-			int slot = item.getByte(LibNBT.slot);
-			if(slot >= 0 && slot < getSizeInventory())
-				setInventorySlotContents(slot, ItemStack.loadItemStackFromNBT(item));
+		@Override
+		public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
+			if(allowWrite)
+				return super.insertItem(slot, stack, simulate);
+			else
+				return stack;
 		}
-	}
-	
-	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
-		NBTTagList items = new NBTTagList();
-		for(int i = 0; i < getSizeInventory(); i++) {		
-			ItemStack stack = getStackInSlot(i);	
-			if(stack != null) {
-				NBTTagCompound item = new NBTTagCompound();
-				item.setInteger(LibNBT.slot, i);
-				stack.writeToNBT(item);
-				items.appendTag(item);
-			}
+
+		@Override
+		public ItemStack extractItem(int slot, int amount, boolean simulate) {
+			if(allowWrite)
+				return super.extractItem(slot, amount, simulate);
+			else 
+				return null;
 		}
-		compound.setTag(LibNBT.items, items);
-		return super.writeToNBT(compound);
+
+		@Override
+		public void onContentsChanged(int slot) { tile.markDirty(); }
 	}
-	
-	public void receiveButtonEvent(int buttonID, EntityPlayer player) {}
 }

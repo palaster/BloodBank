@@ -8,28 +8,27 @@ import palaster.bb.libs.LibNBT;
 public class TileEntityCommunityTool extends TileEntityModInventory {
 
 	private UUID owner;
-
-    public TileEntityCommunityTool() { super(1); }
-
+        
     @Override
-    public int getInventoryStackLimit() { return 1; }
-
-    @Override
-    public String getName() { return "container.communityTool"; }
+	public int getSizeInventory() { return 1; }
     
     @Override
-    public void readFromNBT(NBTTagCompound compound) {
-        super.readFromNBT(compound);
-        UUID uuid = compound.getUniqueId(LibNBT.uuid);
+    public void readPacketNBT(NBTTagCompound compound) {
+    	super.readPacketNBT(compound);
+    	UUID uuid = compound.getUniqueId(LibNBT.uuid);
     	if(uuid != null)
     		owner = uuid;
     }
-
+    
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound compound) {
-    	compound.setUniqueId(LibNBT.uuid, owner);
-        return super.writeToNBT(compound);
+    public void writePacketNBT(NBTTagCompound compound) {
+    	if(owner != null)
+    		compound.setUniqueId(LibNBT.uuid, owner);
+    	super.writePacketNBT(compound);
     }
+    
+	@Override
+	public void update() {}
 
     public UUID getOwner() { return owner; }
 
