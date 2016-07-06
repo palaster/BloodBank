@@ -37,10 +37,10 @@ item.bb:resurrectionStone.name=Resurrection Stone
 item.bb:ghostWhisper.name=Ghost Whisper
 item.bb:token.name=Token
 item.bb:pigDefense.name=Pig Defense
-
 item.bb:flames.name=Flames
 item.bb:carthusFlameArc.name=Carthus Flame Arc
 item.bb:sacredFlame.name=Sacred Flame
+item.bb:leacher.name=Leacher
 
 item.bb:bound.HEAD.name=Bound Helmet
 item.bb:bound.CHEST.name=Bound Chestplate

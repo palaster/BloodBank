@@ -71,15 +71,15 @@ public class EntityItztiliTablet extends EntityCreature {
     @Override
     public void writeEntityToNBT(NBTTagCompound tagCompound) {
         super.writeEntityToNBT(tagCompound);
-        tagCompound.setInteger(LibNBT.enemyCount, enemyCount);
-        tagCompound.setInteger(LibNBT.delay, delay);
+        tagCompound.setInteger(LibNBT.number, enemyCount);
+        tagCompound.setInteger(LibNBT.timer, delay);
     }
 
     @Override
     public void readEntityFromNBT(NBTTagCompound tagCompund) {
         super.readEntityFromNBT(tagCompund);
-        enemyCount = tagCompund.getInteger(LibNBT.enemyCount);
-        delay = tagCompund.getInteger(LibNBT.delay);
+        enemyCount = tagCompund.getInteger(LibNBT.number);
+        delay = tagCompund.getInteger(LibNBT.timer);
     }
 
     @Override

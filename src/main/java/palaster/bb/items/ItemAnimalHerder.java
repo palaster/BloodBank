@@ -36,8 +36,8 @@ public class ItemAnimalHerder extends ItemModSpecial {
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
 		if(stack.hasTagCompound())
-			if(stack.getItem() instanceof ItemAnimalHerder && stack.getTagCompound().getBoolean(LibNBT.isSet)) {
-				Entity animal = EntityList.createEntityFromNBT(stack.getTagCompound().getCompoundTag(LibNBT.entityTag), playerIn.worldObj);
+			if(stack.getItem() instanceof ItemAnimalHerder && stack.getTagCompound().getBoolean(LibNBT.bol)) {
+				Entity animal = EntityList.createEntityFromNBT(stack.getTagCompound().getCompoundTag(LibNBT.tag), playerIn.worldObj);
 				if(animal != null)
 					tooltip.add(I18n.format("bb.misc.entityTag") + " : " + animal.getName());
 			}
@@ -51,8 +51,8 @@ public class ItemAnimalHerder extends ItemModSpecial {
 				target.writeToNBTAtomically(nbtTagCompound);
 				if(!stack.hasTagCompound())
 					stack.setTagCompound(new NBTTagCompound());
-				stack.getTagCompound().setBoolean(LibNBT.isSet, true);
-				stack.getTagCompound().setTag(LibNBT.entityTag, nbtTagCompound);
+				stack.getTagCompound().setBoolean(LibNBT.bol, true);
+				stack.getTagCompound().setTag(LibNBT.tag, nbtTagCompound);
 				target.setDead();
 				return  true;
 			} else if(target instanceof EntityLiving && !(target instanceof EntityAnimal)) {
@@ -78,13 +78,13 @@ public class ItemAnimalHerder extends ItemModSpecial {
 	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if(!worldIn.isRemote)
 			if(stack.hasTagCompound())
-				if(stack.getTagCompound() != null && stack.getTagCompound().getBoolean(LibNBT.isSet) && stack.getTagCompound().getCompoundTag(LibNBT.entityTag) != null) {
-					Entity animal = EntityList.createEntityFromNBT(stack.getTagCompound().getCompoundTag(LibNBT.entityTag), worldIn);
+				if(stack.getTagCompound() != null && stack.getTagCompound().getBoolean(LibNBT.bol) && stack.getTagCompound().getCompoundTag(LibNBT.tag) != null) {
+					Entity animal = EntityList.createEntityFromNBT(stack.getTagCompound().getCompoundTag(LibNBT.tag), worldIn);
 					if(animal != null) {
 						animal.setPosition(pos.getX(), pos.getY() + 1, pos.getZ());
 						worldIn.spawnEntityInWorld(animal);
-						stack.getTagCompound().setBoolean(LibNBT.isSet, false);
-						stack.getTagCompound().setTag(LibNBT.entityTag, new NBTTagCompound());
+						stack.getTagCompound().setBoolean(LibNBT.bol, false);
+						stack.getTagCompound().setTag(LibNBT.tag, new NBTTagCompound());
 						return EnumActionResult.SUCCESS;
 					}
 				}

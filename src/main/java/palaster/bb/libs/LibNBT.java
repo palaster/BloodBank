@@ -4,13 +4,12 @@ public class LibNBT {
 	
 	// Basic
 	public static String number = "Number";
+	public static String maxNumber = "MaxNumber";
+	public static String bol = "Boolean";
 	public static String string = "String";
+	public static String uuid = "UUID";
 	public static String tag = "NBTTagCompound";
-	
-    // Blood Mage
-    public static String currentBlood = "CurrentBlood";
-    public static String maxBlood = "MaxBlood";
-    public static String linkEntity = "LinkEntity";
+	public static String entityTag = "EntityTag";
 
     // Undead
     public static String isUndead = "IsUndead";
@@ -24,7 +23,6 @@ public class LibNBT {
     public static String faith = "Faith";
 
     // TileEntity
-    public static String uuid = "UUID";
     public static String items = "Items";
     public static String slot = "Slot";
     public static String originalBlockID = "OriginalBlockID";
@@ -45,6 +43,5 @@ public class LibNBT {
     public static String delay = "Delay";
     public static String isSneaking = "IsSneaking";
     public static String activePower = "ActivePower";
-    public static String entityTag = "EntityTag";
     public static String isSet = "IsSet";
 }

@@ -32,21 +32,21 @@ public abstract class ItemModStaff extends ItemModSpecial implements IVampiric {
 	public void onCreated(ItemStack stack, World worldIn, EntityPlayer playerIn) {
 		if(!stack.hasTagCompound())
 			stack.setTagCompound(new NBTTagCompound());
-		stack.getTagCompound().setInteger(LibNBT.activePower, 0);
+		stack.getTagCompound().setInteger(LibNBT.number, 0);
 	}
 	
 	public static final void setActivePower(ItemStack stack, int value) {
 		if(!stack.hasTagCompound())
 			stack.setTagCompound(new NBTTagCompound());
 		if(getActiveMax(stack) == 0)
-			stack.getTagCompound().setInteger(LibNBT.activePower, 0);
+			stack.getTagCompound().setInteger(LibNBT.number, 0);
 		else
-			stack.getTagCompound().setInteger(LibNBT.activePower, value);
+			stack.getTagCompound().setInteger(LibNBT.number, value);
 	}
 	
 	public static final int getActivePower(ItemStack stack) {
 		if(stack.hasTagCompound())
-			return stack.getTagCompound().getInteger(LibNBT.activePower);
+			return stack.getTagCompound().getInteger(LibNBT.number);
 		return 0;
 	}
 	

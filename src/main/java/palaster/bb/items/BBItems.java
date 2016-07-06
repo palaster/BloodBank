@@ -11,6 +11,7 @@ public class BBItems {
 
 	public static ItemArmor.ArmorMaterial bound = EnumHelper.addArmorMaterial("bound", "bound", -1, new int[]{3, 7, 6, 3}, 0, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0f);
 	public static ItemArmor.ArmorMaterial sand = EnumHelper.addArmorMaterial("sand", "sand", 5, new int[]{1, 2, 3, 1}, 15, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0.0F);
+	public static ItemArmor.ToolMaterial leach = EnumHelper.addToolMaterial("leach", 3, -1, 8.0F, 3.0F, 0);
 	
 	public static Item staffSkeleton,
 	staffEfreet,
@@ -26,11 +27,11 @@ public class BBItems {
 	resurrectionStone,
 	ghostWhisper,
 	token,
-	pigDefense;
-
-	public static Item flames,
+	pigDefense,
+	flames,
 	carthusFlameArc,
-	sacredFlame;
+	sacredFlame,
+	leacher;
 
 	public static ItemArmor
 	boundHelmet,
@@ -64,10 +65,10 @@ public class BBItems {
 		ghostWhisper = new ItemGhostWhisper();
 		token = new ItemToken();
 		pigDefense = new ItemPigDefense();
-
 		flames = new ItemFlames();
 		carthusFlameArc = new ItemCarthusFlameArc();
 		sacredFlame = new ItemSacredFlame();
+		leacher = new ItemLeacher(leach);
 
 		boundHelmet = new BoundArmor(bound, 0, EntityEquipmentSlot.HEAD);
 		boundChestplate = new BoundArmor(bound, 0, EntityEquipmentSlot.CHEST);
@@ -99,10 +100,10 @@ public class BBItems {
 		ItemMod.setCustomModelResourceLocation(ghostWhisper);
 		ItemMod.setCustomModelResourceLocation(token);
 		ItemMod.setCustomModelResourceLocation(pigDefense);
-		
 		ItemMod.setCustomModelResourceLocation(flames);
 		ItemMod.setCustomModelResourceLocation(carthusFlameArc);
 		ItemMod.setCustomModelResourceLocation(sacredFlame);
+		ItemMod.setCustomModelResourceLocation(leacher);
 		
 		ItemMod.setCustomModelResourceLocation(boundHelmet);
 		ItemMod.setCustomModelResourceLocation(boundChestplate);

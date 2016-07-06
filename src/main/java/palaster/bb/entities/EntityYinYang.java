@@ -36,13 +36,13 @@ public class EntityYinYang extends EntityThrowable {
 	
 	@Override
 	public void readEntityFromNBT(NBTTagCompound tagCompund) {
-		isSneaking = tagCompund.getInteger(LibNBT.isSneaking);
+		isSneaking = tagCompund.getInteger(LibNBT.bol);
 		super.readEntityFromNBT(tagCompund);
 	}
 	
 	@Override
 	public void writeEntityToNBT(NBTTagCompound tagCompound) {
-		tagCompound.setInteger(LibNBT.isSneaking, isSneaking);
+		tagCompound.setInteger(LibNBT.bol, isSneaking);
 		super.writeEntityToNBT(tagCompound);
 	}
 

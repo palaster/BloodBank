@@ -59,12 +59,12 @@ public class BloodBankCapability {
 		@Override
 	    public NBTTagCompound saveNBT() {
 	        NBTTagCompound tagCompound = new NBTTagCompound();
-	        tagCompound.setInteger(LibNBT.currentBlood, bloodCurrent);
-	        tagCompound.setInteger(LibNBT.maxBlood, bloodMax);
+	        tagCompound.setInteger(LibNBT.number, bloodCurrent);
+	        tagCompound.setInteger(LibNBT.maxNumber, bloodMax);
 	        NBTTagCompound nbtTagCompound = new NBTTagCompound();
 	        if(link != null && link.get() != null) {
 	            link.get().writeToNBTAtomically(nbtTagCompound);
-	            tagCompound.setTag(LibNBT.linkEntity, nbtTagCompound);
+	            tagCompound.setTag(LibNBT.entityTag, nbtTagCompound);
 	        }
 	        return tagCompound;
 	    }
@@ -72,10 +72,10 @@ public class BloodBankCapability {
 	    @Override
 	    public void loadNBT(NBTTagCompound nbt) {
 	        if(nbt != null) {
-	            bloodCurrent = nbt.getInteger(LibNBT.currentBlood);
-	            bloodMax = nbt.getInteger(LibNBT.maxBlood);
-	            if(nbt.getCompoundTag(LibNBT.linkEntity) != null)
-	                link = new SoftReference<EntityLiving>((EntityLiving) EntityList.createEntityFromNBT(nbt.getCompoundTag(LibNBT.linkEntity), DimensionManager.getWorld(0)));
+	            bloodCurrent = nbt.getInteger(LibNBT.number);
+	            bloodMax = nbt.getInteger(LibNBT.maxNumber);
+	            if(nbt.getCompoundTag(LibNBT.entityTag) != null)
+	                link = new SoftReference<EntityLiving>((EntityLiving) EntityList.createEntityFromNBT(nbt.getCompoundTag(LibNBT.entityTag), DimensionManager.getWorld(0)));
 	        }
 	    }
 	}
