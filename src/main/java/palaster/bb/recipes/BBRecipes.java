@@ -10,6 +10,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionType;
 import net.minecraft.potion.PotionUtils;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -17,7 +18,6 @@ import net.minecraftforge.oredict.RecipeSorter;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import palaster.bb.api.recipes.ShapedBloodRecipes;
 import palaster.bb.blocks.BBBlocks;
-import palaster.bb.core.helpers.BBItemStackHelper;
 import palaster.bb.items.BBItems;
 import palaster.bb.libs.LibNBT;
 
@@ -52,9 +52,19 @@ public class BBRecipes {
 		GameRegistry.addRecipe(new ItemStack(BBItems.sandBoots), "x x", "x x", 'x', Items.STRING);
 		GameRegistry.addRecipe(new ItemStack(BBItems.armorActivator), "xax", "bxc", "xdx", 'x', Items.GLOWSTONE_DUST, 'a', Items.DIAMOND_HELMET, 'b', Items.DIAMOND_CHESTPLATE, 'c', Items.DIAMOND_LEGGINGS, 'd', Items.DIAMOND_BOOTS);
 		
-		ItemStack tokenBoss = new ItemStack(BBItems.token);
-		BBItemStackHelper.addNumberTagToItemStack(tokenBoss, LibNBT.number, 0);
-		GameRegistry.addRecipe(tokenBoss, "xyx", "yzy", "xyx", 'x', Blocks.STONE, 'y', Items.GOLD_NUGGET, 'z', BBItems.token);
+		ItemStack token = new ItemStack(BBItems.token, 1, 1);
+		if(!token.hasTagCompound())
+			token.setTagCompound(new NBTTagCompound());
+		token.getTagCompound().setInteger(LibNBT.number, 0);
+		
+		GameRegistry.addRecipe(token, "xyx", "yzy", "xyx", 'x', Blocks.STONE, 'y', Items.GOLD_NUGGET, 'z', BBItems.token);
+		
+		token = new ItemStack(BBItems.token, 1, 2);
+		if(!token.hasTagCompound())
+			token.setTagCompound(new NBTTagCompound());
+		token.getTagCompound().setInteger(LibNBT.number, 0);
+		
+		GameRegistry.addRecipe(token, "xya", "yzy", "ayx", 'a', new ItemStack(BBItems.bbResources, 1, 3), 'x', Items.DIAMOND_SWORD, 'y', Items.ROTTEN_FLESH, 'z', BBItems.token);
 		
 		RecipeSorter.register("bb:shapedblood", ShapedBloodRecipes.class, RecipeSorter.Category.SHAPED, "after:minecraft:shaped");
 		

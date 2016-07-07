@@ -3,6 +3,7 @@ package palaster.bb.core.proxy;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.passive.EntityVillager.PriceInfo;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
@@ -65,6 +66,7 @@ public class CommonProxy implements IGuiHandler {
 		VillagerRegistry.VillagerCareer careerSpell = new VillagerCareer(villageSpellSeller, "spell");
 		careerSpell.addTrade(1, new EntityVillager.ListItemForEmeralds(BBItems.sacredFlame, new PriceInfo(1, 4)));
 		BBApi.addBossClassToToken(EntityItztiliTablet.class);
+		BBApi.addItemStackToToken(new ItemStack(BBItems.leacher));
 	}
 	
 	public void postInit() { BBRecipes.init(); }

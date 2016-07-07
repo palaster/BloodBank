@@ -11,13 +11,6 @@ import palaster.bb.items.BoundArmor;
 import palaster.bb.libs.LibNBT;
 
 public class BBItemStackHelper {
-	
-	public static ItemStack addNumberTagToItemStack(ItemStack stack, String tagName, int number) {
-		if(!stack.hasTagCompound())
-			stack.setTagCompound(new NBTTagCompound());
-		stack.getTagCompound().setInteger(tagName, number);
-		return stack;
-	}
 
 	public static ItemStack getItemStackFromInventory(WorldServer ws, BlockPos pos, int slot) {
 		if(ws != null)
