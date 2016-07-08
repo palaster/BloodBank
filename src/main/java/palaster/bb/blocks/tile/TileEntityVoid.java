@@ -2,11 +2,9 @@ package palaster.bb.blocks.tile;
 
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ITickable;
 import palaster.bb.libs.LibNBT;
 
-public class TileEntityVoid extends TileEntity implements ITickable {
+public class TileEntityVoid extends TileEntityModBase {
 
 	private Block ogBlock;
 	private final int timerMax = 2400;
@@ -17,17 +15,17 @@ public class TileEntityVoid extends TileEntity implements ITickable {
 	public void setOriginalBlock(Block value) { this.ogBlock = value; }
 	
 	@Override
-	public void readFromNBT(NBTTagCompound compound) {
-		super.readFromNBT(compound);
+	public void readPacketNBT(NBTTagCompound compound) {
+		super.readPacketNBT(compound);
 		ogBlock = Block.getBlockById(compound.getInteger(LibNBT.originalBlockID));
 		timer = compound.getInteger(LibNBT.timer);
 	}
 	
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
+	public void writePacketNBT(NBTTagCompound compound) {
 		compound.setInteger(LibNBT.originalBlockID, Block.getIdFromBlock(ogBlock));
 		compound.setInteger(LibNBT.timer, timer);
-		return super.writeToNBT(compound);
+		super.writePacketNBT(compound);
 	}
 
 	@Override

@@ -3,6 +3,7 @@ package palaster.bb.blocks;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -31,34 +32,70 @@ public class BlockBonfire extends BlockMod {
 
     @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
-        if(!worldIn.isRemote)
-            if(heldItem != null && heldItem.stackSize == 1) {
-                if(heldItem.getItem() instanceof ItemClock)
-                    playerIn.setHeldItem(hand, new ItemStack(BBItems.undeadMonitor));
-                else if(heldItem.getItem() instanceof ItemFireball)
-                    playerIn.setHeldItem(hand, new ItemStack(BBItems.flames));
-                else if(heldItem.getItem() instanceof ItemGlassBottle) {
-                	ItemStack estusFlask = new ItemStack(BBItems.estusFlask);
-                	if(!estusFlask.hasTagCompound())
-                		estusFlask.setTagCompound(new NBTTagCompound());
-                	estusFlask.getTagCompound().setInteger(LibNBT.amount, 6);
-                	playerIn.setHeldItem(hand, estusFlask);
-                }
-                else if(heldItem.getItem() instanceof ItemEstusFlask) {
+        if(!worldIn.isRemote) {
+            if(heldItem != null) {
+                if(heldItem.getItem() instanceof ItemClock) {
+                	if(heldItem.stackSize > 1) {
+                		heldItem.stackSize--;
+                		ItemStack um = new ItemStack(BBItems.undeadMonitor);
+                		if(!playerIn.inventory.addItemStackToInventory(um))
+                			worldIn.spawnEntityInWorld(new EntityItem(worldIn, playerIn.posX, playerIn.posY, playerIn.posZ, um));
+                	} else {
+                		// TODO: Fix issue with using playerIn.setHeldItem(hand, new ItemStack(BBItems.undeadMonitor));
+                		heldItem.stackSize = 0;
+                		ItemStack um = new ItemStack(BBItems.undeadMonitor);
+                		if(!playerIn.inventory.addItemStackToInventory(um))
+                			worldIn.spawnEntityInWorld(new EntityItem(worldIn, playerIn.posX, playerIn.posY, playerIn.posZ, um));
+                	}
+                } else if(heldItem.getItem() instanceof ItemFireball) {
+                	if(heldItem.stackSize > 1) {
+                		heldItem.stackSize--;
+                		ItemStack flames = new ItemStack(BBItems.flames);
+                		if(!playerIn.inventory.addItemStackToInventory(flames))
+                			worldIn.spawnEntityInWorld(new EntityItem(worldIn, playerIn.posX, playerIn.posY, playerIn.posZ, flames));
+                	} else
+                		playerIn.setHeldItem(hand, new ItemStack(BBItems.flames));
+                } else if(heldItem.getItem() instanceof ItemGlassBottle) {
+                	if(heldItem.stackSize > 1) {
+                		heldItem.stackSize--;
+                		ItemStack estusFlask = new ItemStack(BBItems.estusFlask);
+                    	if(!estusFlask.hasTagCompound())
+                    		estusFlask.setTagCompound(new NBTTagCompound());
+                    	estusFlask.getTagCompound().setInteger(LibNBT.amount, 6);
+                    	if(!playerIn.inventory.addItemStackToInventory(estusFlask))
+                			worldIn.spawnEntityInWorld(new EntityItem(worldIn, playerIn.posX, playerIn.posY, playerIn.posZ, estusFlask));
+                	} else {
+                		ItemStack estusFlask = new ItemStack(BBItems.estusFlask);
+                    	if(!estusFlask.hasTagCompound())
+                    		estusFlask.setTagCompound(new NBTTagCompound());
+                    	estusFlask.getTagCompound().setInteger(LibNBT.amount, 6);
+                    	playerIn.setHeldItem(hand, estusFlask);
+                	}
+                } else if(heldItem.getItem() instanceof ItemEstusFlask) {
                 	if(!heldItem.hasTagCompound())
                 		heldItem.setTagCompound(new NBTTagCompound());
                 	heldItem.getTagCompound().setInteger(LibNBT.amount, 6);
                 	playerIn.setHeldItem(hand, heldItem);
-                }
-                else if(heldItem.getItem() == Items.GOLD_INGOT) {
-                	ItemStack token = new ItemStack(BBItems.token);
-                	if(!token.hasTagCompound())
-                		token.setTagCompound(new NBTTagCompound());
-                	token.getTagCompound().setInteger(LibNBT.number, -1);
-                	playerIn.setHeldItem(hand, token);
+                } else if(heldItem.getItem() == Items.GOLD_INGOT) {
+                	if(heldItem.stackSize > 1) {
+                		heldItem.stackSize--;
+                		ItemStack token = new ItemStack(BBItems.token);
+                    	if(!token.hasTagCompound())
+                    		token.setTagCompound(new NBTTagCompound());
+                    	token.getTagCompound().setInteger(LibNBT.number, -1);
+                    	if(!playerIn.inventory.addItemStackToInventory(token))
+                			worldIn.spawnEntityInWorld(new EntityItem(worldIn, playerIn.posX, playerIn.posY, playerIn.posZ, token));
+                	} else {
+                		ItemStack token = new ItemStack(BBItems.token);
+                    	if(!token.hasTagCompound())
+                    		token.setTagCompound(new NBTTagCompound());
+                    	token.getTagCompound().setInteger(LibNBT.number, -1);
+                    	playerIn.setHeldItem(hand, token);
+                	}
                 }
                 return true;
             }
+        }
         return super.onBlockActivated(worldIn, pos, state, playerIn, hand, heldItem, side, hitX, hitY, hitZ);
     }
 

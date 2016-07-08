@@ -36,8 +36,8 @@ public class BlockCommunityTool extends BlockModContainer {
 				for(int i = 0; i < e.player.inventory.getSizeInventory(); i++)
 					if(e.player.inventory.getStackInSlot(i) != null && e.player.inventory.getStackInSlot(i).hasTagCompound())
 						if(BBItemStackHelper.getCountDown(e.player.inventory.getStackInSlot(i))) {
-							if(e.player.inventory.getStackInSlot(0).getItemDamage() < e.player.inventory.getStackInSlot(0).getMaxDamage())
-								e.player.inventory.getStackInSlot(0).damageItem(1, e.player);
+							if(e.player.inventory.getStackInSlot(i).getItemDamage() < e.player.inventory.getStackInSlot(i).getMaxDamage())
+								e.player.inventory.getStackInSlot(i).damageItem(1, e.player);
 							else
 								e.player.inventory.setInventorySlotContents(i, null);
 						}

@@ -2,6 +2,7 @@ package palaster.bb.blocks.tile;
 
 import java.util.UUID;
 
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import palaster.bb.libs.LibNBT;
 
@@ -29,6 +30,14 @@ public class TileEntityCommunityTool extends TileEntityModInventory {
     
 	@Override
 	public void update() {}
+	
+	@Override
+	protected SimpleItemStackHandler createItemHandler() {
+		return new SimpleItemStackHandler(this, false) {
+			@Override
+			protected int getStackLimit(int slot, ItemStack stack) { return 1; }
+		};
+	}
 
     public UUID getOwner() { return owner; }
 
