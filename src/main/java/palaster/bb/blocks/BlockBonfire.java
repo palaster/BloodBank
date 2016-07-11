@@ -35,18 +35,10 @@ public class BlockBonfire extends BlockMod {
         if(!worldIn.isRemote) {
             if(heldItem != null) {
                 if(heldItem.getItem() instanceof ItemClock) {
-                	if(heldItem.stackSize > 1) {
-                		heldItem.stackSize--;
-                		ItemStack um = new ItemStack(BBItems.undeadMonitor);
-                		if(!playerIn.inventory.addItemStackToInventory(um))
-                			worldIn.spawnEntityInWorld(new EntityItem(worldIn, playerIn.posX, playerIn.posY, playerIn.posZ, um));
-                	} else {
-                		// TODO: Fix issue with using playerIn.setHeldItem(hand, new ItemStack(BBItems.undeadMonitor));
-                		heldItem.stackSize = 0;
-                		ItemStack um = new ItemStack(BBItems.undeadMonitor);
-                		if(!playerIn.inventory.addItemStackToInventory(um))
-                			worldIn.spawnEntityInWorld(new EntityItem(worldIn, playerIn.posX, playerIn.posY, playerIn.posZ, um));
-                	}
+            		heldItem.stackSize--;
+            		ItemStack um = new ItemStack(BBItems.undeadMonitor);
+            		if(!playerIn.inventory.addItemStackToInventory(um))
+            			worldIn.spawnEntityInWorld(new EntityItem(worldIn, playerIn.posX, playerIn.posY, playerIn.posZ, um));
                 } else if(heldItem.getItem() instanceof ItemFireball) {
                 	if(heldItem.stackSize > 1) {
                 		heldItem.stackSize--;

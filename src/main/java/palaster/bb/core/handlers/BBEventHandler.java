@@ -20,6 +20,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
@@ -45,10 +46,8 @@ import palaster.bb.api.recipes.ShapedBloodRecipes;
 import palaster.bb.core.proxy.ClientProxy;
 import palaster.bb.entities.EntityItztiliTablet;
 import palaster.bb.entities.effects.BBPotions;
-import palaster.bb.entities.knowledge.BBKnowledge;
 import palaster.bb.items.BBItems;
 import palaster.bb.items.ItemBloodBottle;
-import palaster.bb.items.ItemBookBlood;
 import palaster.bb.items.ItemModStaff;
 import palaster.bb.libs.LibMod;
 import palaster.bb.libs.LibNBT;
@@ -252,23 +251,28 @@ public class BBEventHandler {
 			if(Keyboard.isKeyDown(ClientProxy.staffChange.getKeyCode()))
 				PacketHandler.sendToServer(new KeyClickMessage());
 	}
-
+	
 	@SideOnly(Side.CLIENT)
-	@SubscribeEvent(priority= EventPriority.NORMAL)
-	public void onRenderGameOverlay(RenderGameOverlayEvent.Post event) {
+	@SubscribeEvent(priority = EventPriority.NORMAL)
+	public void onRenderGameOverlay(RenderGameOverlayEvent.Post e) {
 		if(Minecraft.getMinecraft().currentScreen == null && Minecraft.getMinecraft().inGameHasFocus) {
-			if(event.getType() == RenderGameOverlayEvent.ElementType.TEXT)
-				if(Minecraft.getMinecraft().fontRendererObj != null && Minecraft.getMinecraft().thePlayer != null && Minecraft.getMinecraft().thePlayer.getHeldItemMainhand() != null) {
-					if(Minecraft.getMinecraft().thePlayer.getHeldItemMainhand().getItem() instanceof ItemModStaff && Minecraft.getMinecraft().thePlayer.getHeldItemMainhand().hasTagCompound()) {
-						ItemStack staff = Minecraft.getMinecraft().thePlayer.getHeldItemMainhand();
+			if(e.getType() == ElementType.TEXT && Minecraft.getMinecraft().fontRendererObj != null) {
+				EntityPlayer p = Minecraft.getMinecraft().thePlayer;
+				if(p != null) {
+					if(p.getHeldItemOffhand() != null && p.getHeldItemOffhand().getItem() instanceof ItemModStaff && p.getHeldItemOffhand().hasTagCompound()) {
+						ItemStack staff = Minecraft.getMinecraft().thePlayer.getHeldItemOffhand();
 						String power = I18n.format(((ItemModStaff) staff.getItem()).powers[ItemModStaff.getActivePower(staff)]);
 						Minecraft.getMinecraft().fontRendererObj.drawString(I18n.format("bb.staff.active") + ": " + power, 2, 2, 0);
-					} else if(Minecraft.getMinecraft().thePlayer.getHeldItemMainhand().getItem() instanceof ItemBookBlood && Minecraft.getMinecraft().thePlayer.getHeldItemMainhand().hasTagCompound()) {
-						ItemStack book = Minecraft.getMinecraft().thePlayer.getHeldItemMainhand();
-						String spell = I18n.format("bb.knowledgePiece") + ": " + I18n.format(BBKnowledge.getKnowledgePiece(book.getTagCompound().getInteger(LibNBT.knowledgePiece)).getName());
-						Minecraft.getMinecraft().fontRendererObj.drawString(I18n.format("bb.kp.active") + ": " + spell, 2, 2, 0x8A0707);
+						ClientProxy.isItemInOffHandRenderingOverlay = true;
+					} else if(p.getHeldItemOffhand() == null)
+						ClientProxy.isItemInOffHandRenderingOverlay = false;
+					if(!ClientProxy.isItemInOffHandRenderingOverlay && p.getHeldItemMainhand() != null && p.getHeldItemMainhand().getItem() instanceof ItemModStaff && p.getHeldItemMainhand().hasTagCompound()) {
+						ItemStack staff = Minecraft.getMinecraft().thePlayer.getHeldItemMainhand();
+						String power = I18n.format(((ItemModStaff) staff.getItem()).powers[ItemModStaff.getActivePower(staff)]);
+						Minecraft.getMinecraft().fontRendererObj.drawString(I18n.format("bb.staff.active") + ": " + power, 2, 2, 0);					
 					}
 				}
+			}	
 		}
 	}
 }

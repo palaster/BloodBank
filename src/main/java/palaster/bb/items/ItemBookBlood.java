@@ -2,6 +2,7 @@ package palaster.bb.items;
 
 import java.util.List;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -14,9 +15,15 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import palaster.bb.api.BBApi;
+import palaster.bb.core.proxy.ClientProxy;
 import palaster.bb.entities.knowledge.BBKnowledge;
 import palaster.bb.libs.LibNBT;
 
@@ -25,7 +32,31 @@ public class ItemBookBlood extends ItemModSpecial {
     public ItemBookBlood() {
         super();
         setUnlocalizedName("bookBlood");
+        MinecraftForge.EVENT_BUS.register(this);
     }
+    
+    @SideOnly(Side.CLIENT)
+	@SubscribeEvent(priority = EventPriority.NORMAL)
+	public void onRenderGameOverlay(RenderGameOverlayEvent.Post e) {
+		if(Minecraft.getMinecraft().currentScreen == null && Minecraft.getMinecraft().inGameHasFocus)
+			if(e.getType() == ElementType.TEXT && Minecraft.getMinecraft().fontRendererObj != null) {
+				EntityPlayer p = Minecraft.getMinecraft().thePlayer;
+				if(p != null) {
+					if(p.getHeldItemOffhand() != null && p.getHeldItemOffhand().getItem() == this && p.getHeldItemOffhand().hasTagCompound()) {
+						ItemStack book = p.getHeldItemOffhand();
+						String spell = I18n.format("bb.knowledgePiece") + ": " + I18n.format(BBKnowledge.getKnowledgePiece(book.getTagCompound().getInteger(LibNBT.knowledgePiece)).getName());
+						Minecraft.getMinecraft().fontRendererObj.drawString(I18n.format("bb.kp.active") + ": " + spell, 2, 2, 0x8A0707);
+						ClientProxy.isItemInOffHandRenderingOverlay = true;
+					} else if(p.getHeldItemOffhand() == null)
+						ClientProxy.isItemInOffHandRenderingOverlay = false;
+					if(!ClientProxy.isItemInOffHandRenderingOverlay && p.getHeldItemMainhand() != null && p.getHeldItemMainhand().getItem() == this && p.getHeldItemMainhand().hasTagCompound()) {
+						ItemStack book = p.getHeldItemMainhand();
+						String spell = I18n.format("bb.knowledgePiece") + ": " + I18n.format(BBKnowledge.getKnowledgePiece(book.getTagCompound().getInteger(LibNBT.knowledgePiece)).getName());
+						Minecraft.getMinecraft().fontRendererObj.drawString(I18n.format("bb.kp.active") + ": " + spell, 2, 2, 0x8A0707);
+					}
+				}
+			}	
+	}
     
     @Override
     public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
