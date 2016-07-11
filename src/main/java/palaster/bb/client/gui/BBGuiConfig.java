@@ -13,6 +13,6 @@ import palaster.bb.libs.LibMod;
 public class BBGuiConfig extends GuiConfig {
 
     public BBGuiConfig(GuiScreen guiScreen) {
-        super(guiScreen, new ConfigElement(BBEventHandler.config.getCategory(Configuration.CATEGORY_GENERAL)).getChildElements(), LibMod.modid, true, true, GuiConfig.getAbridgedConfigPath(BBEventHandler.config.toString()));
+        super(guiScreen, new ConfigElement(BBEventHandler.config.getCategory(Configuration.CATEGORY_GENERAL)).getChildElements(), LibMod.modid, false, false, GuiConfig.getAbridgedConfigPath(BBEventHandler.config.toString()));
     }
 }

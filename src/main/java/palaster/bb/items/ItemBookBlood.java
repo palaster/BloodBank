@@ -44,26 +44,29 @@ public class ItemBookBlood extends ItemModSpecial {
 				if(p != null) {
 					if(p.getHeldItemOffhand() != null && p.getHeldItemOffhand().getItem() == this && p.getHeldItemOffhand().hasTagCompound()) {
 						ItemStack book = p.getHeldItemOffhand();
-						String spell = I18n.format("bb.knowledgePiece") + ": " + I18n.format(BBKnowledge.getKnowledgePiece(book.getTagCompound().getInteger(LibNBT.knowledgePiece)).getName());
-						Minecraft.getMinecraft().fontRendererObj.drawString(I18n.format("bb.kp.active") + ": " + spell, 2, 2, 0x8A0707);
+						Minecraft.getMinecraft().fontRendererObj.drawString(I18n.format("bb.knowledgePiece") + ": " + I18n.format(BBKnowledge.getKnowledgePiece(book.getTagCompound().getInteger(LibNBT.knowledgePiece)).getName()), 2, 2, 0x8A0707);
+						Minecraft.getMinecraft().fontRendererObj.drawString("" + BBApi.getCurrentBlood(p), e.getResolution().getScaledWidth() - 32, e.getResolution().getScaledHeight() - 18, 0x8A0707);
 						ClientProxy.isItemInOffHandRenderingOverlay = true;
 					} else if(p.getHeldItemOffhand() == null)
 						ClientProxy.isItemInOffHandRenderingOverlay = false;
 					if(!ClientProxy.isItemInOffHandRenderingOverlay && p.getHeldItemMainhand() != null && p.getHeldItemMainhand().getItem() == this && p.getHeldItemMainhand().hasTagCompound()) {
 						ItemStack book = p.getHeldItemMainhand();
-						String spell = I18n.format("bb.knowledgePiece") + ": " + I18n.format(BBKnowledge.getKnowledgePiece(book.getTagCompound().getInteger(LibNBT.knowledgePiece)).getName());
-						Minecraft.getMinecraft().fontRendererObj.drawString(I18n.format("bb.kp.active") + ": " + spell, 2, 2, 0x8A0707);
+						Minecraft.getMinecraft().fontRendererObj.drawString(I18n.format("bb.knowledgePiece") + ": " + I18n.format(BBKnowledge.getKnowledgePiece(book.getTagCompound().getInteger(LibNBT.knowledgePiece)).getName()), 2, 2, 0x8A0707);
+						Minecraft.getMinecraft().fontRendererObj.drawString("" + BBApi.getCurrentBlood(p), e.getResolution().getScaledWidth() - 32, e.getResolution().getScaledHeight() - 18, 0x8A0707);
 					}
 				}
-			}	
+			}
 	}
     
     @Override
     public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
-    	if(!worldIn.isRemote)
+    	if(!worldIn.isRemote) {
     		if(entityIn instanceof EntityLivingBase)
     			if(stack.getItemDamage() > 0)
     				stack.damageItem(-1, (EntityLivingBase) entityIn);
+    		if(isSelected && entityIn instanceof EntityPlayer)
+    			BBApi.syncServerToClient((EntityPlayer) entityIn);
+    	}
     }
 
     @Override
