@@ -58,15 +58,13 @@ public class ItemBBResources extends Item {
     @SubscribeEvent
 	public void onLivingAttack(LivingAttackEvent e) {
 		if(!e.getEntityLiving().worldObj.isRemote) {
-			if(e.getEntityLiving() instanceof EntityPlayer) {
-				EntityPlayer p = (EntityPlayer) e.getEntityLiving();
-				if(e.getSource().isMagicDamage() && p.inventory.hasItemStack(new ItemStack(BBItems.bbResources, 1, 2)))
+			if(e.getEntityLiving() instanceof EntityPlayer)
+				if(e.getSource().isMagicDamage() && ((EntityPlayer) e.getEntityLiving()).inventory.hasItemStack(new ItemStack(BBItems.bbResources, 1, 2)))
 					e.setCanceled(true);
-			}
 			if(e.getSource().getSourceOfDamage() instanceof EntityPlayer)
 				if(((EntityPlayer )e.getSource().getSourceOfDamage()).getHeldItemMainhand() != null && ((EntityPlayer)e.getSource().getSourceOfDamage()).getHeldItemMainhand().getItem() instanceof ItemSword)
 					if(((EntityPlayer) e.getSource().getSourceOfDamage()).getHeldItem(EnumHand.OFF_HAND) != null && ((EntityPlayer) e.getSource().getSourceOfDamage()).getHeldItem(EnumHand.OFF_HAND).getItem() == new ItemStack(BBItems.bbResources, 1, 3).getItem() && ((EntityPlayer) e.getSource().getSourceOfDamage()).getHeldItem(EnumHand.OFF_HAND).getItemDamage() == 3)
-						BBApi.addBlood(((EntityPlayer) e.getSource().getSourceOfDamage()), (int) e.getAmount());
+						BBApi.addBlood(((EntityPlayer) e.getSource().getSourceOfDamage()), (int) e.getAmount() * 50);
 		}
 	}
     
@@ -85,7 +83,7 @@ public class ItemBBResources extends Item {
 		if(!e.getWorld().isRemote && e.getSide().isServer())
 			if(e.getEntityPlayer().getHeldItemMainhand() != null && e.getEntityPlayer().getHeldItemMainhand().getItem() instanceof ItemSword)
 				if(e.getEntityPlayer().getHeldItem(EnumHand.OFF_HAND) != null && e.getEntityPlayer().getHeldItem(EnumHand.OFF_HAND).getItem() == new ItemStack(BBItems.bbResources, 1, 3).getItem() && e.getEntityPlayer().getHeldItem(EnumHand.OFF_HAND).getItemDamage() == 3) {
-					e.getEntityPlayer().attackEntityFrom(BloodBank.proxy.bbBlood, 1f);
+					e.getEntityPlayer().attackEntityFrom(BloodBank.proxy.bbBlood, 2f);
 					BBApi.addBlood(e.getEntityPlayer(), 50);
 				}
 	}

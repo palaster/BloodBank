@@ -3,13 +3,14 @@ package palaster.bb.libs;
 public class LibNBT {
 	
 	// Basic
-	public static String number = "Number";
-	public static String maxNumber = "MaxNumber";
-	public static String bol = "Boolean";
-	public static String string = "String";
-	public static String uuid = "UUID";
-	public static String tag = "NBTTagCompound";
-	public static String entityTag = "EntityTag";
+	public static String number = "BBNumber";
+	public static String bol = "BBBoolean";
+	public static String string = "BBString";
+	public static String uuid = "BBUUID";
+	public static String tag = "BBNBTTagCompound";
+	public static String entityTag = "BBEntityTag";
+	
+	public static String maxNumber = "BBMaxNumber";
 
     // Undead
     public static String isUndead = "IsUndead";

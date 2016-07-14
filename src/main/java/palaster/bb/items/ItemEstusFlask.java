@@ -48,7 +48,7 @@ public class ItemEstusFlask extends ItemModSpecial {
 			if(itemStackIn.getItemDamage() == 0) {
 				if(!playerIn.isSneaking()) {
 					if(itemStackIn.hasTagCompound() && itemStackIn.getTagCompound().getInteger(LibNBT.amount) > 0) {
-						playerIn.heal(2f);
+						playerIn.heal(4f);
 						itemStackIn.getTagCompound().setInteger(LibNBT.amount, itemStackIn.getTagCompound().getInteger(LibNBT.amount) - 1);
 						return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStackIn);
 					}

@@ -22,16 +22,8 @@ public class EntityYinYang extends EntityThrowable {
 	}
 
 	public EntityYinYang(World worldIn, EntityLivingBase throwerIn, int value) {
-		this(worldIn, throwerIn);
-		isSneaking = value;
-	}
-	
-	public EntityYinYang(World worldIn, EntityLivingBase throwerIn) {
 		super(worldIn, throwerIn);
-	}
-	
-	public EntityYinYang(World worldIn, double x, double y, double p_i1778_6_) {
-		super(worldIn, x, y, p_i1778_6_);
+		isSneaking = value;
 	}
 	
 	@Override

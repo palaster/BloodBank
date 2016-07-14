@@ -67,6 +67,7 @@ public class CommonProxy implements IGuiHandler {
 		careerSpell.addTrade(1, new EntityVillager.ListItemForEmeralds(BBItems.sacredFlame, new PriceInfo(1, 4)));
 		BBApi.addBossClassToToken(EntityItztiliTablet.class);
 		BBApi.addItemStackToToken(new ItemStack(BBItems.leacher));
+		BBApi.addItemStackToToken(new ItemStack(BBItems.horn));
 	}
 	
 	public void postInit() { BBRecipes.init(); }

@@ -44,6 +44,8 @@ item.bb:leacher.name=Leacher
 item.bb:token.0.name=Token
 item.bb:token.1.name=Boss Token
 item.bb:token.2.name=Item Token
+item.bb:horn.name=Horn of Support
+item.bb:talisman.name=Talisman
 
 item.bb:bound.HEAD.name=Bound Helmet
 item.bb:bound.CHEST.name=Bound Chestplate
@@ -122,6 +124,9 @@ bb.kp.bloodLink=Blood Link
 bb.kp.boundArmor=Bound Armor
 bb.kp.bloodHive=Blood Hive
 bb.kp.undeadSummon=Undead Summon
+
+bb.talisman.speed=Speed
+bb.talisman.poison=Poison
 
 bb.jei.blood=Blood
 bb.jei.bloodCost=Blood Cost

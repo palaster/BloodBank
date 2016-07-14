@@ -31,7 +31,9 @@ public class BBItems {
 	flames,
 	carthusFlameArc,
 	sacredFlame,
-	leacher;
+	leacher,
+	horn,
+	talisman;
 
 	public static ItemArmor
 	boundHelmet,
@@ -69,6 +71,8 @@ public class BBItems {
 		carthusFlameArc = new ItemCarthusFlameArc();
 		sacredFlame = new ItemSacredFlame();
 		leacher = new ItemLeacher(leach);
+		horn = new ItemHorn();
+		talisman = new ItemTalisman();
 
 		boundHelmet = new BoundArmor(bound, 0, EntityEquipmentSlot.HEAD);
 		boundChestplate = new BoundArmor(bound, 0, EntityEquipmentSlot.CHEST);
@@ -104,6 +108,8 @@ public class BBItems {
 		ItemMod.setCustomModelResourceLocation(carthusFlameArc);
 		ItemMod.setCustomModelResourceLocation(sacredFlame);
 		ItemMod.setCustomModelResourceLocation(leacher);
+		ItemMod.setCustomModelResourceLocation(horn);
+		ItemMod.setCustomModelResourceLocation(talisman);
 		
 		ItemMod.setCustomModelResourceLocation(boundHelmet);
 		ItemMod.setCustomModelResourceLocation(boundChestplate);
