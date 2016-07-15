@@ -5,6 +5,9 @@ death.attack.bbBlood=%1$s died of anemia.
 effect.timedFlame=Timed Flame
 effect.bloodHive=Blood Hive
 effect.sandBody=Sand Body
+effect.instantDeath=Instant Death
+effect.curseUnblinkingEye=Curse of the Unblinking Eye
+effect.curseBlackTongue=Curse of the Black Tongue
 
 key.categories.bb=Blood Bank
 key.staffChange=Change Staff Power
@@ -124,9 +127,17 @@ bb.kp.bloodLink=Blood Link
 bb.kp.boundArmor=Bound Armor
 bb.kp.bloodHive=Blood Hive
 bb.kp.undeadSummon=Undead Summon
+bb.kp.possession=Possession
+bb.kp.curseUnblinkingEye=Curse of the Unblinking Eye
+bb.kp.curseBlackTongue=Curse of the Black Tongue
 
 bb.talisman.speed=Speed
 bb.talisman.poison=Poison
+
+bb.gimp.0=Ravioli ravioli give me the formuoli.
+bb.gimp.1=You're like a dictionary, you add meaning to my life!
+bb.gimp.2=Jar Jar Binks is the best Star War's character.
+bb.gimp.3=I love Notch.
 
 bb.jei.blood=Blood
 bb.jei.bloodCost=Blood Cost

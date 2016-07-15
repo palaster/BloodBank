@@ -17,7 +17,7 @@ public class KPBoilingBlood implements IKnowledgePiece {
     public String getName() { return "bb.kp.boilingBlood"; }
 
     @Override
-    public int getPrice() { return 500; }
+    public int getPrice() { return 50; }
 
     @Override
     public ActionResult<ItemStack> onKnowledgePieceRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) { return new ActionResult<ItemStack>(EnumActionResult.PASS, itemStackIn); }

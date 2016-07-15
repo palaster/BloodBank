@@ -39,23 +39,21 @@ public class ItemBookBlood extends ItemModSpecial {
 	@SubscribeEvent(priority = EventPriority.NORMAL)
 	public void onRenderGameOverlay(RenderGameOverlayEvent.Post e) {
 		if(Minecraft.getMinecraft().currentScreen == null && Minecraft.getMinecraft().inGameHasFocus)
-			if(e.getType() == ElementType.TEXT && Minecraft.getMinecraft().fontRendererObj != null) {
-				EntityPlayer p = Minecraft.getMinecraft().thePlayer;
-				if(p != null) {
-					if(p.getHeldItemOffhand() != null && p.getHeldItemOffhand().getItem() == this && p.getHeldItemOffhand().hasTagCompound()) {
-						ItemStack book = p.getHeldItemOffhand();
+			if(e.getType() == ElementType.TEXT && Minecraft.getMinecraft().fontRendererObj != null)
+				if(Minecraft.getMinecraft().thePlayer != null) {
+					if(Minecraft.getMinecraft().thePlayer.getHeldItemOffhand() != null && Minecraft.getMinecraft().thePlayer.getHeldItemOffhand().getItem() == this && Minecraft.getMinecraft().thePlayer.getHeldItemOffhand().hasTagCompound()) {
+						ItemStack book = Minecraft.getMinecraft().thePlayer.getHeldItemOffhand();
 						Minecraft.getMinecraft().fontRendererObj.drawString(I18n.format("bb.knowledgePiece") + ": " + I18n.format(BBKnowledge.getKnowledgePiece(book.getTagCompound().getInteger(LibNBT.knowledgePiece)).getName()), 2, 2, 0x8A0707);
-						Minecraft.getMinecraft().fontRendererObj.drawString("" + BBApi.getCurrentBlood(p), e.getResolution().getScaledWidth() - 32, e.getResolution().getScaledHeight() - 18, 0x8A0707);
+						Minecraft.getMinecraft().fontRendererObj.drawString("" + BBApi.getCurrentBlood(Minecraft.getMinecraft().thePlayer), e.getResolution().getScaledWidth() - 32, e.getResolution().getScaledHeight() - 18, 0x8A0707);
 						ClientProxy.isItemInOffHandRenderingOverlay = true;
-					} else if(p.getHeldItemOffhand() == null)
+					} else if(Minecraft.getMinecraft().thePlayer.getHeldItemOffhand() == null)
 						ClientProxy.isItemInOffHandRenderingOverlay = false;
-					if(!ClientProxy.isItemInOffHandRenderingOverlay && p.getHeldItemMainhand() != null && p.getHeldItemMainhand().getItem() == this && p.getHeldItemMainhand().hasTagCompound()) {
-						ItemStack book = p.getHeldItemMainhand();
+					if(!ClientProxy.isItemInOffHandRenderingOverlay && Minecraft.getMinecraft().thePlayer.getHeldItemMainhand() != null && Minecraft.getMinecraft().thePlayer.getHeldItemMainhand().getItem() == this && Minecraft.getMinecraft().thePlayer.getHeldItemMainhand().hasTagCompound()) {
+						ItemStack book = Minecraft.getMinecraft().thePlayer.getHeldItemMainhand();
 						Minecraft.getMinecraft().fontRendererObj.drawString(I18n.format("bb.knowledgePiece") + ": " + I18n.format(BBKnowledge.getKnowledgePiece(book.getTagCompound().getInteger(LibNBT.knowledgePiece)).getName()), 2, 2, 0x8A0707);
-						Minecraft.getMinecraft().fontRendererObj.drawString("" + BBApi.getCurrentBlood(p), e.getResolution().getScaledWidth() - 32, e.getResolution().getScaledHeight() - 18, 0x8A0707);
+						Minecraft.getMinecraft().fontRendererObj.drawString("" + BBApi.getCurrentBlood(Minecraft.getMinecraft().thePlayer), e.getResolution().getScaledWidth() - 32, e.getResolution().getScaledHeight() - 18, 0x8A0707);
 					}
 				}
-			}
 	}
     
     @Override

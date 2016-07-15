@@ -8,6 +8,9 @@ import palaster.bb.entities.knowledge.pieces.KPBloodHive;
 import palaster.bb.entities.knowledge.pieces.KPBloodLink;
 import palaster.bb.entities.knowledge.pieces.KPBoilingBlood;
 import palaster.bb.entities.knowledge.pieces.KPBoundArmor;
+import palaster.bb.entities.knowledge.pieces.KPCurseBlackTongue;
+import palaster.bb.entities.knowledge.pieces.KPCurseUnblinkingEye;
+import palaster.bb.entities.knowledge.pieces.KPPossession;
 import palaster.bb.entities.knowledge.pieces.KPUndeadSummon;
 
 public class BBKnowledge {
@@ -46,5 +49,8 @@ public class BBKnowledge {
         addKnowledgePiece(new KPBoundArmor());
         addKnowledgePiece(new KPBloodHive());
         addKnowledgePiece(new KPUndeadSummon());
+        addKnowledgePiece(new KPPossession());
+        addKnowledgePiece(new KPCurseUnblinkingEye());
+        addKnowledgePiece(new KPCurseBlackTongue());
     }
 }

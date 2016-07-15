@@ -20,18 +20,22 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerDropsEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.entity.player.SleepingLocationCheckEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
+import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
@@ -200,12 +204,19 @@ public class BBEventHandler {
 	}
 	
 	@SubscribeEvent
+	public void onBedCheck(SleepingLocationCheckEvent e) {
+		if(!e.getEntityPlayer().worldObj.isRemote)
+			if(e.getEntityPlayer().getActivePotionEffect(BBPotions.curseUnblinkingEye) != null)
+				e.setResult(Event.Result.DENY);
+	}
+	
+	@SubscribeEvent
 	public void onCraft(ItemCraftedEvent e) {
 		if(!e.player.worldObj.isRemote)
 			if(CraftingManager.getInstance().getRecipeList() != null)
 				for(IRecipe recipe : CraftingManager.getInstance().getRecipeList())
 					if(recipe != null && recipe instanceof ShapedBloodRecipes)
-						if(recipe.getRecipeOutput() != null && recipe.getRecipeOutput().getItem() == e.crafting.getItem()) {
+						if(recipe.getRecipeOutput() != null && recipe.getRecipeOutput().getItem() == e.crafting.getItem() && recipe.getRecipeOutput().getItemDamage() == e.crafting.getItemDamage()) {
 							for(int i = 0; i < e.player.inventory.getSizeInventory(); i++)
 								if(e.player.inventory.getStackInSlot(i) != null)
 									if(e.player.inventory.getStackInSlot(i).getItem() instanceof ItemBloodBottle)
@@ -241,6 +252,13 @@ public class BBEventHandler {
 				e.getEntityLiving().worldObj.spawnEntityInWorld(tnt);
 			}
 		}
+	}
+	
+	@SubscribeEvent
+	public void onPlayerSendChat(ServerChatEvent e) {
+		if(!e.getPlayer().worldObj.isRemote)
+			if(e.getPlayer().getActivePotionEffect(BBPotions.curseBlackTongue) != null)
+				e.setComponent(new TextComponentString("<" + e.getUsername() + "> " + I18n.format("bb.gimp." + e.getPlayer().worldObj.rand.nextInt(4))));
 	}
 
 	@SubscribeEvent

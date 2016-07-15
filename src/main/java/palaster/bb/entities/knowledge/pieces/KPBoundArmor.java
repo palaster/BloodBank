@@ -19,7 +19,7 @@ public class KPBoundArmor implements IKnowledgePiece {
     public String getName() { return "bb.kp.boundArmor"; }
 
     @Override
-    public int getPrice() { return 5000; }
+    public int getPrice() { return 3000; }
 
     @Override
     public ActionResult<ItemStack> onKnowledgePieceRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
