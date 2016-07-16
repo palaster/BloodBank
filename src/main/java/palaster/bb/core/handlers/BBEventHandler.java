@@ -212,7 +212,7 @@ public class BBEventHandler {
 	
 	@SubscribeEvent
 	public void onCraft(ItemCraftedEvent e) {
-		if(!e.player.worldObj.isRemote)
+		if(!e.player.worldObj.isRemote) {
 			if(CraftingManager.getInstance().getRecipeList() != null)
 				for(IRecipe recipe : CraftingManager.getInstance().getRecipeList())
 					if(recipe != null && recipe instanceof ShapedBloodRecipes)
@@ -232,6 +232,15 @@ public class BBEventHandler {
 								return;
 							}
 						}
+			if(e.crafting != null && e.crafting.getItem() == BBItems.boundBloodBottle)
+				for(int i = 0; i < e.craftMatrix.getSizeInventory(); i++)
+					if(e.craftMatrix.getStackInSlot(i) != null && e.craftMatrix.getStackInSlot(i).getItem() == BBItems.boundPlayer)
+						if(e.craftMatrix.getStackInSlot(i).hasTagCompound()) {
+							if(!e.crafting.hasTagCompound())
+								e.crafting.setTagCompound(new NBTTagCompound());
+							e.crafting.getTagCompound().setUniqueId(LibNBT.uuid, e.craftMatrix.getStackInSlot(i).getTagCompound().getUniqueId(LibNBT.uuid));
+						}
+		}
 	}
 	
 	@SubscribeEvent

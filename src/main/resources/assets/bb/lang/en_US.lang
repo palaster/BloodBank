@@ -49,6 +49,8 @@ item.bb:token.1.name=Boss Token
 item.bb:token.2.name=Item Token
 item.bb:horn.name=Horn of Support
 item.bb:talisman.name=Talisman
+item.bb:boundPlayer.name=Bound Player
+item.bb:boundBloodBottle.name=Bound Blood Bottle
 
 item.bb:bound.HEAD.name=Bound Helmet
 item.bb:bound.CHEST.name=Bound Chestplate

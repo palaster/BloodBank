@@ -1,27 +1,44 @@
 package palaster.bb.items;
 
+import java.util.List;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+import palaster.bb.api.BBApi;
 import palaster.bb.api.capabilities.items.IVampiric;
 import palaster.bb.libs.LibNBT;
 
-public class ItemBloodBottle extends ItemModSpecial {
+public class ItemBoundBloodBottle extends ItemModSpecial {
 
-	public ItemBloodBottle() {
+	public ItemBoundBloodBottle() {
 		super();
-		setMaxDamage(2000);
-		setUnlocalizedName("bloodBottle");
+		setMaxDamage(4000);
+		setUnlocalizedName("boundBloodBottle");
 	}
 	
 	@Override
-	public ItemStack getContainerItem(ItemStack itemStack) { return new ItemStack(Items.GLASS_BOTTLE); }
-	
+	@SideOnly(Side.CLIENT)
+	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
+		if(stack.hasTagCompound()) {
+			if(playerIn.worldObj.getPlayerEntityByUUID(stack.getTagCompound().getUniqueId(LibNBT.uuid)) != null)
+				tooltip.add(playerIn.worldObj.getPlayerEntityByUUID(stack.getTagCompound().getUniqueId(LibNBT.uuid)).getName());
+		}
+	}
+
 	@Override
 	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
-		if(!worldIn.isRemote && entityIn instanceof EntityPlayer)
+		if(!worldIn.isRemote && entityIn instanceof EntityPlayer) {
+			if(stack.getItemDamage() > 0)
+				if(stack.hasTagCompound())
+					if(worldIn.getPlayerEntityByUUID(stack.getTagCompound().getUniqueId(LibNBT.uuid)) != null)
+						if(BBApi.getMaxBlood(worldIn.getPlayerEntityByUUID(stack.getTagCompound().getUniqueId(LibNBT.uuid))) > 0) {
+							BBApi.consumeBlood(worldIn.getPlayerEntityByUUID(stack.getTagCompound().getUniqueId(LibNBT.uuid)), 1);
+							stack.damageItem(-1, worldIn.getPlayerEntityByUUID(stack.getTagCompound().getUniqueId(LibNBT.uuid)));
+						}
 			if(stack.getItemDamage() < stack.getMaxDamage()) {
 				for(int i = 0; i < ((EntityPlayer) entityIn).inventory.getSizeInventory(); i++)
 					if(((EntityPlayer) entityIn).inventory.getStackInSlot(i) != null && ((EntityPlayer) entityIn).inventory.getStackInSlot(i).getItem() instanceof IVampiric || ((EntityPlayer) entityIn).inventory.getStackInSlot(i) != null && ((EntityPlayer) entityIn).inventory.getStackInSlot(i).hasTagCompound() && ((EntityPlayer) entityIn).inventory.getStackInSlot(i).getTagCompound().getBoolean(LibNBT.hasVampireSigil))
@@ -36,5 +53,6 @@ public class ItemBloodBottle extends ItemModSpecial {
 							stack.damageItem(1, ((EntityPlayer) entityIn));
 						}
 			}
+		}
 	}
 }
