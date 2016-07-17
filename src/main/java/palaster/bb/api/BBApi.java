@@ -10,9 +10,6 @@ import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
-import palaster.bb.BloodBank;
-import palaster.bb.api.capabilities.entities.BloodBankCapability.BloodBankCapabilityProvider;
-import palaster.bb.api.capabilities.entities.IBloodBank;
 import palaster.bb.api.capabilities.entities.IUndead;
 import palaster.bb.api.capabilities.entities.UndeadCapability.UndeadCapabilityDefault;
 import palaster.bb.api.capabilities.entities.UndeadCapability.UndeadCapabilityProvider;
@@ -123,76 +120,6 @@ public class BBApi {
     }
     
     public static int getSizeItemTokens() { return itemToken.size(); }
-    
-    // Blood Bank Methods
-
-    public static void consumeBlood(EntityPlayer player, int amt) {
-    	if(BBApi.getMaxBlood(player) > 0) {
-    		if(amt > getCurrentBlood(player)) {
-        		amt -= getCurrentBlood(player);
-        		setCurrentBlood(player, 0);
-                player.attackEntityFrom(BloodBank.proxy.bbBlood, (float) amt / 100);
-        	} else
-                setCurrentBlood(player, getCurrentBlood(player) - amt);
-    	} else
-    		player.attackEntityFrom(BloodBank.proxy.bbBlood, (float) amt / 10);
-    }
-
-    public static int getCurrentBlood(EntityPlayer player) {
-        final IBloodBank bloodBank = BloodBankCapabilityProvider.get(player);
-        if(bloodBank != null)
-            return bloodBank.getCurrentBlood();
-        return 0;
-    }
-
-    public static void addBlood(EntityPlayer player, int amt) {
-    	if((getCurrentBlood(player) + amt) >= getMaxBlood(player))
-            setCurrentBlood(player, getMaxBlood(player));
-        else
-            setCurrentBlood(player, getCurrentBlood(player) + amt);
-    }
-
-    public static void setCurrentBlood(EntityPlayer player, int amt) {
-        final IBloodBank bloodBank = BloodBankCapabilityProvider.get(player);
-        if(bloodBank != null)
-            bloodBank.setCurrentBlood(amt);
-        syncServerToClient(player);
-    }
-
-    public static int getMaxBlood(EntityPlayer player) {
-        final IBloodBank bloodBank = BloodBankCapabilityProvider.get(player);
-        if(bloodBank != null)
-            return bloodBank.getBloodMax();
-        return 0;
-    }
-
-    public static void setMaxBlood(EntityPlayer player, int amt) {
-        final IBloodBank bloodBank = BloodBankCapabilityProvider.get(player);
-        if(bloodBank != null)
-            bloodBank.setBloodMax(amt);
-        syncServerToClient(player);
-    }
-    
-    public static boolean isLinked(EntityPlayer player) {
-        final IBloodBank bloodBank = BloodBankCapabilityProvider.get(player);
-        if(bloodBank != null)
-            return bloodBank.isLinked();
-        return false;
-    }
-
-    public static void linkEntity(EntityPlayer player, EntityLiving entityLiving) {
-        final IBloodBank bloodBank = BloodBankCapabilityProvider.get(player);
-        if(bloodBank != null)
-            bloodBank.linkEntity(entityLiving);
-        syncServerToClient(player);
-    }
-
-    public static EntityLiving getLinked(EntityPlayer player) {
-        final IBloodBank bloodBank = BloodBankCapabilityProvider.get(player);
-        if(bloodBank != null)
-            return bloodBank.getLinked();
-        return null;
-    }
 
     // Undead Methods
 
@@ -399,5 +326,9 @@ public class BBApi {
         return (int)( .02 * (soulLevel ^ 3) + 3.06 * (soulLevel ^ 2) + 105.6 * soulLevel - 895);
     }
 
-    public static void syncServerToClient(EntityPlayer player) { PacketHandler.sendTo(new SyncPlayerPropsMessage(player), (EntityPlayerMP) player); }
+    public static void syncServerToClient(EntityPlayer player) {
+    	if(player != null && !player.worldObj.isRemote)
+    		if(player instanceof EntityPlayerMP)
+    			PacketHandler.sendTo(new SyncPlayerPropsMessage(player), (EntityPlayerMP) player);
+    }
 }

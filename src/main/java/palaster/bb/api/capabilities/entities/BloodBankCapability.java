@@ -22,23 +22,44 @@ public class BloodBankCapability {
 		private int bloodMax;
 	    private int bloodCurrent;
 	    private SoftReference<EntityLiving> link;
+	    
+		@Override
+		public int consumeBlood(int amt) {
+			if(getMaxBlood() > 0)
+				if(amt > getCurrentBlood()) {
+	        		amt -= getCurrentBlood();
+	        		setCurrentBlood(0);
+	        	} else {
+					setCurrentBlood(getCurrentBlood() - amt);
+					amt = 0;
+	        	}
+			return amt;
+		}
+
+		@Override
+		public void addBlood(int amt) {
+			if(getCurrentBlood() + amt >= getMaxBlood())
+				setCurrentBlood(getMaxBlood());
+			else
+				setCurrentBlood(getCurrentBlood() + amt);
+		}
 
 	    @Override
 	    public int getCurrentBlood() { return bloodCurrent; }
 
 	    @Override
 	    public void setCurrentBlood(int amt) {
-	        if(amt >= bloodMax)
-	            bloodCurrent = bloodMax;
+	        if(amt >= getMaxBlood())
+	            bloodCurrent = getMaxBlood();
 	        else
 	            bloodCurrent = amt;
 	    }
 
 	    @Override
-	    public int getBloodMax() { return bloodMax; }
+	    public int getMaxBlood() { return bloodMax; }
 
 	    @Override
-	    public void setBloodMax(int amt) { bloodMax = (amt > 0 ? amt : 0); }
+	    public void setMaxBlood(int amt) { bloodMax = (amt > 0 ? amt : 0); }
 	    
 	    @Override
 	    public boolean isLinked() {

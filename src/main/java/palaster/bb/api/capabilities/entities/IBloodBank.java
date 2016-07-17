@@ -4,14 +4,18 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.nbt.NBTTagCompound;
 
 public interface IBloodBank {
+	
+	int consumeBlood(int amt);
+	
+	void addBlood(int amt);
 
     int getCurrentBlood();
 
     void setCurrentBlood(int amt);
 
-    int getBloodMax();
+    int getMaxBlood();
 
-    void setBloodMax(int amt);
+    void setMaxBlood(int amt);
     
     boolean isLinked();
 

@@ -46,6 +46,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import palaster.bb.BloodBank;
 import palaster.bb.api.BBApi;
 import palaster.bb.api.capabilities.entities.BloodBankCapability.BloodBankCapabilityProvider;
+import palaster.bb.api.capabilities.entities.IBloodBank;
 import palaster.bb.api.capabilities.entities.UndeadCapability.UndeadCapabilityProvider;
 import palaster.bb.api.recipes.ShapedBloodRecipes;
 import palaster.bb.core.proxy.ClientProxy;
@@ -98,11 +99,15 @@ public class BBEventHandler {
 	@SubscribeEvent
 	public void onClonePlayer(PlayerEvent.Clone e) {
 		if(!e.getEntityPlayer().worldObj.isRemote) {
-			BBApi.setMaxBlood(e.getEntityPlayer(), BBApi.getMaxBlood(e.getOriginal()));
-			BBApi.setCurrentBlood(e.getEntityPlayer(), BBApi.getCurrentBlood(e.getOriginal()));
-			if(BBApi.isLinked(e.getOriginal()))
-				BBApi.linkEntity(e.getEntityPlayer(), BBApi.getLinked(e.getOriginal()));
-
+			final IBloodBank bloodBankOG = BloodBankCapabilityProvider.get(e.getOriginal());
+			final IBloodBank bloodBankNew = BloodBankCapabilityProvider.get(e.getEntityPlayer());
+			if(bloodBankOG != null && bloodBankNew != null) {
+				bloodBankNew.setMaxBlood(bloodBankOG.getMaxBlood());
+				bloodBankNew.setCurrentBlood(bloodBankOG.getCurrentBlood());
+				if(bloodBankOG.isLinked())
+					bloodBankNew.linkEntity(bloodBankOG.getLinked());
+			}
+			
 			BBApi.setUndead(e.getEntityPlayer(), BBApi.isUndead(e.getOriginal()));
 			BBApi.setSoul(e.getEntityPlayer(), BBApi.getSoul(e.getOriginal()));
 			BBApi.setFocus(e.getEntityPlayer(), BBApi.getFocus(e.getEntityPlayer()));
@@ -141,9 +146,10 @@ public class BBEventHandler {
 		if(!e.getEntityLiving().worldObj.isRemote) {
 			for(Entity entity : e.getEntityLiving().worldObj.loadedEntityList)
 				if(entity instanceof EntityPlayer) {
-					EntityPlayer player = (EntityPlayer) entity;
-					if(BBApi.isLinked(player) && e.getEntityLiving().getUniqueID().equals(BBApi.getLinked(player).getUniqueID()))
-						BBApi.linkEntity(player, null);
+					final IBloodBank bloodBank = BloodBankCapabilityProvider.get((EntityPlayer) entity);
+					if(bloodBank != null)
+						if(bloodBank.isLinked() && e.getEntityLiving().getUniqueID().equals(bloodBank.getLinked().getUniqueID()))
+							bloodBank.linkEntity(null);
 				}
 			if(e.getEntityLiving() instanceof EntityPlayer) {
 				if(BBApi.isUndead((EntityPlayer) e.getEntityLiving())) {
@@ -179,10 +185,12 @@ public class BBEventHandler {
 			if(e.getEntityLiving() instanceof EntityPlayer) {
 				EntityPlayer p = (EntityPlayer) e.getEntityLiving();
 				if(e.getSource().getEntity() != null) {
-					if(BBApi.isLinked(p)) {
-						BBApi.getLinked(p).attackEntityFrom(BloodBank.proxy.bbBlood, e.getAmount());
-						e.setCanceled(true);
-					}
+					final IBloodBank bloodBank = BloodBankCapabilityProvider.get(p);
+					if(bloodBank != null)
+						if(bloodBank.isLinked()) {
+							bloodBank.getLinked().attackEntityFrom(BloodBank.proxy.bbBlood, e.getAmount());
+							e.setCanceled(true);
+						}
 					if(p.getActivePotionEffect(BBPotions.sandBody) != null)
 						if(e.getSource().getEntity() instanceof EntityPlayer) {
 							((EntityPlayer) e.getSource().getEntity()).inventory.addItemStackToInventory(new ItemStack(BBItems.bbResources, 1, 5));
@@ -224,12 +232,15 @@ public class BBEventHandler {
 											e.player.inventory.getStackInSlot(i).damageItem(((ShapedBloodRecipes) recipe).recipeBloodCost, e.player);
 											return;
 										}
-							if(BBApi.getMaxBlood(e.player) > 0 && BBApi.getCurrentBlood(e.player) >= ((ShapedBloodRecipes) recipe).recipeBloodCost) {
-								BBApi.consumeBlood(e.player, ((ShapedBloodRecipes) recipe).recipeBloodCost);
-								return;
-							} else {
-								e.player.attackEntityFrom(BloodBank.proxy.bbBlood, (((ShapedBloodRecipes) recipe).recipeBloodCost / 100));
-								return;
+							final IBloodBank bloodBank = BloodBankCapabilityProvider.get(e.player);
+							if(bloodBank != null) {
+								if(bloodBank.getMaxBlood() > 0 && bloodBank.getCurrentBlood() >= ((ShapedBloodRecipes) recipe).recipeBloodCost) {
+									bloodBank.consumeBlood(((ShapedBloodRecipes) recipe).recipeBloodCost);
+									return;
+								} else {
+									e.player.attackEntityFrom(BloodBank.proxy.bbBlood, (((ShapedBloodRecipes) recipe).recipeBloodCost / 100));
+									return;
+								}
 							}
 						}
 			if(e.crafting != null && e.crafting.getItem() == BBItems.boundBloodBottle)

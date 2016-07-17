@@ -22,7 +22,8 @@ import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import palaster.bb.api.BBApi;
+import palaster.bb.api.capabilities.entities.BloodBankCapability.BloodBankCapabilityProvider;
+import palaster.bb.api.capabilities.entities.IBloodBank;
 import palaster.bb.core.proxy.ClientProxy;
 import palaster.bb.entities.knowledge.BBKnowledge;
 import palaster.bb.libs.LibNBT;
@@ -39,32 +40,30 @@ public class ItemBookBlood extends ItemModSpecial {
 	@SubscribeEvent(priority = EventPriority.NORMAL)
 	public void onRenderGameOverlay(RenderGameOverlayEvent.Post e) {
 		if(Minecraft.getMinecraft().currentScreen == null && Minecraft.getMinecraft().inGameHasFocus)
-			if(e.getType() == ElementType.TEXT && Minecraft.getMinecraft().fontRendererObj != null)
-				if(Minecraft.getMinecraft().thePlayer != null) {
+			if(e.getType() == ElementType.TEXT && Minecraft.getMinecraft().fontRendererObj != null) {
+				final IBloodBank bloodBank = BloodBankCapabilityProvider.get(Minecraft.getMinecraft().thePlayer);
+				if(bloodBank != null) {
 					if(Minecraft.getMinecraft().thePlayer.getHeldItemOffhand() != null && Minecraft.getMinecraft().thePlayer.getHeldItemOffhand().getItem() == this && Minecraft.getMinecraft().thePlayer.getHeldItemOffhand().hasTagCompound()) {
-						ItemStack book = Minecraft.getMinecraft().thePlayer.getHeldItemOffhand();
-						Minecraft.getMinecraft().fontRendererObj.drawString(I18n.format("bb.knowledgePiece") + ": " + I18n.format(BBKnowledge.getKnowledgePiece(book.getTagCompound().getInteger(LibNBT.knowledgePiece)).getName()), 2, 2, 0x8A0707);
-						Minecraft.getMinecraft().fontRendererObj.drawString("" + BBApi.getCurrentBlood(Minecraft.getMinecraft().thePlayer), e.getResolution().getScaledWidth() - 32, e.getResolution().getScaledHeight() - 18, 0x8A0707);
+						Minecraft.getMinecraft().fontRendererObj.drawString(I18n.format("bb.knowledgePiece") + ": " + I18n.format(BBKnowledge.getKnowledgePiece(Minecraft.getMinecraft().thePlayer.getHeldItemOffhand().getTagCompound().getInteger(LibNBT.knowledgePiece)).getName()), 2, 2, 0x8A0707);
+						// TODO: Find a better way to sync server data to client Minecraft.getMinecraft().fontRendererObj.drawString("" + bloodBank.getCurrentBlood(), e.getResolution().getScaledWidth() - 32, e.getResolution().getScaledHeight() - 18, 0x8A0707);
 						ClientProxy.isItemInOffHandRenderingOverlay = true;
 					} else if(Minecraft.getMinecraft().thePlayer.getHeldItemOffhand() == null)
 						ClientProxy.isItemInOffHandRenderingOverlay = false;
 					if(!ClientProxy.isItemInOffHandRenderingOverlay && Minecraft.getMinecraft().thePlayer.getHeldItemMainhand() != null && Minecraft.getMinecraft().thePlayer.getHeldItemMainhand().getItem() == this && Minecraft.getMinecraft().thePlayer.getHeldItemMainhand().hasTagCompound()) {
-						ItemStack book = Minecraft.getMinecraft().thePlayer.getHeldItemMainhand();
-						Minecraft.getMinecraft().fontRendererObj.drawString(I18n.format("bb.knowledgePiece") + ": " + I18n.format(BBKnowledge.getKnowledgePiece(book.getTagCompound().getInteger(LibNBT.knowledgePiece)).getName()), 2, 2, 0x8A0707);
-						Minecraft.getMinecraft().fontRendererObj.drawString("" + BBApi.getCurrentBlood(Minecraft.getMinecraft().thePlayer), e.getResolution().getScaledWidth() - 32, e.getResolution().getScaledHeight() - 18, 0x8A0707);
+						Minecraft.getMinecraft().fontRendererObj.drawString(I18n.format("bb.knowledgePiece") + ": " + I18n.format(BBKnowledge.getKnowledgePiece(Minecraft.getMinecraft().thePlayer.getHeldItemMainhand().getTagCompound().getInteger(LibNBT.knowledgePiece)).getName()), 2, 2, 0x8A0707);
+						// TODO: Find a better way to sync server data to client Minecraft.getMinecraft().fontRendererObj.drawString("" + bloodBank.getCurrentBlood(), e.getResolution().getScaledWidth() - 32, e.getResolution().getScaledHeight() - 18, 0x8A0707);
 					}
 				}
+				
+			}
 	}
     
     @Override
     public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
-    	if(!worldIn.isRemote) {
+    	if(!worldIn.isRemote)
     		if(entityIn instanceof EntityLivingBase)
     			if(stack.getItemDamage() > 0)
     				stack.damageItem(-1, (EntityLivingBase) entityIn);
-    		if(isSelected && entityIn instanceof EntityPlayer)
-    			BBApi.syncServerToClient((EntityPlayer) entityIn);
-    	}
     }
 
     @Override
@@ -83,58 +82,69 @@ public class ItemBookBlood extends ItemModSpecial {
 
     @Override
     public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
-        if(!worldIn.isRemote)
-        	if(BBApi.getMaxBlood(playerIn) > 0) {
-	            if(itemStackIn.hasTagCompound()) {
-	                if(playerIn.isSneaking()) {
-	                    int temp = itemStackIn.getTagCompound().getInteger(LibNBT.knowledgePiece);
-	                    if(temp++ < BBKnowledge.getKnowledgeSize() - 1)
-	                        itemStackIn.getTagCompound().setInteger(LibNBT.knowledgePiece, temp++);
-	                    else if(temp++ >= BBKnowledge.getKnowledgeSize())
-	                        itemStackIn.getTagCompound().setInteger(LibNBT.knowledgePiece, 0);
-	                    return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStackIn);
-	                } else if(itemStackIn.getTagCompound().getInteger(LibNBT.knowledgePiece) >= 0) {
-	                    if(BBKnowledge.getKnowledgePiece(itemStackIn.getTagCompound().getInteger(LibNBT.knowledgePiece)) != null) {
-	                    	ActionResult<ItemStack> temp = BBKnowledge.getKnowledgePiece(itemStackIn.getTagCompound().getInteger(LibNBT.knowledgePiece)).onKnowledgePieceRightClick(itemStackIn, worldIn, playerIn, hand);
-	                    	if(temp != null && temp.getType() != null && temp.getType() == EnumActionResult.SUCCESS)
-                    			BBApi.consumeBlood(playerIn, BBKnowledge.getKnowledgePiece(itemStackIn.getTagCompound().getInteger(LibNBT.knowledgePiece)).getPrice());
-	                    }
-	                    return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStackIn);
-	                }
-	            } else {
-	                itemStackIn.setTagCompound(new NBTTagCompound());
-	                itemStackIn.getTagCompound().setInteger(LibNBT.knowledgePiece, 0);
-	                return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStackIn);
-	            }
-        	}
+        if(!worldIn.isRemote) {
+        	final IBloodBank bloodBank = BloodBankCapabilityProvider.get(playerIn);
+			if(bloodBank != null) {
+				if(bloodBank.getMaxBlood() > 0) {
+		            if(itemStackIn.hasTagCompound()) {
+		                if(playerIn.isSneaking()) {
+		                    int temp = itemStackIn.getTagCompound().getInteger(LibNBT.knowledgePiece);
+		                    if(temp++ < BBKnowledge.getKnowledgeSize() - 1)
+		                        itemStackIn.getTagCompound().setInteger(LibNBT.knowledgePiece, temp++);
+		                    else if(temp++ >= BBKnowledge.getKnowledgeSize())
+		                        itemStackIn.getTagCompound().setInteger(LibNBT.knowledgePiece, 0);
+		                    return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStackIn);
+		                } else if(itemStackIn.getTagCompound().getInteger(LibNBT.knowledgePiece) >= 0) {
+		                    if(BBKnowledge.getKnowledgePiece(itemStackIn.getTagCompound().getInteger(LibNBT.knowledgePiece)) != null) {
+		                    	ActionResult<ItemStack> temp = BBKnowledge.getKnowledgePiece(itemStackIn.getTagCompound().getInteger(LibNBT.knowledgePiece)).onKnowledgePieceRightClick(itemStackIn, worldIn, playerIn, hand);
+		                    	if(temp != null && temp.getType() != null && temp.getType() == EnumActionResult.SUCCESS)
+		                    		bloodBank.consumeBlood(BBKnowledge.getKnowledgePiece(itemStackIn.getTagCompound().getInteger(LibNBT.knowledgePiece)).getPrice());
+		                    }
+		                    return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStackIn);
+		                }
+		            } else {
+		                itemStackIn.setTagCompound(new NBTTagCompound());
+		                itemStackIn.getTagCompound().setInteger(LibNBT.knowledgePiece, 0);
+		                return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStackIn);
+		            }
+	        	}
+			}
+		}
         return super.onItemRightClick(itemStackIn, worldIn, playerIn, hand);
     }
 
     @Override
     public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-        if(!worldIn.isRemote)
-        	if(BBApi.getMaxBlood(playerIn) > 0)
-	            if(stack.hasTagCompound() && stack.getTagCompound().getInteger(LibNBT.knowledgePiece) >= 0) {
-	            	if(BBKnowledge.getKnowledgePiece(stack.getTagCompound().getInteger(LibNBT.knowledgePiece)) != null) {
-	            		EnumActionResult temp = BBKnowledge.getKnowledgePiece(stack.getTagCompound().getInteger(LibNBT.knowledgePiece)).onKnowledgePieceUse(stack, playerIn, worldIn, pos, hand, facing, hitX, hitY, hitZ); 
-	            		if(temp != null && temp == EnumActionResult.SUCCESS)
-            				BBApi.consumeBlood(playerIn, BBKnowledge.getKnowledgePiece(stack.getTagCompound().getInteger(LibNBT.knowledgePiece)).getPrice());
-	            	}
-	                return EnumActionResult.SUCCESS;
-	            }
+        if(!worldIn.isRemote) {
+        	final IBloodBank bloodBank = BloodBankCapabilityProvider.get(playerIn);
+			if(bloodBank != null)
+				if(bloodBank.getMaxBlood() > 0)
+		            if(stack.hasTagCompound() && stack.getTagCompound().getInteger(LibNBT.knowledgePiece) >= 0) {
+		            	if(BBKnowledge.getKnowledgePiece(stack.getTagCompound().getInteger(LibNBT.knowledgePiece)) != null) {
+		            		EnumActionResult temp = BBKnowledge.getKnowledgePiece(stack.getTagCompound().getInteger(LibNBT.knowledgePiece)).onKnowledgePieceUse(stack, playerIn, worldIn, pos, hand, facing, hitX, hitY, hitZ); 
+		            		if(temp != null && temp == EnumActionResult.SUCCESS)
+	            				bloodBank.consumeBlood(BBKnowledge.getKnowledgePiece(stack.getTagCompound().getInteger(LibNBT.knowledgePiece)).getPrice());
+		            	}
+		                return EnumActionResult.SUCCESS;
+		            }
+		}
         return super.onItemUse(stack, playerIn, worldIn, pos, hand, facing, hitX, hitY, hitZ);
     }
 
     @Override
     public boolean itemInteractionForEntity(ItemStack stack, EntityPlayer playerIn, EntityLivingBase target, EnumHand hand) {
-        if(!playerIn.worldObj.isRemote)
-        	if(BBApi.getMaxBlood(playerIn) > 0)
-	            if(stack.hasTagCompound() && stack.getTagCompound().getInteger(LibNBT.knowledgePiece) >= 0) {
-	            	if(BBKnowledge.getKnowledgePiece(stack.getTagCompound().getInteger(LibNBT.knowledgePiece)) != null)
-	            		if(BBKnowledge.getKnowledgePiece(stack.getTagCompound().getInteger(LibNBT.knowledgePiece)).knowledgePieceInteractionForEntity(stack, playerIn, target, hand))
-	            			BBApi.consumeBlood(playerIn, BBKnowledge.getKnowledgePiece(stack.getTagCompound().getInteger(LibNBT.knowledgePiece)).getPrice());
-	                return true;
-	            }
+        if(!playerIn.worldObj.isRemote) {
+        	final IBloodBank bloodBank = BloodBankCapabilityProvider.get(playerIn);
+			if(bloodBank != null) {
+				if(bloodBank.getMaxBlood() > 0)
+		            if(stack.hasTagCompound() && stack.getTagCompound().getInteger(LibNBT.knowledgePiece) >= 0) {
+		            	if(BBKnowledge.getKnowledgePiece(stack.getTagCompound().getInteger(LibNBT.knowledgePiece)) != null)
+		            		if(BBKnowledge.getKnowledgePiece(stack.getTagCompound().getInteger(LibNBT.knowledgePiece)).knowledgePieceInteractionForEntity(stack, playerIn, target, hand))
+		            			bloodBank.consumeBlood(BBKnowledge.getKnowledgePiece(stack.getTagCompound().getInteger(LibNBT.knowledgePiece)).getPrice());
+		                return true;
+		            }
+			}
+        }
         return super.itemInteractionForEntity(stack, playerIn, target, hand);
     }
 }

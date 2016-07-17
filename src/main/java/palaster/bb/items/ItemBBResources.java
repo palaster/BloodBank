@@ -35,6 +35,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import palaster.bb.BloodBank;
 import palaster.bb.api.BBApi;
+import palaster.bb.api.capabilities.entities.BloodBankCapability.BloodBankCapabilityProvider;
+import palaster.bb.api.capabilities.entities.IBloodBank;
 import palaster.bb.core.CreativeTabBB;
 import palaster.bb.core.helpers.BBPlayerHelper;
 import palaster.bb.entities.EntityDemonicBankTeller;
@@ -63,8 +65,12 @@ public class ItemBBResources extends Item {
 					e.setCanceled(true);
 			if(e.getSource().getSourceOfDamage() instanceof EntityPlayer)
 				if(((EntityPlayer )e.getSource().getSourceOfDamage()).getHeldItemMainhand() != null && ((EntityPlayer)e.getSource().getSourceOfDamage()).getHeldItemMainhand().getItem() instanceof ItemSword)
-					if(((EntityPlayer) e.getSource().getSourceOfDamage()).getHeldItem(EnumHand.OFF_HAND) != null && ((EntityPlayer) e.getSource().getSourceOfDamage()).getHeldItem(EnumHand.OFF_HAND).getItem() == new ItemStack(BBItems.bbResources, 1, 3).getItem() && ((EntityPlayer) e.getSource().getSourceOfDamage()).getHeldItem(EnumHand.OFF_HAND).getItemDamage() == 3)
-						BBApi.addBlood(((EntityPlayer) e.getSource().getSourceOfDamage()), (int) e.getAmount() * 50);
+					if(((EntityPlayer) e.getSource().getSourceOfDamage()).getHeldItem(EnumHand.OFF_HAND) != null && ((EntityPlayer) e.getSource().getSourceOfDamage()).getHeldItem(EnumHand.OFF_HAND).getItem() == new ItemStack(BBItems.bbResources, 1, 3).getItem() && ((EntityPlayer) e.getSource().getSourceOfDamage()).getHeldItem(EnumHand.OFF_HAND).getItemDamage() == 3) {
+						final IBloodBank bloodBank = BloodBankCapabilityProvider.get((EntityPlayer) e.getSource().getSourceOfDamage());
+						if(bloodBank != null)
+							if(bloodBank.getMaxBlood() > 0)
+								bloodBank.addBlood((int) e.getAmount() * 50);
+					}
 		}
 	}
     
@@ -83,8 +89,12 @@ public class ItemBBResources extends Item {
 		if(!e.getWorld().isRemote && e.getSide().isServer())
 			if(e.getEntityPlayer().getHeldItemMainhand() != null && e.getEntityPlayer().getHeldItemMainhand().getItem() instanceof ItemSword)
 				if(e.getEntityPlayer().getHeldItem(EnumHand.OFF_HAND) != null && e.getEntityPlayer().getHeldItem(EnumHand.OFF_HAND).getItem() == new ItemStack(BBItems.bbResources, 1, 3).getItem() && e.getEntityPlayer().getHeldItem(EnumHand.OFF_HAND).getItemDamage() == 3) {
-					e.getEntityPlayer().attackEntityFrom(BloodBank.proxy.bbBlood, 2f);
-					BBApi.addBlood(e.getEntityPlayer(), 50);
+					final IBloodBank bloodBank = BloodBankCapabilityProvider.get(e.getEntityPlayer());
+					if(bloodBank != null)
+						if(bloodBank.getMaxBlood() > 0) {
+							bloodBank.addBlood(50);
+							e.getEntityPlayer().attackEntityFrom(BloodBank.proxy.bbBlood, 2f);
+						}
 				}
 	}
     
@@ -122,21 +132,26 @@ public class ItemBBResources extends Item {
     public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
         if(!worldIn.isRemote)
             if(itemStackIn.getItemDamage() == 0) {
-                if(BBApi.isUndead(playerIn))
-                    BBPlayerHelper.sendChatMessageToPlayer(playerIn, I18n.format("bb.bank.undead"));
-                else if(BBApi.getMaxBlood(playerIn) <= 0) {
-                    BBApi.setMaxBlood(playerIn, 2000);
-                    BBPlayerHelper.sendChatMessageToPlayer(playerIn, I18n.format("bb.bank.join"));
-                    return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, new ItemStack(this, 1, 1));
-                } else
-                    BBPlayerHelper.sendChatMessageToPlayer(playerIn, I18n.format("bb.bank.refuse"));
+            	final IBloodBank bloodBank = BloodBankCapabilityProvider.get(playerIn);
+				if(bloodBank != null) {
+	                if(BBApi.isUndead(playerIn))
+	                    BBPlayerHelper.sendChatMessageToPlayer(playerIn, I18n.format("bb.bank.undead"));
+	                else if(bloodBank.getMaxBlood() <= 0) {
+	                    bloodBank.setMaxBlood(2000);
+	                    BBPlayerHelper.sendChatMessageToPlayer(playerIn, I18n.format("bb.bank.join"));
+	                    return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, new ItemStack(this, 1, 1));
+	                } else
+	                    BBPlayerHelper.sendChatMessageToPlayer(playerIn, I18n.format("bb.bank.refuse"));
+				}
             } else if(itemStackIn.getItemDamage() == 4) {
             	if(!BBApi.isUndead(playerIn)) {
             		BBApi.setUndead(playerIn, true);
-            		if(BBApi.getMaxBlood(playerIn) > 0) {
-            			BBApi.setMaxBlood(playerIn, 0);
-            			BBPlayerHelper.sendChatMessageToPlayer(playerIn, I18n.format("bb.bank.becomeUndead"));
-            		}
+            		final IBloodBank bloodBank = BloodBankCapabilityProvider.get(playerIn);
+    				if(bloodBank != null)
+    					if(bloodBank.getMaxBlood() > 0) {
+                			bloodBank.setMaxBlood(0);
+                			BBPlayerHelper.sendChatMessageToPlayer(playerIn, I18n.format("bb.bank.becomeUndead"));
+                		}
             		playerIn.attackEntityFrom(DamageSource.inFire, playerIn.getMaxHealth() + 5f);
             		return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, null);
             	}
@@ -154,13 +169,15 @@ public class ItemBBResources extends Item {
     public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         if(!worldIn.isRemote)
             if(stack.getItemDamage() == 1) {
-                if(BBApi.getMaxBlood(playerIn) > 0) {
-                    EntityDemonicBankTeller dbt = new EntityDemonicBankTeller(worldIn);
-                    dbt.setPosition(pos.getX(), pos.getY() + 1, pos.getZ());
-                    worldIn.spawnEntityInWorld(dbt);
-                    playerIn.setHeldItem(hand, null);
-                    return EnumActionResult.SUCCESS;
-                }
+            	final IBloodBank bloodBank = BloodBankCapabilityProvider.get(playerIn);
+				if(bloodBank != null)
+					if(bloodBank.getMaxBlood() > 0) {
+	                    EntityDemonicBankTeller dbt = new EntityDemonicBankTeller(worldIn);
+	                    dbt.setPosition(pos.getX(), pos.getY() + 1, pos.getZ());
+	                    worldIn.spawnEntityInWorld(dbt);
+	                    playerIn.setHeldItem(hand, null);
+	                    return EnumActionResult.SUCCESS;
+	                }
             }
         return EnumActionResult.PASS;
     }

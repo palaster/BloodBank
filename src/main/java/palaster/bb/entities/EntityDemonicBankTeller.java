@@ -11,7 +11,8 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import palaster.bb.api.BBApi;
+import palaster.bb.api.capabilities.entities.BloodBankCapability.BloodBankCapabilityProvider;
+import palaster.bb.api.capabilities.entities.IBloodBank;
 import palaster.bb.core.helpers.BBPlayerHelper;
 import palaster.bb.items.BBItems;
 
@@ -34,11 +35,14 @@ public class EntityDemonicBankTeller extends EntityLiving {
         if(!worldObj.isRemote && hand == EnumHand.MAIN_HAND) {
             if(player.getHeldItemMainhand() != null) {
                 if(player.getHeldItemMainhand().getItem() instanceof ItemGlassBottle) {
-                    if(BBApi.getCurrentBlood(player) >= 2000) {
-                        BBApi.consumeBlood(player, 2000);
-                        player.setHeldItem(hand, new ItemStack(BBItems.bloodBottle));
-                    }
-                    return EnumActionResult.SUCCESS;
+                	final IBloodBank bloodBank = BloodBankCapabilityProvider.get(player);
+					if(bloodBank != null) {
+						if(bloodBank.getCurrentBlood() >= 2000) {
+							bloodBank.consumeBlood(2000);
+	                        player.setHeldItem(hand, new ItemStack(BBItems.bloodBottle));
+	                    }
+	                    return EnumActionResult.SUCCESS;
+					}
                 }
             } else {
                 if(player.isSneaking()) {
@@ -47,10 +51,13 @@ public class EntityDemonicBankTeller extends EntityLiving {
                     worldObj.spawnEntityInWorld(bankID);
                     return EnumActionResult.SUCCESS;
                 } else {
-                    if(BBApi.getMaxBlood(player) <= 0)
-                        BBPlayerHelper.sendChatMessageToPlayer(player, "You do not have an account with this bank.");
-                    if(BBApi.getMaxBlood(player) > 0)
-                        BBPlayerHelper.sendChatMessageToPlayer(player, "You current balance is " + BBApi.getCurrentBlood(player) + " out of " + BBApi.getMaxBlood(player));
+                	final IBloodBank bloodBank = BloodBankCapabilityProvider.get(player);
+					if(bloodBank != null) {
+						if(bloodBank.getMaxBlood() <= 0)
+	                        BBPlayerHelper.sendChatMessageToPlayer(player, "You do not have an account with this bank.");
+	                    if(bloodBank.getMaxBlood() > 0)
+	                        BBPlayerHelper.sendChatMessageToPlayer(player, "You current balance is " + bloodBank.getCurrentBlood() + " out of " + bloodBank.getMaxBlood());
+					}
                     return EnumActionResult.SUCCESS;
                 }
             }
