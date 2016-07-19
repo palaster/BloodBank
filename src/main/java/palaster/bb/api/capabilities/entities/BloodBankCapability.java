@@ -110,7 +110,7 @@ public class BloodBankCapability {
 	    public IBloodBank call() throws Exception { return new BloodBankCapabilityDefault(); }
 	}
 	
-	public static class BloodBankCapabilityProvider implements ICapabilitySerializable<NBTBase> {
+	public static class BloodBankCapabilityProvider implements ICapabilitySerializable<NBTTagCompound> {
 		
 		@CapabilityInject(IBloodBank.class)
 	    public static final Capability<IBloodBank> bloodBankCap = null;
@@ -136,10 +136,10 @@ public class BloodBankCapability {
 	    }
 
 	    @Override
-	    public NBTBase serializeNBT() { return bloodBank.saveNBT(); }
+	    public NBTTagCompound serializeNBT() { return bloodBank.saveNBT(); }
 
 	    @Override
-	    public void deserializeNBT(NBTBase nbt) { bloodBank.loadNBT((NBTTagCompound) nbt); }
+	    public void deserializeNBT(NBTTagCompound nbt) { bloodBank.loadNBT(nbt); }
 	}
 	
 	public static class BloodBankCapabilityStorage implements Capability.IStorage<IBloodBank> {

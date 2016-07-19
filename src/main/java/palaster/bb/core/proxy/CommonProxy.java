@@ -1,7 +1,5 @@
 package palaster.bb.core.proxy;
 
-import javax.annotation.Nonnull;
-
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.passive.EntityVillager.PriceInfo;
 import net.minecraft.entity.player.EntityPlayer;
@@ -24,10 +22,12 @@ import net.minecraftforge.fml.common.registry.VillagerRegistry.VillagerProfessio
 import palaster.bb.BloodBank;
 import palaster.bb.api.BBApi;
 import palaster.bb.api.capabilities.entities.BloodBankCapability.BloodBankCapabilityFactory;
+import palaster.bb.api.capabilities.entities.BloodBankCapability.BloodBankCapabilityProvider;
 import palaster.bb.api.capabilities.entities.BloodBankCapability.BloodBankCapabilityStorage;
 import palaster.bb.api.capabilities.entities.IBloodBank;
 import palaster.bb.api.capabilities.entities.IUndead;
 import palaster.bb.api.capabilities.entities.UndeadCapability.UndeadCapabilityFactory;
+import palaster.bb.api.capabilities.entities.UndeadCapability.UndeadCapabilityProvider;
 import palaster.bb.api.capabilities.entities.UndeadCapability.UndeadCapabilityStorage;
 import palaster.bb.blocks.BBBlocks;
 import palaster.bb.blocks.tile.TileEntityVoidAnchor;
@@ -43,7 +43,8 @@ import palaster.bb.inventories.ContainerVoidAnchor;
 import palaster.bb.items.BBItems;
 import palaster.bb.items.ItemUndeadMonitor;
 import palaster.bb.network.PacketHandler;
-import palaster.bb.network.client.SyncPlayerPropsMessage;
+import palaster.bb.network.client.UpdateBloodMessage;
+import palaster.bb.network.client.UpdateUndeadMessage;
 import palaster.bb.recipes.BBRecipes;
 
 public class CommonProxy implements IGuiHandler {
@@ -76,10 +77,17 @@ public class CommonProxy implements IGuiHandler {
 	
 	public void postInit() { BBRecipes.init(); }
 	
-	public void syncPlayerCapabilitiesToClient(@Nonnull EntityPlayer player) {
-    	if(!player.worldObj.isRemote)
-    		PacketHandler.sendTo(new SyncPlayerPropsMessage(player), (EntityPlayerMP) player);
-    }
+	public void syncPlayerBloodCapabilitiesToClient(EntityPlayer player) {
+		if(player != null && !player.worldObj.isRemote)
+			if(BloodBankCapabilityProvider.get(player) != null)
+				PacketHandler.sendTo(new UpdateBloodMessage(BloodBankCapabilityProvider.get(player).saveNBT()), (EntityPlayerMP) player);
+	}
+	
+	public void syncPlayerUndeadCapabilitiesToClient(EntityPlayer player) {
+		if(player != null && !player.worldObj.isRemote)
+			if(UndeadCapabilityProvider.get(player) != null)
+				PacketHandler.sendTo(new UpdateUndeadMessage(UndeadCapabilityProvider.get(player).saveNBT()), (EntityPlayerMP) player);
+	}
 	
 	public EntityPlayer getPlayerEntity(MessageContext ctx) { return ctx.getServerHandler().playerEntity; }
 	

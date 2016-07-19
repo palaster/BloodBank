@@ -88,10 +88,9 @@ public class BBEventHandler {
 	@SubscribeEvent
 	public void attachEntityCapability(AttachCapabilitiesEvent.Entity e) {
 		if(e.getEntity() instanceof EntityPlayer) {
-			EntityPlayer player = (EntityPlayer) e.getEntity();
-			if(player != null && !player.hasCapability(BloodBankCapabilityProvider.bloodBankCap, null))
+			if((EntityPlayer) e.getEntity() != null && !((EntityPlayer) e.getEntity()).hasCapability(BloodBankCapabilityProvider.bloodBankCap, null))
 				e.addCapability(new ResourceLocation(LibMod.modid, "IBloodBank"), new BloodBankCapabilityProvider());
-			if(player != null && !player.hasCapability(UndeadCapabilityProvider.undeadCap, null))
+			if((EntityPlayer) e.getEntity() != null && !((EntityPlayer) e.getEntity()).hasCapability(UndeadCapabilityProvider.undeadCap, null))
 				e.addCapability(new ResourceLocation(LibMod.modid, "IUndead"), new UndeadCapabilityProvider());
 		}
 	}

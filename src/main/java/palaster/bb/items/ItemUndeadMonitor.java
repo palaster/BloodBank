@@ -29,7 +29,7 @@ public class ItemUndeadMonitor extends ItemModSpecial {
         	final IUndead undead = UndeadCapabilityProvider.get(playerIn);
         	if(undead != null)
         		if(undead.isUndead()) {
-        			BloodBank.proxy.syncPlayerCapabilitiesToClient(playerIn);
+        			BloodBank.proxy.syncPlayerUndeadCapabilitiesToClient(playerIn);
                     playerIn.openGui(BloodBank.instance, 2, worldIn, (int) playerIn.posX, (int) playerIn.posY, (int) playerIn.posZ);
                     return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStackIn);
         		}
@@ -49,7 +49,7 @@ public class ItemUndeadMonitor extends ItemModSpecial {
                             	BBApi.recalculateVigorBoost(player);
                                 if(BBApi.getSoulCostForNextLevel(player) > 0)
                                 	undead.setSoul(undead.getSoul() - BBApi.getSoulCostForNextLevel(player));
-                                BloodBank.proxy.syncPlayerCapabilitiesToClient(player);
+                                BloodBank.proxy.syncPlayerUndeadCapabilitiesToClient(player);
                             }
                             break;
                         }
@@ -58,7 +58,7 @@ public class ItemUndeadMonitor extends ItemModSpecial {
                             	undead.setAttunement(undead.getAttunement() + 1);
                                 if(BBApi.getSoulCostForNextLevel(player) > 0)
                                 	undead.setSoul(undead.getSoul() - BBApi.getSoulCostForNextLevel(player));
-                                BloodBank.proxy.syncPlayerCapabilitiesToClient(player);
+                                BloodBank.proxy.syncPlayerUndeadCapabilitiesToClient(player);
                             }
                             break;
                         }
@@ -68,7 +68,7 @@ public class ItemUndeadMonitor extends ItemModSpecial {
                             	BBApi.recalculateStrengthBoost(player);
                                 if(BBApi.getSoulCostForNextLevel(player) > 0)
                                 	undead.setSoul(undead.getSoul() - BBApi.getSoulCostForNextLevel(player));
-                                BloodBank.proxy.syncPlayerCapabilitiesToClient(player);
+                                BloodBank.proxy.syncPlayerUndeadCapabilitiesToClient(player);
                             }
                             break;
                         }
@@ -77,7 +77,7 @@ public class ItemUndeadMonitor extends ItemModSpecial {
                             	undead.setIntelligence(undead.getIntelligence() + 1);
                                 if(BBApi.getSoulCostForNextLevel(player) > 0)
                                 	undead.setSoul(undead.getSoul() - BBApi.getSoulCostForNextLevel(player));
-                                BloodBank.proxy.syncPlayerCapabilitiesToClient(player);
+                                BloodBank.proxy.syncPlayerUndeadCapabilitiesToClient(player);
                             }
                             break;
                         }
@@ -86,7 +86,7 @@ public class ItemUndeadMonitor extends ItemModSpecial {
                             	undead.setFaith(undead.getFaith() + 1);
                                 if(BBApi.getSoulCostForNextLevel(player) > 0)
                                 	undead.setSoul(undead.getSoul() - BBApi.getSoulCostForNextLevel(player));
-                                BloodBank.proxy.syncPlayerCapabilitiesToClient(player);
+                                BloodBank.proxy.syncPlayerUndeadCapabilitiesToClient(player);
                             }
                             break;
                         }

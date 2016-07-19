@@ -193,7 +193,7 @@ public class UndeadCapability {
 	    public IUndead call() throws Exception { return new UndeadCapabilityDefault(); }
 	}
 	
-	public static class UndeadCapabilityProvider implements ICapabilitySerializable<NBTBase> {
+	public static class UndeadCapabilityProvider implements ICapabilitySerializable<NBTTagCompound> {
 		
 		@CapabilityInject(IUndead.class)
 	    public static final Capability<IUndead> undeadCap = null;
@@ -218,11 +218,11 @@ public class UndeadCapability {
 	        return null;
 	    }
 
-	    @Override
-	    public NBTBase serializeNBT() { return undead.saveNBT(); }
+		@Override
+		public NBTTagCompound serializeNBT() { return undead.saveNBT(); }
 
-	    @Override
-	    public void deserializeNBT(NBTBase nbt) { undead.loadNBT((NBTTagCompound) nbt); }
+		@Override
+		public void deserializeNBT(NBTTagCompound nbt) { undead.loadNBT(nbt); }
 	}
 	
 	public static class UndeadCapabilityStorage implements Capability.IStorage<IUndead> {

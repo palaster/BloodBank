@@ -45,13 +45,11 @@ public class GuiUndeadMonitor extends GuiContainer {
     		if(undead != null) {
     			fontRendererObj.drawString(I18n.format("bb.undead.soul") + ": " + undead.getSoul(), 6, 6, 4210752);
                 fontRendererObj.drawString(I18n.format("bb.undead.focus") + ": " + undead.getFocus() + " / " + undead.getFocusMax(), 6, 16, 4210752);
-
                 fontRendererObj.drawString(I18n.format("bb.undead.vigor") + ": " + undead.getVigor(), 6, 36, 4210752);
                 fontRendererObj.drawString(I18n.format("bb.undead.attunement") + ": " + undead.getAttunement(), 6, 46, 4210752);
                 fontRendererObj.drawString(I18n.format("bb.undead.strength") + ": " + undead.getStrength(), 6, 56, 4210752);
                 fontRendererObj.drawString(I18n.format("bb.undead.intelligence") + ": " + undead.getIntelligence(), 6, 66, 4210752);
                 fontRendererObj.drawString(I18n.format("bb.undead.faith") + ": " + undead.getFaith(), 6, 76, 4210752);
-
                 if(BBApi.getSoulCostForNextLevel(player.get()) > undead.getSoul()) {
                     fontRendererObj.drawString(I18n.format("bb.undead.soulCost") + ": " + BBApi.getSoulCostForNextLevel(player.get()), 6, 96, 0x8A0707);
                 } else if(BBApi.getSoulCostForNextLevel(player.get()) <= 0) {
@@ -59,10 +57,8 @@ public class GuiUndeadMonitor extends GuiContainer {
                 } else {
                 	fontRendererObj.drawString(I18n.format("bb.undead.soulCost") + ": " + BBApi.getSoulCostForNextLevel(player.get()), 6, 96, 0x009900);
                 }
-                
                 if(BBWorldHelper.findBlockVicinityFromPlayer(BBBlocks.bonfire, player.get().worldObj, player.get(), 10, 4) == null)
                     fontRendererObj.drawString(I18n.format("bb.undead.bonFireNotFound"), 6, 106, 0x8A0707);
-
     		}
     	}
     }
