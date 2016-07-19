@@ -1,8 +1,11 @@
 package palaster.bb.core.proxy;
 
+import javax.annotation.Nonnull;
+
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.passive.EntityVillager.PriceInfo;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.DamageSource;
@@ -40,6 +43,7 @@ import palaster.bb.inventories.ContainerVoidAnchor;
 import palaster.bb.items.BBItems;
 import palaster.bb.items.ItemUndeadMonitor;
 import palaster.bb.network.PacketHandler;
+import palaster.bb.network.client.SyncPlayerPropsMessage;
 import palaster.bb.recipes.BBRecipes;
 
 public class CommonProxy implements IGuiHandler {
@@ -71,6 +75,11 @@ public class CommonProxy implements IGuiHandler {
 	}
 	
 	public void postInit() { BBRecipes.init(); }
+	
+	public void syncPlayerCapabilitiesToClient(@Nonnull EntityPlayer player) {
+    	if(!player.worldObj.isRemote)
+    		PacketHandler.sendTo(new SyncPlayerPropsMessage(player), (EntityPlayerMP) player);
+    }
 	
 	public EntityPlayer getPlayerEntity(MessageContext ctx) { return ctx.getServerHandler().playerEntity; }
 	

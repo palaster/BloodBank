@@ -16,7 +16,8 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import palaster.bb.api.BBApi;
+import palaster.bb.api.capabilities.entities.IUndead;
+import palaster.bb.api.capabilities.entities.UndeadCapability.UndeadCapabilityProvider;
 import palaster.bb.items.BBItems;
 import palaster.bb.items.ItemEstusFlask;
 import palaster.bb.libs.LibNBT;
@@ -94,21 +95,25 @@ public class BlockBonfire extends BlockMod {
     @Override
     public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
         if(!worldIn.isRemote)
-            if(placer instanceof EntityPlayer)
-                if(BBApi.isUndead((EntityPlayer) placer) && worldIn.provider.getDimension() == 0)
-                    return super.onBlockPlaced(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer);
+            if(placer instanceof EntityPlayer) {
+            	final IUndead undead = UndeadCapabilityProvider.get((EntityPlayer) placer);
+            	if(undead != null)
+            		if(undead.isUndead() && worldIn.provider.getDimension() == 0)
+            			return super.onBlockPlaced(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer);
+            }
         return Blocks.AIR.getDefaultState();
     }
 
     @Override
     public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
         if(!worldIn.isRemote)
-            if(placer instanceof EntityPlayer)
-                if(BBApi.isUndead((EntityPlayer) placer)) {
-                    BBWorldSaveData bbWorldSaveData = BBWorldSaveData.get(worldIn);
-                    if(bbWorldSaveData != null)
-                        bbWorldSaveData.addBonfire(pos);
-                }
+            if(placer instanceof EntityPlayer) {
+            	final IUndead undead = UndeadCapabilityProvider.get((EntityPlayer) placer);
+            	if(undead != null)
+            		if(undead.isUndead())
+                        if(BBWorldSaveData.get(worldIn) != null)
+                        	BBWorldSaveData.get(worldIn).addBonfire(pos);
+            }
     }
 
     @Override

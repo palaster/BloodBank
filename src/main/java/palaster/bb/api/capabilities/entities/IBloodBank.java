@@ -5,6 +5,8 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public interface IBloodBank {
 	
+	boolean isBloodSorcerer();
+	
 	int consumeBlood(int amt);
 	
 	void addBlood(int amt);

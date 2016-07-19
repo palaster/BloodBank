@@ -11,6 +11,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import palaster.bb.api.BBApi;
+import palaster.bb.api.capabilities.entities.IUndead;
+import palaster.bb.api.capabilities.entities.UndeadCapability.UndeadCapabilityProvider;
 import palaster.bb.blocks.BBBlocks;
 import palaster.bb.core.helpers.BBWorldHelper;
 import palaster.bb.inventories.ContainerUndeadMonitor;
@@ -38,25 +40,31 @@ public class GuiUndeadMonitor extends GuiContainer {
 
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        fontRendererObj.drawString(I18n.format("bb.undead.soul") + ": " + BBApi.getSoul(player.get()), 6, 6, 4210752);
-        fontRendererObj.drawString(I18n.format("bb.undead.focus") + ": " + BBApi.getFocus(player.get()) + " / " + BBApi.getFocusMax(player.get()), 6, 16, 4210752);
+    	if(player != null && player.get() != null) {
+    		final IUndead undead = UndeadCapabilityProvider.get(player.get());
+    		if(undead != null) {
+    			fontRendererObj.drawString(I18n.format("bb.undead.soul") + ": " + undead.getSoul(), 6, 6, 4210752);
+                fontRendererObj.drawString(I18n.format("bb.undead.focus") + ": " + undead.getFocus() + " / " + undead.getFocusMax(), 6, 16, 4210752);
 
-        fontRendererObj.drawString(I18n.format("bb.undead.vigor") + ": " + BBApi.getVigor(player.get()), 6, 36, 4210752);
-        fontRendererObj.drawString(I18n.format("bb.undead.attunement") + ": " + BBApi.getAttunement(player.get()), 6, 46, 4210752);
-        fontRendererObj.drawString(I18n.format("bb.undead.strength") + ": " + BBApi.getStrength(player.get()), 6, 56, 4210752);
-        fontRendererObj.drawString(I18n.format("bb.undead.intelligence") + ": " + BBApi.getIntelligence(player.get()), 6, 66, 4210752);
-        fontRendererObj.drawString(I18n.format("bb.undead.faith") + ": " + BBApi.getFaith(player.get()), 6, 76, 4210752);
+                fontRendererObj.drawString(I18n.format("bb.undead.vigor") + ": " + undead.getVigor(), 6, 36, 4210752);
+                fontRendererObj.drawString(I18n.format("bb.undead.attunement") + ": " + undead.getAttunement(), 6, 46, 4210752);
+                fontRendererObj.drawString(I18n.format("bb.undead.strength") + ": " + undead.getStrength(), 6, 56, 4210752);
+                fontRendererObj.drawString(I18n.format("bb.undead.intelligence") + ": " + undead.getIntelligence(), 6, 66, 4210752);
+                fontRendererObj.drawString(I18n.format("bb.undead.faith") + ": " + undead.getFaith(), 6, 76, 4210752);
 
-        if(BBApi.getSoulCostForNextLevel(player.get()) > BBApi.getSoul(player.get())) {
-            fontRendererObj.drawString(I18n.format("bb.undead.soulCost") + ": " + BBApi.getSoulCostForNextLevel(player.get()), 6, 96, 0x8A0707);
-        } else if(BBApi.getSoulCostForNextLevel(player.get()) <= 0) {
-            fontRendererObj.drawString(I18n.format("bb.undead.soulCost") + ": Free", 6, 96, 0x009900);
-        } else {
-        	fontRendererObj.drawString(I18n.format("bb.undead.soulCost") + ": " + BBApi.getSoulCostForNextLevel(player.get()), 6, 96, 0x009900);
-        }
-        
-        if(BBWorldHelper.findBlockVicinityFromPlayer(BBBlocks.bonfire, player.get().worldObj, player.get(), 10, 4) == null)
-            fontRendererObj.drawString(I18n.format("bb.undead.bonFireNotFound"), 6, 106, 0x8A0707);
+                if(BBApi.getSoulCostForNextLevel(player.get()) > undead.getSoul()) {
+                    fontRendererObj.drawString(I18n.format("bb.undead.soulCost") + ": " + BBApi.getSoulCostForNextLevel(player.get()), 6, 96, 0x8A0707);
+                } else if(BBApi.getSoulCostForNextLevel(player.get()) <= 0) {
+                    fontRendererObj.drawString(I18n.format("bb.undead.soulCost") + ": Free", 6, 96, 0x009900);
+                } else {
+                	fontRendererObj.drawString(I18n.format("bb.undead.soulCost") + ": " + BBApi.getSoulCostForNextLevel(player.get()), 6, 96, 0x009900);
+                }
+                
+                if(BBWorldHelper.findBlockVicinityFromPlayer(BBBlocks.bonfire, player.get().worldObj, player.get(), 10, 4) == null)
+                    fontRendererObj.drawString(I18n.format("bb.undead.bonFireNotFound"), 6, 106, 0x8A0707);
+
+    		}
+    	}
     }
 
     @Override

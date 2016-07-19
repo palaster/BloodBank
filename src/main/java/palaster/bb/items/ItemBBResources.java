@@ -34,9 +34,10 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import palaster.bb.BloodBank;
-import palaster.bb.api.BBApi;
 import palaster.bb.api.capabilities.entities.BloodBankCapability.BloodBankCapabilityProvider;
 import palaster.bb.api.capabilities.entities.IBloodBank;
+import palaster.bb.api.capabilities.entities.IUndead;
+import palaster.bb.api.capabilities.entities.UndeadCapability.UndeadCapabilityProvider;
 import palaster.bb.core.CreativeTabBB;
 import palaster.bb.core.helpers.BBPlayerHelper;
 import palaster.bb.entities.EntityDemonicBankTeller;
@@ -133,8 +134,9 @@ public class ItemBBResources extends Item {
         if(!worldIn.isRemote)
             if(itemStackIn.getItemDamage() == 0) {
             	final IBloodBank bloodBank = BloodBankCapabilityProvider.get(playerIn);
-				if(bloodBank != null) {
-	                if(BBApi.isUndead(playerIn))
+            	final IUndead undead = UndeadCapabilityProvider.get(playerIn);
+				if(bloodBank != null && undead != null) {
+	                if(undead.isUndead())
 	                    BBPlayerHelper.sendChatMessageToPlayer(playerIn, I18n.format("bb.bank.undead"));
 	                else if(bloodBank.getMaxBlood() <= 0) {
 	                    bloodBank.setMaxBlood(2000);
@@ -144,24 +146,28 @@ public class ItemBBResources extends Item {
 	                    BBPlayerHelper.sendChatMessageToPlayer(playerIn, I18n.format("bb.bank.refuse"));
 				}
             } else if(itemStackIn.getItemDamage() == 4) {
-            	if(!BBApi.isUndead(playerIn)) {
-            		BBApi.setUndead(playerIn, true);
-            		final IBloodBank bloodBank = BloodBankCapabilityProvider.get(playerIn);
-    				if(bloodBank != null)
-    					if(bloodBank.getMaxBlood() > 0) {
-                			bloodBank.setMaxBlood(0);
-                			BBPlayerHelper.sendChatMessageToPlayer(playerIn, I18n.format("bb.bank.becomeUndead"));
+            	final IUndead undead = UndeadCapabilityProvider.get(playerIn);
+            	if(undead != null)
+            		if(!undead.isUndead()) {
+                		undead.setUndead(true);
+                		final IBloodBank bloodBank = BloodBankCapabilityProvider.get(playerIn);
+        				if(bloodBank != null)
+        					if(bloodBank.getMaxBlood() > 0) {
+                    			bloodBank.setMaxBlood(0);
+                    			BBPlayerHelper.sendChatMessageToPlayer(playerIn, I18n.format("bb.bank.becomeUndead"));
+                    		}
+                		playerIn.attackEntityFrom(DamageSource.inFire, playerIn.getMaxHealth() + 5f);
+                		return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, null);
+                	}
+            } else if(itemStackIn.getItemDamage() == 6)
+            	if(itemStackIn.hasTagCompound()) {
+            		final IUndead undead = UndeadCapabilityProvider.get(playerIn);
+            		if(undead != null)
+            			if(undead.isUndead()) {
+            				undead.addSoul(itemStackIn.getTagCompound().getInteger(LibNBT.number));
+                			return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, null);
                 		}
-            		playerIn.attackEntityFrom(DamageSource.inFire, playerIn.getMaxHealth() + 5f);
-            		return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, null);
             	}
-            } else if(itemStackIn.getItemDamage() == 6) {
-            	if(itemStackIn.hasTagCompound())
-            		if(BBApi.isUndead(playerIn)) {
-            			BBApi.addSoul(playerIn, itemStackIn.getTagCompound().getInteger(LibNBT.number));
-            			return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, null);
-            		}
-            }
         return super.onItemRightClick(itemStackIn, worldIn, playerIn, hand);
     }
 

@@ -9,10 +9,16 @@ public interface IUndead {
     void setUndead(boolean bool);
 
     int getSoul();
+    
+    void addSoul(int amt);
 
     void setSoul(int amt);
 
     int getFocus();
+    
+    void addFocus(int amt);
+    
+    void useFocus(int amt);
 
     void setFocus(int amt);
 

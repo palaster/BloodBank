@@ -43,6 +43,9 @@ public class UndeadCapability {
 	            return souls;
 	        return 0;
 	    }
+	    
+	    @Override
+	    public void addSoul(int amt) { setSoul(getSoul() + amt); }
 
 	    @Override
 	    public void setSoul(int amt) {
@@ -58,6 +61,12 @@ public class UndeadCapability {
 	            return focus;
 	        return 0;
 	    }
+	    
+	    @Override
+	    public void addFocus(int amt) { setFocus(getFocus() + amt); }
+	    
+	    @Override
+	    public void useFocus(int amt) { setFocus(getFocus() - amt); }
 
 	    @Override
 	    public void setFocus(int amt) {

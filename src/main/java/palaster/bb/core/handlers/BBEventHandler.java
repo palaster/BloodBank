@@ -44,9 +44,9 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import palaster.bb.BloodBank;
-import palaster.bb.api.BBApi;
 import palaster.bb.api.capabilities.entities.BloodBankCapability.BloodBankCapabilityProvider;
 import palaster.bb.api.capabilities.entities.IBloodBank;
+import palaster.bb.api.capabilities.entities.IUndead;
 import palaster.bb.api.capabilities.entities.UndeadCapability.UndeadCapabilityProvider;
 import palaster.bb.api.recipes.ShapedBloodRecipes;
 import palaster.bb.core.proxy.ClientProxy;
@@ -108,36 +108,45 @@ public class BBEventHandler {
 					bloodBankNew.linkEntity(bloodBankOG.getLinked());
 			}
 			
-			BBApi.setUndead(e.getEntityPlayer(), BBApi.isUndead(e.getOriginal()));
-			BBApi.setSoul(e.getEntityPlayer(), BBApi.getSoul(e.getOriginal()));
-			BBApi.setFocus(e.getEntityPlayer(), BBApi.getFocus(e.getEntityPlayer()));
-			BBApi.setFocusMax(e.getEntityPlayer(), BBApi.getFocusMax(e.getEntityPlayer()));
-			BBApi.setVigor(e.getEntityPlayer(), BBApi.getVigor(e.getOriginal()));
-			BBApi.setAttunement(e.getEntityPlayer(), BBApi.getAttunement(e.getOriginal()));
-			BBApi.setStrength(e.getEntityPlayer(), BBApi.getStrength(e.getOriginal()));
-			BBApi.setIntelligence(e.getEntityPlayer(), BBApi.getIntelligence(e.getOriginal()));
-			BBApi.setFaith(e.getEntityPlayer(), BBApi.getFaith(e.getOriginal()));
-
-			if(e.isWasDeath())
-				if(BBApi.isUndead(e.getOriginal())) {
-					BBWorldSaveData bbWorldSaveData = BBWorldSaveData.get(e.getOriginal().worldObj);
-					if(bbWorldSaveData != null) {
-						BlockPos closetBonfire = bbWorldSaveData.getNearestBonfireToPlayer(e.getOriginal(), e.getOriginal().getPosition());
-						if(closetBonfire != null)
-							e.getEntityPlayer().setPosition(closetBonfire.getX(), closetBonfire.getY() + .25D, closetBonfire.getZ());
+			final IUndead undeadOG = UndeadCapabilityProvider.get(e.getOriginal());
+			final IUndead undeadNew = UndeadCapabilityProvider.get(e.getEntityPlayer());
+			if(undeadOG != null && undeadNew != null) {
+				undeadNew.setUndead(undeadOG.isUndead());
+				undeadNew.setSoul(undeadOG.getSoul());
+				undeadNew.setFocus(undeadOG.getFocus());
+				undeadNew.setFocusMax(undeadOG.getFocusMax());
+				undeadNew.setVigor(undeadOG.getVigor());
+				undeadNew.setAttunement(undeadOG.getAttunement());
+				undeadNew.setStrength(undeadOG.getStrength());
+				undeadNew.setIntelligence(undeadOG.getIntelligence());
+				undeadNew.setFaith(undeadOG.getFaith());
+				
+				if(e.isWasDeath())
+					if(undeadOG.isUndead()) {
+						BBWorldSaveData bbWorldSaveData = BBWorldSaveData.get(e.getOriginal().worldObj);
+						if(bbWorldSaveData != null) {
+							BlockPos closetBonfire = bbWorldSaveData.getNearestBonfireToPlayer(e.getOriginal(), e.getOriginal().getPosition());
+							if(closetBonfire != null)
+								e.getEntityPlayer().setPosition(closetBonfire.getX(), closetBonfire.getY() + .25D, closetBonfire.getZ());
+						}
+						e.getEntityPlayer().inventory.copyInventory(e.getOriginal().inventory);
 					}
-					e.getEntityPlayer().inventory.copyInventory(e.getOriginal().inventory);
-				}
+			}
 		}
 	}
 
 	@SubscribeEvent
 	public void onPlayerDrops(PlayerDropsEvent e) {
-		if(e.getEntityPlayer() != null && BBApi.isUndead(e.getEntityPlayer())) {
-			for(EntityItem entityItem : e.getDrops())
-				if(entityItem != null && entityItem.getEntityItem() != null)
-					e.getEntityPlayer().inventory.addItemStackToInventory(entityItem.getEntityItem());
-			e.setCanceled(true);
+		if(e.getEntityPlayer() != null) {
+			final IUndead undead = UndeadCapabilityProvider.get(e.getEntityPlayer());
+			if(undead != null)
+				if(undead.isUndead()) {
+					for(EntityItem entityItem : e.getDrops())
+						if(entityItem != null && entityItem.getEntityItem() != null)
+							e.getEntityPlayer().inventory.addItemStackToInventory(entityItem.getEntityItem());
+					e.setCanceled(true);
+				} 
+			
 		}
 	}
 
@@ -152,24 +161,29 @@ public class BBEventHandler {
 							bloodBank.linkEntity(null);
 				}
 			if(e.getEntityLiving() instanceof EntityPlayer) {
-				if(BBApi.isUndead((EntityPlayer) e.getEntityLiving())) {
-					if(e.getSource().getEntity() instanceof EntityPlayer) {
-						if(BBApi.isUndead((EntityPlayer) e.getSource().getEntity()))
-							BBApi.addSoul((EntityPlayer) e.getSource().getEntity(), BBApi.getSoul((EntityPlayer) e.getEntityLiving()));
-					} else {
-						ItemStack souls = new ItemStack(BBItems.bbResources, 1, 6);
-						if(!souls.hasTagCompound())
-							souls.setTagCompound(new NBTTagCompound());
-						souls.getTagCompound().setInteger(LibNBT.number, BBApi.getSoul((EntityPlayer) e.getEntityLiving()));
-						e.getEntityLiving().worldObj.spawnEntityInWorld(new EntityItem(e.getEntityLiving().worldObj, e.getEntityLiving().posX, e.getEntityLiving().posY, e.getEntityLiving().posZ, souls));
+				final IUndead undead = UndeadCapabilityProvider.get((EntityPlayer) e.getEntityLiving());
+				if(undead != null) {
+					if(undead.isUndead()) {
+						if(e.getSource().getEntity() instanceof EntityPlayer) {
+							final IUndead undeadAttacker = UndeadCapabilityProvider.get((EntityPlayer) e.getSource().getEntity());
+							if(undeadAttacker != null)
+								if(undeadAttacker.isUndead())
+									undeadAttacker.addSoul(undead.getSoul());
+						} else {
+							ItemStack souls = new ItemStack(BBItems.bbResources, 1, 6);
+							if(!souls.hasTagCompound())
+								souls.setTagCompound(new NBTTagCompound());
+							souls.getTagCompound().setInteger(LibNBT.number, undead.getSoul());
+							e.getEntityLiving().worldObj.spawnEntityInWorld(new EntityItem(e.getEntityLiving().worldObj, e.getEntityLiving().posX, e.getEntityLiving().posY, e.getEntityLiving().posZ, souls));
+						}
+						undead.setSoul(0);
 					}
-					BBApi.setSoul((EntityPlayer) e.getEntityLiving(), 0);
 				}
 			}
 			if(e.getSource().getEntity() instanceof EntityPlayer) {
-				EntityPlayer p = (EntityPlayer) e.getSource().getEntity();
-				if(BBApi.isUndead(p))
-					BBApi.addSoul(p, (int) e.getEntityLiving().getMaxHealth());
+				final IUndead undead = UndeadCapabilityProvider.get((EntityPlayer) e.getSource().getEntity());
+				if(undead.isUndead())
+					undead.addSoul((int) e.getEntityLiving().getMaxHealth());
 			}
 			if(e.getEntityLiving() instanceof EntityLiving) {
 				NBTTagCompound nbt = new NBTTagCompound();

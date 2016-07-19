@@ -22,6 +22,9 @@ public class BloodBankCapability {
 		private int bloodMax;
 	    private int bloodCurrent;
 	    private SoftReference<EntityLiving> link;
+
+		@Override
+		public boolean isBloodSorcerer() { return getMaxBlood() > 0; }
 	    
 		@Override
 		public int consumeBlood(int amt) {

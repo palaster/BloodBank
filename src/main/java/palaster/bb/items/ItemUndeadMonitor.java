@@ -8,6 +8,8 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 import palaster.bb.BloodBank;
 import palaster.bb.api.BBApi;
+import palaster.bb.api.capabilities.entities.IUndead;
+import palaster.bb.api.capabilities.entities.UndeadCapability.UndeadCapabilityProvider;
 import palaster.bb.blocks.BBBlocks;
 import palaster.bb.core.helpers.BBWorldHelper;
 
@@ -23,58 +25,72 @@ public class ItemUndeadMonitor extends ItemModSpecial {
 
     @Override
     public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
-        if(!worldIn.isRemote)
-            if(BBApi.isUndead(playerIn)) {
-                BBApi.syncServerToClient(playerIn);
-                playerIn.openGui(BloodBank.instance, 2, worldIn, (int) playerIn.posX, (int) playerIn.posY, (int) playerIn.posZ);
-                return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStackIn);
-            }
+        if(!worldIn.isRemote) {
+        	final IUndead undead = UndeadCapabilityProvider.get(playerIn);
+        	if(undead != null)
+        		if(undead.isUndead()) {
+        			BloodBank.proxy.syncPlayerCapabilitiesToClient(playerIn);
+                    playerIn.openGui(BloodBank.instance, 2, worldIn, (int) playerIn.posX, (int) playerIn.posY, (int) playerIn.posZ);
+                    return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStackIn);
+        		}
+        }
         return super.onItemRightClick(itemStackIn, worldIn, playerIn, hand);
     }
 
     public void receiveButtonEvent(int buttonId, EntityPlayer player) {
-        if(BBWorldHelper.findBlockVicinityFromPlayer(BBBlocks.bonfire, player.worldObj, player, 10, 4) != null)
-            switch(buttonId) {
-                case 0: {
-                    if(BBApi.getSoulCostForNextLevel(player) <= BBApi.getSoul(player) && BBApi.getVigor(player) < 99) {
-                        BBApi.addVigor(player, 1);
-                        if(BBApi.getSoulCostForNextLevel(player) > 0)
-                            BBApi.setSoul(player, BBApi.getSoul(player) - BBApi.getSoulCostForNextLevel(player));
+        if(BBWorldHelper.findBlockVicinityFromPlayer(BBBlocks.bonfire, player.worldObj, player, 10, 4) != null) {
+        	final IUndead undead = UndeadCapabilityProvider.get(player);
+        	if(undead != null)
+        		if(undead.isUndead())
+        			switch(buttonId) {
+                        case 0: {
+                            if(BBApi.getSoulCostForNextLevel(player) <= undead.getSoul() && undead.getVigor() < 99) {
+                            	undead.setVigor(undead.getVigor() + 1);
+                            	BBApi.recalculateVigorBoost(player);
+                                if(BBApi.getSoulCostForNextLevel(player) > 0)
+                                	undead.setSoul(undead.getSoul() - BBApi.getSoulCostForNextLevel(player));
+                                BloodBank.proxy.syncPlayerCapabilitiesToClient(player);
+                            }
+                            break;
+                        }
+                        case 1: {
+                            if(BBApi.getSoulCostForNextLevel(player) <= undead.getSoul() && undead.getAttunement() < 99) {
+                            	undead.setAttunement(undead.getAttunement() + 1);
+                                if(BBApi.getSoulCostForNextLevel(player) > 0)
+                                	undead.setSoul(undead.getSoul() - BBApi.getSoulCostForNextLevel(player));
+                                BloodBank.proxy.syncPlayerCapabilitiesToClient(player);
+                            }
+                            break;
+                        }
+                        case 2: {
+                            if(BBApi.getSoulCostForNextLevel(player) <= undead.getSoul() && undead.getStrength() < 99) {
+                            	undead.setStrength(undead.getStrength() + 1);
+                            	BBApi.recalculateStrengthBoost(player);
+                                if(BBApi.getSoulCostForNextLevel(player) > 0)
+                                	undead.setSoul(undead.getSoul() - BBApi.getSoulCostForNextLevel(player));
+                                BloodBank.proxy.syncPlayerCapabilitiesToClient(player);
+                            }
+                            break;
+                        }
+                        case 3: {
+                            if(BBApi.getSoulCostForNextLevel(player) <= undead.getSoul() && undead.getIntelligence() < 99) {
+                            	undead.setIntelligence(undead.getIntelligence() + 1);
+                                if(BBApi.getSoulCostForNextLevel(player) > 0)
+                                	undead.setSoul(undead.getSoul() - BBApi.getSoulCostForNextLevel(player));
+                                BloodBank.proxy.syncPlayerCapabilitiesToClient(player);
+                            }
+                            break;
+                        }
+                        case 4: {
+                            if(BBApi.getSoulCostForNextLevel(player) <= undead.getSoul() && undead.getFaith() < 99) {
+                            	undead.setFaith(undead.getFaith() + 1);
+                                if(BBApi.getSoulCostForNextLevel(player) > 0)
+                                	undead.setSoul(undead.getSoul() - BBApi.getSoulCostForNextLevel(player));
+                                BloodBank.proxy.syncPlayerCapabilitiesToClient(player);
+                            }
+                            break;
+                        }
                     }
-                    break;
-                }
-                case 1: {
-                    if(BBApi.getSoulCostForNextLevel(player) <= BBApi.getSoul(player) && BBApi.getAttunement(player) < 99) {
-                        BBApi.addAttunement(player, 1);
-                        if(BBApi.getSoulCostForNextLevel(player) > 0)
-                            BBApi.setSoul(player, BBApi.getSoul(player) - BBApi.getSoulCostForNextLevel(player));
-                    }
-                    break;
-                }
-                case 2: {
-                    if(BBApi.getSoulCostForNextLevel(player) <= BBApi.getSoul(player) && BBApi.getStrength(player) < 99) {
-                        BBApi.addStrength(player, 1);
-                        if(BBApi.getSoulCostForNextLevel(player) > 0)
-                            BBApi.setSoul(player, BBApi.getSoul(player) - BBApi.getSoulCostForNextLevel(player));
-                    }
-                    break;
-                }
-                case 3: {
-                    if(BBApi.getSoulCostForNextLevel(player) <= BBApi.getSoul(player) && BBApi.getIntelligence(player) < 99) {
-                        BBApi.addIntelligence(player, 1);
-                        if(BBApi.getSoulCostForNextLevel(player) > 0)
-                            BBApi.setSoul(player, BBApi.getSoul(player) - BBApi.getSoulCostForNextLevel(player));
-                    }
-                    break;
-                }
-                case 4: {
-                    if(BBApi.getSoulCostForNextLevel(player) <= BBApi.getSoul(player) && BBApi.getFaith(player) < 99) {
-                        BBApi.addFaith(player, 1);
-                        if(BBApi.getSoulCostForNextLevel(player) > 0)
-                            BBApi.setSoul(player, BBApi.getSoul(player) - BBApi.getSoulCostForNextLevel(player));
-                    }
-                    break;
-                }
-            }
+        		}
     }
 }

@@ -11,7 +11,8 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import palaster.bb.api.BBApi;
+import palaster.bb.api.capabilities.entities.IUndead;
+import palaster.bb.api.capabilities.entities.UndeadCapability.UndeadCapabilityProvider;
 import palaster.bb.api.capabilities.items.IKnowledgePiece;
 import palaster.bb.core.helpers.BBPlayerHelper;
 
@@ -30,11 +31,14 @@ public class KPUndeadSummon implements IKnowledgePiece {
 	public EnumActionResult onKnowledgePieceUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if(!worldIn.isRemote) {
 			for(Entity entity : worldIn.getLoadedEntityList())
-				if(entity instanceof EntityPlayer)
-					if(BBApi.isUndead((EntityPlayer) entity)) {
-						entity.setPositionAndUpdate(pos.getX(), pos.getY() + 1, pos.getZ());
-						return EnumActionResult.SUCCESS;
-					}
+				if(entity instanceof EntityPlayer) {
+					final IUndead undead = UndeadCapabilityProvider.get((EntityPlayer) entity);
+					if(undead != null)
+						if(undead.isUndead()) {
+							entity.setPositionAndUpdate(pos.getX(), pos.getY() + 1, pos.getZ());
+							return EnumActionResult.SUCCESS;
+						}
+				}
 			BBPlayerHelper.sendChatMessageToPlayer(playerIn, I18n.format("bb.undead.cantFind"));
 		}
 		return EnumActionResult.PASS;

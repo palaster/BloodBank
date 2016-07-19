@@ -12,7 +12,7 @@ public class LibNBT {
 	
 	public static String maxNumber = "BBMaxNumber";
 
-    // Undead
+	// Undead & Blood Sorcerer
     public static String isUndead = "IsUndead";
     public static String souls = "Souls";
     public static String focus = "Focus";
@@ -22,6 +22,8 @@ public class LibNBT {
     public static String strength = "Strength";
     public static String intelligence = "Intelligence";
     public static String faith = "Faith";
+    public static String undeadTag = "UndeadBBNBTTagCompound";
+    public static String bloodTag = "BloodBBNBTTagCompound";
 
     // TileEntity
     public static String items = "Items";
