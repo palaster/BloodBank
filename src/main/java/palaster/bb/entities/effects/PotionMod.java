@@ -15,11 +15,11 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import palaster.bb.libs.LibMod;
 import palaster.bb.libs.LibResource;
 
-public class BBPotion extends Potion {
+public class PotionMod extends Potion {
 
     private final int iconIndex;
 
-    public BBPotion(String name, boolean isBadEffectIn, int liquidColorIn, int iconIndex) {
+    public PotionMod(String name, boolean isBadEffectIn, int liquidColorIn, int iconIndex) {
         super(isBadEffectIn, liquidColorIn);
         GameRegistry.register(this, new ResourceLocation(LibMod.modid, name));
         setPotionName("effect." + name);

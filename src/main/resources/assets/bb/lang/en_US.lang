@@ -8,6 +8,7 @@ effect.sandBody=Sand Body
 effect.instantDeath=Instant Death
 effect.curseUnblinkingEye=Curse of the Unblinking Eye
 effect.curseBlackTongue=Curse of the Black Tongue
+effect.darkWings=Dark Wings
 
 key.categories.bb=Blood Bank
 key.staffChange=Change Staff Power
@@ -132,6 +133,7 @@ bb.kp.undeadSummon=Undead Summon
 bb.kp.possession=Possession
 bb.kp.curseUnblinkingEye=Curse of the Unblinking Eye
 bb.kp.curseBlackTongue=Curse of the Black Tongue
+bb.kp.darkWings=Dark Wings
 
 bb.talisman.speed=Speed
 bb.talisman.poison=Poison

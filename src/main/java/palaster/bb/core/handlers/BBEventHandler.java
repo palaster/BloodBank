@@ -283,7 +283,20 @@ public class BBEventHandler {
 			else if(e.getEntityLiving().getActivePotionEffect(BBPotions.bloodHive) != null && e.getEntityLiving().getActivePotionEffect(BBPotions.bloodHive).getDuration() == 1) {
 				EntityTNTPrimed tnt = new EntityTNTPrimed(e.getEntityLiving().worldObj, e.getEntityLiving().posX, e.getEntityLiving().posY, e.getEntityLiving().posZ, e.getEntityLiving());
 				e.getEntityLiving().worldObj.spawnEntityInWorld(tnt);
+			} else if(e.getEntityLiving().getActivePotionEffect(BBPotions.darkWings) != null && e.getEntityLiving().getActivePotionEffect(BBPotions.darkWings).getDuration() == 1) {
+				if(e.getEntityLiving() instanceof EntityPlayer)
+					if(!((EntityPlayer) e.getEntityLiving()).isSpectator() && !((EntityPlayer) e.getEntityLiving()).capabilities.isCreativeMode) {
+						((EntityPlayer) e.getEntityLiving()).capabilities.allowFlying = false;
+						((EntityPlayer) e.getEntityLiving()).capabilities.isFlying = false;
+						((EntityPlayer) e.getEntityLiving()).capabilities.disableDamage = false;
+						((EntityPlayer) e.getEntityLiving()).sendPlayerAbilities();
+					}
 			}
+			if(e.getEntityLiving().getActivePotionEffect(BBPotions.darkWings) != null && e.getEntityLiving().getActivePotionEffect(BBPotions.darkWings).getDuration() > 1)
+				if(e.getEntityLiving() instanceof EntityPlayer) {
+					((EntityPlayer) e.getEntityLiving()).capabilities.allowFlying = true;
+					((EntityPlayer) e.getEntityLiving()).sendPlayerAbilities();
+				}
 		}
 	}
 	
