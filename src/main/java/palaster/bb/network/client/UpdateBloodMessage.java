@@ -17,7 +17,7 @@ public class UpdateBloodMessage extends AbstractMessage.AbstractClientMessage<Up
 	
 	public UpdateBloodMessage() {}
 
-    public UpdateBloodMessage(NBTTagCompound tag) { this.tag = tag; };
+    public UpdateBloodMessage(NBTTagCompound tag) { this.tag = tag; }
 
 	@Override
 	protected void read(PacketBuffer buffer) throws IOException { tag = ByteBufUtils.readTag(buffer); }

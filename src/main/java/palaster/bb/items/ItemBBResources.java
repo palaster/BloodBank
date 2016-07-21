@@ -3,12 +3,15 @@ package palaster.bb.items;
 import java.lang.ref.WeakReference;
 import java.util.List;
 
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import javax.annotation.Nullable;
+
 import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
+import net.minecraft.item.IItemPropertyGetter;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
@@ -22,7 +25,6 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AnvilUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
@@ -30,7 +32,6 @@ import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import palaster.bb.BloodBank;
@@ -38,23 +39,22 @@ import palaster.bb.api.capabilities.entities.BloodBankCapability.BloodBankCapabi
 import palaster.bb.api.capabilities.entities.IBloodBank;
 import palaster.bb.api.capabilities.entities.IUndead;
 import palaster.bb.api.capabilities.entities.UndeadCapability.UndeadCapabilityProvider;
-import palaster.bb.core.CreativeTabBB;
 import palaster.bb.core.helpers.BBPlayerHelper;
 import palaster.bb.entities.EntityDemonicBankTeller;
-import palaster.bb.libs.LibMod;
 import palaster.bb.libs.LibNBT;
 
-public class ItemBBResources extends Item {
-
-    public static String[] names = new String[]{"bankContract", "bankID", "wormEater", "vampireSigil", "urn", "denseSandParticle", "souls", "itztiliSouls"};
+public class ItemBBResources extends ItemModSpecial {
+	
+	private static final int subTypes = 8;
 
     public ItemBBResources() {
         super();
-        setCreativeTab(CreativeTabBB.tabBB);
-        setHasSubtypes(true);
-        setMaxDamage(0);
-        setMaxStackSize(1);
+        setMaxDamage(subTypes - 1);
         setUnlocalizedName("bbResources");
+        addPropertyOverride(new ResourceLocation("type"), new IItemPropertyGetter() {
+            @SideOnly(Side.CLIENT)
+            public float apply(ItemStack stack, @Nullable World worldIn, @Nullable EntityLivingBase entityIn) { return stack.getItemDamage(); }
+        });
         MinecraftForge.EVENT_BUS.register(this);
     }
     
@@ -202,24 +202,15 @@ public class ItemBBResources extends Item {
     }
 
     @Override
-    public String getUnlocalizedName(ItemStack stack) { return super.getUnlocalizedName(stack) + "." + names[stack.getItemDamage()]; }
-
-    @Override
     public void getSubItems(Item itemIn, CreativeTabs tab, List<ItemStack> subItems) {
-        for(int i = 0; i < names.length; i++)
+        for(int i = 0; i < subTypes; i++)
             subItems.add(new ItemStack(itemIn, 1, i));
     }
-
+    
     @Override
-    public Item setUnlocalizedName(String unlocalizedName) {
-        setRegistryName(new ResourceLocation(LibMod.modid, unlocalizedName));
-        GameRegistry.register(this);
-        return super.setUnlocalizedName(LibMod.modid + ":" + unlocalizedName);
-    }
-
-    @SideOnly(Side.CLIENT)
-    public static void setCustomModelResourceLocation(Item item) {
-        for(int i = 0; i < names.length; i++)
-            ModelLoader.setCustomModelResourceLocation(item, i, new ModelResourceLocation(LibMod.modid + ":" + names[i], "inventory"));
-    }
+	public boolean showDurabilityBar(ItemStack stack) { return false; }
+	
+	@SuppressWarnings("deprecation")
+	@Override
+	public String getItemStackDisplayName(ItemStack stack) { return ("" + net.minecraft.util.text.translation.I18n.translateToLocal(getUnlocalizedNameInefficiently(stack) + "." + stack.getItemDamage() + ".name")).trim(); }
 }

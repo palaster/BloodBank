@@ -72,9 +72,12 @@ public class ItemFlames extends ItemModSpecial {
             	final IUndead undead = UndeadCapabilityProvider.get(player);
             	if(undead != null)
             		if(undead.isUndead())
-            			if(undead.getFocus() >= ((IFlameSpell) BBItemStackHelper.getSpellFromFlames(stack).getItem()).getSpellCost())
-                            if(((IFlameSpell) BBItemStackHelper.getSpellFromFlames(stack).getItem()).onSpellLeftClickEntity(stack, player, entity))
-                            	undead.useFocus(((IFlameSpell) BBItemStackHelper.getSpellFromFlames(stack).getItem()).getSpellCost());
+            			if(undead.getFocus() >= ((IFlameSpell) BBItemStackHelper.getSpellFromFlames(stack).getItem()).getSpellCost()) {
+            				boolean temp = ((IFlameSpell) BBItemStackHelper.getSpellFromFlames(stack).getItem()).onSpellLeftClickEntity(stack, player, entity);
+            				if(temp)
+            					undead.useFocus(((IFlameSpell) BBItemStackHelper.getSpellFromFlames(stack).getItem()).getSpellCost());
+            				return temp;
+            			}
             }
         return super.onLeftClickEntity(stack, player, entity);
     }
@@ -86,9 +89,12 @@ public class ItemFlames extends ItemModSpecial {
             	final IUndead undead = UndeadCapabilityProvider.get(playerIn);
             	if(undead != null)
             		if(undead.isUndead())
-            			if(undead.getFocus() >= ((IFlameSpell) BBItemStackHelper.getSpellFromFlames(stack).getItem()).getSpellCost())
-            				if(((IFlameSpell) BBItemStackHelper.getSpellFromFlames(stack).getItem()).onSpellUse(stack, playerIn, worldIn, pos, hand, facing, hitX, hitY, hitZ) == EnumActionResult.SUCCESS)
+            			if(undead.getFocus() >= ((IFlameSpell) BBItemStackHelper.getSpellFromFlames(stack).getItem()).getSpellCost()) {
+            				EnumActionResult temp = ((IFlameSpell) BBItemStackHelper.getSpellFromFlames(stack).getItem()).onSpellUse(stack, playerIn, worldIn, pos, hand, facing, hitX, hitY, hitZ);
+            				if(temp != null && temp == EnumActionResult.SUCCESS)
             					undead.useFocus(((IFlameSpell) BBItemStackHelper.getSpellFromFlames(stack).getItem()).getSpellCost());
+            				return temp;
+            			}
             }
         return super.onItemUse(stack, playerIn, worldIn, pos, hand, facing, hitX, hitY, hitZ);
     }
@@ -100,9 +106,12 @@ public class ItemFlames extends ItemModSpecial {
             	final IUndead undead = UndeadCapabilityProvider.get(playerIn);
             	if(undead != null)
             		if(undead.isUndead())
-            			if(undead.getFocus() >= ((IFlameSpell) BBItemStackHelper.getSpellFromFlames(itemStackIn).getItem()).getSpellCost())
-            				if(((IFlameSpell) BBItemStackHelper.getSpellFromFlames(itemStackIn).getItem()).onSpellRightClick(itemStackIn, worldIn, playerIn, hand).getType() == EnumActionResult.SUCCESS)
+            			if(undead.getFocus() >= ((IFlameSpell) BBItemStackHelper.getSpellFromFlames(itemStackIn).getItem()).getSpellCost()) {
+            				ActionResult<ItemStack> temp = ((IFlameSpell) BBItemStackHelper.getSpellFromFlames(itemStackIn).getItem()).onSpellRightClick(itemStackIn, worldIn, playerIn, hand); 
+            				if(temp != null && temp.getType() == EnumActionResult.SUCCESS)
             					undead.useFocus(((IFlameSpell) BBItemStackHelper.getSpellFromFlames(itemStackIn).getItem()).getSpellCost());
+            				return temp;
+            			}
             }
         return super.onItemRightClick(itemStackIn, worldIn, playerIn, hand);
     }
@@ -114,9 +123,12 @@ public class ItemFlames extends ItemModSpecial {
             	final IUndead undead = UndeadCapabilityProvider.get(playerIn);
             	if(undead != null)
             		if(undead.isUndead())
-            			if(undead.getFocus() >= ((IFlameSpell) BBItemStackHelper.getSpellFromFlames(stack).getItem()).getSpellCost())
-                            if(((IFlameSpell) BBItemStackHelper.getSpellFromFlames(stack).getItem()).spellInteractionForEntity(stack, playerIn, target, hand))
+            			if(undead.getFocus() >= ((IFlameSpell) BBItemStackHelper.getSpellFromFlames(stack).getItem()).getSpellCost()) {
+            				boolean temp = ((IFlameSpell) BBItemStackHelper.getSpellFromFlames(stack).getItem()).spellInteractionForEntity(stack, playerIn, target, hand);
+            				if(temp)
                             	undead.useFocus(((IFlameSpell) BBItemStackHelper.getSpellFromFlames(stack).getItem()).getSpellCost());
+            				return temp;
+            			}
             }
         return super.itemInteractionForEntity(stack, playerIn, target, hand);
     }

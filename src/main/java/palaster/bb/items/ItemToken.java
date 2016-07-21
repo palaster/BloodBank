@@ -29,15 +29,11 @@ public class ItemToken extends ItemModSpecial {
 
 	public ItemToken() {
 		super();
-		setMaxDamage(1);
+		setMaxDamage(2);
 		setUnlocalizedName("token");
 		addPropertyOverride(new ResourceLocation("type"), new IItemPropertyGetter() {
             @SideOnly(Side.CLIENT)
-            public float apply(ItemStack stack, @Nullable World worldIn, @Nullable EntityLivingBase entityIn) {
-            	if(stack.getItemDamage() > 0)
-            		return stack.getItemDamage();
-            	return 0.0f;
-            }
+            public float apply(ItemStack stack, @Nullable World worldIn, @Nullable EntityLivingBase entityIn) { return stack.getItemDamage(); }
         });
 	}
 	

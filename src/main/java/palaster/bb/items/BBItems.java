@@ -128,6 +128,6 @@ public class BBItems {
 		
 		ItemMod.setCustomModelResourceLocation(debug);
 		ItemMod.setCustomModelResourceLocation(yinYang);
-		ItemBBResources.setCustomModelResourceLocation(bbResources);
+		ItemMod.setCustomModelResourceLocation(bbResources);
 	}
 }

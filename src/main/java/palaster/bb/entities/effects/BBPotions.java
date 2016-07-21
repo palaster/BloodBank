@@ -4,13 +4,14 @@ import net.minecraft.potion.Potion;
 
 public class BBPotions {
 
-    public static Potion timedFlame;
-    public static Potion bloodHive;
-    public static Potion sandBody;
-    public static Potion instantDeath;
-    public static Potion curseUnblinkingEye;
-    public static Potion curseBlackTongue;
-    public static Potion darkWings;
+    public static Potion timedFlame,
+    bloodHive,
+    sandBody,
+    instantDeath,
+    curseUnblinkingEye,
+    curseBlackTongue,
+    darkWings,
+    carthusFlameArc;
 
     public static void init() {
         timedFlame = new PotionMod("timedFlame", true, 0xE25822, 0);
@@ -20,5 +21,6 @@ public class BBPotions {
         curseUnblinkingEye = new PotionMod("curseUnblinkingEye", true, 0x551A8B, 4);
         curseBlackTongue = new PotionMod("curseBlackTongue", true, 0x551A8B, 5);
         darkWings = new PotionModDarkWings("darkWings", false, 0x551A8B, 6);
+        carthusFlameArc = new PotionMod("carthusFlameArc", false, 0xE25822, 7);
     }
 }

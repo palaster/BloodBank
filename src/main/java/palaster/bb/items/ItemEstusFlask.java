@@ -28,11 +28,7 @@ public class ItemEstusFlask extends ItemModSpecial {
 		setUnlocalizedName("estusFlask");
 		addPropertyOverride(new ResourceLocation("type"), new IItemPropertyGetter() {
             @SideOnly(Side.CLIENT)
-            public float apply(ItemStack stack, @Nullable World worldIn, @Nullable EntityLivingBase entityIn) {
-            	if(stack.getItemDamage() == 1)
-            		return 1.0f;
-            	return 0.0f;
-            }
+            public float apply(ItemStack stack, @Nullable World worldIn, @Nullable EntityLivingBase entityIn) { return stack.getItemDamage(); }
         });
 	}
 	

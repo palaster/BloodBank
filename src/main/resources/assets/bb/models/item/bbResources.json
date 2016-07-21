@@ -1,0 +1,56 @@
+{
+    "parent": "bb:item/bbStandard",
+    "textures": {
+        "layer0": "bb:items/bbResources"
+    },
+	"overrides": [
+	{
+		"predicate": {
+			"type": 0
+		},
+		"model": "bb:item/bankContract"
+	},
+	{
+		"predicate": {
+			"type": 1
+		},
+		"model": "bb:item/bankID"
+	},
+	{
+		"predicate": {
+			"type": 2
+		},
+		"model": "bb:item/wormEater"
+	},
+	{
+		"predicate": {
+			"type": 3
+		},
+		"model": "bb:item/vampireSigil"
+	},
+	{
+		"predicate": {
+			"type": 4
+		},
+		"model": "bb:item/urn"
+	},
+	{
+		"predicate": {
+			"type": 5
+		},
+		"model": "bb:item/denseSandParticle"
+	},
+	{
+		"predicate": {
+			"type": 6
+		},
+		"model": "bb:item/souls"
+	},
+	{
+		"predicate": {
+			"type": 7
+		},
+		"model": "bb:item/itztiliSouls"
+	}
+	]
+}

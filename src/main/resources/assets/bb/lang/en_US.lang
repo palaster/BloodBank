@@ -9,6 +9,7 @@ effect.instantDeath=Instant Death
 effect.curseUnblinkingEye=Curse of the Unblinking Eye
 effect.curseBlackTongue=Curse of the Black Tongue
 effect.darkWings=Dark Wings
+effect.carthusFlameArc=Carthus Flame Arc
 
 key.categories.bb=Blood Bank
 key.staffChange=Change Staff Power
@@ -64,14 +65,14 @@ item.bb:sand.FEET.name=Sand Boots
 
 item.bb:debug.name=Debug
 item.bb:yinYang.name=Yin Yang
-item.bb:bbResources.bankContract.name=Bank Contract
-item.bb:bbResources.bankID.name=Bank ID
-item.bb:bbResources.wormEater.name=Worm Eater
-item.bb:bbResources.vampireSigil.name=Vampire Sigil
-item.bb:bbResources.urn.name=Urn
-item.bb:bbResources.denseSandParticle.name=Dense Sand Particle
-item.bb:bbResources.souls.name=Souls
-item.bb:bbResources.itztiliSouls.name=Itztili's Soul
+item.bb:bbResources.0.name=Bank Contract
+item.bb:bbResources.1.name=Bank ID
+item.bb:bbResources.2.name=Worm Eater
+item.bb:bbResources.3.name=Vampire Sigil
+item.bb:bbResources.4.name=Urn
+item.bb:bbResources.5.name=Dense Sand Particle
+item.bb:bbResources.6.name=Souls
+item.bb:bbResources.7.name=Itztili's Soul
 
 bb.misc.activated=Activated
 bb.misc.broken=BROKEN (Normal Fix is a simple right-click)
