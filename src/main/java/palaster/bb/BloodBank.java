@@ -11,7 +11,7 @@ import palaster.bb.core.handlers.BBEventHandler;
 import palaster.bb.core.proxy.CommonProxy;
 import palaster.bb.libs.LibMod;
 
-@Mod(modid = LibMod.modid, name = LibMod.name, version = LibMod.version, dependencies = LibMod.dependencies, guiFactory = LibMod.guiFactory)
+@Mod(modid = LibMod.modid, name = LibMod.name, version = LibMod.version, dependencies = LibMod.dependencies, guiFactory = LibMod.guiFactory, updateJSON = LibMod.updateJSON)
 public class BloodBank {
 	
 	@Instance(LibMod.modid)
