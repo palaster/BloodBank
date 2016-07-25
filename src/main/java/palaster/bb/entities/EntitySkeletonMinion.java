@@ -56,9 +56,10 @@ import net.minecraft.world.storage.loot.LootTableList;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import palaster.bb.entities.ai.EntityModAIAttackRangedBow;
-import palaster.bb.libs.LibNBT;
 
 public class EntitySkeletonMinion extends EntityTameable implements IMob, IRangedAttackMob {
+	
+	public static String tag_timer = "SkeletonMinionTimer";
 
     private int timer;
 
@@ -345,14 +346,14 @@ public class EntitySkeletonMinion extends EntityTameable implements IMob, IRange
             setSkeletonType(i);
         }
         setCombatTask();
-        timer = tagCompound.getInteger(LibNBT.timer);
+        timer = tagCompound.getInteger(tag_timer);
     }
 
     @Override
     public void writeEntityToNBT(NBTTagCompound tagCompound) {
         super.writeEntityToNBT(tagCompound);
         tagCompound.setByte("SkeletonType", (byte)getSkeletonType());
-        tagCompound.setInteger(LibNBT.timer, timer);
+        tagCompound.setInteger(tag_timer, timer);
     }
 
     @Override

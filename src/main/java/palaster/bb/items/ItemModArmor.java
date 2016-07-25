@@ -8,9 +8,9 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import palaster.bb.core.CreativeTabBB;
 import palaster.bb.libs.LibMod;
 
-public abstract class BBArmor extends ItemArmor {
+public abstract class ItemModArmor extends ItemArmor {
 
-    public BBArmor(ItemArmor.ArmorMaterial material, int renderIndex, EntityEquipmentSlot entityEquipmentSlot) {
+    public ItemModArmor(ItemArmor.ArmorMaterial material, int renderIndex, EntityEquipmentSlot entityEquipmentSlot) {
         super(material, renderIndex, entityEquipmentSlot);
         setCreativeTab(CreativeTabBB.tabBB);
     }

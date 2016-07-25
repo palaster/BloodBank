@@ -27,9 +27,10 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import palaster.bb.core.CreativeTabBB;
 import palaster.bb.libs.LibMod;
-import palaster.bb.libs.LibNBT;
 
 public class ItemLeacher extends ItemSword {
+	
+	public static String tag_kills = "LeacherKills";
 
 	public ItemLeacher(ToolMaterial material) {
 		super(material);
@@ -47,7 +48,7 @@ public class ItemLeacher extends ItemSword {
 					if(p.getHeldItemMainhand() != null && p.getHeldItemMainhand().getItem() instanceof ItemLeacher) {
 						if(!p.getHeldItemMainhand().hasTagCompound())
 							p.getHeldItemMainhand().setTagCompound(new NBTTagCompound());
-						p.getHeldItemMainhand().getTagCompound().setInteger(LibNBT.amount, ((EntityPlayer) e.getSource().getSourceOfDamage()).getHeldItemMainhand().getTagCompound().getInteger(LibNBT.amount) + 1);
+						p.getHeldItemMainhand().getTagCompound().setInteger(tag_kills, ((EntityPlayer) e.getSource().getSourceOfDamage()).getHeldItemMainhand().getTagCompound().getInteger(tag_kills) + 1);
 						boolean wasBloodBottleFound = false;
 						if(e.getEntityLiving().worldObj.rand.nextInt(5) == 0)
 							for(int i = 0; i < p.inventory.getSizeInventory(); i++)
@@ -82,7 +83,7 @@ public class ItemLeacher extends ItemSword {
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
 		if(stack.hasTagCompound())
-			tooltip.add(I18n.format("bb.misc.leacher") + " : " + stack.getTagCompound().getInteger(LibNBT.amount));
+			tooltip.add(I18n.format("bb.misc.leacher") + " : " + stack.getTagCompound().getInteger(tag_kills));
 	}
 	
 	@Override
@@ -90,7 +91,7 @@ public class ItemLeacher extends ItemSword {
 		if(!worldIn.isRemote) {
 			if(!stack.hasTagCompound())
 				stack.setTagCompound(new NBTTagCompound());
-			stack.getTagCompound().setInteger(LibNBT.amount, 0);
+			stack.getTagCompound().setInteger(tag_kills, 0);
 		}
 	}
 	
@@ -106,7 +107,7 @@ public class ItemLeacher extends ItemSword {
 		Multimap<String, AttributeModifier> multimap = HashMultimap.<String, AttributeModifier>create();
 		if(stack.hasTagCompound())
 			if(slot == EntityEquipmentSlot.MAINHAND) {
-				int lvl = stack.getTagCompound().getInteger(LibNBT.amount) / 40;
+				int lvl = stack.getTagCompound().getInteger(tag_kills) / 40;
 				multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getAttributeUnlocalizedName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", 6 + lvl, 0));
 	            multimap.put(SharedMonsterAttributes.ATTACK_SPEED.getAttributeUnlocalizedName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", -1.9D, 0));
 			}

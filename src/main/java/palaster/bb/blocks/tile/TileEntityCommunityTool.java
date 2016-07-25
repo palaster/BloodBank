@@ -4,9 +4,10 @@ import java.util.UUID;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import palaster.bb.libs.LibNBT;
 
 public class TileEntityCommunityTool extends TileEntityModInventory {
+	
+	public static String tag_uuid = "CommunityToolUUID";
 
 	private UUID owner;
         
@@ -16,7 +17,7 @@ public class TileEntityCommunityTool extends TileEntityModInventory {
     @Override
     public void readPacketNBT(NBTTagCompound compound) {
     	super.readPacketNBT(compound);
-    	UUID uuid = compound.getUniqueId(LibNBT.uuid);
+    	UUID uuid = compound.getUniqueId(tag_uuid);
     	if(uuid != null)
     		owner = uuid;
     }
@@ -24,7 +25,7 @@ public class TileEntityCommunityTool extends TileEntityModInventory {
     @Override
     public void writePacketNBT(NBTTagCompound compound) {
     	if(owner != null)
-    		compound.setUniqueId(LibNBT.uuid, owner);
+    		compound.setUniqueId(tag_uuid, owner);
     	super.writePacketNBT(compound);
     }
     

@@ -18,9 +18,10 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import palaster.bb.api.capabilities.entities.IUndead;
 import palaster.bb.api.capabilities.entities.UndeadCapability.UndeadCapabilityProvider;
-import palaster.bb.libs.LibNBT;
 
 public class ItemEstusFlask extends ItemModSpecial {
+	
+	public static String tag_estusUses = "EstusUses";
 	
 	public ItemEstusFlask() {
 		super();
@@ -36,7 +37,7 @@ public class ItemEstusFlask extends ItemModSpecial {
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
 		if(stack.hasTagCompound())
-			tooltip.add(I18n.format("bb.misc.amountLeft") + ": " + stack.getTagCompound().getInteger(LibNBT.amount));
+			tooltip.add(I18n.format("bb.misc.amountLeft") + ": " + stack.getTagCompound().getInteger(tag_estusUses));
 	}
 	
 	@Override
@@ -44,9 +45,9 @@ public class ItemEstusFlask extends ItemModSpecial {
 		if(!worldIn.isRemote) {
 			if(itemStackIn.getItemDamage() == 0) {
 				if(!playerIn.isSneaking()) {
-					if(itemStackIn.hasTagCompound() && itemStackIn.getTagCompound().getInteger(LibNBT.amount) > 0) {
+					if(itemStackIn.hasTagCompound() && itemStackIn.getTagCompound().getInteger(tag_estusUses) > 0) {
 						playerIn.heal(4f);
-						itemStackIn.getTagCompound().setInteger(LibNBT.amount, itemStackIn.getTagCompound().getInteger(LibNBT.amount) - 1);
+						itemStackIn.getTagCompound().setInteger(tag_estusUses, itemStackIn.getTagCompound().getInteger(tag_estusUses) - 1);
 						return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStackIn);
 					}
 				} else
@@ -56,12 +57,12 @@ public class ItemEstusFlask extends ItemModSpecial {
 					}
 			} else {
 				if(!playerIn.isSneaking()) {
-					if(itemStackIn.hasTagCompound() && itemStackIn.getTagCompound().getInteger(LibNBT.amount) > 0) {
+					if(itemStackIn.hasTagCompound() && itemStackIn.getTagCompound().getInteger(tag_estusUses) > 0) {
 						final IUndead undead = UndeadCapabilityProvider.get(playerIn);
 						if(undead != null)
 							if(undead.isUndead()) {
 								undead.addFocus(150);
-								itemStackIn.getTagCompound().setInteger(LibNBT.amount, itemStackIn.getTagCompound().getInteger(LibNBT.amount) - 1);
+								itemStackIn.getTagCompound().setInteger(tag_estusUses, itemStackIn.getTagCompound().getInteger(tag_estusUses) - 1);
 								return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStackIn);
 							}
 					}

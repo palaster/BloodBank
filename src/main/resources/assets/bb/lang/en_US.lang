@@ -62,6 +62,10 @@ item.bb:sand.HEAD.name=Sand Helmet
 item.bb:sand.CHEST.name=Sand Chestplate
 item.bb:sand.LEGS.name=Sand Leggings
 item.bb:sand.FEET.name=Sand Boots
+item.bb:gray.HEAD.name=Gray Helmet
+item.bb:gray.CHEST.name=Gray Chestplate
+item.bb:gray.LEGS.name=Gray Leggings
+item.bb:gray.FEET.name=Gray Boots
 
 item.bb:debug.name=Debug
 item.bb:yinYang.name=Yin Yang

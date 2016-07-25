@@ -10,10 +10,10 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import palaster.bb.api.capabilities.items.IVampiric;
-import palaster.bb.libs.LibNBT;
 
 public abstract class ItemModStaff extends ItemModSpecial implements IVampiric {
 	
+	public static String tag_number = "StaffPower";
 	public String[] powers = new String[] {};
 
 	public ItemModStaff() {
@@ -32,21 +32,21 @@ public abstract class ItemModStaff extends ItemModSpecial implements IVampiric {
 	public void onCreated(ItemStack stack, World worldIn, EntityPlayer playerIn) {
 		if(!stack.hasTagCompound())
 			stack.setTagCompound(new NBTTagCompound());
-		stack.getTagCompound().setInteger(LibNBT.number, 0);
+		stack.getTagCompound().setInteger(tag_number, 0);
 	}
 	
 	public static final void setActivePower(ItemStack stack, int value) {
 		if(!stack.hasTagCompound())
 			stack.setTagCompound(new NBTTagCompound());
 		if(getActiveMax(stack) == 0)
-			stack.getTagCompound().setInteger(LibNBT.number, 0);
+			stack.getTagCompound().setInteger(tag_number, 0);
 		else
-			stack.getTagCompound().setInteger(LibNBT.number, value);
+			stack.getTagCompound().setInteger(tag_number, value);
 	}
 	
 	public static final int getActivePower(ItemStack stack) {
 		if(stack.hasTagCompound())
-			return stack.getTagCompound().getInteger(LibNBT.number);
+			return stack.getTagCompound().getInteger(tag_number);
 		return 0;
 	}
 	

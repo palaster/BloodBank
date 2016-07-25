@@ -26,9 +26,10 @@ import palaster.bb.api.capabilities.entities.BloodBankCapability.BloodBankCapabi
 import palaster.bb.api.capabilities.entities.IBloodBank;
 import palaster.bb.core.proxy.ClientProxy;
 import palaster.bb.entities.knowledge.BBKnowledge;
-import palaster.bb.libs.LibNBT;
 
 public class ItemBookBlood extends ItemModSpecial {
+	
+	public static String tag_knowledgePiece = "KnowledgePiece";
 
     public ItemBookBlood() {
         super();
@@ -44,13 +45,13 @@ public class ItemBookBlood extends ItemModSpecial {
 				final IBloodBank bloodBank = BloodBankCapabilityProvider.get(Minecraft.getMinecraft().thePlayer);
 				if(bloodBank != null) {
 					if(Minecraft.getMinecraft().thePlayer.getHeldItemOffhand() != null && Minecraft.getMinecraft().thePlayer.getHeldItemOffhand().getItem() == this && Minecraft.getMinecraft().thePlayer.getHeldItemOffhand().hasTagCompound()) {
-						Minecraft.getMinecraft().fontRendererObj.drawString(I18n.format("bb.knowledgePiece") + ": " + I18n.format(BBKnowledge.getKnowledgePiece(Minecraft.getMinecraft().thePlayer.getHeldItemOffhand().getTagCompound().getInteger(LibNBT.knowledgePiece)).getName()), 2, 2, 0x8A0707);
+						Minecraft.getMinecraft().fontRendererObj.drawString(I18n.format("bb.knowledgePiece") + ": " + I18n.format(BBKnowledge.getKnowledgePiece(Minecraft.getMinecraft().thePlayer.getHeldItemOffhand().getTagCompound().getInteger(tag_knowledgePiece)).getName()), 2, 2, 0x8A0707);
 						// TODO: Find a better way to sync server data to client Minecraft.getMinecraft().fontRendererObj.drawString("" + bloodBank.getCurrentBlood(), e.getResolution().getScaledWidth() - 32, e.getResolution().getScaledHeight() - 18, 0x8A0707);
 						ClientProxy.isItemInOffHandRenderingOverlay = true;
 					} else if(Minecraft.getMinecraft().thePlayer.getHeldItemOffhand() == null)
 						ClientProxy.isItemInOffHandRenderingOverlay = false;
 					if(!ClientProxy.isItemInOffHandRenderingOverlay && Minecraft.getMinecraft().thePlayer.getHeldItemMainhand() != null && Minecraft.getMinecraft().thePlayer.getHeldItemMainhand().getItem() == this && Minecraft.getMinecraft().thePlayer.getHeldItemMainhand().hasTagCompound()) {
-						Minecraft.getMinecraft().fontRendererObj.drawString(I18n.format("bb.knowledgePiece") + ": " + I18n.format(BBKnowledge.getKnowledgePiece(Minecraft.getMinecraft().thePlayer.getHeldItemMainhand().getTagCompound().getInteger(LibNBT.knowledgePiece)).getName()), 2, 2, 0x8A0707);
+						Minecraft.getMinecraft().fontRendererObj.drawString(I18n.format("bb.knowledgePiece") + ": " + I18n.format(BBKnowledge.getKnowledgePiece(Minecraft.getMinecraft().thePlayer.getHeldItemMainhand().getTagCompound().getInteger(tag_knowledgePiece)).getName()), 2, 2, 0x8A0707);
 						// TODO: Find a better way to sync server data to client Minecraft.getMinecraft().fontRendererObj.drawString("" + bloodBank.getCurrentBlood(), e.getResolution().getScaledWidth() - 32, e.getResolution().getScaledHeight() - 18, 0x8A0707);
 					}
 				}
@@ -69,15 +70,15 @@ public class ItemBookBlood extends ItemModSpecial {
     @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
-        if(stack.hasTagCompound() && stack.getTagCompound().getInteger(LibNBT.knowledgePiece) >= 0)
-            tooltip.add(I18n.format("bb.knowledgePiece") + ": " + I18n.format(BBKnowledge.getKnowledgePiece(stack.getTagCompound().getInteger(LibNBT.knowledgePiece)).getName()));
+        if(stack.hasTagCompound() && stack.getTagCompound().getInteger(tag_knowledgePiece) >= 0)
+            tooltip.add(I18n.format("bb.knowledgePiece") + ": " + I18n.format(BBKnowledge.getKnowledgePiece(stack.getTagCompound().getInteger(tag_knowledgePiece)).getName()));
     }
 
     @Override
     public void onCreated(ItemStack stack, World worldIn, EntityPlayer playerIn) {
         if(!stack.hasTagCompound())
             stack.setTagCompound(new NBTTagCompound());
-        stack.getTagCompound().setInteger(LibNBT.knowledgePiece, 0);
+        stack.getTagCompound().setInteger(tag_knowledgePiece, 0);
     }
 
     @Override
@@ -88,23 +89,23 @@ public class ItemBookBlood extends ItemModSpecial {
 				if(bloodBank.getMaxBlood() > 0) {
 		            if(itemStackIn.hasTagCompound()) {
 		                if(playerIn.isSneaking()) {
-		                    int temp = itemStackIn.getTagCompound().getInteger(LibNBT.knowledgePiece);
+		                    int temp = itemStackIn.getTagCompound().getInteger(tag_knowledgePiece);
 		                    if(temp++ < BBKnowledge.getKnowledgeSize() - 1)
-		                        itemStackIn.getTagCompound().setInteger(LibNBT.knowledgePiece, temp++);
+		                        itemStackIn.getTagCompound().setInteger(tag_knowledgePiece, temp++);
 		                    else if(temp++ >= BBKnowledge.getKnowledgeSize())
-		                        itemStackIn.getTagCompound().setInteger(LibNBT.knowledgePiece, 0);
+		                        itemStackIn.getTagCompound().setInteger(tag_knowledgePiece, 0);
 		                    return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStackIn);
-		                } else if(itemStackIn.getTagCompound().getInteger(LibNBT.knowledgePiece) >= 0) {
-		                    if(BBKnowledge.getKnowledgePiece(itemStackIn.getTagCompound().getInteger(LibNBT.knowledgePiece)) != null) {
-		                    	ActionResult<ItemStack> temp = BBKnowledge.getKnowledgePiece(itemStackIn.getTagCompound().getInteger(LibNBT.knowledgePiece)).onKnowledgePieceRightClick(itemStackIn, worldIn, playerIn, hand);
+		                } else if(itemStackIn.getTagCompound().getInteger(tag_knowledgePiece) >= 0) {
+		                    if(BBKnowledge.getKnowledgePiece(itemStackIn.getTagCompound().getInteger(tag_knowledgePiece)) != null) {
+		                    	ActionResult<ItemStack> temp = BBKnowledge.getKnowledgePiece(itemStackIn.getTagCompound().getInteger(tag_knowledgePiece)).onKnowledgePieceRightClick(itemStackIn, worldIn, playerIn, hand);
 		                    	if(temp != null && temp.getType() != null && temp.getType() == EnumActionResult.SUCCESS)
-		                    		bloodBank.consumeBlood(BBKnowledge.getKnowledgePiece(itemStackIn.getTagCompound().getInteger(LibNBT.knowledgePiece)).getPrice());
+		                    		bloodBank.consumeBlood(BBKnowledge.getKnowledgePiece(itemStackIn.getTagCompound().getInteger(tag_knowledgePiece)).getPrice());
 		                    }
 		                    return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStackIn);
 		                }
 		            } else {
 		                itemStackIn.setTagCompound(new NBTTagCompound());
-		                itemStackIn.getTagCompound().setInteger(LibNBT.knowledgePiece, 0);
+		                itemStackIn.getTagCompound().setInteger(tag_knowledgePiece, 0);
 		                return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStackIn);
 		            }
 	        	}
@@ -119,11 +120,11 @@ public class ItemBookBlood extends ItemModSpecial {
         	final IBloodBank bloodBank = BloodBankCapabilityProvider.get(playerIn);
 			if(bloodBank != null)
 				if(bloodBank.getMaxBlood() > 0)
-		            if(stack.hasTagCompound() && stack.getTagCompound().getInteger(LibNBT.knowledgePiece) >= 0) {
-		            	if(BBKnowledge.getKnowledgePiece(stack.getTagCompound().getInteger(LibNBT.knowledgePiece)) != null) {
-		            		EnumActionResult temp = BBKnowledge.getKnowledgePiece(stack.getTagCompound().getInteger(LibNBT.knowledgePiece)).onKnowledgePieceUse(stack, playerIn, worldIn, pos, hand, facing, hitX, hitY, hitZ); 
+		            if(stack.hasTagCompound() && stack.getTagCompound().getInteger(tag_knowledgePiece) >= 0) {
+		            	if(BBKnowledge.getKnowledgePiece(stack.getTagCompound().getInteger(tag_knowledgePiece)) != null) {
+		            		EnumActionResult temp = BBKnowledge.getKnowledgePiece(stack.getTagCompound().getInteger(tag_knowledgePiece)).onKnowledgePieceUse(stack, playerIn, worldIn, pos, hand, facing, hitX, hitY, hitZ); 
 		            		if(temp != null && temp == EnumActionResult.SUCCESS)
-	            				bloodBank.consumeBlood(BBKnowledge.getKnowledgePiece(stack.getTagCompound().getInteger(LibNBT.knowledgePiece)).getPrice());
+	            				bloodBank.consumeBlood(BBKnowledge.getKnowledgePiece(stack.getTagCompound().getInteger(tag_knowledgePiece)).getPrice());
 		            	}
 		                return EnumActionResult.SUCCESS;
 		            }
@@ -137,10 +138,10 @@ public class ItemBookBlood extends ItemModSpecial {
         	final IBloodBank bloodBank = BloodBankCapabilityProvider.get(playerIn);
 			if(bloodBank != null) {
 				if(bloodBank.getMaxBlood() > 0)
-		            if(stack.hasTagCompound() && stack.getTagCompound().getInteger(LibNBT.knowledgePiece) >= 0) {
-		            	if(BBKnowledge.getKnowledgePiece(stack.getTagCompound().getInteger(LibNBT.knowledgePiece)) != null)
-		            		if(BBKnowledge.getKnowledgePiece(stack.getTagCompound().getInteger(LibNBT.knowledgePiece)).knowledgePieceInteractionForEntity(stack, playerIn, target, hand))
-		            			bloodBank.consumeBlood(BBKnowledge.getKnowledgePiece(stack.getTagCompound().getInteger(LibNBT.knowledgePiece)).getPrice());
+		            if(stack.hasTagCompound() && stack.getTagCompound().getInteger(tag_knowledgePiece) >= 0) {
+		            	if(BBKnowledge.getKnowledgePiece(stack.getTagCompound().getInteger(tag_knowledgePiece)) != null)
+		            		if(BBKnowledge.getKnowledgePiece(stack.getTagCompound().getInteger(tag_knowledgePiece)).knowledgePieceInteractionForEntity(stack, playerIn, target, hand))
+		            			bloodBank.consumeBlood(BBKnowledge.getKnowledgePiece(stack.getTagCompound().getInteger(tag_knowledgePiece)).getPrice());
 		                return true;
 		            }
 			}

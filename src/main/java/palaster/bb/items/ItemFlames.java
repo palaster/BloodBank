@@ -20,9 +20,12 @@ import palaster.bb.api.capabilities.entities.IUndead;
 import palaster.bb.api.capabilities.entities.UndeadCapability.UndeadCapabilityProvider;
 import palaster.bb.api.capabilities.items.IFlameSpell;
 import palaster.bb.core.helpers.BBItemStackHelper;
-import palaster.bb.libs.LibNBT;
 
 public class ItemFlames extends ItemModSpecial {
+	
+	public static String tag_flameState = "FlameState";
+	public static String tag_flameHolder = "FlameHolder";
+    public static String tag_previousFlameHolder = "PreviousFlameHolder";
 
     public ItemFlames() {
         super();
@@ -39,14 +42,14 @@ public class ItemFlames extends ItemModSpecial {
 					copy = e.getLeft().copy();
 					if(!copy.hasTagCompound())
 						copy.setTagCompound(new NBTTagCompound());
-					if(copy.getTagCompound().getInteger(LibNBT.flameSet) == 0) {
-						copy.getTagCompound().setInteger(LibNBT.flameSet, 1);
-						BBItemStackHelper.setFirstSpellInsideFlames(copy, e.getRight());
-					} else if(copy.getTagCompound().getInteger(LibNBT.flameSet) == 1) {
-						copy.getTagCompound().setInteger(LibNBT.flameSet, 2);
-						BBItemStackHelper.setSpellInsideFlames(copy, e.getRight());
-					} else if(copy.getTagCompound().getInteger(LibNBT.flameSet) == 2)
-						BBItemStackHelper.setSpellInsideFlames(copy, e.getRight());
+					if(copy.getTagCompound().getInteger(tag_flameState) == 0) {
+						copy.getTagCompound().setInteger(tag_flameState, 1);
+						BBItemStackHelper.setItemStackInsideItemStack(copy, e.getRight(), tag_flameHolder);
+					} else if(copy.getTagCompound().getInteger(tag_flameState) == 1) {
+						copy.getTagCompound().setInteger(tag_flameState, 2);
+						BBItemStackHelper.setItemStackInsideItemStackRecordPrevious(copy, e.getRight(), tag_previousFlameHolder, tag_flameHolder);
+					} else if(copy.getTagCompound().getInteger(tag_flameState) == 2)
+						BBItemStackHelper.setItemStackInsideItemStackRecordPrevious(copy, e.getRight(), tag_previousFlameHolder, tag_flameHolder);
 					e.setMaterialCost(1);
 					e.setCost(1);
 					e.setOutput(copy);
@@ -61,21 +64,21 @@ public class ItemFlames extends ItemModSpecial {
 			if(e.getLeft() != null && e.getRight() != null)
 				if(e.getRight().getItem() instanceof ItemFlames && e.getLeft().getItem() instanceof IFlameSpell)
 					if(e.getRight().hasTagCompound())
-						if(BBItemStackHelper.getPreviousSpellFromFlames(e.getRight()) != null && e.getRight().getTagCompound().getInteger(LibNBT.flameSet) == 2)
-							e.getEntityPlayer().worldObj.spawnEntityInWorld(new EntityItem(e.getEntityPlayer().worldObj, e.getEntityPlayer().posX, e.getEntityPlayer().posY + .1, e.getEntityPlayer().posZ, BBItemStackHelper.getPreviousSpellFromFlames(e.getRight())));
+						if(BBItemStackHelper.getPreviousItemStackFromItemStack(e.getRight(), tag_previousFlameHolder) != null && e.getRight().getTagCompound().getInteger(tag_flameState) == 2)
+							e.getEntityPlayer().worldObj.spawnEntityInWorld(new EntityItem(e.getEntityPlayer().worldObj, e.getEntityPlayer().posX, e.getEntityPlayer().posY + .1, e.getEntityPlayer().posZ, BBItemStackHelper.getPreviousItemStackFromItemStack(e.getRight(), tag_previousFlameHolder)));
 	}
 
     @Override
     public boolean onLeftClickEntity(ItemStack stack, EntityPlayer player, Entity entity) {
         if(!player.worldObj.isRemote)
-            if(BBItemStackHelper.getSpellFromFlames(stack) != null && BBItemStackHelper.getSpellFromFlames(stack).getItem() instanceof IFlameSpell) {
+            if(BBItemStackHelper.getItemStackFromItemStack(stack, tag_flameHolder) != null && BBItemStackHelper.getItemStackFromItemStack(stack, tag_flameHolder).getItem() instanceof IFlameSpell) {
             	final IUndead undead = UndeadCapabilityProvider.get(player);
             	if(undead != null)
             		if(undead.isUndead())
-            			if(undead.getFocus() >= ((IFlameSpell) BBItemStackHelper.getSpellFromFlames(stack).getItem()).getSpellCost()) {
-            				boolean temp = ((IFlameSpell) BBItemStackHelper.getSpellFromFlames(stack).getItem()).onSpellLeftClickEntity(stack, player, entity);
+            			if(undead.getFocus() >= ((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack, tag_flameHolder).getItem()).getSpellCost()) {
+            				boolean temp = ((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack, tag_flameHolder).getItem()).onSpellLeftClickEntity(stack, player, entity);
             				if(temp)
-            					undead.useFocus(((IFlameSpell) BBItemStackHelper.getSpellFromFlames(stack).getItem()).getSpellCost());
+            					undead.useFocus(((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack, tag_flameHolder).getItem()).getSpellCost());
             				return temp;
             			}
             }
@@ -85,14 +88,14 @@ public class ItemFlames extends ItemModSpecial {
     @Override
     public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         if(!worldIn.isRemote)
-            if(BBItemStackHelper.getSpellFromFlames(stack) != null && BBItemStackHelper.getSpellFromFlames(stack).getItem() instanceof IFlameSpell) {
+            if(BBItemStackHelper.getItemStackFromItemStack(stack, tag_flameHolder) != null && BBItemStackHelper.getItemStackFromItemStack(stack, tag_flameHolder).getItem() instanceof IFlameSpell) {
             	final IUndead undead = UndeadCapabilityProvider.get(playerIn);
             	if(undead != null)
             		if(undead.isUndead())
-            			if(undead.getFocus() >= ((IFlameSpell) BBItemStackHelper.getSpellFromFlames(stack).getItem()).getSpellCost()) {
-            				EnumActionResult temp = ((IFlameSpell) BBItemStackHelper.getSpellFromFlames(stack).getItem()).onSpellUse(stack, playerIn, worldIn, pos, hand, facing, hitX, hitY, hitZ);
+            			if(undead.getFocus() >= ((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack, tag_flameHolder).getItem()).getSpellCost()) {
+            				EnumActionResult temp = ((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack, tag_flameHolder).getItem()).onSpellUse(stack, playerIn, worldIn, pos, hand, facing, hitX, hitY, hitZ);
             				if(temp != null && temp == EnumActionResult.SUCCESS)
-            					undead.useFocus(((IFlameSpell) BBItemStackHelper.getSpellFromFlames(stack).getItem()).getSpellCost());
+            					undead.useFocus(((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack, tag_flameHolder).getItem()).getSpellCost());
             				return temp;
             			}
             }
@@ -102,14 +105,14 @@ public class ItemFlames extends ItemModSpecial {
     @Override
     public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
         if(!worldIn.isRemote)
-            if(BBItemStackHelper.getSpellFromFlames(itemStackIn) != null && BBItemStackHelper.getSpellFromFlames(itemStackIn).getItem() instanceof IFlameSpell) {
+            if(BBItemStackHelper.getItemStackFromItemStack(itemStackIn, tag_flameHolder) != null && BBItemStackHelper.getItemStackFromItemStack(itemStackIn, tag_flameHolder).getItem() instanceof IFlameSpell) {
             	final IUndead undead = UndeadCapabilityProvider.get(playerIn);
             	if(undead != null)
             		if(undead.isUndead())
-            			if(undead.getFocus() >= ((IFlameSpell) BBItemStackHelper.getSpellFromFlames(itemStackIn).getItem()).getSpellCost()) {
-            				ActionResult<ItemStack> temp = ((IFlameSpell) BBItemStackHelper.getSpellFromFlames(itemStackIn).getItem()).onSpellRightClick(itemStackIn, worldIn, playerIn, hand); 
+            			if(undead.getFocus() >= ((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(itemStackIn, tag_flameHolder).getItem()).getSpellCost()) {
+            				ActionResult<ItemStack> temp = ((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(itemStackIn, tag_flameHolder).getItem()).onSpellRightClick(itemStackIn, worldIn, playerIn, hand); 
             				if(temp != null && temp.getType() == EnumActionResult.SUCCESS)
-            					undead.useFocus(((IFlameSpell) BBItemStackHelper.getSpellFromFlames(itemStackIn).getItem()).getSpellCost());
+            					undead.useFocus(((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(itemStackIn, tag_flameHolder).getItem()).getSpellCost());
             				return temp;
             			}
             }
@@ -119,14 +122,14 @@ public class ItemFlames extends ItemModSpecial {
     @Override
     public boolean itemInteractionForEntity(ItemStack stack, EntityPlayer playerIn, EntityLivingBase target, EnumHand hand) {
         if(!playerIn.worldObj.isRemote)
-            if(BBItemStackHelper.getSpellFromFlames(stack) != null && BBItemStackHelper.getSpellFromFlames(stack).getItem() instanceof IFlameSpell) {
+            if(BBItemStackHelper.getItemStackFromItemStack(stack, tag_flameHolder) != null && BBItemStackHelper.getItemStackFromItemStack(stack, tag_flameHolder).getItem() instanceof IFlameSpell) {
             	final IUndead undead = UndeadCapabilityProvider.get(playerIn);
             	if(undead != null)
             		if(undead.isUndead())
-            			if(undead.getFocus() >= ((IFlameSpell) BBItemStackHelper.getSpellFromFlames(stack).getItem()).getSpellCost()) {
-            				boolean temp = ((IFlameSpell) BBItemStackHelper.getSpellFromFlames(stack).getItem()).spellInteractionForEntity(stack, playerIn, target, hand);
+            			if(undead.getFocus() >= ((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack, tag_flameHolder).getItem()).getSpellCost()) {
+            				boolean temp = ((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack, tag_flameHolder).getItem()).spellInteractionForEntity(stack, playerIn, target, hand);
             				if(temp)
-                            	undead.useFocus(((IFlameSpell) BBItemStackHelper.getSpellFromFlames(stack).getItem()).getSpellCost());
+                            	undead.useFocus(((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack, tag_flameHolder).getItem()).getSpellCost());
             				return temp;
             			}
             }

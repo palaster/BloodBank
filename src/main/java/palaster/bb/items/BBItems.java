@@ -9,7 +9,7 @@ import net.minecraftforge.common.util.EnumHelper;
 
 public class BBItems {
 
-	public static ItemArmor.ArmorMaterial bound = EnumHelper.addArmorMaterial("bound", "bound", -1, new int[]{3, 7, 6, 3}, 0, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0f);
+	public static ItemArmor.ArmorMaterial genericUnbreakableDiamond = EnumHelper.addArmorMaterial("genericUnbreakableDiamond", "genericUnbreakableDiamond", -1, new int[]{3, 6, 8, 3}, 0, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0f);
 	public static ItemArmor.ArmorMaterial sand = EnumHelper.addArmorMaterial("sand", "sand", 5, new int[]{1, 2, 3, 1}, 15, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0.0F);
 	public static ItemArmor.ToolMaterial leach = EnumHelper.addToolMaterial("leach", 3, -1, 8.0F, 3.0F, 0);
 	
@@ -45,7 +45,11 @@ public class BBItems {
 	sandHelmet,
 	sandChestplate,
 	sandLeggings,
-	sandBoots;
+	sandBoots,
+	grayHelmet,
+	grayChestplate,
+	grayLeggings,
+	grayBoots;
 	
 	public static Item debug,
 	yinYang,
@@ -78,14 +82,18 @@ public class BBItems {
 		boundPlayer = new ItemBoundPlayer();
 		boundBloodBottle = new ItemBoundBloodBottle();
 
-		boundHelmet = new BoundArmor(bound, 0, EntityEquipmentSlot.HEAD);
-		boundChestplate = new BoundArmor(bound, 0, EntityEquipmentSlot.CHEST);
-		boundLeggings = new BoundArmor(bound, 0, EntityEquipmentSlot.LEGS);
-		boundBoots = new BoundArmor(bound, 0, EntityEquipmentSlot.FEET);
-		sandHelmet = new SandArmor(sand, 0, EntityEquipmentSlot.HEAD);
-		sandChestplate = new SandArmor(sand, 0, EntityEquipmentSlot.CHEST);
-		sandLeggings = new SandArmor(sand, 0, EntityEquipmentSlot.LEGS);
-		sandBoots = new SandArmor(sand, 0, EntityEquipmentSlot.FEET);
+		boundHelmet = new ItemBoundArmor(genericUnbreakableDiamond, 0, EntityEquipmentSlot.HEAD);
+		boundChestplate = new ItemBoundArmor(genericUnbreakableDiamond, 0, EntityEquipmentSlot.CHEST);
+		boundLeggings = new ItemBoundArmor(genericUnbreakableDiamond, 0, EntityEquipmentSlot.LEGS);
+		boundBoots = new ItemBoundArmor(genericUnbreakableDiamond, 0, EntityEquipmentSlot.FEET);
+		sandHelmet = new ItemSandArmor(sand, 0, EntityEquipmentSlot.HEAD);
+		sandChestplate = new ItemSandArmor(sand, 0, EntityEquipmentSlot.CHEST);
+		sandLeggings = new ItemSandArmor(sand, 0, EntityEquipmentSlot.LEGS);
+		sandBoots = new ItemSandArmor(sand, 0, EntityEquipmentSlot.FEET);
+		grayHelmet = new ItemGrayArmor(genericUnbreakableDiamond, 0, EntityEquipmentSlot.HEAD);
+		grayChestplate = new ItemGrayArmor(genericUnbreakableDiamond, 0, EntityEquipmentSlot.CHEST);
+		grayLeggings = new ItemGrayArmor(genericUnbreakableDiamond, 0, EntityEquipmentSlot.LEGS);
+		grayBoots = new ItemGrayArmor(genericUnbreakableDiamond, 0, EntityEquipmentSlot.FEET);
 		
 		debug = new ItemDebug();
 		yinYang = new ItemYinYang();
@@ -125,6 +133,10 @@ public class BBItems {
 		ItemMod.setCustomModelResourceLocation(sandChestplate);
 		ItemMod.setCustomModelResourceLocation(sandLeggings);
 		ItemMod.setCustomModelResourceLocation(sandBoots);
+		ItemMod.setCustomModelResourceLocation(grayHelmet);
+		ItemMod.setCustomModelResourceLocation(grayChestplate);
+		ItemMod.setCustomModelResourceLocation(grayLeggings);
+		ItemMod.setCustomModelResourceLocation(grayBoots);
 		
 		ItemMod.setCustomModelResourceLocation(debug);
 		ItemMod.setCustomModelResourceLocation(yinYang);

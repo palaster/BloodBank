@@ -11,9 +11,11 @@ import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import palaster.bb.core.helpers.BBItemStackHelper;
 
-public class BoundArmor extends BBArmor {
+public class ItemBoundArmor extends ItemModArmor {
+	
+	public static String tag_itemStackInsideBoundArmor = "ItemStackInsideBoundArmor";
 
-	public BoundArmor(ArmorMaterial material, int renderIndex, EntityEquipmentSlot entityEquipmentSlot) {
+	public ItemBoundArmor(ArmorMaterial material, int renderIndex, EntityEquipmentSlot entityEquipmentSlot) {
 		super(material, renderIndex, entityEquipmentSlot);
 		setUnlocalizedName("bound." + armorType);
 		setMaxDamage(6000);
@@ -24,10 +26,10 @@ public class BoundArmor extends BBArmor {
 	@SubscribeEvent
 	public void onItemToss(ItemTossEvent e) {
 		if(!e.getPlayer().worldObj.isRemote)
-			if(e.getEntityItem().getEntityItem() != null && e.getEntityItem().getEntityItem().getItem() instanceof BoundArmor) {
+			if(e.getEntityItem().getEntityItem() != null && e.getEntityItem().getEntityItem().getItem() instanceof ItemBoundArmor) {
 				if(e.getEntityItem().getEntityItem().getItem() == BBItems.boundHelmet || e.getEntityItem().getEntityItem().getItem() == BBItems.boundChestplate || e.getEntityItem().getEntityItem().getItem() == BBItems.boundLeggings || e.getEntityItem().getEntityItem().getItem() == BBItems.boundBoots)
-					if(BBItemStackHelper.getItemStackFromItemStack(e.getEntityItem().getEntityItem()) != null)
-						e.getPlayer().worldObj.spawnEntityInWorld(new EntityItem(e.getPlayer().worldObj, e.getPlayer().posX, e.getPlayer().posY, e.getPlayer().posZ, BBItemStackHelper.getItemStackFromItemStack(e.getEntityItem().getEntityItem())));
+					if(BBItemStackHelper.getItemStackFromItemStack(e.getEntityItem().getEntityItem(), tag_itemStackInsideBoundArmor) != null)
+						e.getPlayer().worldObj.spawnEntityInWorld(new EntityItem(e.getPlayer().worldObj, e.getPlayer().posX, e.getPlayer().posY, e.getPlayer().posZ, BBItemStackHelper.getItemStackFromItemStack(e.getEntityItem().getEntityItem(), tag_itemStackInsideBoundArmor)));
 				e.setCanceled(true);
 			}
 	}
@@ -61,7 +63,7 @@ public class BoundArmor extends BBArmor {
     }
 
     public void removeBoundArmorFromInventory(ItemStack holder, EntityPlayer player, int itemSlot) {
-        ItemStack stack = BBItemStackHelper.getItemStackFromItemStack(holder);
+        ItemStack stack = BBItemStackHelper.getItemStackFromItemStack(holder, tag_itemStackInsideBoundArmor);
         player.inventory.setInventorySlotContents(itemSlot, stack);
     }
 
@@ -69,6 +71,6 @@ public class BoundArmor extends BBArmor {
         ItemStack stack1 = player.inventory.getStackInSlot(itemSlot);
         if(stack1 != null)
             if(stack1.getItem() == BBItems.boundHelmet || stack1.getItem() == BBItems.boundChestplate || stack1.getItem() == BBItems.boundLeggings || stack1.getItem() == BBItems.boundBoots)
-                player.inventory.setInventorySlotContents(itemSlot, BBItemStackHelper.getItemStackFromItemStack(stack));
+                player.inventory.setInventorySlotContents(itemSlot, BBItemStackHelper.getItemStackFromItemStack(stack, tag_itemStackInsideBoundArmor));
     }
 }

@@ -11,9 +11,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import palaster.bb.items.BBItems;
-import palaster.bb.libs.LibNBT;
 
 public class EntityTalisman extends EntityThrowable {
+	
+	public static String tag_number = "TalismanType";
 	
 	private int talismanType = 0;
 
@@ -28,13 +29,13 @@ public class EntityTalisman extends EntityThrowable {
 	
 	@Override
 	public void readEntityFromNBT(NBTTagCompound tagCompund) {
-		talismanType = tagCompund.getInteger(LibNBT.number);
+		talismanType = tagCompund.getInteger(tag_number);
 		super.readEntityFromNBT(tagCompund);
 	}
 	
 	@Override
 	public void writeEntityToNBT(NBTTagCompound tagCompound) {
-		tagCompound.setInteger(LibNBT.number, talismanType);
+		tagCompound.setInteger(tag_number, talismanType);
 		super.writeEntityToNBT(tagCompound);
 	}
 

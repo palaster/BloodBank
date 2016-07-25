@@ -41,9 +41,11 @@ import palaster.bb.api.capabilities.entities.IUndead;
 import palaster.bb.api.capabilities.entities.UndeadCapability.UndeadCapabilityProvider;
 import palaster.bb.core.helpers.BBPlayerHelper;
 import palaster.bb.entities.EntityDemonicBankTeller;
-import palaster.bb.libs.LibNBT;
 
 public class ItemBBResources extends ItemModSpecial {
+	
+	public static String tag_hasVampireSigil = "HasVampireSigil";
+	public static String tag_soulAmount = "SoulAmount";
 	
 	private static final int subTypes = 8;
 
@@ -103,11 +105,11 @@ public class ItemBBResources extends ItemModSpecial {
 	public void onAnvilUpdate(AnvilUpdateEvent e) {
 		if(e.getLeft() != null && e.getRight() != null) {
 			ItemStack copy = e.getLeft().copy();
-			if(e.getLeft().getItem().isRepairable() && !(e.getLeft().hasTagCompound() && e.getLeft().getTagCompound().getBoolean(LibNBT.hasVampireSigil)))
+			if(e.getLeft().getItem().isRepairable() && !(e.getLeft().hasTagCompound() && e.getLeft().getTagCompound().getBoolean(tag_hasVampireSigil)))
 				if(e.getRight().getItem() instanceof ItemBBResources && e.getRight().getItemDamage() == 3) {
 					if(!copy.hasTagCompound())
 						copy.setTagCompound(new NBTTagCompound());
-					copy.getTagCompound().setBoolean(LibNBT.hasVampireSigil, true);
+					copy.getTagCompound().setBoolean(tag_hasVampireSigil, true);
 					e.setMaterialCost(1);
 					e.setCost(1);
 					e.setOutput(copy);
@@ -118,7 +120,7 @@ public class ItemBBResources extends ItemModSpecial {
     @SubscribeEvent
 	public void tooltip(ItemTooltipEvent e) {
 		if(e.getItemStack() != null && e.getItemStack().hasTagCompound())
-			if(e.getItemStack().getTagCompound().getBoolean(LibNBT.hasVampireSigil))
+			if(e.getItemStack().getTagCompound().getBoolean(tag_hasVampireSigil))
 				e.getToolTip().add(I18n.format("bb.misc.vampireSigil"));
 	}
     
@@ -126,7 +128,7 @@ public class ItemBBResources extends ItemModSpecial {
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
     	if(stack.hasTagCompound() && stack.getItemDamage() == 6)
-    		tooltip.add(I18n.format("bb.undead.soulsAmount") + " : " + stack.getTagCompound().getInteger(LibNBT.amount));
+    		tooltip.add(I18n.format("bb.undead.soulsAmount") + " : " + stack.getTagCompound().getInteger(tag_soulAmount));
     }
 
     @Override
@@ -164,7 +166,7 @@ public class ItemBBResources extends ItemModSpecial {
             		final IUndead undead = UndeadCapabilityProvider.get(playerIn);
             		if(undead != null)
             			if(undead.isUndead()) {
-            				undead.addSoul(itemStackIn.getTagCompound().getInteger(LibNBT.number));
+            				undead.addSoul(itemStackIn.getTagCompound().getInteger(tag_soulAmount));
                 			return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, null);
                 		}
             	}

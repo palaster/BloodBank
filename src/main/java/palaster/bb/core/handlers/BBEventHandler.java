@@ -53,10 +53,12 @@ import palaster.bb.core.proxy.ClientProxy;
 import palaster.bb.entities.EntityItztiliTablet;
 import palaster.bb.entities.effects.BBPotions;
 import palaster.bb.items.BBItems;
+import palaster.bb.items.ItemBBResources;
 import palaster.bb.items.ItemBloodBottle;
+import palaster.bb.items.ItemBoundBloodBottle;
+import palaster.bb.items.ItemBoundPlayer;
 import palaster.bb.items.ItemModStaff;
 import palaster.bb.libs.LibMod;
-import palaster.bb.libs.LibNBT;
 import palaster.bb.network.PacketHandler;
 import palaster.bb.network.server.KeyClickMessage;
 import palaster.bb.world.BBWorldSaveData;
@@ -172,7 +174,7 @@ public class BBEventHandler {
 							ItemStack souls = new ItemStack(BBItems.bbResources, 1, 6);
 							if(!souls.hasTagCompound())
 								souls.setTagCompound(new NBTTagCompound());
-							souls.getTagCompound().setInteger(LibNBT.number, undead.getSoul());
+							souls.getTagCompound().setInteger(ItemBBResources.tag_soulAmount, undead.getSoul());
 							e.getEntityLiving().worldObj.spawnEntityInWorld(new EntityItem(e.getEntityLiving().worldObj, e.getEntityLiving().posX, e.getEntityLiving().posY, e.getEntityLiving().posZ, souls));
 						}
 						undead.setSoul(0);
@@ -262,7 +264,7 @@ public class BBEventHandler {
 						if(e.craftMatrix.getStackInSlot(i).hasTagCompound()) {
 							if(!e.crafting.hasTagCompound())
 								e.crafting.setTagCompound(new NBTTagCompound());
-							e.crafting.getTagCompound().setUniqueId(LibNBT.uuid, e.craftMatrix.getStackInSlot(i).getTagCompound().getUniqueId(LibNBT.uuid));
+							e.crafting.getTagCompound().setUniqueId(ItemBoundBloodBottle.tag_UUID, e.craftMatrix.getStackInSlot(i).getTagCompound().getUniqueId(ItemBoundPlayer.tag_UUID));
 						}
 		}
 	}

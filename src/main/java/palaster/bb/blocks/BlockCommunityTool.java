@@ -21,6 +21,8 @@ import palaster.bb.blocks.tile.TileEntityCommunityTool;
 import palaster.bb.core.helpers.BBItemStackHelper;
 
 public class BlockCommunityTool extends BlockModContainer {
+	
+	public static String tag_communityTool = "CommunityTool";
 
     public BlockCommunityTool(Material material) {
         super(material);

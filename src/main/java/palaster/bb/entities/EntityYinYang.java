@@ -11,9 +11,10 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import palaster.bb.blocks.BBBlocks;
 import palaster.bb.blocks.tile.TileEntityVoid;
-import palaster.bb.libs.LibNBT;
 
 public class EntityYinYang extends EntityThrowable {
+	
+	public static String tag_number = "YinYangSneaking";
 
 	private int isSneaking = -1;
 
@@ -28,13 +29,13 @@ public class EntityYinYang extends EntityThrowable {
 	
 	@Override
 	public void readEntityFromNBT(NBTTagCompound tagCompund) {
-		isSneaking = tagCompund.getInteger(LibNBT.bol);
+		isSneaking = tagCompund.getInteger(tag_number);
 		super.readEntityFromNBT(tagCompund);
 	}
 	
 	@Override
 	public void writeEntityToNBT(NBTTagCompound tagCompound) {
-		tagCompound.setInteger(LibNBT.bol, isSneaking);
+		tagCompound.setInteger(tag_number, isSneaking);
 		super.writeEntityToNBT(tagCompound);
 	}
 

@@ -10,11 +10,20 @@ import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
-import palaster.bb.libs.LibNBT;
 
 public class UndeadCapability {
 
 	public static class UndeadCapabilityDefault implements IUndead {
+		
+		public static String tag_isUndead = "IsUndead";
+	    public static String tag_souls = "Souls";
+	    public static String tag_focus = "Focus";
+	    public static String tag_focusMax = "FocusMax";
+	    public static String tag_vigor = "Vigor";
+	    public static String tag_attunement = "Attunement";
+	    public static String tag_strength = "Strength";
+	    public static String tag_intelligence = "Intelligence";
+	    public static String tag_faith = "Faith";
 		
 		private static final int maxLevel = 99;
 
@@ -161,29 +170,29 @@ public class UndeadCapability {
 	    @Override
 	    public NBTTagCompound saveNBT() {
 	        NBTTagCompound tagCompound = new NBTTagCompound();
-	        tagCompound.setBoolean(LibNBT.isUndead, isUndead);
-	        tagCompound.setInteger(LibNBT.souls, souls);
-	        tagCompound.setInteger(LibNBT.focus, focus);
-	        tagCompound.setInteger(LibNBT.focusMax, focusMax);
-	        tagCompound.setInteger(LibNBT.vigor, vigor);
-	        tagCompound.setInteger(LibNBT.attunement, attunement);
-	        tagCompound.setInteger(LibNBT.strength, strength);
-	        tagCompound.setInteger(LibNBT.intelligence, intelligence);
-	        tagCompound.setInteger(LibNBT.faith, faith);
+	        tagCompound.setBoolean(tag_isUndead, isUndead);
+	        tagCompound.setInteger(tag_souls, souls);
+	        tagCompound.setInteger(tag_focus, focus);
+	        tagCompound.setInteger(tag_focusMax, focusMax);
+	        tagCompound.setInteger(tag_vigor, vigor);
+	        tagCompound.setInteger(tag_attunement, attunement);
+	        tagCompound.setInteger(tag_strength, strength);
+	        tagCompound.setInteger(tag_intelligence, intelligence);
+	        tagCompound.setInteger(tag_faith, faith);
 	        return tagCompound;
 	    }
 
 	    @Override
 	    public void loadNBT(NBTTagCompound nbt) {
-	        isUndead = nbt.getBoolean(LibNBT.isUndead);
-	        souls = nbt.getInteger(LibNBT.souls);
-	        focus = nbt.getInteger(LibNBT.focus);
-	        focusMax = nbt.getInteger(LibNBT.focusMax);
-	        vigor = nbt.getInteger(LibNBT.vigor);
-	        attunement = nbt.getInteger(LibNBT.attunement);
-	        strength = nbt.getInteger(LibNBT.strength);
-	        intelligence = nbt.getInteger(LibNBT.intelligence);
-	        faith = nbt.getInteger(LibNBT.faith);
+	        isUndead = nbt.getBoolean(tag_isUndead);
+	        souls = nbt.getInteger(tag_souls);
+	        focus = nbt.getInteger(tag_focus);
+	        focusMax = nbt.getInteger(tag_focusMax);
+	        vigor = nbt.getInteger(tag_vigor);
+	        attunement = nbt.getInteger(tag_attunement);
+	        strength = nbt.getInteger(tag_strength);
+	        intelligence = nbt.getInteger(tag_intelligence);
+	        faith = nbt.getInteger(tag_faith);
 	    }
 	}
 	

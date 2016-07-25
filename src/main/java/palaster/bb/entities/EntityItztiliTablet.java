@@ -14,10 +14,12 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.BossInfo;
 import net.minecraft.world.BossInfoServer;
 import net.minecraft.world.World;
-import palaster.bb.libs.LibNBT;
 import palaster.bb.libs.LibResource;
 
 public class EntityItztiliTablet extends EntityCreature {
+	
+	public static String tag_timer = "ItztiliTimer";
+	public static String tag_number = "ItztiliEnemyCount";
 
     private final BossInfoServer bossInfo = (BossInfoServer)(new BossInfoServer(getDisplayName(), BossInfo.Color.GREEN, BossInfo.Overlay.PROGRESS));
     private int enemyCount;
@@ -71,15 +73,15 @@ public class EntityItztiliTablet extends EntityCreature {
     @Override
     public void writeEntityToNBT(NBTTagCompound tagCompound) {
         super.writeEntityToNBT(tagCompound);
-        tagCompound.setInteger(LibNBT.number, enemyCount);
-        tagCompound.setInteger(LibNBT.timer, delay);
+        tagCompound.setInteger(tag_number, enemyCount);
+        tagCompound.setInteger(tag_timer, delay);
     }
 
     @Override
     public void readEntityFromNBT(NBTTagCompound tagCompund) {
         super.readEntityFromNBT(tagCompund);
-        enemyCount = tagCompund.getInteger(LibNBT.number);
-        delay = tagCompund.getInteger(LibNBT.timer);
+        enemyCount = tagCompund.getInteger(tag_number);
+        delay = tagCompund.getInteger(tag_timer);
     }
 
     @Override

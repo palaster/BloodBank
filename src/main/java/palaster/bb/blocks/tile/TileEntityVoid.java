@@ -2,9 +2,11 @@ package palaster.bb.blocks.tile;
 
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
-import palaster.bb.libs.LibNBT;
 
 public class TileEntityVoid extends TileEntityModBase {
+	
+	public static String tag_originalBlockID = "OriginalBlockID";
+	public static String tag_timer = "VoidTimer";
 
 	private Block ogBlock;
 	private final int timerMax = 2400;
@@ -17,14 +19,14 @@ public class TileEntityVoid extends TileEntityModBase {
 	@Override
 	public void readPacketNBT(NBTTagCompound compound) {
 		super.readPacketNBT(compound);
-		ogBlock = Block.getBlockById(compound.getInteger(LibNBT.originalBlockID));
-		timer = compound.getInteger(LibNBT.timer);
+		ogBlock = Block.getBlockById(compound.getInteger(tag_originalBlockID));
+		timer = compound.getInteger(tag_timer);
 	}
 	
 	@Override
 	public void writePacketNBT(NBTTagCompound compound) {
-		compound.setInteger(LibNBT.originalBlockID, Block.getIdFromBlock(ogBlock));
-		compound.setInteger(LibNBT.timer, timer);
+		compound.setInteger(tag_originalBlockID, Block.getIdFromBlock(ogBlock));
+		compound.setInteger(tag_timer, timer);
 		super.writePacketNBT(compound);
 	}
 

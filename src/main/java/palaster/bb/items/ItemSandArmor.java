@@ -15,11 +15,12 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import palaster.bb.api.capabilities.items.ISpecialArmorAbility;
 import palaster.bb.entities.effects.BBPotions;
-import palaster.bb.libs.LibNBT;
 
-public class SandArmor extends BBArmor implements ISpecialArmorAbility {
+public class ItemSandArmor extends ItemModArmor implements ISpecialArmorAbility {
+	
+	public static String tag_timer = "SandArmorTimer";
 
-	public SandArmor(ArmorMaterial material, int renderIndex, EntityEquipmentSlot entityEquipmentSlot) {
+	public ItemSandArmor(ArmorMaterial material, int renderIndex, EntityEquipmentSlot entityEquipmentSlot) {
 		super(material, renderIndex, entityEquipmentSlot);
 		setUnlocalizedName("sand." + armorType);
 		if(entityEquipmentSlot == EntityEquipmentSlot.HEAD)
@@ -29,9 +30,9 @@ public class SandArmor extends BBArmor implements ISpecialArmorAbility {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
-		if(stack.hasTagCompound() && stack.getTagCompound().getInteger(LibNBT.timer) > 0) {
-			int seconds = (stack.getTagCompound().getInteger(LibNBT.timer) / 20) % 60;
-		    int totalMinutes = (stack.getTagCompound().getInteger(LibNBT.timer) / 20) / 60;
+		if(stack.hasTagCompound() && stack.getTagCompound().getInteger(tag_timer) > 0) {
+			int seconds = (stack.getTagCompound().getInteger(tag_timer) / 20) % 60;
+		    int totalMinutes = (stack.getTagCompound().getInteger(tag_timer) / 20) / 60;
 		    int minutes = totalMinutes % 60;
 			tooltip.add(I18n.format("bb.misc.timeLeft") + ": " + minutes + " " + I18n.format("bb.misc.minutes") + " " + seconds + " " + I18n.format("bb.misc.seconds"));
 		}
@@ -50,30 +51,30 @@ public class SandArmor extends BBArmor implements ISpecialArmorAbility {
 	public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack) {
 		if(!world.isRemote)
 			if(itemStack != null && itemStack.getItem() == BBItems.sandHelmet)
-				if(itemStack.hasTagCompound() && itemStack.getTagCompound().getInteger(LibNBT.timer) > 0)
-					itemStack.getTagCompound().setInteger(LibNBT.timer, itemStack.getTagCompound().getInteger(LibNBT.timer) - 1);
+				if(itemStack.hasTagCompound() && itemStack.getTagCompound().getInteger(tag_timer) > 0)
+					itemStack.getTagCompound().setInteger(tag_timer, itemStack.getTagCompound().getInteger(tag_timer) - 1);
 	}
 	
 	@Override
 	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
 		if(!worldIn.isRemote)
 			if(stack != null && stack.getItem() == BBItems.sandHelmet)
-				if(stack.hasTagCompound() && stack.getTagCompound().getInteger(LibNBT.timer) > 0)
-					stack.getTagCompound().setInteger(LibNBT.timer, stack.getTagCompound().getInteger(LibNBT.timer) - 1);
+				if(stack.hasTagCompound() && stack.getTagCompound().getInteger(tag_timer) > 0)
+					stack.getTagCompound().setInteger(tag_timer, stack.getTagCompound().getInteger(tag_timer) - 1);
 	}
 
 	@Override
 	public void doArmorAbility(World worldObj, EntityPlayer player) {
 		if(!worldObj.isRemote)
-			if(player.inventory.armorInventory[3] != null && player.inventory.armorInventory[3].getItem() instanceof SandArmor)
-				if(!player.inventory.armorInventory[3].hasTagCompound() || player.inventory.armorInventory[3].getTagCompound().getInteger(LibNBT.timer) <= 0)
-					if(player.inventory.armorInventory[2] != null && player.inventory.armorInventory[2].getItem() instanceof SandArmor)
-						if(player.inventory.armorInventory[1] != null && player.inventory.armorInventory[1].getItem() instanceof SandArmor)
-							if(player.inventory.armorInventory[0] != null && player.inventory.armorInventory[0].getItem() instanceof SandArmor) {
+			if(player.inventory.armorInventory[3] != null && player.inventory.armorInventory[3].getItem() instanceof ItemSandArmor)
+				if(!player.inventory.armorInventory[3].hasTagCompound() || player.inventory.armorInventory[3].getTagCompound().getInteger(tag_timer) <= 0)
+					if(player.inventory.armorInventory[2] != null && player.inventory.armorInventory[2].getItem() instanceof ItemSandArmor)
+						if(player.inventory.armorInventory[1] != null && player.inventory.armorInventory[1].getItem() instanceof ItemSandArmor)
+							if(player.inventory.armorInventory[0] != null && player.inventory.armorInventory[0].getItem() instanceof ItemSandArmor) {
 								player.addPotionEffect(new PotionEffect(BBPotions.sandBody, 600, 0, false, true));
 								if(!player.inventory.armorInventory[3].hasTagCompound())
 									player.inventory.armorInventory[3].setTagCompound(new NBTTagCompound());
-								player.inventory.armorInventory[3].getTagCompound().setInteger(LibNBT.timer, 12000);
+								player.inventory.armorInventory[3].getTagCompound().setInteger(tag_timer, 12000);
 							}
 	}
 }

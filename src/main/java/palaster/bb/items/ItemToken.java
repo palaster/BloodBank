@@ -23,9 +23,10 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import palaster.bb.api.BBApi;
 import palaster.bb.blocks.BlockBonfire;
-import palaster.bb.libs.LibNBT;
 
 public class ItemToken extends ItemModSpecial {
+	
+	public static String tag_number = "TokenNumber";
 
 	public ItemToken() {
 		super();
@@ -41,10 +42,10 @@ public class ItemToken extends ItemModSpecial {
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
 		if(stack.getItemDamage() == 1) {
-			if(stack.hasTagCompound() && stack.getTagCompound().getInteger(LibNBT.number) >= 0) {
+			if(stack.hasTagCompound() && stack.getTagCompound().getInteger(tag_number) >= 0) {
 				EntityLiving boss = null;
 				try {
-					boss = BBApi.getBossFromToken(stack.getTagCompound().getInteger(LibNBT.number)).getConstructor(World.class).newInstance(playerIn.worldObj);
+					boss = BBApi.getBossFromToken(stack.getTagCompound().getInteger(tag_number)).getConstructor(World.class).newInstance(playerIn.worldObj);
 				} catch (InstantiationException e) {
 					e.printStackTrace();
 				} catch (IllegalAccessException e) {
@@ -62,8 +63,8 @@ public class ItemToken extends ItemModSpecial {
 					tooltip.add(I18n.format("bb.undead.bossToken") + " : " + boss.getName());
 			}
 		} else if(stack.getItemDamage() == 2) {
-			if(stack.hasTagCompound() && stack.getTagCompound().getInteger(LibNBT.number) >= 0) {
-				ItemStack item = BBApi.getItemStackFromToken(stack.getTagCompound().getInteger(LibNBT.number));
+			if(stack.hasTagCompound() && stack.getTagCompound().getInteger(tag_number) >= 0) {
+				ItemStack item = BBApi.getItemStackFromToken(stack.getTagCompound().getInteger(tag_number));
 				if(item != null)
 					tooltip.add(I18n.format("bb.undead.itemToken") + " : " + item.getDisplayName());
 			}
@@ -75,7 +76,7 @@ public class ItemToken extends ItemModSpecial {
 		if(!worldIn.isRemote)
 			if(!itemStackIn.hasTagCompound()) {
 				itemStackIn.setTagCompound(new NBTTagCompound());
-				itemStackIn.getTagCompound().setInteger(LibNBT.number, -1);
+				itemStackIn.getTagCompound().setInteger(tag_number, -1);
 				return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStackIn);
 			}
 		return super.onItemRightClick(itemStackIn, worldIn, playerIn, hand);
@@ -86,16 +87,16 @@ public class ItemToken extends ItemModSpecial {
 		if(!world.isRemote) {
 			if(!stack.hasTagCompound()) {
 				stack.setTagCompound(new NBTTagCompound());
-				stack.getTagCompound().setInteger(LibNBT.number, -1);
+				stack.getTagCompound().setInteger(tag_number, -1);
 			}
 			if(stack.getItemDamage() == 1) {
-				if(stack.getTagCompound().getInteger(LibNBT.number) >= 0)
+				if(stack.getTagCompound().getInteger(tag_number) >= 0)
 					if(world.getBlockState(pos) != null)
 						if(world.getBlockState(pos).getBlock() instanceof BlockBonfire)
-							if(BBApi.getBossFromToken(stack.getTagCompound().getInteger(LibNBT.number)) != null) {
+							if(BBApi.getBossFromToken(stack.getTagCompound().getInteger(tag_number)) != null) {
 								EntityLiving boss = null;
 								try {
-									boss = BBApi.getBossFromToken(stack.getTagCompound().getInteger(LibNBT.number)).getConstructor(World.class).newInstance(world);
+									boss = BBApi.getBossFromToken(stack.getTagCompound().getInteger(tag_number)).getConstructor(World.class).newInstance(world);
 								} catch (InstantiationException e) {
 									e.printStackTrace();
 								} catch (IllegalAccessException e) {
@@ -117,11 +118,11 @@ public class ItemToken extends ItemModSpecial {
 								}
 							}
 			} else if(stack.getItemDamage() == 2)
-				if(stack.getTagCompound().getInteger(LibNBT.number) >= 0)
+				if(stack.getTagCompound().getInteger(tag_number) >= 0)
 					if(world.getBlockState(pos) != null)
 						if(world.getBlockState(pos).getBlock() instanceof BlockBonfire)
-							if(BBApi.getItemStackFromToken(stack.getTagCompound().getInteger(LibNBT.number)) != null) {
-								player.setHeldItem(hand, BBApi.getItemStackFromToken(stack.getTagCompound().getInteger(LibNBT.number)));
+							if(BBApi.getItemStackFromToken(stack.getTagCompound().getInteger(tag_number)) != null) {
+								player.setHeldItem(hand, BBApi.getItemStackFromToken(stack.getTagCompound().getInteger(tag_number)));
 								return EnumActionResult.SUCCESS;
 							}
 		}

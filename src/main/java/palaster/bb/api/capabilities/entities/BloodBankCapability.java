@@ -13,11 +13,14 @@ import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
-import palaster.bb.libs.LibNBT;
 
 public class BloodBankCapability {
 
 	public static class BloodBankCapabilityDefault implements IBloodBank {
+		
+		public static String tag_bloodCurrent = "BloodCurrent";
+		public static String tag_bloodMax = "BloodMax";
+		public static String tag_linkEntity = "LinkedEntity";
 		
 		private int bloodMax;
 	    private int bloodCurrent;
@@ -83,22 +86,22 @@ public class BloodBankCapability {
 		@Override
 	    public NBTTagCompound saveNBT() {
 	        NBTTagCompound tagCompound = new NBTTagCompound();
-	        tagCompound.setInteger(LibNBT.number, bloodCurrent);
-	        tagCompound.setInteger(LibNBT.maxNumber, bloodMax);
+	        tagCompound.setInteger(tag_bloodCurrent, bloodCurrent);
+	        tagCompound.setInteger(tag_bloodMax, bloodMax);
 	        NBTTagCompound nbtTagCompound = new NBTTagCompound();
 	        if(link != null && link.get() != null) {
 	            link.get().writeToNBTAtomically(nbtTagCompound);
-	            tagCompound.setTag(LibNBT.entityTag, nbtTagCompound);
+	            tagCompound.setTag(tag_linkEntity, nbtTagCompound);
 	        }
 	        return tagCompound;
 	    }
 
 	    @Override
 	    public void loadNBT(NBTTagCompound nbt) {
-            bloodCurrent = nbt.getInteger(LibNBT.number);
-            bloodMax = nbt.getInteger(LibNBT.maxNumber);
-            if(nbt.getCompoundTag(LibNBT.entityTag) != null)
-                link = new SoftReference<EntityLiving>((EntityLiving) EntityList.createEntityFromNBT(nbt.getCompoundTag(LibNBT.entityTag), DimensionManager.getWorld(0)));
+            bloodCurrent = nbt.getInteger(tag_bloodCurrent);
+            bloodMax = nbt.getInteger(tag_bloodMax);
+            if(nbt.getCompoundTag(tag_linkEntity) != null)
+                link = new SoftReference<EntityLiving>((EntityLiving) EntityList.createEntityFromNBT(nbt.getCompoundTag(tag_linkEntity), DimensionManager.getWorld(0)));
 	    }
 	}
 	

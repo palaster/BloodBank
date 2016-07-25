@@ -12,6 +12,7 @@ import net.minecraft.world.World;
 import palaster.bb.api.capabilities.items.IKnowledgePiece;
 import palaster.bb.core.helpers.BBItemStackHelper;
 import palaster.bb.items.BBItems;
+import palaster.bb.items.ItemBoundArmor;
 
 public class KPBoundArmor implements IKnowledgePiece {
 
@@ -36,7 +37,7 @@ public class KPBoundArmor implements IKnowledgePiece {
             		case 0: boundArmor = new ItemStack(BBItems.boundBoots);
             		break;
             	}
-            	playerIn.inventory.armorInventory[i] = BBItemStackHelper.setItemStackInsideItemStack(boundArmor, playerIn.inventory.armorInventory[i]);
+            	playerIn.inventory.armorInventory[i] = BBItemStackHelper.setItemStackInsideItemStack(boundArmor, playerIn.inventory.armorInventory[i], ItemBoundArmor.tag_itemStackInsideBoundArmor);
             } else {
                 ItemStack boundArmor = new ItemStack(BBItems.boundHelmet);
                 switch(i) {
