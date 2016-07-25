@@ -6,6 +6,7 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraftforge.common.util.EnumHelper;
+import palaster.bb.libs.LibMod;
 
 public class BBItems {
 
@@ -101,45 +102,8 @@ public class BBItems {
 	}
 	
 	public static void registerCustomModelResourceLocation() {
-		ItemMod.setCustomModelResourceLocation(staffSkeleton);
-		ItemMod.setCustomModelResourceLocation(staffEfreet);
-		ItemMod.setCustomModelResourceLocation(staffTime);
-		ItemMod.setCustomModelResourceLocation(staffVoidWalker);
-		ItemMod.setCustomModelResourceLocation(staffHungryShadows);
-		ItemMod.setCustomModelResourceLocation(animalHerder);
-		ItemMod.setCustomModelResourceLocation(bloodBottle);
-		ItemMod.setCustomModelResourceLocation(bloodBook);
-		ItemMod.setCustomModelResourceLocation(undeadMonitor);
-		ItemMod.setCustomModelResourceLocation(estusFlask);
-		ItemMod.setCustomModelResourceLocation(armorActivator);
-		ItemMod.setCustomModelResourceLocation(resurrectionStone);
-		ItemMod.setCustomModelResourceLocation(ghostWhisper);
-		ItemMod.setCustomModelResourceLocation(token);
-		ItemMod.setCustomModelResourceLocation(pigDefense);
-		ItemMod.setCustomModelResourceLocation(flames);
-		ItemMod.setCustomModelResourceLocation(carthusFlameArc);
-		ItemMod.setCustomModelResourceLocation(sacredFlame);
-		ItemMod.setCustomModelResourceLocation(leacher);
-		ItemMod.setCustomModelResourceLocation(horn);
-		ItemMod.setCustomModelResourceLocation(talisman);
-		ItemMod.setCustomModelResourceLocation(boundPlayer);
-		ItemMod.setCustomModelResourceLocation(boundBloodBottle);
-		
-		ItemMod.setCustomModelResourceLocation(boundHelmet);
-		ItemMod.setCustomModelResourceLocation(boundChestplate);
-		ItemMod.setCustomModelResourceLocation(boundLeggings);
-		ItemMod.setCustomModelResourceLocation(boundBoots);
-		ItemMod.setCustomModelResourceLocation(sandHelmet);
-		ItemMod.setCustomModelResourceLocation(sandChestplate);
-		ItemMod.setCustomModelResourceLocation(sandLeggings);
-		ItemMod.setCustomModelResourceLocation(sandBoots);
-		ItemMod.setCustomModelResourceLocation(grayHelmet);
-		ItemMod.setCustomModelResourceLocation(grayChestplate);
-		ItemMod.setCustomModelResourceLocation(grayLeggings);
-		ItemMod.setCustomModelResourceLocation(grayBoots);
-		
-		ItemMod.setCustomModelResourceLocation(debug);
-		ItemMod.setCustomModelResourceLocation(yinYang);
-		ItemMod.setCustomModelResourceLocation(bbResources);
+		for(Item item : Item.REGISTRY)
+			if(item.getRegistryName().getResourceDomain().equalsIgnoreCase(LibMod.modid))
+				ItemMod.setCustomModelResourceLocation(item);
 	}
 }

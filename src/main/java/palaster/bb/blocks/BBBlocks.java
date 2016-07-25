@@ -8,6 +8,7 @@ import palaster.bb.blocks.tile.TileEntityCommunityTool;
 import palaster.bb.blocks.tile.TileEntityTNTAbsorber;
 import palaster.bb.blocks.tile.TileEntityVoid;
 import palaster.bb.blocks.tile.TileEntityVoidAnchor;
+import palaster.bb.libs.LibMod;
 
 public class BBBlocks {
 	
@@ -38,12 +39,9 @@ public class BBBlocks {
 	}
 	
 	public static void registerCustomModelResourceLocation() {
-		BlockMod.setCustomModelResourceLocation(voidAnchor);
-		BlockMod.setCustomModelResourceLocation(communityTool);
-		BlockMod.setCustomModelResourceLocation(bonfire);
-		BlockMod.setCustomModelResourceLocation(tntAbsorber);
-		
-		BlockMod.setCustomModelResourceLocation(touchVoid);
+		for(Block block : Block.REGISTRY)
+			if(block.getRegistryName().getResourceDomain().equalsIgnoreCase(LibMod.modid))
+				BlockMod.setCustomModelResourceLocation(block);
 	}
 
 	private static void registerTileEntity(Class<? extends TileEntity> tile, String name) { GameRegistry.registerTileEntity(tile, name); }
