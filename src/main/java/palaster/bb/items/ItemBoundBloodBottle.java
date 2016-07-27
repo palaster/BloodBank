@@ -8,9 +8,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import palaster.bb.api.capabilities.entities.BloodBankCapability.BloodBankCapabilityProvider;
-import palaster.bb.api.capabilities.entities.IBloodBank;
+import palaster.bb.api.capabilities.entities.IRPG;
+import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityProvider;
 import palaster.bb.api.capabilities.items.IVampiric;
+import palaster.bb.entities.careers.CareerBloodSorcerer;
 
 public class ItemBoundBloodBottle extends ItemModSpecial {
 	
@@ -37,12 +38,13 @@ public class ItemBoundBloodBottle extends ItemModSpecial {
 			if(stack.getItemDamage() > 0)
 				if(stack.hasTagCompound())
 					if(worldIn.getPlayerEntityByUUID(stack.getTagCompound().getUniqueId(tag_UUID)) != null) {
-						final IBloodBank bloodBank = BloodBankCapabilityProvider.get(worldIn.getPlayerEntityByUUID(stack.getTagCompound().getUniqueId(tag_UUID)));
-						if(bloodBank != null)
-							if(bloodBank.getMaxBlood() > 0) {
-								bloodBank.consumeBlood(1);
-								stack.damageItem(-1, worldIn.getPlayerEntityByUUID(stack.getTagCompound().getUniqueId(tag_UUID)));
-							}
+						final IRPG rpg = RPGCapabilityProvider.get(worldIn.getPlayerEntityByUUID(stack.getTagCompound().getUniqueId(tag_UUID)));
+						if(rpg != null)
+							if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerBloodSorcerer)
+								if(((CareerBloodSorcerer) rpg.getCareer()).getMaxBlood() > 0) {
+									((CareerBloodSorcerer) rpg.getCareer()).consumeBlood(1);
+									stack.damageItem(-1, worldIn.getPlayerEntityByUUID(stack.getTagCompound().getUniqueId(tag_UUID)));
+								}
 					}
 			if(stack.getItemDamage() < stack.getMaxDamage()) {
 				for(int i = 0; i < ((EntityPlayer) entityIn).inventory.getSizeInventory(); i++)

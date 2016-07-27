@@ -16,11 +16,10 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import palaster.bb.BloodBank;
 import palaster.bb.api.BBApi;
-import palaster.bb.api.capabilities.entities.BloodBankCapability.BloodBankCapabilityFactory;
-import palaster.bb.api.capabilities.entities.BloodBankCapability.BloodBankCapabilityProvider;
-import palaster.bb.api.capabilities.entities.BloodBankCapability.BloodBankCapabilityStorage;
-import palaster.bb.api.capabilities.entities.IBloodBank;
+import palaster.bb.api.capabilities.entities.IRPG;
 import palaster.bb.api.capabilities.entities.IUndead;
+import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityFactory;
+import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityStorage;
 import palaster.bb.api.capabilities.entities.UndeadCapability.UndeadCapabilityFactory;
 import palaster.bb.api.capabilities.entities.UndeadCapability.UndeadCapabilityProvider;
 import palaster.bb.api.capabilities.entities.UndeadCapability.UndeadCapabilityStorage;
@@ -39,7 +38,6 @@ import palaster.bb.inventories.ContainerVoidAnchor;
 import palaster.bb.items.BBItems;
 import palaster.bb.items.ItemUndeadMonitor;
 import palaster.bb.network.PacketHandler;
-import palaster.bb.network.client.UpdateBloodMessage;
 import palaster.bb.network.client.UpdateUndeadMessage;
 import palaster.bb.recipes.BBRecipes;
 
@@ -54,8 +52,8 @@ public class CommonProxy implements IGuiHandler {
 		BBEntities.init();
 		BBItems.init();
 		BBPotions.init();
-		CapabilityManager.INSTANCE.register(IBloodBank.class, new BloodBankCapabilityStorage(), new BloodBankCapabilityFactory());
 		CapabilityManager.INSTANCE.register(IUndead.class, new UndeadCapabilityStorage(), new UndeadCapabilityFactory());
+		CapabilityManager.INSTANCE.register(IRPG.class, new RPGCapabilityStorage(), new RPGCapabilityFactory());
 		MinecraftForge.EVENT_BUS.register(new BBEventHandler());
 	}
 	
@@ -68,12 +66,6 @@ public class CommonProxy implements IGuiHandler {
 	}
 	
 	public void postInit() { BBRecipes.init(); }
-	
-	public void syncPlayerBloodCapabilitiesToClient(EntityPlayer player) {
-		if(player != null && !player.worldObj.isRemote)
-			if(BloodBankCapabilityProvider.get(player) != null)
-				PacketHandler.sendTo(new UpdateBloodMessage(BloodBankCapabilityProvider.get(player).saveNBT()), (EntityPlayerMP) player);
-	}
 	
 	public void syncPlayerUndeadCapabilitiesToClient(EntityPlayer player) {
 		if(player != null && !player.worldObj.isRemote)

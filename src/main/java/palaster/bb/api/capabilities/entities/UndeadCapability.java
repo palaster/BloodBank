@@ -197,7 +197,6 @@ public class UndeadCapability {
 	}
 	
 	public static class UndeadCapabilityFactory implements Callable<IUndead> {
-		
 		@Override
 	    public IUndead call() throws Exception { return new UndeadCapabilityDefault(); }
 	}

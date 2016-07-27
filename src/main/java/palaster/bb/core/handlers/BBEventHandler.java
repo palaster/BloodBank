@@ -44,13 +44,14 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import palaster.bb.BloodBank;
-import palaster.bb.api.capabilities.entities.BloodBankCapability.BloodBankCapabilityProvider;
-import palaster.bb.api.capabilities.entities.IBloodBank;
+import palaster.bb.api.capabilities.entities.IRPG;
 import palaster.bb.api.capabilities.entities.IUndead;
+import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityProvider;
 import palaster.bb.api.capabilities.entities.UndeadCapability.UndeadCapabilityProvider;
 import palaster.bb.api.recipes.ShapedBloodRecipes;
 import palaster.bb.core.proxy.ClientProxy;
 import palaster.bb.entities.EntityItztiliTablet;
+import palaster.bb.entities.careers.CareerBloodSorcerer;
 import palaster.bb.entities.effects.BBPotions;
 import palaster.bb.items.BBItems;
 import palaster.bb.items.ItemBBResources;
@@ -90,8 +91,8 @@ public class BBEventHandler {
 	@SubscribeEvent
 	public void attachEntityCapability(AttachCapabilitiesEvent.Entity e) {
 		if(e.getEntity() instanceof EntityPlayer) {
-			if((EntityPlayer) e.getEntity() != null && !((EntityPlayer) e.getEntity()).hasCapability(BloodBankCapabilityProvider.bloodBankCap, null))
-				e.addCapability(new ResourceLocation(LibMod.modid, "IBloodBank"), new BloodBankCapabilityProvider());
+			if((EntityPlayer) e.getEntity() != null && !((EntityPlayer) e.getEntity()).hasCapability(RPGCapabilityProvider.rpgCap, null))
+				e.addCapability(new ResourceLocation(LibMod.modid, "IRPG"), new RPGCapabilityProvider());
 			if((EntityPlayer) e.getEntity() != null && !((EntityPlayer) e.getEntity()).hasCapability(UndeadCapabilityProvider.undeadCap, null))
 				e.addCapability(new ResourceLocation(LibMod.modid, "IUndead"), new UndeadCapabilityProvider());
 		}
@@ -100,14 +101,11 @@ public class BBEventHandler {
 	@SubscribeEvent
 	public void onClonePlayer(PlayerEvent.Clone e) {
 		if(!e.getEntityPlayer().worldObj.isRemote) {
-			final IBloodBank bloodBankOG = BloodBankCapabilityProvider.get(e.getOriginal());
-			final IBloodBank bloodBankNew = BloodBankCapabilityProvider.get(e.getEntityPlayer());
-			if(bloodBankOG != null && bloodBankNew != null) {
-				bloodBankNew.setMaxBlood(bloodBankOG.getMaxBlood());
-				bloodBankNew.setCurrentBlood(bloodBankOG.getCurrentBlood());
-				if(bloodBankOG.isLinked())
-					bloodBankNew.linkEntity(bloodBankOG.getLinked());
-			}
+			final IRPG rpgOG = RPGCapabilityProvider.get(e.getOriginal());
+			final IRPG rpgNew = RPGCapabilityProvider.get(e.getOriginal());
+			if(rpgOG != null && rpgNew != null)
+				if(rpgOG.getCareer() != null)
+					rpgNew.setCareer(rpgOG.getCareer());
 			
 			final IUndead undeadOG = UndeadCapabilityProvider.get(e.getOriginal());
 			final IUndead undeadNew = UndeadCapabilityProvider.get(e.getEntityPlayer());
@@ -156,10 +154,11 @@ public class BBEventHandler {
 		if(!e.getEntityLiving().worldObj.isRemote) {
 			for(Entity entity : e.getEntityLiving().worldObj.loadedEntityList)
 				if(entity instanceof EntityPlayer) {
-					final IBloodBank bloodBank = BloodBankCapabilityProvider.get((EntityPlayer) entity);
-					if(bloodBank != null)
-						if(bloodBank.isLinked() && e.getEntityLiving().getUniqueID().equals(bloodBank.getLinked().getUniqueID()))
-							bloodBank.linkEntity(null);
+					final IRPG rpg = RPGCapabilityProvider.get((EntityPlayer) entity);
+					if(rpg != null)
+						if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerBloodSorcerer)
+							if(((CareerBloodSorcerer) rpg.getCareer()).isLinked() && e.getEntityLiving().getUniqueID().equals(((CareerBloodSorcerer) rpg.getCareer()).getLinked().getUniqueID()))
+								((CareerBloodSorcerer) rpg.getCareer()).linkEntity(null);
 				}
 			if(e.getEntityLiving() instanceof EntityPlayer) {
 				final IUndead undead = UndeadCapabilityProvider.get((EntityPlayer) e.getEntityLiving());
@@ -200,12 +199,13 @@ public class BBEventHandler {
 			if(e.getEntityLiving() instanceof EntityPlayer) {
 				EntityPlayer p = (EntityPlayer) e.getEntityLiving();
 				if(e.getSource().getEntity() != null) {
-					final IBloodBank bloodBank = BloodBankCapabilityProvider.get(p);
-					if(bloodBank != null)
-						if(bloodBank.isLinked()) {
-							bloodBank.getLinked().attackEntityFrom(BloodBank.proxy.bbBlood, e.getAmount());
-							e.setCanceled(true);
-						}
+					final IRPG rpg = RPGCapabilityProvider.get(p);
+					if(rpg != null)
+						if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerBloodSorcerer)
+							if(((CareerBloodSorcerer) rpg.getCareer()).isLinked()) {
+								((CareerBloodSorcerer) rpg.getCareer()).getLinked().attackEntityFrom(BloodBank.proxy.bbBlood, e.getAmount());
+								e.setCanceled(true);
+							}
 					if(p.getActivePotionEffect(BBPotions.sandBody) != null)
 						if(e.getSource().getEntity() instanceof EntityPlayer) {
 							((EntityPlayer) e.getSource().getEntity()).inventory.addItemStackToInventory(new ItemStack(BBItems.bbResources, 1, 5));
@@ -247,15 +247,18 @@ public class BBEventHandler {
 											e.player.inventory.getStackInSlot(i).damageItem(((ShapedBloodRecipes) recipe).recipeBloodCost, e.player);
 											return;
 										}
-							final IBloodBank bloodBank = BloodBankCapabilityProvider.get(e.player);
-							if(bloodBank != null) {
-								if(bloodBank.getMaxBlood() > 0 && bloodBank.getCurrentBlood() >= ((ShapedBloodRecipes) recipe).recipeBloodCost) {
-									bloodBank.consumeBlood(((ShapedBloodRecipes) recipe).recipeBloodCost);
-									return;
-								} else {
-									e.player.attackEntityFrom(BloodBank.proxy.bbBlood, (((ShapedBloodRecipes) recipe).recipeBloodCost / 100));
-									return;
+							final IRPG rpg = RPGCapabilityProvider.get(e.player);
+							if(rpg != null) {
+								if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerBloodSorcerer) {
+									int temp = ((CareerBloodSorcerer) rpg.getCareer()).consumeBlood(((ShapedBloodRecipes) recipe).recipeBloodCost); 
+									if(temp > 0) {
+										e.player.attackEntityFrom(BloodBank.proxy.bbBlood, temp / 100);
+										return;
+									}
 								}
+							} else {
+								e.player.attackEntityFrom(BloodBank.proxy.bbBlood, (((ShapedBloodRecipes) recipe).recipeBloodCost / 100));
+								return;
 							}
 						}
 			if(e.crafting != null && e.crafting.getItem() == BBItems.boundBloodBottle)

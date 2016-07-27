@@ -35,12 +35,14 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import palaster.bb.BloodBank;
-import palaster.bb.api.capabilities.entities.BloodBankCapability.BloodBankCapabilityProvider;
-import palaster.bb.api.capabilities.entities.IBloodBank;
+import palaster.bb.api.capabilities.entities.IRPG;
 import palaster.bb.api.capabilities.entities.IUndead;
+import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityProvider;
 import palaster.bb.api.capabilities.entities.UndeadCapability.UndeadCapabilityProvider;
 import palaster.bb.core.helpers.BBPlayerHelper;
 import palaster.bb.entities.EntityDemonicBankTeller;
+import palaster.bb.entities.careers.CareerBloodSorcerer;
+import palaster.bb.entities.careers.CareerUndead;
 
 public class ItemBBResources extends ItemModSpecial {
 	
@@ -69,10 +71,10 @@ public class ItemBBResources extends ItemModSpecial {
 			if(e.getSource().getSourceOfDamage() instanceof EntityPlayer)
 				if(((EntityPlayer )e.getSource().getSourceOfDamage()).getHeldItemMainhand() != null && ((EntityPlayer)e.getSource().getSourceOfDamage()).getHeldItemMainhand().getItem() instanceof ItemSword)
 					if(((EntityPlayer) e.getSource().getSourceOfDamage()).getHeldItem(EnumHand.OFF_HAND) != null && ((EntityPlayer) e.getSource().getSourceOfDamage()).getHeldItem(EnumHand.OFF_HAND).getItem() == new ItemStack(BBItems.bbResources, 1, 3).getItem() && ((EntityPlayer) e.getSource().getSourceOfDamage()).getHeldItem(EnumHand.OFF_HAND).getItemDamage() == 3) {
-						final IBloodBank bloodBank = BloodBankCapabilityProvider.get((EntityPlayer) e.getSource().getSourceOfDamage());
-						if(bloodBank != null)
-							if(bloodBank.getMaxBlood() > 0)
-								bloodBank.addBlood((int) e.getAmount() * 50);
+						final IRPG rpg = RPGCapabilityProvider.get((EntityPlayer) e.getSource().getSourceOfDamage());
+						if(rpg != null)
+							if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerBloodSorcerer)
+								((CareerBloodSorcerer) rpg.getCareer()).addBlood((int) e.getAmount() * 50);
 					}
 		}
 	}
@@ -92,10 +94,10 @@ public class ItemBBResources extends ItemModSpecial {
 		if(!e.getWorld().isRemote && e.getSide().isServer())
 			if(e.getEntityPlayer().getHeldItemMainhand() != null && e.getEntityPlayer().getHeldItemMainhand().getItem() instanceof ItemSword)
 				if(e.getEntityPlayer().getHeldItem(EnumHand.OFF_HAND) != null && e.getEntityPlayer().getHeldItem(EnumHand.OFF_HAND).getItem() == new ItemStack(BBItems.bbResources, 1, 3).getItem() && e.getEntityPlayer().getHeldItem(EnumHand.OFF_HAND).getItemDamage() == 3) {
-					final IBloodBank bloodBank = BloodBankCapabilityProvider.get(e.getEntityPlayer());
-					if(bloodBank != null)
-						if(bloodBank.getMaxBlood() > 0) {
-							bloodBank.addBlood(50);
+					final IRPG rpg = RPGCapabilityProvider.get(e.getEntityPlayer());
+					if(rpg != null)
+						if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerBloodSorcerer) {
+							((CareerBloodSorcerer) rpg.getCareer()).addBlood(50);
 							e.getEntityPlayer().attackEntityFrom(BloodBank.proxy.bbBlood, 2f);
 						}
 				}
@@ -135,13 +137,14 @@ public class ItemBBResources extends ItemModSpecial {
     public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
         if(!worldIn.isRemote)
             if(itemStackIn.getItemDamage() == 0) {
-            	final IBloodBank bloodBank = BloodBankCapabilityProvider.get(playerIn);
+            	final IRPG rpg = RPGCapabilityProvider.get(playerIn);
             	final IUndead undead = UndeadCapabilityProvider.get(playerIn);
-				if(bloodBank != null && undead != null) {
+				if(rpg != null && undead != null) {
 	                if(undead.isUndead())
 	                    BBPlayerHelper.sendChatMessageToPlayer(playerIn, I18n.format("bb.bank.undead"));
-	                else if(bloodBank.getMaxBlood() <= 0) {
-	                    bloodBank.setMaxBlood(2000);
+	                else if(rpg.getCareer() == null || !(rpg.getCareer() instanceof CareerBloodSorcerer)) {
+	                    rpg.setCareer(new CareerBloodSorcerer());
+	                    ((CareerBloodSorcerer) rpg.getCareer()).setMaxBlood(2000);
 	                    BBPlayerHelper.sendChatMessageToPlayer(playerIn, I18n.format("bb.bank.join"));
 	                    return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, new ItemStack(this, 1, 1));
 	                } else
@@ -152,10 +155,10 @@ public class ItemBBResources extends ItemModSpecial {
             	if(undead != null)
             		if(!undead.isUndead()) {
                 		undead.setUndead(true);
-                		final IBloodBank bloodBank = BloodBankCapabilityProvider.get(playerIn);
-        				if(bloodBank != null)
-        					if(bloodBank.getMaxBlood() > 0) {
-                    			bloodBank.setMaxBlood(0);
+                		final IRPG rpg = RPGCapabilityProvider.get(playerIn);
+        				if(rpg != null)
+        					if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerBloodSorcerer) {
+        						rpg.setCareer(new CareerUndead());
                     			BBPlayerHelper.sendChatMessageToPlayer(playerIn, I18n.format("bb.bank.becomeUndead"));
                     		}
                 		playerIn.attackEntityFrom(DamageSource.inFire, playerIn.getMaxHealth() + 5f);
@@ -177,9 +180,9 @@ public class ItemBBResources extends ItemModSpecial {
     public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         if(!worldIn.isRemote)
             if(stack.getItemDamage() == 1) {
-            	final IBloodBank bloodBank = BloodBankCapabilityProvider.get(playerIn);
-				if(bloodBank != null)
-					if(bloodBank.getMaxBlood() > 0) {
+            	final IRPG rpg = RPGCapabilityProvider.get(playerIn);
+				if(rpg != null)
+					if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerBloodSorcerer) {
 	                    EntityDemonicBankTeller dbt = new EntityDemonicBankTeller(worldIn);
 	                    dbt.setPosition(pos.getX(), pos.getY() + 1, pos.getZ());
 	                    worldIn.spawnEntityInWorld(dbt);

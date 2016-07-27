@@ -8,7 +8,6 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
 import palaster.bb.libs.LibMod;
-import palaster.bb.network.client.UpdateBloodMessage;
 import palaster.bb.network.client.UpdateUndeadMessage;
 import palaster.bb.network.server.ChangeBlockMessage;
 import palaster.bb.network.server.GuiButtonMessage;
@@ -25,7 +24,6 @@ public class PacketHandler {
 		registerMessage(ChangeBlockMessage.class);
 		registerMessage(GuiButtonMessage.class);
 		registerMessage(KeyClickMessage.class);	
-		registerMessage(UpdateBloodMessage.class);
 		registerMessage(UpdateUndeadMessage.class);
 	}
 	
