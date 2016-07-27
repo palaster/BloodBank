@@ -16,8 +16,9 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import palaster.bb.api.capabilities.entities.IUndead;
-import palaster.bb.api.capabilities.entities.UndeadCapability.UndeadCapabilityProvider;
+import palaster.bb.api.capabilities.entities.IRPG;
+import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityProvider;
+import palaster.bb.entities.careers.CareerUndead;
 
 public class ItemEstusFlask extends ItemModSpecial {
 	
@@ -58,10 +59,10 @@ public class ItemEstusFlask extends ItemModSpecial {
 			} else {
 				if(!playerIn.isSneaking()) {
 					if(itemStackIn.hasTagCompound() && itemStackIn.getTagCompound().getInteger(tag_estusUses) > 0) {
-						final IUndead undead = UndeadCapabilityProvider.get(playerIn);
-						if(undead != null)
-							if(undead.isUndead()) {
-								undead.addFocus(150);
+						final IRPG rpg = RPGCapabilityProvider.get(playerIn);
+						if(rpg != null)
+							if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerUndead) {
+								((CareerUndead) rpg.getCareer()).addFocus(150);
 								itemStackIn.getTagCompound().setInteger(tag_estusUses, itemStackIn.getTagCompound().getInteger(tag_estusUses) - 1);
 								return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStackIn);
 							}

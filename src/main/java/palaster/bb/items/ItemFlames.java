@@ -16,10 +16,11 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AnvilUpdateEvent;
 import net.minecraftforge.event.entity.player.AnvilRepairEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import palaster.bb.api.capabilities.entities.IUndead;
-import palaster.bb.api.capabilities.entities.UndeadCapability.UndeadCapabilityProvider;
+import palaster.bb.api.capabilities.entities.IRPG;
+import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityProvider;
 import palaster.bb.api.capabilities.items.IFlameSpell;
 import palaster.bb.core.helpers.BBItemStackHelper;
+import palaster.bb.entities.careers.CareerUndead;
 
 public class ItemFlames extends ItemModSpecial {
 	
@@ -72,13 +73,13 @@ public class ItemFlames extends ItemModSpecial {
     public boolean onLeftClickEntity(ItemStack stack, EntityPlayer player, Entity entity) {
         if(!player.worldObj.isRemote)
             if(BBItemStackHelper.getItemStackFromItemStack(stack, tag_flameHolder) != null && BBItemStackHelper.getItemStackFromItemStack(stack, tag_flameHolder).getItem() instanceof IFlameSpell) {
-            	final IUndead undead = UndeadCapabilityProvider.get(player);
-            	if(undead != null)
-            		if(undead.isUndead())
-            			if(undead.getFocus() >= ((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack, tag_flameHolder).getItem()).getSpellCost()) {
+            	final IRPG rpg = RPGCapabilityProvider.get(player);
+            	if(rpg != null)
+            		if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerUndead)
+            			if(((CareerUndead) rpg.getCareer()).getFocus() >= ((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack, tag_flameHolder).getItem()).getSpellCost()) {
             				boolean temp = ((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack, tag_flameHolder).getItem()).onSpellLeftClickEntity(stack, player, entity);
             				if(temp)
-            					undead.useFocus(((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack, tag_flameHolder).getItem()).getSpellCost());
+            					((CareerUndead) rpg.getCareer()).useFocus(((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack, tag_flameHolder).getItem()).getSpellCost());
             				return temp;
             			}
             }
@@ -89,13 +90,13 @@ public class ItemFlames extends ItemModSpecial {
     public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         if(!worldIn.isRemote)
             if(BBItemStackHelper.getItemStackFromItemStack(stack, tag_flameHolder) != null && BBItemStackHelper.getItemStackFromItemStack(stack, tag_flameHolder).getItem() instanceof IFlameSpell) {
-            	final IUndead undead = UndeadCapabilityProvider.get(playerIn);
-            	if(undead != null)
-            		if(undead.isUndead())
-            			if(undead.getFocus() >= ((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack, tag_flameHolder).getItem()).getSpellCost()) {
+            	final IRPG rpg = RPGCapabilityProvider.get(playerIn);
+            	if(rpg != null)
+            		if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerUndead)
+            			if(((CareerUndead) rpg.getCareer()).getFocus() >= ((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack, tag_flameHolder).getItem()).getSpellCost()) {
             				EnumActionResult temp = ((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack, tag_flameHolder).getItem()).onSpellUse(stack, playerIn, worldIn, pos, hand, facing, hitX, hitY, hitZ);
             				if(temp != null && temp == EnumActionResult.SUCCESS)
-            					undead.useFocus(((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack, tag_flameHolder).getItem()).getSpellCost());
+            					((CareerUndead) rpg.getCareer()).useFocus(((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack, tag_flameHolder).getItem()).getSpellCost());
             				return temp;
             			}
             }
@@ -106,13 +107,13 @@ public class ItemFlames extends ItemModSpecial {
     public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
         if(!worldIn.isRemote)
             if(BBItemStackHelper.getItemStackFromItemStack(itemStackIn, tag_flameHolder) != null && BBItemStackHelper.getItemStackFromItemStack(itemStackIn, tag_flameHolder).getItem() instanceof IFlameSpell) {
-            	final IUndead undead = UndeadCapabilityProvider.get(playerIn);
-            	if(undead != null)
-            		if(undead.isUndead())
-            			if(undead.getFocus() >= ((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(itemStackIn, tag_flameHolder).getItem()).getSpellCost()) {
+            	final IRPG rpg = RPGCapabilityProvider.get(playerIn);
+            	if(rpg != null)
+            		if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerUndead)
+            			if(((CareerUndead) rpg.getCareer()).getFocus() >= ((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(itemStackIn, tag_flameHolder).getItem()).getSpellCost()) {
             				ActionResult<ItemStack> temp = ((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(itemStackIn, tag_flameHolder).getItem()).onSpellRightClick(itemStackIn, worldIn, playerIn, hand); 
             				if(temp != null && temp.getType() == EnumActionResult.SUCCESS)
-            					undead.useFocus(((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(itemStackIn, tag_flameHolder).getItem()).getSpellCost());
+            					((CareerUndead) rpg.getCareer()).useFocus(((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(itemStackIn, tag_flameHolder).getItem()).getSpellCost());
             				return temp;
             			}
             }
@@ -123,13 +124,13 @@ public class ItemFlames extends ItemModSpecial {
     public boolean itemInteractionForEntity(ItemStack stack, EntityPlayer playerIn, EntityLivingBase target, EnumHand hand) {
         if(!playerIn.worldObj.isRemote)
             if(BBItemStackHelper.getItemStackFromItemStack(stack, tag_flameHolder) != null && BBItemStackHelper.getItemStackFromItemStack(stack, tag_flameHolder).getItem() instanceof IFlameSpell) {
-            	final IUndead undead = UndeadCapabilityProvider.get(playerIn);
-            	if(undead != null)
-            		if(undead.isUndead())
-            			if(undead.getFocus() >= ((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack, tag_flameHolder).getItem()).getSpellCost()) {
+            	final IRPG rpg = RPGCapabilityProvider.get(playerIn);
+            	if(rpg != null)
+            		if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerUndead)
+            			if(((CareerUndead) rpg.getCareer()).getFocus() >= ((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack, tag_flameHolder).getItem()).getSpellCost()) {
             				boolean temp = ((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack, tag_flameHolder).getItem()).spellInteractionForEntity(stack, playerIn, target, hand);
             				if(temp)
-                            	undead.useFocus(((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack, tag_flameHolder).getItem()).getSpellCost());
+            					((CareerUndead) rpg.getCareer()).useFocus(((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack, tag_flameHolder).getItem()).getSpellCost());
             				return temp;
             			}
             }

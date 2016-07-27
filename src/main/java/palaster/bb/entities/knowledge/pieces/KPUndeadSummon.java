@@ -11,10 +11,11 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import palaster.bb.api.capabilities.entities.IUndead;
-import palaster.bb.api.capabilities.entities.UndeadCapability.UndeadCapabilityProvider;
+import palaster.bb.api.capabilities.entities.IRPG;
+import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityProvider;
 import palaster.bb.api.capabilities.items.IKnowledgePiece;
 import palaster.bb.core.helpers.BBPlayerHelper;
+import palaster.bb.entities.careers.CareerUndead;
 
 public class KPUndeadSummon implements IKnowledgePiece {
 
@@ -32,9 +33,9 @@ public class KPUndeadSummon implements IKnowledgePiece {
 		if(!worldIn.isRemote) {
 			for(Entity entity : worldIn.getLoadedEntityList())
 				if(entity instanceof EntityPlayer) {
-					final IUndead undead = UndeadCapabilityProvider.get((EntityPlayer) entity);
-					if(undead != null)
-						if(undead.isUndead()) {
+					final IRPG rpg = RPGCapabilityProvider.get((EntityPlayer) entity);
+					if(rpg != null)
+						if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerUndead) {
 							entity.setPositionAndUpdate(pos.getX(), pos.getY() + 1, pos.getZ());
 							return EnumActionResult.SUCCESS;
 						}

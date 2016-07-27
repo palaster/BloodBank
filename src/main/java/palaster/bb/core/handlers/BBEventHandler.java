@@ -45,13 +45,12 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import palaster.bb.BloodBank;
 import palaster.bb.api.capabilities.entities.IRPG;
-import palaster.bb.api.capabilities.entities.IUndead;
 import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityProvider;
-import palaster.bb.api.capabilities.entities.UndeadCapability.UndeadCapabilityProvider;
 import palaster.bb.api.recipes.ShapedBloodRecipes;
 import palaster.bb.core.proxy.ClientProxy;
 import palaster.bb.entities.EntityItztiliTablet;
 import palaster.bb.entities.careers.CareerBloodSorcerer;
+import palaster.bb.entities.careers.CareerUndead;
 import palaster.bb.entities.effects.BBPotions;
 import palaster.bb.items.BBItems;
 import palaster.bb.items.ItemBBResources;
@@ -90,38 +89,21 @@ public class BBEventHandler {
 
 	@SubscribeEvent
 	public void attachEntityCapability(AttachCapabilitiesEvent.Entity e) {
-		if(e.getEntity() instanceof EntityPlayer) {
+		if(e.getEntity() instanceof EntityPlayer)
 			if((EntityPlayer) e.getEntity() != null && !((EntityPlayer) e.getEntity()).hasCapability(RPGCapabilityProvider.rpgCap, null))
 				e.addCapability(new ResourceLocation(LibMod.modid, "IRPG"), new RPGCapabilityProvider());
-			if((EntityPlayer) e.getEntity() != null && !((EntityPlayer) e.getEntity()).hasCapability(UndeadCapabilityProvider.undeadCap, null))
-				e.addCapability(new ResourceLocation(LibMod.modid, "IUndead"), new UndeadCapabilityProvider());
-		}
 	}
 
 	@SubscribeEvent
 	public void onClonePlayer(PlayerEvent.Clone e) {
 		if(!e.getEntityPlayer().worldObj.isRemote) {
 			final IRPG rpgOG = RPGCapabilityProvider.get(e.getOriginal());
-			final IRPG rpgNew = RPGCapabilityProvider.get(e.getOriginal());
-			if(rpgOG != null && rpgNew != null)
+			final IRPG rpgNew = RPGCapabilityProvider.get(e.getEntityPlayer());
+			if(rpgOG != null && rpgNew != null) {
 				if(rpgOG.getCareer() != null)
 					rpgNew.setCareer(rpgOG.getCareer());
-			
-			final IUndead undeadOG = UndeadCapabilityProvider.get(e.getOriginal());
-			final IUndead undeadNew = UndeadCapabilityProvider.get(e.getEntityPlayer());
-			if(undeadOG != null && undeadNew != null) {
-				undeadNew.setUndead(undeadOG.isUndead());
-				undeadNew.setSoul(undeadOG.getSoul());
-				undeadNew.setFocus(undeadOG.getFocus());
-				undeadNew.setFocusMax(undeadOG.getFocusMax());
-				undeadNew.setVigor(undeadOG.getVigor());
-				undeadNew.setAttunement(undeadOG.getAttunement());
-				undeadNew.setStrength(undeadOG.getStrength());
-				undeadNew.setIntelligence(undeadOG.getIntelligence());
-				undeadNew.setFaith(undeadOG.getFaith());
-				
-				if(e.isWasDeath())
-					if(undeadOG.isUndead()) {
+				if(e.isWasDeath()) {
+					if(rpgOG.getCareer() != null && rpgOG.getCareer() instanceof CareerUndead) {
 						BBWorldSaveData bbWorldSaveData = BBWorldSaveData.get(e.getOriginal().worldObj);
 						if(bbWorldSaveData != null) {
 							BlockPos closetBonfire = bbWorldSaveData.getNearestBonfireToPlayer(e.getOriginal(), e.getOriginal().getPosition());
@@ -130,6 +112,7 @@ public class BBEventHandler {
 						}
 						e.getEntityPlayer().inventory.copyInventory(e.getOriginal().inventory);
 					}
+				}
 			}
 		}
 	}
@@ -137,9 +120,9 @@ public class BBEventHandler {
 	@SubscribeEvent
 	public void onPlayerDrops(PlayerDropsEvent e) {
 		if(e.getEntityPlayer() != null) {
-			final IUndead undead = UndeadCapabilityProvider.get(e.getEntityPlayer());
-			if(undead != null)
-				if(undead.isUndead()) {
+			final IRPG rpg = RPGCapabilityProvider.get(e.getEntityPlayer());
+			if(rpg != null)
+				if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerUndead) {
 					for(EntityItem entityItem : e.getDrops())
 						if(entityItem != null && entityItem.getEntityItem() != null)
 							e.getEntityPlayer().inventory.addItemStackToInventory(entityItem.getEntityItem());
@@ -161,29 +144,29 @@ public class BBEventHandler {
 								((CareerBloodSorcerer) rpg.getCareer()).linkEntity(null);
 				}
 			if(e.getEntityLiving() instanceof EntityPlayer) {
-				final IUndead undead = UndeadCapabilityProvider.get((EntityPlayer) e.getEntityLiving());
-				if(undead != null) {
-					if(undead.isUndead()) {
+				final IRPG rpg = RPGCapabilityProvider.get((EntityPlayer) e.getEntityLiving());
+				if(rpg != null) {
+					if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerUndead) {
 						if(e.getSource().getEntity() instanceof EntityPlayer) {
-							final IUndead undeadAttacker = UndeadCapabilityProvider.get((EntityPlayer) e.getSource().getEntity());
-							if(undeadAttacker != null)
-								if(undeadAttacker.isUndead())
-									undeadAttacker.addSoul(undead.getSoul());
-						} else {
+							final IRPG rpgAttacker = RPGCapabilityProvider.get((EntityPlayer) e.getSource().getEntity());
+							if(rpgAttacker != null)
+								if(rpgAttacker.getCareer() != null && rpgAttacker.getCareer() instanceof CareerUndead)
+									((CareerUndead) rpgAttacker.getCareer()).addSoul(((CareerUndead) rpg.getCareer()).getSoul());
+						} else if(((CareerUndead) rpg.getCareer()).getSoul() > 0) {
 							ItemStack souls = new ItemStack(BBItems.bbResources, 1, 6);
 							if(!souls.hasTagCompound())
 								souls.setTagCompound(new NBTTagCompound());
-							souls.getTagCompound().setInteger(ItemBBResources.tag_soulAmount, undead.getSoul());
+							souls.getTagCompound().setInteger(ItemBBResources.tag_soulAmount, ((CareerUndead) rpg.getCareer()).getSoul());
 							e.getEntityLiving().worldObj.spawnEntityInWorld(new EntityItem(e.getEntityLiving().worldObj, e.getEntityLiving().posX, e.getEntityLiving().posY, e.getEntityLiving().posZ, souls));
 						}
-						undead.setSoul(0);
+						((CareerUndead) rpg.getCareer()).setSoul(0);
 					}
 				}
 			}
 			if(e.getSource().getEntity() instanceof EntityPlayer) {
-				final IUndead undead = UndeadCapabilityProvider.get((EntityPlayer) e.getSource().getEntity());
-				if(undead.isUndead())
-					undead.addSoul((int) e.getEntityLiving().getMaxHealth());
+				final IRPG rpg = RPGCapabilityProvider.get((EntityPlayer) e.getSource().getEntity());
+				if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerUndead)
+					((CareerUndead) rpg.getCareer()).addSoul((int) e.getEntityLiving().getMaxHealth());
 			}
 			if(e.getEntityLiving() instanceof EntityLiving) {
 				NBTTagCompound nbt = new NBTTagCompound();

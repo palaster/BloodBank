@@ -9,9 +9,9 @@ import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import palaster.bb.api.capabilities.entities.IUndead;
-import palaster.bb.api.capabilities.entities.UndeadCapability.UndeadCapabilityDefault;
-import palaster.bb.api.capabilities.entities.UndeadCapability.UndeadCapabilityProvider;
+import palaster.bb.api.capabilities.entities.IRPG;
+import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityProvider;
+import palaster.bb.entities.careers.CareerUndead;
 
 public class BBApi {
 
@@ -121,46 +121,50 @@ public class BBApi {
     // Undead Methods
     
     public static void recalculateVigorBoost(EntityPlayer player) {
-    	final IUndead undead = UndeadCapabilityProvider.get(player);
-    	if(undead != null) {
-    		if(undead.getVigor() <= 0) {
-                IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MAX_HEALTH);
-                try {
-                    iAttributeInstance.removeModifier(iAttributeInstance.getModifier(UndeadCapabilityDefault.healthID));
-                } catch(Exception e) {}
-            } else {
-                IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MAX_HEALTH);
-                try {
-                    iAttributeInstance.removeModifier(iAttributeInstance.getModifier(UndeadCapabilityDefault.healthID));
-                } catch(Exception e) {}
-                iAttributeInstance.applyModifier(new AttributeModifier(UndeadCapabilityDefault.healthID, "bb.vigor", undead.getVigor() * .2, 0));
-            }
-    	}
+    	final IRPG rpg = RPGCapabilityProvider.get(player);
+    	if(rpg != null)
+    		if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerUndead) {
+    			if(((CareerUndead) rpg.getCareer()).getVigor() <= 0) {
+                    IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MAX_HEALTH);
+                    try {
+                        iAttributeInstance.removeModifier(iAttributeInstance.getModifier(CareerUndead.healthID));
+                    } catch(Exception e) {}
+                } else {
+                    IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MAX_HEALTH);
+                    try {
+                        iAttributeInstance.removeModifier(iAttributeInstance.getModifier(CareerUndead.healthID));
+                    } catch(Exception e) {}
+                    iAttributeInstance.applyModifier(new AttributeModifier(CareerUndead.healthID, "bb.vigor", ((CareerUndead) rpg.getCareer()).getVigor() * .2, 0));
+                }
+    		}
     }
     
     public static void recalculateStrengthBoost(EntityPlayer player) {
-    	final IUndead undead = UndeadCapabilityProvider.get(player);
-        if(undead != null) {
-            if(undead.getStrength() <= 0) {
-                IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ATTACK_DAMAGE);
-                try {
-                    iAttributeInstance.removeModifier(iAttributeInstance.getModifier(UndeadCapabilityDefault.strengthID));
-                } catch(Exception e) {}
-            } else {
-                IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ATTACK_DAMAGE);
-                try {
-                    iAttributeInstance.removeModifier(iAttributeInstance.getModifier(UndeadCapabilityDefault.strengthID));
-                } catch(Exception e) {}
-                iAttributeInstance.applyModifier(new AttributeModifier(UndeadCapabilityDefault.strengthID, "bb.strength", undead.getStrength() * .9, 0));
-            }
-        }
+    	final IRPG rpg = RPGCapabilityProvider.get(player);
+        if(rpg != null)
+        	if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerUndead) {
+        		if(((CareerUndead) rpg.getCareer()).getStrength() <= 0) {
+                    IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ATTACK_DAMAGE);
+                    try {
+                        iAttributeInstance.removeModifier(iAttributeInstance.getModifier(CareerUndead.strengthID));
+                    } catch(Exception e) {}
+                } else {
+                    IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ATTACK_DAMAGE);
+                    try {
+                        iAttributeInstance.removeModifier(iAttributeInstance.getModifier(CareerUndead.strengthID));
+                    } catch(Exception e) {}
+                    iAttributeInstance.applyModifier(new AttributeModifier(CareerUndead.strengthID, "bb.strength", ((CareerUndead) rpg.getCareer()).getStrength() * .9, 0));
+                }
+        	}
     }
 
     public static int getSoulCostForNextLevel(EntityPlayer player) {
-    	final IUndead undead = UndeadCapabilityProvider.get(player);
-    	if(undead != null) {
-    		int soulLevel = undead.getVigor() + undead.getAttunement() + undead.getStrength() + undead.getIntelligence() + undead.getFaith();
-            return (int)( .02 * (soulLevel ^ 3) + 3.06 * (soulLevel ^ 2) + 105.6 * soulLevel - 895);
+    	final IRPG rpg = RPGCapabilityProvider.get(player);
+    	if(rpg != null) {
+    		if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerUndead) {
+    			int soulLevel = ((CareerUndead) rpg.getCareer()).getVigor() + ((CareerUndead) rpg.getCareer()).getAttunement() + ((CareerUndead) rpg.getCareer()).getStrength() + ((CareerUndead) rpg.getCareer()).getIntelligence() + ((CareerUndead) rpg.getCareer()).getFaith();
+                return (int)( .02 * (soulLevel ^ 3) + 3.06 * (soulLevel ^ 2) + 105.6 * soulLevel - 895);
+    		}
     	}
         return 0;
     }

@@ -17,12 +17,9 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import palaster.bb.BloodBank;
 import palaster.bb.api.BBApi;
 import palaster.bb.api.capabilities.entities.IRPG;
-import palaster.bb.api.capabilities.entities.IUndead;
 import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityFactory;
+import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityProvider;
 import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityStorage;
-import palaster.bb.api.capabilities.entities.UndeadCapability.UndeadCapabilityFactory;
-import palaster.bb.api.capabilities.entities.UndeadCapability.UndeadCapabilityProvider;
-import palaster.bb.api.capabilities.entities.UndeadCapability.UndeadCapabilityStorage;
 import palaster.bb.blocks.BBBlocks;
 import palaster.bb.blocks.tile.TileEntityVoidAnchor;
 import palaster.bb.client.gui.GuiUndeadMonitor;
@@ -38,7 +35,7 @@ import palaster.bb.inventories.ContainerVoidAnchor;
 import palaster.bb.items.BBItems;
 import palaster.bb.items.ItemUndeadMonitor;
 import palaster.bb.network.PacketHandler;
-import palaster.bb.network.client.UpdateUndeadMessage;
+import palaster.bb.network.client.UpdateRPGMessage;
 import palaster.bb.recipes.BBRecipes;
 
 public class CommonProxy implements IGuiHandler {
@@ -52,7 +49,6 @@ public class CommonProxy implements IGuiHandler {
 		BBEntities.init();
 		BBItems.init();
 		BBPotions.init();
-		CapabilityManager.INSTANCE.register(IUndead.class, new UndeadCapabilityStorage(), new UndeadCapabilityFactory());
 		CapabilityManager.INSTANCE.register(IRPG.class, new RPGCapabilityStorage(), new RPGCapabilityFactory());
 		MinecraftForge.EVENT_BUS.register(new BBEventHandler());
 	}
@@ -67,10 +63,10 @@ public class CommonProxy implements IGuiHandler {
 	
 	public void postInit() { BBRecipes.init(); }
 	
-	public void syncPlayerUndeadCapabilitiesToClient(EntityPlayer player) {
+	public void syncPlayerRPGCapabilitiesToClient(EntityPlayer player) {
 		if(player != null && !player.worldObj.isRemote)
-			if(UndeadCapabilityProvider.get(player) != null)
-				PacketHandler.sendTo(new UpdateUndeadMessage(UndeadCapabilityProvider.get(player).saveNBT()), (EntityPlayerMP) player);
+			if(RPGCapabilityProvider.get(player) != null)
+				PacketHandler.sendTo(new UpdateRPGMessage(RPGCapabilityProvider.get(player).saveNBT()), (EntityPlayerMP) player);
 	}
 	
 	public EntityPlayer getPlayerEntity(MessageContext ctx) { return ctx.getServerHandler().playerEntity; }

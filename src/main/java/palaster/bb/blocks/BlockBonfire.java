@@ -16,8 +16,9 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import palaster.bb.api.capabilities.entities.IUndead;
-import palaster.bb.api.capabilities.entities.UndeadCapability.UndeadCapabilityProvider;
+import palaster.bb.api.capabilities.entities.IRPG;
+import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityProvider;
+import palaster.bb.entities.careers.CareerUndead;
 import palaster.bb.items.BBItems;
 import palaster.bb.items.ItemEstusFlask;
 import palaster.bb.items.ItemToken;
@@ -96,10 +97,11 @@ public class BlockBonfire extends BlockMod {
     public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
         if(!worldIn.isRemote)
             if(placer instanceof EntityPlayer) {
-            	final IUndead undead = UndeadCapabilityProvider.get((EntityPlayer) placer);
-            	if(undead != null)
-            		if(undead.isUndead() && worldIn.provider.getDimension() == 0)
-            			return super.onBlockPlaced(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer);
+            	final IRPG rpg = RPGCapabilityProvider.get((EntityPlayer) placer);
+            	if(rpg != null)
+            		if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerUndead)
+            			if(worldIn.provider.getDimension() == 0)
+                			return super.onBlockPlaced(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer);
             }
         return Blocks.AIR.getDefaultState();
     }
@@ -108,11 +110,11 @@ public class BlockBonfire extends BlockMod {
     public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
         if(!worldIn.isRemote)
             if(placer instanceof EntityPlayer) {
-            	final IUndead undead = UndeadCapabilityProvider.get((EntityPlayer) placer);
-            	if(undead != null)
-            		if(undead.isUndead())
-                        if(BBWorldSaveData.get(worldIn) != null)
-                        	BBWorldSaveData.get(worldIn).addBonfire(pos);
+            	final IRPG rpg = RPGCapabilityProvider.get((EntityPlayer) placer);
+            	if(rpg != null)
+            		if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerUndead)
+            			if(BBWorldSaveData.get(worldIn) != null)
+            				BBWorldSaveData.get(worldIn).addBonfire(pos);
             }
     }
 

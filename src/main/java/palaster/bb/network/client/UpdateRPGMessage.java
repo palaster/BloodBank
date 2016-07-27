@@ -7,17 +7,17 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.relauncher.Side;
-import palaster.bb.api.capabilities.entities.IUndead;
-import palaster.bb.api.capabilities.entities.UndeadCapability.UndeadCapabilityProvider;
+import palaster.bb.api.capabilities.entities.IRPG;
+import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityProvider;
 import palaster.bb.network.AbstractMessage;
 
-public class UpdateUndeadMessage extends AbstractMessage.AbstractClientMessage<UpdateUndeadMessage> {
+public class UpdateRPGMessage extends AbstractMessage.AbstractClientMessage<UpdateRPGMessage> {
 
 	private NBTTagCompound tag;
 	
-	public UpdateUndeadMessage() {}
+	public UpdateRPGMessage() {}
 
-    public UpdateUndeadMessage(NBTTagCompound tag) { this.tag = tag; }
+    public UpdateRPGMessage(NBTTagCompound tag) { this.tag = tag; }
 
 	@Override
 	protected void read(PacketBuffer buffer) throws IOException { tag = ByteBufUtils.readTag(buffer); }
@@ -27,8 +27,8 @@ public class UpdateUndeadMessage extends AbstractMessage.AbstractClientMessage<U
 
 	@Override
 	protected void process(EntityPlayer player, Side side) {
-		final IUndead undead = UndeadCapabilityProvider.get(player);
-		if(undead != null)
-			undead.loadNBT(tag);
+		final IRPG rpg = RPGCapabilityProvider.get(player);
+		if(rpg != null)
+			rpg.loadNBT(tag);
 	}
 }

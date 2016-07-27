@@ -36,9 +36,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import palaster.bb.BloodBank;
 import palaster.bb.api.capabilities.entities.IRPG;
-import palaster.bb.api.capabilities.entities.IUndead;
 import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityProvider;
-import palaster.bb.api.capabilities.entities.UndeadCapability.UndeadCapabilityProvider;
 import palaster.bb.core.helpers.BBPlayerHelper;
 import palaster.bb.entities.EntityDemonicBankTeller;
 import palaster.bb.entities.careers.CareerBloodSorcerer;
@@ -138,9 +136,8 @@ public class ItemBBResources extends ItemModSpecial {
         if(!worldIn.isRemote)
             if(itemStackIn.getItemDamage() == 0) {
             	final IRPG rpg = RPGCapabilityProvider.get(playerIn);
-            	final IUndead undead = UndeadCapabilityProvider.get(playerIn);
-				if(rpg != null && undead != null) {
-	                if(undead.isUndead())
+				if(rpg != null) {
+	                if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerUndead)
 	                    BBPlayerHelper.sendChatMessageToPlayer(playerIn, I18n.format("bb.bank.undead"));
 	                else if(rpg.getCareer() == null || !(rpg.getCareer() instanceof CareerBloodSorcerer)) {
 	                    rpg.setCareer(new CareerBloodSorcerer());
@@ -151,25 +148,26 @@ public class ItemBBResources extends ItemModSpecial {
 	                    BBPlayerHelper.sendChatMessageToPlayer(playerIn, I18n.format("bb.bank.refuse"));
 				}
             } else if(itemStackIn.getItemDamage() == 4) {
-            	final IUndead undead = UndeadCapabilityProvider.get(playerIn);
-            	if(undead != null)
-            		if(!undead.isUndead()) {
-                		undead.setUndead(true);
-                		final IRPG rpg = RPGCapabilityProvider.get(playerIn);
-        				if(rpg != null)
-        					if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerBloodSorcerer) {
-        						rpg.setCareer(new CareerUndead());
-                    			BBPlayerHelper.sendChatMessageToPlayer(playerIn, I18n.format("bb.bank.becomeUndead"));
-                    		}
+            	final IRPG rpg = RPGCapabilityProvider.get(playerIn);
+            	if(rpg != null) {
+            		if(rpg.getCareer() == null || !(rpg.getCareer() instanceof CareerUndead)) {
+                		rpg.setCareer(new CareerUndead());
                 		playerIn.attackEntityFrom(DamageSource.inFire, playerIn.getMaxHealth() + 5f);
                 		return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, null);
                 	}
+            		if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerBloodSorcerer) {
+						rpg.setCareer(new CareerUndead());
+            			BBPlayerHelper.sendChatMessageToPlayer(playerIn, I18n.format("bb.bank.becomeUndead"));
+            			playerIn.attackEntityFrom(DamageSource.inFire, playerIn.getMaxHealth() + 5f);
+                		return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, null);
+                	}
+            	}
             } else if(itemStackIn.getItemDamage() == 6)
             	if(itemStackIn.hasTagCompound()) {
-            		final IUndead undead = UndeadCapabilityProvider.get(playerIn);
-            		if(undead != null)
-            			if(undead.isUndead()) {
-            				undead.addSoul(itemStackIn.getTagCompound().getInteger(tag_soulAmount));
+            		final IRPG rpg = RPGCapabilityProvider.get(playerIn);
+            		if(rpg != null)
+            			if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerUndead) {
+            				((CareerUndead) rpg.getCareer()).addSoul(itemStackIn.getTagCompound().getInteger(tag_soulAmount));
                 			return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, null);
                 		}
             	}
