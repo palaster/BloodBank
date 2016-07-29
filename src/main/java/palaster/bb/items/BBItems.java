@@ -46,11 +46,7 @@ public class BBItems {
 	sandHelmet,
 	sandChestplate,
 	sandLeggings,
-	sandBoots,
-	grayHelmet,
-	grayChestplate,
-	grayLeggings,
-	grayBoots;
+	sandBoots;
 	
 	public static Item debug,
 	yinYang,
@@ -91,10 +87,6 @@ public class BBItems {
 		sandChestplate = new ItemSandArmor(sand, 0, EntityEquipmentSlot.CHEST);
 		sandLeggings = new ItemSandArmor(sand, 0, EntityEquipmentSlot.LEGS);
 		sandBoots = new ItemSandArmor(sand, 0, EntityEquipmentSlot.FEET);
-		grayHelmet = new ItemGrayArmor(genericUnbreakableDiamond, 0, EntityEquipmentSlot.HEAD);
-		grayChestplate = new ItemGrayArmor(genericUnbreakableDiamond, 0, EntityEquipmentSlot.CHEST);
-		grayLeggings = new ItemGrayArmor(genericUnbreakableDiamond, 0, EntityEquipmentSlot.LEGS);
-		grayBoots = new ItemGrayArmor(genericUnbreakableDiamond, 0, EntityEquipmentSlot.FEET);
 		
 		debug = new ItemDebug();
 		yinYang = new ItemYinYang();

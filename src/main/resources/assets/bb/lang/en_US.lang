@@ -62,10 +62,6 @@ item.bb:sand.HEAD.name=Sand Helmet
 item.bb:sand.CHEST.name=Sand Chestplate
 item.bb:sand.LEGS.name=Sand Leggings
 item.bb:sand.FEET.name=Sand Boots
-item.bb:gray.HEAD.name=Gray Helmet
-item.bb:gray.CHEST.name=Gray Chestplate
-item.bb:gray.LEGS.name=Gray Leggings
-item.bb:gray.FEET.name=Gray Boots
 
 item.bb:debug.name=Debug
 item.bb:yinYang.name=Yin Yang
@@ -77,6 +73,7 @@ item.bb:bbResources.4.name=Urn
 item.bb:bbResources.5.name=Dense Sand Particle
 item.bb:bbResources.6.name=Souls
 item.bb:bbResources.7.name=Itztili's Soul
+item.bb:bbResources.8.name=Soul Gem
 
 bb.misc.activated=Activated
 bb.misc.broken=BROKEN (Normal Fix is a simple right-click)

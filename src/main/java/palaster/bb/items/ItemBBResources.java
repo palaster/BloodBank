@@ -9,7 +9,11 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.monster.EntitySkeleton;
+import net.minecraft.entity.monster.SkeletonType;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
 import net.minecraft.item.IItemPropertyGetter;
 import net.minecraft.item.Item;
@@ -46,12 +50,10 @@ public class ItemBBResources extends ItemModSpecial {
 	
 	public static String tag_hasVampireSigil = "HasVampireSigil";
 	public static String tag_soulAmount = "SoulAmount";
-	
-	private static final int subTypes = 8;
 
     public ItemBBResources() {
         super();
-        setMaxDamage(subTypes - 1);
+        setMaxDamage(9);
         setUnlocalizedName("bbResources");
         addPropertyOverride(new ResourceLocation("type"), new IItemPropertyGetter() {
             @SideOnly(Side.CLIENT)
@@ -86,6 +88,30 @@ public class ItemBBResources extends ItemModSpecial {
 						if(e.player.inventory.hasItemStack(new ItemStack(BBItems.bbResources, 1, 2)))
 							e.player.removePotionEffect(potionEffect.getPotion());
 	}
+    
+    @SubscribeEvent
+    public void onPlayerInteractEntity(PlayerInteractEvent.EntityInteract e) {
+    	if(!e.getWorld().isRemote && e.getSide().isServer())
+    		if(e.getEntity() instanceof EntitySkeleton)
+    			if(((EntitySkeleton) e.getEntity()).func_189771_df() == SkeletonType.WITHER)
+    				if(e.getEntityPlayer().getHeldItemOffhand() != null && e.getEntityPlayer().getHeldItemOffhand().getItem() == Items.DIAMOND) {
+    					if(e.getEntityPlayer().getHeldItemOffhand().stackSize > 1) {
+    						e.getEntityPlayer().getHeldItemOffhand().stackSize--;
+                    		ItemStack soulGem = new ItemStack(BBItems.bbResources, 1, 9);
+                    		if(!e.getEntityPlayer().inventory.addItemStackToInventory(soulGem))
+                    			e.getWorld().spawnEntityInWorld(new EntityItem(e.getWorld(), e.getEntityPlayer().posX, e.getEntityPlayer().posY, e.getEntityPlayer().posZ, soulGem));
+                    	} else
+                    		e.getEntityPlayer().setHeldItem(EnumHand.OFF_HAND, new ItemStack(BBItems.bbResources, 1, 9));
+    				} else if(e.getEntityPlayer().getHeldItemMainhand() != null && e.getEntityPlayer().getHeldItemMainhand().getItem() == Items.DIAMOND) {
+    					if(e.getEntityPlayer().getHeldItemMainhand().stackSize > 1) {
+    						e.getEntityPlayer().getHeldItemMainhand().stackSize--;
+                    		ItemStack soulGem = new ItemStack(BBItems.bbResources, 1, 9);
+                    		if(!e.getEntityPlayer().inventory.addItemStackToInventory(soulGem))
+                    			e.getWorld().spawnEntityInWorld(new EntityItem(e.getWorld(), e.getEntityPlayer().posX, e.getEntityPlayer().posY, e.getEntityPlayer().posZ, soulGem));
+                    	} else
+                    		e.getEntityPlayer().setHeldItem(EnumHand.MAIN_HAND, new ItemStack(BBItems.bbResources, 1, 9));
+    				}
+    }
     
     @SubscribeEvent
 	public void onPlayerRightClickItem(PlayerInteractEvent.RightClickItem e) {
@@ -206,7 +232,7 @@ public class ItemBBResources extends ItemModSpecial {
 
     @Override
     public void getSubItems(Item itemIn, CreativeTabs tab, List<ItemStack> subItems) {
-        for(int i = 0; i < subTypes; i++)
+        for(int i = 0; i < itemIn.getMaxDamage(); i++)
             subItems.add(new ItemStack(itemIn, 1, i));
     }
     
