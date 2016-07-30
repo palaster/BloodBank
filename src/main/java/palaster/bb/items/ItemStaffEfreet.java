@@ -2,8 +2,11 @@ package palaster.bb.items;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -18,28 +21,33 @@ public class ItemStaffEfreet extends ItemModStaff {
 	}
 	
 	@Override
-	public int getMaxItemUseDuration(ItemStack stack) { return 1; }
-
+	public int getMaxItemUseDuration(ItemStack stack) { return 40; }
+	
 	@Override
-	public void onUsingTick(ItemStack stack, EntityLivingBase player, int count) {
+	public EnumAction getItemUseAction(ItemStack stack) { return EnumAction.BOW; }
+	
+	@Override
+	public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityLivingBase entityLiving) {
 		if(ItemModStaff.getActivePower(stack) == 0) {
-			for(EntityLivingBase entity : player.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(player.posX - 8, player.posY - 3, player.posZ - 8, player.posX + 8, player.posY + 8, player.posZ + 8)))
-				if(entity != player)
-					if(!player.worldObj.isRemote) {
-						entity.setFire(1);
-						stack.damageItem(1, player);
+			for(EntityLivingBase entity : entityLiving.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(entityLiving.posX - 8, entityLiving.posY - 3, entityLiving.posZ - 8, entityLiving.posX + 8, entityLiving.posY + 8, entityLiving.posZ + 8)))
+				if(entity != entityLiving)
+					if(!entityLiving.worldObj.isRemote) {
+						entity.attackEntityFrom(DamageSource.onFire, 4f);
+						entity.setFire(2);
+						stack.damageItem(1, entityLiving);
 					}
-			if(player.worldObj.isRemote)
-				for(int i = -2; i <= 2; ++i)
-					for(int j = -2; j <= 2; ++j)
+			if(entityLiving.worldObj.isRemote)
+				for(int i = -4; i <= 4; ++i)
+					for(int j = -4; j <= 4; ++j)
 						for(int k = 0; k <= 1; ++k)
-							player.worldObj.spawnParticle(EnumParticleTypes.FLAME, player.posX + .5D, player.posY + 1D, player.posZ + .5D, (double)((float)i + player.worldObj.rand.nextFloat()) - 0.5D, (double)((float)k - player.worldObj.rand.nextFloat() - 1.0F), (double)((float)j + player.worldObj.rand.nextFloat()) - 0.5D);
+							entityLiving.worldObj.spawnParticle(EnumParticleTypes.FLAME, entityLiving.posX + .5D, entityLiving.posY + 1D, entityLiving.posZ + .5D, (double)((float)i + entityLiving.worldObj.rand.nextFloat()) - 0.5D, (double)((float)k - entityLiving.worldObj.rand.nextFloat() - 1.0F), (double)((float)j + entityLiving.worldObj.rand.nextFloat()) - 0.5D);
 		}
+		return stack;
 	}
 
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
 		playerIn.setActiveHand(hand);
-		return super.onItemRightClick(itemStackIn, worldIn, playerIn, hand);
+		return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStackIn);
 	}
 }

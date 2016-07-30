@@ -36,7 +36,9 @@ public class BBItems {
 	horn,
 	talisman,
 	boundPlayer,
-	boundBloodBottle;
+	boundBloodBottle,
+	careerPamphlet,
+	apothecaryIntro;
 
 	public static ItemArmor
 	boundHelmet,
@@ -78,6 +80,8 @@ public class BBItems {
 		talisman = new ItemTalisman();
 		boundPlayer = new ItemBoundPlayer();
 		boundBloodBottle = new ItemBoundBloodBottle();
+		careerPamphlet = new ItemCareerPamphlet();
+		apothecaryIntro = new ItemApothecaryIntro();
 
 		boundHelmet = new ItemBoundArmor(genericUnbreakableDiamond, 0, EntityEquipmentSlot.HEAD);
 		boundChestplate = new ItemBoundArmor(genericUnbreakableDiamond, 0, EntityEquipmentSlot.CHEST);

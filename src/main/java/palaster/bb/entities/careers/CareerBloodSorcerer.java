@@ -64,6 +64,9 @@ public class CareerBloodSorcerer extends RPGCareerBase {
     }
 
     public EntityLiving getLinked() { return link.get(); }
+    
+    @Override
+    public String getUnlocalizedName() { return "bb.career.bloodSorcerer"; }
 
 	@Override
     public NBTTagCompound saveNBT() {

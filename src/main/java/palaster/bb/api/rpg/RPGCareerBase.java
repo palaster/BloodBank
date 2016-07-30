@@ -2,7 +2,10 @@ package palaster.bb.api.rpg;
 
 import net.minecraft.nbt.NBTTagCompound;
 
-public class RPGCareerBase implements IRPGCareer {
+public abstract class RPGCareerBase implements IRPGCareer {
+	
+	@Override
+	public String getUnlocalizedName() { return "bb.career.base"; }
 
 	@Override
 	public NBTTagCompound saveNBT() { return new NBTTagCompound(); }

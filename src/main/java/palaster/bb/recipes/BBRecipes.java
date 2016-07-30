@@ -39,9 +39,10 @@ public class BBRecipes {
 		GameRegistry.addRecipe(new ItemStack(BBBlocks.tntAbsorber), "xxx", "yyy", " z ", 'x', Items.WATER_BUCKET, 'y', Blocks.TNT, 'z', Items.ENDER_PEARL);
 
 		// Items
-		GameRegistry.addRecipe(new ItemStack(BBItems.resurrectionStone), "xyx", "yzy", "xyx", 'x', Blocks.SOUL_SAND, 'y', Items.EMERALD, 'z', Items.NETHER_STAR);
-		GameRegistry.addRecipe(new ItemStack(BBItems.ghostWhisper), "xyx", "yzy", "xyx", 'x', Blocks.SOUL_SAND, 'y', Items.DIAMOND, 'z', Blocks.GLASS);
+		GameRegistry.addRecipe(new ItemStack(BBItems.resurrectionStone), "xyx", "yzy", "xyx", 'x', Blocks.SOUL_SAND, 'y', Items.GLOWSTONE_DUST, 'z', new ItemStack(BBItems.bbResources, 1, 8));
+		GameRegistry.addRecipe(new ItemStack(BBItems.ghostWhisper), "xzx", "zyz", "xzx", 'x', Blocks.SOUL_SAND, 'y', new ItemStack(BBItems.bbResources, 1, 8), 'z', Blocks.GLASS);
 		GameRegistry.addRecipe(new ItemStack(BBItems.pigDefense), "yxy", "xzx", "yxy", 'y', Items.ROTTEN_FLESH, 'x', Items.PORKCHOP, 'z', new ItemStack(BBItems.bbResources, 1, 7));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(BBItems.apothecaryIntro, "treeSapling", Items.BOOK, Items.BREWING_STAND));
 		
 		GameRegistry.addRecipe(new ItemStack(BBItems.bbResources, 1, 0), "xxx", "xyx", "xxx", 'x', Items.PAPER, 'y', Blocks.NETHERRACK);
 		GameRegistry.addRecipe(new ItemStack(BBItems.bbResources, 1, 3), "xyx", "yzy", "xyx", 'x', Blocks.STONE, 'y', Items.EMERALD, 'z', Items.ROTTEN_FLESH);
@@ -80,7 +81,7 @@ public class BBRecipes {
 		
 		RecipeSorter.register("bb:shapedblood", ShapedBloodRecipes.class, RecipeSorter.Category.SHAPED, "after:minecraft:shaped");
 		
-		addShapedBloodRecipe(250, new ItemStack(BBItems.staffSkeleton), "  x", " y ", "y  ", 'x', Items.BONE, 'y', Items.STICK);
+		addShapedBloodRecipe(250, new ItemStack(BBItems.staffSkeleton), "  x", " y ", "y  ", 'x', new ItemStack(Items.SKULL, 1, 0), 'y', Items.STICK);
 		addShapedBloodRecipe(250, new ItemStack(BBItems.staffEfreet), "  x", " y ", "y  ", 'x', Items.MAGMA_CREAM, 'y', Items.STICK);
 		addShapedBloodRecipe(250, new ItemStack(BBItems.staffTime), "  x", " y ", "y  ", 'x', Items.CLOCK, 'y', Items.STICK);
 		addShapedBloodRecipe(250, new ItemStack(BBItems.staffVoidWalker), "  x", " y ", "y  ", 'x', Blocks.END_STONE, 'y', Items.STICK);

@@ -53,6 +53,8 @@ item.bb:horn.name=Horn of Support
 item.bb:talisman.name=Talisman
 item.bb:boundPlayer.name=Bound Player
 item.bb:boundBloodBottle.name=Bound Blood Bottle
+item.bb:careerPamphlet.name=Career Pamphlet
+item.bb:apothecaryIntro.name=Introduction to a Basic Guide of Being an Apothecary
 
 item.bb:bound.HEAD.name=Bound Helmet
 item.bb:bound.CHEST.name=Bound Chestplate
@@ -144,6 +146,13 @@ bb.gimp.0=Ravioli ravioli give me the formuoli.
 bb.gimp.1=You're like a dictionary, you add meaning to my life!
 bb.gimp.2=Jar Jar Binks is the best Star War's character.
 bb.gimp.3=I love Notch.
+
+bb.career.base=Career
+bb.career.hasCareer=You already have a career.
+bb.career.nocareer=Get a job you bum.
+bb.career.bloodSorcerer=Blood Sorcerer
+bb.career.undead=Undead
+bb.career.apothecary=Apothecary
 
 bb.jei.blood=Blood
 bb.jei.bloodCost=Blood Cost

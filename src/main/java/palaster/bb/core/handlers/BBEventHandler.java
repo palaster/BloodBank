@@ -4,6 +4,7 @@ import java.io.File;
 
 import org.lwjgl.input.Keyboard;
 
+import net.minecraft.block.BlockCrops;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
@@ -26,6 +27,7 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.ServerChatEvent;
+import net.minecraftforge.event.brewing.PotionBrewEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
@@ -33,6 +35,7 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerDropsEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.SleepingLocationCheckEvent;
+import net.minecraftforge.event.world.BlockEvent.HarvestDropsEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.eventhandler.Event;
@@ -49,6 +52,7 @@ import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityProvider
 import palaster.bb.api.recipes.ShapedBloodRecipes;
 import palaster.bb.core.proxy.ClientProxy;
 import palaster.bb.entities.EntityItztiliTablet;
+import palaster.bb.entities.careers.CareerApothecary;
 import palaster.bb.entities.careers.CareerBloodSorcerer;
 import palaster.bb.entities.careers.CareerUndead;
 import palaster.bb.entities.effects.BBPotions;
@@ -256,6 +260,20 @@ public class BBEventHandler {
 	}
 	
 	@SubscribeEvent
+	public void onHarvestDrops(HarvestDropsEvent e) {
+		if(!e.getWorld().isRemote)
+			if(e.getState() != null && e.getState().getBlock() != null && e.getState().getBlock() instanceof BlockCrops)
+				if(e.getHarvester() != null) {
+					final IRPG rpg = RPGCapabilityProvider.get(e.getHarvester());
+					if(rpg != null)
+						if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerApothecary)
+							for(ItemStack stack : e.getDrops())
+								if(stack != null)
+									stack.stackSize += 1;
+				}
+	}
+	
+	@SubscribeEvent
 	public void loadWorld(WorldEvent.Load e) {
 		if(!e.getWorld().isRemote)
 			e.getWorld().addEventListener(new WorldEventListener());
@@ -281,7 +299,7 @@ public class BBEventHandler {
 					}
 			}
 			if(e.getEntityLiving().getActivePotionEffect(BBPotions.darkWings) != null && e.getEntityLiving().getActivePotionEffect(BBPotions.darkWings).getDuration() > 1)
-				if(e.getEntityLiving() instanceof EntityPlayer) {
+				if(e.getEntityLiving() instanceof EntityPlayer && !((EntityPlayer) e.getEntityLiving()).capabilities.allowFlying) {
 					((EntityPlayer) e.getEntityLiving()).capabilities.allowFlying = true;
 					((EntityPlayer) e.getEntityLiving()).sendPlayerAbilities();
 				}

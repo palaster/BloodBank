@@ -123,6 +123,9 @@ public class CareerUndead extends RPGCareerBase {
         if(amt >= maxLevel)
             faith = maxLevel;
     }
+    
+    @Override
+    public String getUnlocalizedName() { return "bb.career.undead"; }
 
     @Override
     public NBTTagCompound saveNBT() {

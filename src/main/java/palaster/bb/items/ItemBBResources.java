@@ -91,40 +91,45 @@ public class ItemBBResources extends ItemModSpecial {
     
     @SubscribeEvent
     public void onPlayerInteractEntity(PlayerInteractEvent.EntityInteract e) {
-    	if(!e.getWorld().isRemote && e.getSide().isServer())
-    		if(e.getEntity() instanceof EntitySkeleton)
-    			if(((EntitySkeleton) e.getEntity()).func_189771_df() == SkeletonType.WITHER)
-    				if(e.getEntityPlayer().getHeldItemOffhand() != null && e.getEntityPlayer().getHeldItemOffhand().getItem() == Items.DIAMOND) {
-    					if(e.getEntityPlayer().getHeldItemOffhand().stackSize > 1) {
-    						e.getEntityPlayer().getHeldItemOffhand().stackSize--;
-                    		ItemStack soulGem = new ItemStack(BBItems.bbResources, 1, 9);
-                    		if(!e.getEntityPlayer().inventory.addItemStackToInventory(soulGem))
-                    			e.getWorld().spawnEntityInWorld(new EntityItem(e.getWorld(), e.getEntityPlayer().posX, e.getEntityPlayer().posY, e.getEntityPlayer().posZ, soulGem));
-                    	} else
-                    		e.getEntityPlayer().setHeldItem(EnumHand.OFF_HAND, new ItemStack(BBItems.bbResources, 1, 9));
-    				} else if(e.getEntityPlayer().getHeldItemMainhand() != null && e.getEntityPlayer().getHeldItemMainhand().getItem() == Items.DIAMOND) {
-    					if(e.getEntityPlayer().getHeldItemMainhand().stackSize > 1) {
-    						e.getEntityPlayer().getHeldItemMainhand().stackSize--;
-                    		ItemStack soulGem = new ItemStack(BBItems.bbResources, 1, 9);
-                    		if(!e.getEntityPlayer().inventory.addItemStackToInventory(soulGem))
-                    			e.getWorld().spawnEntityInWorld(new EntityItem(e.getWorld(), e.getEntityPlayer().posX, e.getEntityPlayer().posY, e.getEntityPlayer().posZ, soulGem));
-                    	} else
-                    		e.getEntityPlayer().setHeldItem(EnumHand.MAIN_HAND, new ItemStack(BBItems.bbResources, 1, 9));
-    				}
+    	if(!e.getWorld().isRemote && e.getSide() == Side.SERVER)
+    		if(e.getTarget() instanceof EntitySkeleton)
+    			if(((EntitySkeleton) e.getTarget()).func_189771_df() == SkeletonType.WITHER)
+    				if(e.getHand() == EnumHand.OFF_HAND) {
+    		    		if(e.getEntityPlayer().getHeldItem(e.getHand()) != null && e.getEntityPlayer().getHeldItem(e.getHand()).getItem() == Items.DIAMOND) {
+    		    			if(e.getEntityPlayer().getHeldItemOffhand().stackSize > 1) {
+    							e.getEntityPlayer().getHeldItemOffhand().stackSize--;
+    		            		ItemStack soulGem = new ItemStack(BBItems.bbResources, 1, 8);
+    		            		if(!e.getEntityPlayer().inventory.addItemStackToInventory(soulGem))
+    		            			e.getWorld().spawnEntityInWorld(new EntityItem(e.getWorld(), e.getEntityPlayer().posX, e.getEntityPlayer().posY, e.getEntityPlayer().posZ, soulGem));
+    		            	} else
+    		            		e.getEntityPlayer().setHeldItem(EnumHand.OFF_HAND, new ItemStack(BBItems.bbResources, 1, 8));
+    		    		}
+    		    	} else if(e.getHand() == EnumHand.MAIN_HAND) {
+    		    		if(e.getEntityPlayer().getHeldItem(e.getHand()) != null && e.getEntityPlayer().getHeldItem(e.getHand()).getItem() == Items.DIAMOND) {
+    		    			if(e.getEntityPlayer().getHeldItemMainhand().stackSize > 1) {
+    							e.getEntityPlayer().getHeldItemMainhand().stackSize--;
+    		            		ItemStack soulGem = new ItemStack(BBItems.bbResources, 1, 8);
+    		            		if(!e.getEntityPlayer().inventory.addItemStackToInventory(soulGem))
+    		            			e.getWorld().spawnEntityInWorld(new EntityItem(e.getWorld(), e.getEntityPlayer().posX, e.getEntityPlayer().posY, e.getEntityPlayer().posZ, soulGem));
+    		            	} else
+    		            		e.getEntityPlayer().setHeldItem(EnumHand.MAIN_HAND, new ItemStack(BBItems.bbResources, 1, 8));
+    		    		}
+    		    	}
     }
     
     @SubscribeEvent
 	public void onPlayerRightClickItem(PlayerInteractEvent.RightClickItem e) {
 		if(!e.getWorld().isRemote && e.getSide().isServer())
-			if(e.getEntityPlayer().getHeldItemMainhand() != null && e.getEntityPlayer().getHeldItemMainhand().getItem() instanceof ItemSword)
-				if(e.getEntityPlayer().getHeldItem(EnumHand.OFF_HAND) != null && e.getEntityPlayer().getHeldItem(EnumHand.OFF_HAND).getItem() == new ItemStack(BBItems.bbResources, 1, 3).getItem() && e.getEntityPlayer().getHeldItem(EnumHand.OFF_HAND).getItemDamage() == 3) {
-					final IRPG rpg = RPGCapabilityProvider.get(e.getEntityPlayer());
-					if(rpg != null)
-						if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerBloodSorcerer) {
-							((CareerBloodSorcerer) rpg.getCareer()).addBlood(50);
-							e.getEntityPlayer().attackEntityFrom(BloodBank.proxy.bbBlood, 2f);
-						}
-				}
+			if(e.getHand() == EnumHand.MAIN_HAND)
+				if(e.getEntityPlayer().getHeldItemMainhand() != null && e.getEntityPlayer().getHeldItemMainhand().getItem() instanceof ItemSword)
+					if(e.getEntityPlayer().getHeldItem(EnumHand.OFF_HAND) != null && e.getEntityPlayer().getHeldItem(EnumHand.OFF_HAND).getItem() == new ItemStack(BBItems.bbResources, 1, 3).getItem() && e.getEntityPlayer().getHeldItem(EnumHand.OFF_HAND).getItemDamage() == 3) {
+						final IRPG rpg = RPGCapabilityProvider.get(e.getEntityPlayer());
+						if(rpg != null)
+							if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerBloodSorcerer) {
+								((CareerBloodSorcerer) rpg.getCareer()).addBlood(100);
+								e.getEntityPlayer().attackEntityFrom(BloodBank.proxy.bbBlood, 1f);
+							}
+					}
 	}
     
     @SubscribeEvent
