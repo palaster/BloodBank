@@ -11,7 +11,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import palaster.bb.blocks.BBBlocks;
-import palaster.bb.blocks.tile.TileEntityVoid;
+import palaster.bb.blocks.tile.TileEntityVoidTrap;
 import palaster.bb.entities.EntityYinYang;
 
 public class ItemStaffVoidWalker extends ItemModStaff {
@@ -30,13 +30,13 @@ public class ItemStaffVoidWalker extends ItemModStaff {
 				yinYang.setHeadingFromThrower(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.5F, 1.0F);
 				worldIn.spawnEntityInWorld(yinYang);
 				itemStackIn.damageItem(1, playerIn);
-				return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStackIn);
+				return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
 			} else {
 				EntityYinYang yinYang = new EntityYinYang(worldIn, playerIn, 1);
 				yinYang.setHeadingFromThrower(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.5F, 1.0F);
 				worldIn.spawnEntityInWorld(yinYang);
 				itemStackIn.damageItem(1, playerIn);
-				return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStackIn);
+				return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
 			}
 		}
 		return super.onItemRightClick(itemStackIn, worldIn, playerIn, hand);
@@ -51,9 +51,9 @@ public class ItemStaffVoidWalker extends ItemModStaff {
 					if(worldIn.getBlockState(newPos) != null && !(worldIn.getBlockState(newPos).getBlock() instanceof BlockContainer)) {
 						if(worldIn.getTileEntity(newPos) == null) {
 							IBlockState ogBlockState = worldIn.getBlockState(newPos);
-							worldIn.setBlockState(newPos, BBBlocks.touchVoid.getDefaultState());
-							if(worldIn.getTileEntity(newPos) != null && worldIn.getTileEntity(newPos) instanceof TileEntityVoid)
-								((TileEntityVoid) worldIn.getTileEntity(newPos)).setOriginalBlock(ogBlockState.getBlock());
+							worldIn.setBlockState(newPos, BBBlocks.voidTrap.getDefaultState());
+							if(worldIn.getTileEntity(newPos) != null && worldIn.getTileEntity(newPos) instanceof TileEntityVoidTrap)
+								((TileEntityVoidTrap) worldIn.getTileEntity(newPos)).setOriginalBlock(ogBlockState.getBlock());
 							stack.damageItem(1, playerIn);
 						}
 					}

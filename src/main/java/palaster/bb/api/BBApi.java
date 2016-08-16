@@ -10,8 +10,8 @@ import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import palaster.bb.api.capabilities.entities.IRPG;
+import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityDefault;
 import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityProvider;
-import palaster.bb.entities.careers.CareerUndead;
 
 public class BBApi {
 
@@ -120,51 +120,65 @@ public class BBApi {
 
     // Undead Methods
     
-    public static void recalculateVigorBoost(EntityPlayer player) {
-    	final IRPG rpg = RPGCapabilityProvider.get(player);
-    	if(rpg != null)
-    		if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerUndead) {
-    			if(((CareerUndead) rpg.getCareer()).getVigor() <= 0) {
-                    IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MAX_HEALTH);
-                    try {
-                        iAttributeInstance.removeModifier(iAttributeInstance.getModifier(CareerUndead.healthID));
-                    } catch(Exception e) {}
-                } else {
-                    IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MAX_HEALTH);
-                    try {
-                        iAttributeInstance.removeModifier(iAttributeInstance.getModifier(CareerUndead.healthID));
-                    } catch(Exception e) {}
-                    iAttributeInstance.applyModifier(new AttributeModifier(CareerUndead.healthID, "bb.vigor", ((CareerUndead) rpg.getCareer()).getVigor() * .2, 0));
-                }
-    		}
-    }
-    
-    public static void recalculateStrengthBoost(EntityPlayer player) {
-    	final IRPG rpg = RPGCapabilityProvider.get(player);
-        if(rpg != null)
-        	if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerUndead) {
-        		if(((CareerUndead) rpg.getCareer()).getStrength() <= 0) {
-                    IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ATTACK_DAMAGE);
-                    try {
-                        iAttributeInstance.removeModifier(iAttributeInstance.getModifier(CareerUndead.strengthID));
-                    } catch(Exception e) {}
-                } else {
-                    IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ATTACK_DAMAGE);
-                    try {
-                        iAttributeInstance.removeModifier(iAttributeInstance.getModifier(CareerUndead.strengthID));
-                    } catch(Exception e) {}
-                    iAttributeInstance.applyModifier(new AttributeModifier(CareerUndead.strengthID, "bb.strength", ((CareerUndead) rpg.getCareer()).getStrength() * .9, 0));
-                }
-        	}
-    }
-
-    public static int getSoulCostForNextLevel(EntityPlayer player) {
+    public static void calculateConstitutionBoost(EntityPlayer player) {
     	final IRPG rpg = RPGCapabilityProvider.get(player);
     	if(rpg != null) {
-    		if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerUndead) {
-    			int soulLevel = ((CareerUndead) rpg.getCareer()).getVigor() + ((CareerUndead) rpg.getCareer()).getAttunement() + ((CareerUndead) rpg.getCareer()).getStrength() + ((CareerUndead) rpg.getCareer()).getIntelligence() + ((CareerUndead) rpg.getCareer()).getFaith();
-                return (int)( .02 * (soulLevel ^ 3) + 3.06 * (soulLevel ^ 2) + 105.6 * soulLevel - 895);
+    		if(rpg.getConstitution() <= 0) {
+    			IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MAX_HEALTH);
+                try {
+                    iAttributeInstance.removeModifier(iAttributeInstance.getModifier(RPGCapabilityDefault.healthID));
+                } catch(Exception e) {}
+    		} else {
+    			IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MAX_HEALTH);
+                try {
+                    iAttributeInstance.removeModifier(iAttributeInstance.getModifier(RPGCapabilityDefault.healthID));
+                } catch(Exception e) {}
+                iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.healthID, "bb.rpg.constitution", rpg.getConstitution() * .4, 0));
     		}
+    	}
+    }
+    
+    public static void calculateStrengthBoost(EntityPlayer player) {
+    	final IRPG rpg = RPGCapabilityProvider.get(player);
+    	if(rpg != null) {
+    		if(rpg.getStrength() <= 0) {
+    			IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ATTACK_DAMAGE);
+                try {
+                    iAttributeInstance.removeModifier(iAttributeInstance.getModifier(RPGCapabilityDefault.strengthID));
+                } catch(Exception e) {}
+    		} else {
+    			IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ATTACK_DAMAGE);
+                try {
+                    iAttributeInstance.removeModifier(iAttributeInstance.getModifier(RPGCapabilityDefault.strengthID));
+                } catch(Exception e) {}
+                iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.strengthID, "bb.rpg.strength", rpg.getStrength() * .9, 0));
+    		}
+    	}
+    }
+    
+    public static void calculateDexterityBoost(EntityPlayer player) {
+    	final IRPG rpg = RPGCapabilityProvider.get(player);
+    	if(rpg != null) {
+    		if(rpg.getDexterity() <= 0) {
+    			IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MOVEMENT_SPEED);
+                try {
+                	iAttributeInstance.removeModifier(iAttributeInstance.getModifier(RPGCapabilityDefault.dexterityID));
+                } catch(Exception e) {}
+    		} else {
+    			IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MOVEMENT_SPEED);
+                try {
+                    iAttributeInstance.removeModifier(iAttributeInstance.getModifier(RPGCapabilityDefault.dexterityID));
+                } catch(Exception e) {}
+                iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.dexterityID, "bb.rpg.dexterity", rpg.getDexterity() * .008, 0));
+    		}
+    	}
+    }
+    
+    public static int getExperienceCostForNextLevel(EntityPlayer player) {
+    	final IRPG rpg = RPGCapabilityProvider.get(player);
+    	if(rpg != null) {
+    		int rpgLevel = (rpg.getConstitution() + rpg.getStrength() + rpg.getDefense() + rpg.getDexterity());
+    		return (int) (rpgLevel * 1.25);
     	}
         return 0;
     }

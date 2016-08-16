@@ -10,7 +10,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import palaster.bb.blocks.BBBlocks;
-import palaster.bb.blocks.tile.TileEntityVoid;
+import palaster.bb.blocks.tile.TileEntityVoidTrap;
 
 public class EntityYinYang extends EntityThrowable {
 	
@@ -57,9 +57,9 @@ public class EntityYinYang extends EntityThrowable {
 						if(worldObj.getBlockState(newPos) != null && !(worldObj.getBlockState(newPos).getBlock() instanceof BlockContainer)) {
 							if(worldObj.getTileEntity(newPos) == null) {
 								IBlockState ogBlockState = worldObj.getBlockState(newPos);
-								worldObj.setBlockState(newPos, BBBlocks.touchVoid.getDefaultState());
-								if(worldObj.getTileEntity(newPos) != null && worldObj.getTileEntity(newPos) instanceof TileEntityVoid)
-									((TileEntityVoid) worldObj.getTileEntity(newPos)).setOriginalBlock(ogBlockState.getBlock());
+								worldObj.setBlockState(newPos, BBBlocks.voidTrap.getDefaultState());
+								if(worldObj.getTileEntity(newPos) != null && worldObj.getTileEntity(newPos) instanceof TileEntityVoidTrap)
+									((TileEntityVoidTrap) worldObj.getTileEntity(newPos)).setOriginalBlock(ogBlockState.getBlock());
 							}
 						}
 				}

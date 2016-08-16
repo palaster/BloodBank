@@ -4,6 +4,8 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public interface IRPGCareer {
 	
+	void leaveCareer();
+	
 	String getUnlocalizedName();
 	
 	NBTTagCompound saveNBT();

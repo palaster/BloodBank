@@ -1,5 +1,5 @@
 {
-    "parent": "bb:block/void",
+    "parent": "bb:block/voidTrap",
     "display": {
         "thirdperson": {
             "rotation": [ 10, -45, 170 ],

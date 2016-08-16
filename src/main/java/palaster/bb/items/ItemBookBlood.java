@@ -96,7 +96,7 @@ public class ItemBookBlood extends ItemModSpecial {
 		                        itemStackIn.getTagCompound().setInteger(tag_knowledgePiece, temp++);
 		                    else if(temp++ >= BBKnowledge.getKnowledgeSize())
 		                        itemStackIn.getTagCompound().setInteger(tag_knowledgePiece, 0);
-		                    return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStackIn);
+		                    return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
 		                } else if(itemStackIn.getTagCompound().getInteger(tag_knowledgePiece) >= 0) {
 		                    if(BBKnowledge.getKnowledgePiece(itemStackIn.getTagCompound().getInteger(tag_knowledgePiece)) != null) {
 		                    	ActionResult<ItemStack> temp = BBKnowledge.getKnowledgePiece(itemStackIn.getTagCompound().getInteger(tag_knowledgePiece)).onKnowledgePieceRightClick(itemStackIn, worldIn, playerIn, hand);
@@ -106,12 +106,12 @@ public class ItemBookBlood extends ItemModSpecial {
 		                    			playerIn.attackEntityFrom(BloodBank.proxy.bbBlood, remainingBloodCost / 100);
 		                    	}
 		                    }
-		                    return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStackIn);
+		                    return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
 		                }
 		            } else {
 		                itemStackIn.setTagCompound(new NBTTagCompound());
 		                itemStackIn.getTagCompound().setInteger(tag_knowledgePiece, 0);
-		                return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStackIn);
+		                return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
 		            }
 				}
 			}

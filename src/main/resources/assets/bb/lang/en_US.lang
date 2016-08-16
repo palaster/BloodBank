@@ -20,11 +20,12 @@ entity.bb.yinYang.name=Yin Yang
 entity.bb.demonicBankTeller.name=Demonic Bank Teller
 entity.bb.itztiliTablet.name=Itztili Tablet
 
-tile.bb:void.name=Touch of Void
-tile.bb:communityTool.name=Community Tools
 tile.bb:voidAnchor.name=Void Anchor
+tile.bb:communityTool.name=Community Tools
 tile.bb:bonfire.name=Bonfire
 tile.bb:tntAbsorber.name=TNT Absorber
+tile.bb:bloodTicker.name=Blood Ticker
+tile.bb:voidTrap.name=Void Trap
 
 item.bb:staffSkeleton.name=Skeleton Staff
 item.bb:staffEfreet.name=Efreet Staff
@@ -53,8 +54,8 @@ item.bb:horn.name=Horn of Support
 item.bb:talisman.name=Talisman
 item.bb:boundPlayer.name=Bound Player
 item.bb:boundBloodBottle.name=Bound Blood Bottle
-item.bb:careerPamphlet.name=Career Pamphlet
 item.bb:apothecaryIntro.name=Introduction to a Basic Guide of Being an Apothecary
+item.bb:rpgIntro.name=Introduction to a Basic Guide of a RPG
 
 item.bb:bound.HEAD.name=Bound Helmet
 item.bb:bound.CHEST.name=Bound Chestplate
@@ -149,10 +150,15 @@ bb.gimp.3=I love Notch.
 
 bb.career.base=Career
 bb.career.hasCareer=You already have a career.
-bb.career.nocareer=Get a job you bum.
+bb.career.noCareer=Get a job you bum.
 bb.career.bloodSorcerer=Blood Sorcerer
 bb.career.undead=Undead
 bb.career.apothecary=Apothecary
+
+bb.rpg.constitution=Constitution
+bb.rpg.strength=Strength
+bb.rpg.defense=Defense
+bb.rpg.dexterity=Dexterity
 
 bb.jei.blood=Blood
 bb.jei.bloodCost=Blood Cost

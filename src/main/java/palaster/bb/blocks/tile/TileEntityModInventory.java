@@ -10,7 +10,7 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemStackHandler;
 
-public abstract class TileEntityModInventory extends TileEntityModBase {
+public abstract class TileEntityModInventory extends TileEntityMod {
 
 	protected SimpleItemStackHandler itemHandler = createItemHandler();
 	

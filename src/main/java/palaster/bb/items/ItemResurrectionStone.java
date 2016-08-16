@@ -59,14 +59,14 @@ public class ItemResurrectionStone extends ItemModSpecial {
 			if(!itemStackIn.hasTagCompound()) {
 				itemStackIn.setTagCompound(new NBTTagCompound());
 				itemStackIn.getTagCompound().setInteger(tag_number, 0);
-				return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStackIn);
+				return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
 			} 
 			if(playerIn.isSneaking()) {
 				if(BBWorldSaveData.get(worldIn) != null && BBWorldSaveData.get(worldIn).getDeadEntities() != null && !BBWorldSaveData.get(worldIn).getDeadEntities().isEmpty() && BBWorldSaveData.get(worldIn).getDeadEntities().size() <= itemStackIn.getTagCompound().getInteger(tag_number))
 					itemStackIn.getTagCompound().setInteger(tag_number, 0);
 				else if(BBWorldSaveData.get(worldIn) != null && BBWorldSaveData.get(worldIn).getDeadEntities() != null && !BBWorldSaveData.get(worldIn).getDeadEntities().isEmpty() && BBWorldSaveData.get(worldIn).getDeadEntities().size() > itemStackIn.getTagCompound().getInteger(tag_number))
 					itemStackIn.getTagCompound().setInteger(tag_number, itemStackIn.getTagCompound().getInteger(tag_number) + 1);
-				return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStackIn);
+				return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
 			} else {
 				if(BBWorldSaveData.get(worldIn) != null && BBWorldSaveData.get(worldIn).getDeadEntities() != null && !BBWorldSaveData.get(worldIn).getDeadEntities().isEmpty()) {
 					NBTTagCompound entityTag = BBWorldSaveData.get(worldIn).getDeadEntity(itemStackIn.getTagCompound().getInteger(tag_number));
@@ -74,11 +74,11 @@ public class ItemResurrectionStone extends ItemModSpecial {
 						EntityLiving li = (EntityLiving) EntityList.createEntityFromNBT(entityTag, worldIn);
 						if(li != null) {
 							BBPlayerHelper.sendChatMessageToPlayer(playerIn, I18n.format("bb.misc.deadEntity") + " : " + li.getName());
-							return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStackIn);
+							return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
 						}
 					}
 				}
-				return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStackIn);
+				return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
 			}
 		}
 		return super.onItemRightClick(itemStackIn, worldIn, playerIn, hand);

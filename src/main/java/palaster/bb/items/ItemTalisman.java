@@ -61,7 +61,7 @@ public class ItemTalisman extends ItemMod {
 	            worldIn.spawnEntityInWorld(talisman);
 	        }
 		}
-        return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStackIn);
+		return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
     }
 	
 	@Override

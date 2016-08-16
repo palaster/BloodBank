@@ -21,7 +21,7 @@ public class ItemArmorActivator extends ItemModSpecial {
 			if(!playerIn.isSneaking())
 				if(playerIn.inventory.armorInventory[0] != null && playerIn.inventory.armorInventory[0].getItem() instanceof ISpecialArmorAbility) {
 					((ISpecialArmorAbility) playerIn.inventory.armorInventory[0].getItem()).doArmorAbility(worldIn, playerIn);
-					return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStackIn);
+					return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
 				}
 		return super.onItemRightClick(itemStackIn, worldIn, playerIn, hand);
 	}

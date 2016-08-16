@@ -26,7 +26,7 @@ public class ItemApothecaryIntro extends ItemModSpecial {
 			if(rpg != null)
 				if(rpg.getCareer() == null) {
 					rpg.setCareer(new CareerApothecary());
-					return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, null);
+					return ActionResult.newResult(EnumActionResult.SUCCESS, null);
 				} else
 					BBPlayerHelper.sendChatMessageToPlayer(playerIn, I18n.format("bb.career.hasCareer"));
 		}

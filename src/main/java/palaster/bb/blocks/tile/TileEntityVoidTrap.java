@@ -3,7 +3,7 @@ package palaster.bb.blocks.tile;
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class TileEntityVoid extends TileEntityModBase {
+public class TileEntityVoidTrap extends TileEntityMod {
 	
 	public static String tag_originalBlockID = "OriginalBlockID";
 	public static String tag_timer = "VoidTimer";

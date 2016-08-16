@@ -27,7 +27,6 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.ServerChatEvent;
-import net.minecraftforge.event.brewing.PotionBrewEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
@@ -47,6 +46,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import palaster.bb.BloodBank;
+import palaster.bb.api.BBApi;
 import palaster.bb.api.capabilities.entities.IRPG;
 import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityProvider;
 import palaster.bb.api.recipes.ShapedBloodRecipes;
@@ -106,6 +106,13 @@ public class BBEventHandler {
 			if(rpgOG != null && rpgNew != null) {
 				if(rpgOG.getCareer() != null)
 					rpgNew.setCareer(rpgOG.getCareer());
+				rpgNew.setConstitution(rpgOG.getConstitution());
+				BBApi.calculateConstitutionBoost(e.getEntityPlayer());
+				rpgNew.setStrength(rpgOG.getStrength());
+				BBApi.calculateStrengthBoost(e.getEntityPlayer());
+				rpgNew.setDefense(rpgOG.getDefense());
+				rpgNew.setDexterity(rpgOG.getDexterity());
+				BBApi.calculateDexterityBoost(e.getEntityPlayer());
 				if(e.isWasDeath()) {
 					if(rpgOG.getCareer() != null && rpgOG.getCareer() instanceof CareerUndead) {
 						BBWorldSaveData bbWorldSaveData = BBWorldSaveData.get(e.getOriginal().worldObj);

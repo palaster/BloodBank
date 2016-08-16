@@ -22,7 +22,7 @@ import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityProvider
 import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityStorage;
 import palaster.bb.blocks.BBBlocks;
 import palaster.bb.blocks.tile.TileEntityVoidAnchor;
-import palaster.bb.client.gui.GuiUndeadMonitor;
+import palaster.bb.client.gui.GuiRPGIntro;
 import palaster.bb.client.gui.GuiVoidAnchor;
 import palaster.bb.core.CreativeTabBB;
 import palaster.bb.core.handlers.BBEventHandler;
@@ -30,10 +30,10 @@ import palaster.bb.entities.BBEntities;
 import palaster.bb.entities.EntityItztiliTablet;
 import palaster.bb.entities.effects.BBPotions;
 import palaster.bb.entities.villager.BBVillagers;
-import palaster.bb.inventories.ContainerUndeadMonitor;
+import palaster.bb.inventories.ContainerRPGIntro;
 import palaster.bb.inventories.ContainerVoidAnchor;
 import palaster.bb.items.BBItems;
-import palaster.bb.items.ItemUndeadMonitor;
+import palaster.bb.items.ItemRPGIntro;
 import palaster.bb.network.PacketHandler;
 import palaster.bb.network.client.UpdateRPGMessage;
 import palaster.bb.recipes.BBRecipes;
@@ -77,14 +77,14 @@ public class CommonProxy implements IGuiHandler {
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		TileEntity te = world.getTileEntity(new BlockPos(x, y, z));
 		switch(ID) {
+			case 0: {
+				if(player.getHeldItem(EnumHand.MAIN_HAND) != null && player.getHeldItem(EnumHand.MAIN_HAND).getItem() instanceof ItemRPGIntro)
+					return new ContainerRPGIntro(player);
+				break;
+			}
 			case 1: {
 				if(te != null && te instanceof TileEntityVoidAnchor)
 					return new ContainerVoidAnchor(player.inventory, (TileEntityVoidAnchor) te);
-				break;
-			}
-			case 2: {
-				if(player.getHeldItem(EnumHand.MAIN_HAND) != null && player.getHeldItem(EnumHand.MAIN_HAND).getItem() instanceof ItemUndeadMonitor)
-					return new ContainerUndeadMonitor(player);
 				break;
 			}
 		}
@@ -95,14 +95,14 @@ public class CommonProxy implements IGuiHandler {
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		TileEntity te = world.getTileEntity(new BlockPos(x, y, z));
 		switch(ID) {
+			case 0: {
+				if(player.getHeldItem(EnumHand.MAIN_HAND) != null && player.getHeldItem(EnumHand.MAIN_HAND).getItem() instanceof ItemRPGIntro)
+					return new GuiRPGIntro(player);
+				break;
+			}
 			case 1: {
 				if(te != null && te instanceof TileEntityVoidAnchor)
 					return new GuiVoidAnchor(player.inventory, (TileEntityVoidAnchor) te);
-				break;
-			}
-			case 2: {
-				if(player.getHeldItem(EnumHand.MAIN_HAND) != null && player.getHeldItem(EnumHand.MAIN_HAND).getItem() instanceof ItemUndeadMonitor)
-					return new GuiUndeadMonitor(player);
 				break;
 			}
 		}

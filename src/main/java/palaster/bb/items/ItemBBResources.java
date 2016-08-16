@@ -171,10 +171,9 @@ public class ItemBBResources extends ItemModSpecial {
 	                if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerUndead)
 	                    BBPlayerHelper.sendChatMessageToPlayer(playerIn, I18n.format("bb.bank.undead"));
 	                else if(rpg.getCareer() == null || !(rpg.getCareer() instanceof CareerBloodSorcerer)) {
-	                    rpg.setCareer(new CareerBloodSorcerer());
-	                    ((CareerBloodSorcerer) rpg.getCareer()).setMaxBlood(2000);
+	                    rpg.setCareer(new CareerBloodSorcerer(0, 2000, null));
 	                    BBPlayerHelper.sendChatMessageToPlayer(playerIn, I18n.format("bb.bank.join"));
-	                    return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, new ItemStack(this, 1, 1));
+	                    return ActionResult.newResult(EnumActionResult.SUCCESS, new ItemStack(this, 1, 1));
 	                } else
 	                    BBPlayerHelper.sendChatMessageToPlayer(playerIn, I18n.format("bb.bank.refuse"));
 				}
@@ -182,15 +181,15 @@ public class ItemBBResources extends ItemModSpecial {
             	final IRPG rpg = RPGCapabilityProvider.get(playerIn);
             	if(rpg != null) {
             		if(rpg.getCareer() == null || !(rpg.getCareer() instanceof CareerUndead)) {
-                		rpg.setCareer(new CareerUndead());
+                		rpg.setCareer(new CareerUndead(0, 0, 1000));
                 		playerIn.attackEntityFrom(DamageSource.inFire, playerIn.getMaxHealth() + 5f);
-                		return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, null);
+                		return ActionResult.newResult(EnumActionResult.SUCCESS, null);
                 	}
             		if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerBloodSorcerer) {
-						rpg.setCareer(new CareerUndead());
+            			rpg.setCareer(new CareerUndead(0, 0, 1000));
             			BBPlayerHelper.sendChatMessageToPlayer(playerIn, I18n.format("bb.bank.becomeUndead"));
             			playerIn.attackEntityFrom(DamageSource.inFire, playerIn.getMaxHealth() + 5f);
-                		return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, null);
+            			return ActionResult.newResult(EnumActionResult.SUCCESS, null);
                 	}
             	}
             } else if(itemStackIn.getItemDamage() == 6)
@@ -199,7 +198,7 @@ public class ItemBBResources extends ItemModSpecial {
             		if(rpg != null)
             			if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerUndead) {
             				((CareerUndead) rpg.getCareer()).addSoul(itemStackIn.getTagCompound().getInteger(tag_soulAmount));
-                			return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, null);
+            				return ActionResult.newResult(EnumActionResult.SUCCESS, null);
                 		}
             	}
         return super.onItemRightClick(itemStackIn, worldIn, playerIn, hand);
@@ -236,6 +235,7 @@ public class ItemBBResources extends ItemModSpecial {
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public void getSubItems(Item itemIn, CreativeTabs tab, List<ItemStack> subItems) {
         for(int i = 0; i < itemIn.getMaxDamage(); i++)
             subItems.add(new ItemStack(itemIn, 1, i));

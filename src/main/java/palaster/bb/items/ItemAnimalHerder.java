@@ -69,7 +69,7 @@ public class ItemAnimalHerder extends ItemModSpecial {
 			for(Entity entity : playerIn.getPassengers())
 				if(entity instanceof EntityAnimal) {
 					((EntityAnimal) entity).dismountRidingEntity();
-					return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStackIn);
+					return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
 				}
 		return super.onItemRightClick(itemStackIn, worldIn, playerIn, hand);
 	}

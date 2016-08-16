@@ -4,9 +4,10 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import palaster.bb.blocks.tile.TileEntityBloodTicker;
 import palaster.bb.blocks.tile.TileEntityCommunityTool;
 import palaster.bb.blocks.tile.TileEntityTNTAbsorber;
-import palaster.bb.blocks.tile.TileEntityVoid;
+import palaster.bb.blocks.tile.TileEntityVoidTrap;
 import palaster.bb.blocks.tile.TileEntityVoidAnchor;
 import palaster.bb.libs.LibMod;
 
@@ -15,17 +16,17 @@ public class BBBlocks {
 	public static Block voidAnchor,
 	communityTool,
 	bonfire,
-	tntAbsorber;
-
-	public static Block touchVoid;
+	tntAbsorber,
+	bloodTicker,
+	voidTrap;
 	
 	public static void init() {
 		voidAnchor = new BlockVoidAnchor(Material.ROCK);
 		communityTool = new BlockCommunityTool(Material.ROCK);
 		bonfire = new BlockBonfire(Material.WOOD);
 		tntAbsorber = new BlockTNTAbsorber(Material.ROCK);
-
-		touchVoid = new BlockVoid(Material.BARRIER);
+		bloodTicker = new BlockBloodTicker(Material.GROUND);
+		voidTrap = new BlockVoidTrap(Material.BARRIER);
 
 		registerTileEntities();
 	}
@@ -34,8 +35,8 @@ public class BBBlocks {
 		registerTileEntity(TileEntityVoidAnchor.class, "voidAnchor");
 		registerTileEntity(TileEntityCommunityTool.class, "communityTool");
 		registerTileEntity(TileEntityTNTAbsorber.class, "tntAbsorber");
-		
-		registerTileEntity(TileEntityVoid.class, "void");
+		registerTileEntity(TileEntityBloodTicker.class, "bloodTicker");
+		registerTileEntity(TileEntityVoidTrap.class, "voidTrap");
 	}
 	
 	public static void registerCustomModelResourceLocation() {

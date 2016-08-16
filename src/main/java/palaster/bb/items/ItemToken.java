@@ -77,7 +77,7 @@ public class ItemToken extends ItemModSpecial {
 			if(!itemStackIn.hasTagCompound()) {
 				itemStackIn.setTagCompound(new NBTTagCompound());
 				itemStackIn.getTagCompound().setInteger(tag_number, -1);
-				return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStackIn);
+				return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
 			}
 		return super.onItemRightClick(itemStackIn, worldIn, playerIn, hand);
 	}

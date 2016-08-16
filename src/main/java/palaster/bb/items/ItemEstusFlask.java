@@ -49,12 +49,12 @@ public class ItemEstusFlask extends ItemModSpecial {
 					if(itemStackIn.hasTagCompound() && itemStackIn.getTagCompound().getInteger(tag_estusUses) > 0) {
 						playerIn.heal(4f);
 						itemStackIn.getTagCompound().setInteger(tag_estusUses, itemStackIn.getTagCompound().getInteger(tag_estusUses) - 1);
-						return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStackIn);
+						return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
 					}
 				} else
 					if(itemStackIn.hasTagCompound()) {
 						itemStackIn.damageItem(1, playerIn);
-						return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStackIn);
+						return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
 					}
 			} else {
 				if(!playerIn.isSneaking()) {
@@ -64,13 +64,13 @@ public class ItemEstusFlask extends ItemModSpecial {
 							if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerUndead) {
 								((CareerUndead) rpg.getCareer()).addFocus(150);
 								itemStackIn.getTagCompound().setInteger(tag_estusUses, itemStackIn.getTagCompound().getInteger(tag_estusUses) - 1);
-								return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStackIn);
+								return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
 							}
 					}
 				} else
 					if(itemStackIn.hasTagCompound()) {
 						itemStackIn.damageItem(-1, playerIn);
-						return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStackIn);
+						return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
 					}
 			}
 		}

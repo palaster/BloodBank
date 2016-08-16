@@ -30,7 +30,7 @@ public class ItemGhostWhisper extends ItemModSpecial {
 							EntityLiving li = (EntityLiving) EntityList.createEntityFromNBT(tag, worldIn);
 							BBPlayerHelper.sendChatMessageToPlayer(playerIn, I18n.format("bb.misc.ghostWhisper") + li.getName());							
 						}
-				return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStackIn);
+				return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
 			}
 		return super.onItemRightClick(itemStackIn, worldIn, playerIn, hand);
 	}

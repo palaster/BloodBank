@@ -5,6 +5,9 @@ import net.minecraft.nbt.NBTTagCompound;
 public abstract class RPGCareerBase implements IRPGCareer {
 	
 	@Override
+	public void leaveCareer() {}
+	
+	@Override
 	public String getUnlocalizedName() { return "bb.career.base"; }
 
 	@Override
