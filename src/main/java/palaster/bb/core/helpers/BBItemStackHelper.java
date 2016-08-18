@@ -1,7 +1,6 @@
 package palaster.bb.core.helpers;
 
 import net.minecraft.block.BlockJukebox.TileEntityJukebox;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -23,35 +22,11 @@ public class BBItemStackHelper {
 			}
 		return null;
 	}
-	
-	public static void setItemStackFromInventory(ItemStack stack, WorldServer ws, BlockPos pos, int slot) {
-		if(ws != null) {
-			if(ws.getTileEntity(pos) != null && ws.getTileEntity(pos) instanceof IInventory) {
-				IInventory inv = (IInventory) ws.getTileEntity(pos);
-				inv.setInventorySlotContents(slot, stack);
-			} else if(ws.getTileEntity(pos) != null && ws.getTileEntity(pos) instanceof TileEntityJukebox) {
-				TileEntityJukebox jb = (TileEntityJukebox) ws.getTileEntity(pos);
-				if(stack == null) {
-					ws.playBroadcastSound(1005, pos, 0);
-                    ws.playRecord(pos, null);
-				}
-				jb.setRecord(stack);
-			}
-		}
-	}
-	
-	public static int getItemStackSlotFromPlayer(EntityPlayer player, ItemStack stack) {
-		if(player != null && !player.worldObj.isRemote && stack != null && player.inventory.hasItemStack(stack))
-			for(int i = 0; i < player.inventory.getSizeInventory(); i++)
-				if(player.inventory.getStackInSlot(i) != null && player.inventory.getStackInSlot(i).getItem() == stack.getItem())
-					return i;
-		return -1;
-	}
 
 	public static ItemStack setItemStackInsideItemStack(ItemStack holder, ItemStack toHold, String tag) {
 		if(holder != null && toHold != null && !(toHold.getItem() instanceof ItemBoundArmor)) {
 			NBTTagCompound holding = new NBTTagCompound();
-			toHold.writeToNBT(holding);
+			holding = toHold.writeToNBT(holding);
 			if(!holder.hasTagCompound())
 				holder.setTagCompound(new NBTTagCompound());
 			holder.getTagCompound().setTag(tag, holding);
@@ -62,7 +37,7 @@ public class BBItemStackHelper {
 	public static ItemStack setItemStackInsideItemStackRecordPrevious(ItemStack holder, ItemStack toHold, String previousTag, String tag) {
 		if(holder != null && toHold != null && !(toHold.getItem() instanceof ItemBoundArmor)) {
 			NBTTagCompound holding = new NBTTagCompound();
-			toHold.writeToNBT(holding);
+			holding = toHold.writeToNBT(holding);
 			if(!holder.hasTagCompound())
 				holder.setTagCompound(new NBTTagCompound());
 			holder.getTagCompound().setTag(previousTag, holder.getTagCompound().getCompoundTag(tag));
@@ -72,15 +47,8 @@ public class BBItemStackHelper {
 	}
 
 	public static ItemStack getItemStackFromItemStack(ItemStack holder, String tag) {
-		if(holder.hasTagCompound() && holder.getTagCompound() != null)
-			return ItemStack.loadItemStackFromNBT(holder.getTagCompound().getCompoundTag(tag));
-		return null;
-	}
-	
-
-	public static ItemStack getPreviousItemStackFromItemStack(ItemStack holder, String previousTag) {
 		if(holder != null && holder.hasTagCompound() && holder.getTagCompound() != null)
-			return ItemStack.loadItemStackFromNBT(holder.getTagCompound().getCompoundTag(previousTag));
+			return ItemStack.loadItemStackFromNBT(holder.getTagCompound().getCompoundTag(tag));
 		return null;
 	}
 

@@ -1,5 +1,7 @@
 package palaster.bb.items;
 
+import java.util.List;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
@@ -16,6 +18,8 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AnvilUpdateEvent;
 import net.minecraftforge.event.entity.player.AnvilRepairEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import palaster.bb.api.capabilities.entities.IRPG;
 import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityProvider;
 import palaster.bb.api.capabilities.items.IFlameSpell;
@@ -23,8 +27,7 @@ import palaster.bb.core.helpers.BBItemStackHelper;
 import palaster.bb.entities.careers.CareerUndead;
 
 public class ItemFlames extends ItemModSpecial {
-	
-	public static String tag_flameState = "FlameState";
+
 	public static String tag_flameHolder = "FlameHolder";
     public static String tag_previousFlameHolder = "PreviousFlameHolder";
 
@@ -36,38 +39,40 @@ public class ItemFlames extends ItemModSpecial {
     
     @SubscribeEvent
 	public void onAnvilUpdate(AnvilUpdateEvent e) {
-		if(e.getLeft() != null && e.getRight() != null) {
-			ItemStack copy = e.getLeft().copy();
+		if(e.getLeft() != null && e.getRight() != null)
 			if(e.getLeft().getItem() instanceof ItemFlames)
 				if(e.getRight().getItem() instanceof IFlameSpell) {
-					copy = e.getLeft().copy();
+					ItemStack copy = e.getLeft().copy();
 					if(!copy.hasTagCompound())
 						copy.setTagCompound(new NBTTagCompound());
-					if(copy.getTagCompound().getInteger(tag_flameState) == 0) {
-						copy.getTagCompound().setInteger(tag_flameState, 1);
-						BBItemStackHelper.setItemStackInsideItemStack(copy, e.getRight(), tag_flameHolder);
-					} else if(copy.getTagCompound().getInteger(tag_flameState) == 1) {
-						copy.getTagCompound().setInteger(tag_flameState, 2);
-						BBItemStackHelper.setItemStackInsideItemStackRecordPrevious(copy, e.getRight(), tag_previousFlameHolder, tag_flameHolder);
-					} else if(copy.getTagCompound().getInteger(tag_flameState) == 2)
-						BBItemStackHelper.setItemStackInsideItemStackRecordPrevious(copy, e.getRight(), tag_previousFlameHolder, tag_flameHolder);
+					if(BBItemStackHelper.getItemStackFromItemStack(copy, tag_flameHolder) == null)
+						copy = BBItemStackHelper.setItemStackInsideItemStack(copy, e.getRight(), tag_flameHolder);
+					else if(BBItemStackHelper.getItemStackFromItemStack(copy, tag_flameHolder) != null && BBItemStackHelper.getItemStackFromItemStack(copy, tag_previousFlameHolder) == null)
+						copy = BBItemStackHelper.setItemStackInsideItemStackRecordPrevious(copy, e.getRight(), tag_previousFlameHolder, tag_flameHolder);
+					else
+						copy = BBItemStackHelper.setItemStackInsideItemStackRecordPrevious(copy, e.getRight(), tag_previousFlameHolder, tag_flameHolder);
 					e.setMaterialCost(1);
 					e.setCost(1);
 					e.setOutput(copy);
 				}
-		}
 	}
     
     @SubscribeEvent
 	public void onAnvilRepair(AnvilRepairEvent e) {
-		// getLeft() is Right Slot and getRight() is Left Slot.
 		if(!e.getEntityPlayer().worldObj.isRemote)
-			if(e.getLeft() != null && e.getRight() != null)
-				if(e.getRight().getItem() instanceof ItemFlames && e.getLeft().getItem() instanceof IFlameSpell)
-					if(e.getRight().hasTagCompound())
-						if(BBItemStackHelper.getPreviousItemStackFromItemStack(e.getRight(), tag_previousFlameHolder) != null && e.getRight().getTagCompound().getInteger(tag_flameState) == 2)
-							e.getEntityPlayer().worldObj.spawnEntityInWorld(new EntityItem(e.getEntityPlayer().worldObj, e.getEntityPlayer().posX, e.getEntityPlayer().posY + .1, e.getEntityPlayer().posZ, BBItemStackHelper.getPreviousItemStackFromItemStack(e.getRight(), tag_previousFlameHolder)));
+			if(e.getItemInput() != null && e.getIngredientInput() != null && e.getItemResult() != null)
+				if(e.getItemInput().getItem() instanceof ItemFlames && e.getIngredientInput().getItem() instanceof IFlameSpell && e.getItemResult().getItem() instanceof ItemFlames)
+					if(e.getItemResult().hasTagCompound())
+						if(BBItemStackHelper.getItemStackFromItemStack(e.getItemResult(), tag_previousFlameHolder) != null)
+							e.getEntityPlayer().worldObj.spawnEntityInWorld(new EntityItem(e.getEntityPlayer().worldObj, e.getEntityPlayer().posX, e.getEntityPlayer().posY + .1, e.getEntityPlayer().posZ, BBItemStackHelper.getItemStackFromItemStack(e.getItemResult(), tag_previousFlameHolder)));
 	}
+    
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
+    	if(BBItemStackHelper.getItemStackFromItemStack(stack, tag_flameHolder) != null && BBItemStackHelper.getItemStackFromItemStack(stack, tag_flameHolder).getItem() instanceof IFlameSpell)
+    		tooltip.add(BBItemStackHelper.getItemStackFromItemStack(stack, tag_flameHolder).getDisplayName());
+    }
 
     @Override
     public boolean onLeftClickEntity(ItemStack stack, EntityPlayer player, Entity entity) {
