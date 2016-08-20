@@ -51,8 +51,6 @@ public class GuiRPGIntro extends GuiContainer {
                 fontRendererObj.drawString(I18n.format("bb.rpg.dexterity") + ": " + rpg.getDexterity(), 6, 56, 4210752);
                 if(BBApi.getExperienceCostForNextLevel(player.get()) > player.get().experienceLevel)
                 	fontRendererObj.drawString(BBApi.getExperienceCostForNextLevel(player.get()) + "", 6, 76, 0x8A0707);
-                else if(BBApi.getExperienceCostForNextLevel(player.get()) <= 0)
-                	fontRendererObj.drawString("Free", 6, 76, 0x009900);
                 else
                 	fontRendererObj.drawString(BBApi.getExperienceCostForNextLevel(player.get()) + "", 6, 76, 0x009900);
     		}
