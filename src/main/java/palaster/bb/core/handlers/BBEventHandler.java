@@ -4,7 +4,6 @@ import java.io.File;
 
 import org.lwjgl.input.Keyboard;
 
-import net.minecraft.block.BlockCrops;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
@@ -34,7 +33,6 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerDropsEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.SleepingLocationCheckEvent;
-import net.minecraftforge.event.world.BlockEvent.HarvestDropsEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.eventhandler.Event;
@@ -52,7 +50,6 @@ import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityProvider
 import palaster.bb.api.recipes.ShapedBloodRecipes;
 import palaster.bb.core.proxy.ClientProxy;
 import palaster.bb.entities.EntityItztiliTablet;
-import palaster.bb.entities.careers.CareerApothecary;
 import palaster.bb.entities.careers.CareerBloodSorcerer;
 import palaster.bb.entities.careers.CareerUndead;
 import palaster.bb.entities.effects.BBPotions;
@@ -82,7 +79,7 @@ public class BBEventHandler {
 
 	@SubscribeEvent
 	public void onConfigurationChangeEvent(ConfigChangedEvent.OnConfigChangedEvent e) {
-		if(e.getModID().equalsIgnoreCase(LibMod.modid))
+		if(e.getModID().equalsIgnoreCase(LibMod.MODID))
 			loadConfiguration();
 	}
 
@@ -94,8 +91,8 @@ public class BBEventHandler {
 	@SubscribeEvent
 	public void attachEntityCapability(AttachCapabilitiesEvent.Entity e) {
 		if(e.getEntity() instanceof EntityPlayer)
-			if((EntityPlayer) e.getEntity() != null && !((EntityPlayer) e.getEntity()).hasCapability(RPGCapabilityProvider.rpgCap, null))
-				e.addCapability(new ResourceLocation(LibMod.modid, "IRPG"), new RPGCapabilityProvider());
+			if((EntityPlayer) e.getEntity() != null && !((EntityPlayer) e.getEntity()).hasCapability(RPGCapabilityProvider.RPG_CAP, null))
+				e.addCapability(new ResourceLocation(LibMod.MODID, "IRPG"), new RPGCapabilityProvider());
 	}
 
 	@SubscribeEvent
@@ -167,7 +164,7 @@ public class BBEventHandler {
 							ItemStack souls = new ItemStack(BBItems.bbResources, 1, 6);
 							if(!souls.hasTagCompound())
 								souls.setTagCompound(new NBTTagCompound());
-							souls.getTagCompound().setInteger(ItemBBResources.tag_soulAmount, ((CareerUndead) rpg.getCareer()).getSoul());
+							souls.getTagCompound().setInteger(ItemBBResources.TAG_INT_SOUL_AMOUNT, ((CareerUndead) rpg.getCareer()).getSoul());
 							e.getEntityLiving().worldObj.spawnEntityInWorld(new EntityItem(e.getEntityLiving().worldObj, e.getEntityLiving().posX, e.getEntityLiving().posY, e.getEntityLiving().posZ, souls));
 						}
 						((CareerUndead) rpg.getCareer()).setSoul(0);
@@ -261,25 +258,11 @@ public class BBEventHandler {
 						if(e.craftMatrix.getStackInSlot(i).hasTagCompound()) {
 							if(!e.crafting.hasTagCompound())
 								e.crafting.setTagCompound(new NBTTagCompound());
-							e.crafting.getTagCompound().setUniqueId(ItemBoundBloodBottle.tag_UUID, e.craftMatrix.getStackInSlot(i).getTagCompound().getUniqueId(ItemBoundPlayer.tag_UUID));
+							e.crafting.getTagCompound().setUniqueId(ItemBoundBloodBottle.TAG_UUID_PLAYER, e.craftMatrix.getStackInSlot(i).getTagCompound().getUniqueId(ItemBoundPlayer.TAG_UUID_PLAYER));
 						}
 		}
 	}
-	
-	@SubscribeEvent
-	public void onHarvestDrops(HarvestDropsEvent e) {
-		if(!e.getWorld().isRemote)
-			if(e.getState() != null && e.getState().getBlock() != null && e.getState().getBlock() instanceof BlockCrops)
-				if(e.getHarvester() != null) {
-					final IRPG rpg = RPGCapabilityProvider.get(e.getHarvester());
-					if(rpg != null)
-						if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerApothecary)
-							for(ItemStack stack : e.getDrops())
-								if(stack != null)
-									stack.stackSize += 1;
-				}
-	}
-	
+
 	@SubscribeEvent
 	public void loadWorld(WorldEvent.Load e) {
 		if(!e.getWorld().isRemote)

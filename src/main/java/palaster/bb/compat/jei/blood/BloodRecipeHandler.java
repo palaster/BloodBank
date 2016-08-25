@@ -12,11 +12,11 @@ public class BloodRecipeHandler implements IRecipeHandler<ShapedBloodRecipes> {
 	public Class<ShapedBloodRecipes> getRecipeClass() { return ShapedBloodRecipes.class; }
 
 	@Override
-	public String getRecipeCategoryUid() { return BloodRecipeCategory.categoryUID; }
+	public String getRecipeCategoryUid() { return BloodRecipeCategory.CATEGORY_UID; }
 
 	@Nonnull
 	@Override
-	public String getRecipeCategoryUid(ShapedBloodRecipes recipe) { return BloodRecipeCategory.categoryUID; }
+	public String getRecipeCategoryUid(ShapedBloodRecipes recipe) { return BloodRecipeCategory.CATEGORY_UID; }
 
 	@Nonnull
 	@Override

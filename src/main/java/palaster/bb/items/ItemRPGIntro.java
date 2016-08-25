@@ -38,7 +38,7 @@ public class ItemRPGIntro extends ItemModSpecial implements IRecieveButton {
 		if(rpg != null) {
 			switch(buttonId) {
 				case 0: {
-					if(player.experienceLevel >= BBApi.getExperienceCostForNextLevel(player) && rpg.getConstitution() < RPGCapabilityDefault.maxLevel) {
+					if(player.experienceLevel >= BBApi.getExperienceCostForNextLevel(player) && rpg.getConstitution() < RPGCapabilityDefault.MAX_LEVEL) {
 						if(player.experienceLevel - BBApi.getExperienceCostForNextLevel(player) <= 0)
 							player.removeExperienceLevel(player.experienceLevel);
 						else if(BBApi.getExperienceCostForNextLevel(player) > 0)
@@ -50,7 +50,7 @@ public class ItemRPGIntro extends ItemModSpecial implements IRecieveButton {
 					break;
 				}
 				case 1: {
-					if(player.experienceLevel >= BBApi.getExperienceCostForNextLevel(player) && rpg.getStrength() < RPGCapabilityDefault.maxLevel) {
+					if(player.experienceLevel >= BBApi.getExperienceCostForNextLevel(player) && rpg.getStrength() < RPGCapabilityDefault.MAX_LEVEL) {
 						if(player.experienceLevel - BBApi.getExperienceCostForNextLevel(player) <= 0)
 							player.removeExperienceLevel(player.experienceLevel);
 						else if(BBApi.getExperienceCostForNextLevel(player) > 0)
@@ -62,7 +62,7 @@ public class ItemRPGIntro extends ItemModSpecial implements IRecieveButton {
 					break;
 				}
 				case 2: {
-					if(player.experienceLevel >= BBApi.getExperienceCostForNextLevel(player) && rpg.getDefense() < RPGCapabilityDefault.maxLevel) {
+					if(player.experienceLevel >= BBApi.getExperienceCostForNextLevel(player) && rpg.getDefense() < RPGCapabilityDefault.MAX_LEVEL) {
 						if(player.experienceLevel - BBApi.getExperienceCostForNextLevel(player) <= 0)
 							player.removeExperienceLevel(player.experienceLevel);
 						else if(BBApi.getExperienceCostForNextLevel(player) > 0)
@@ -73,7 +73,7 @@ public class ItemRPGIntro extends ItemModSpecial implements IRecieveButton {
 					break;
 				}
 				case 3: {
-					if(player.experienceLevel >= BBApi.getExperienceCostForNextLevel(player) && rpg.getDexterity() < RPGCapabilityDefault.maxLevel) {
+					if(player.experienceLevel >= BBApi.getExperienceCostForNextLevel(player) && rpg.getDexterity() < RPGCapabilityDefault.MAX_LEVEL) {
 						if(player.experienceLevel - BBApi.getExperienceCostForNextLevel(player) <= 0)
 							player.removeExperienceLevel(player.experienceLevel);
 						else if(BBApi.getExperienceCostForNextLevel(player) > 0)

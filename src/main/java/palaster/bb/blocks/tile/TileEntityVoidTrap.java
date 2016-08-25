@@ -5,8 +5,8 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public class TileEntityVoidTrap extends TileEntityMod {
 	
-	public static String tag_originalBlockID = "OriginalBlockID";
-	public static String tag_timer = "VoidTimer";
+	public static final String TAG_ORIGINAL_BLOCK_ID = "OriginalBlockID";
+	public static final String TAG_INT_TIMER = "VoidTimer";
 
 	private Block ogBlock;
 	private final int timerMax = 2400;
@@ -19,14 +19,14 @@ public class TileEntityVoidTrap extends TileEntityMod {
 	@Override
 	public void readPacketNBT(NBTTagCompound compound) {
 		super.readPacketNBT(compound);
-		ogBlock = Block.getBlockById(compound.getInteger(tag_originalBlockID));
-		timer = compound.getInteger(tag_timer);
+		ogBlock = Block.getBlockById(compound.getInteger(TAG_ORIGINAL_BLOCK_ID));
+		timer = compound.getInteger(TAG_INT_TIMER);
 	}
 	
 	@Override
 	public void writePacketNBT(NBTTagCompound compound) {
-		compound.setInteger(tag_originalBlockID, Block.getIdFromBlock(ogBlock));
-		compound.setInteger(tag_timer, timer);
+		compound.setInteger(TAG_ORIGINAL_BLOCK_ID, Block.getIdFromBlock(ogBlock));
+		compound.setInteger(TAG_INT_TIMER, timer);
 		super.writePacketNBT(compound);
 	}
 

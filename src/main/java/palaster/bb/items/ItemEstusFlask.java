@@ -22,7 +22,7 @@ import palaster.bb.entities.careers.CareerUndead;
 
 public class ItemEstusFlask extends ItemModSpecial {
 	
-	public static String tag_estusUses = "EstusUses";
+	public static final String TAG_INT_USES = "EstusUses";
 	
 	public ItemEstusFlask() {
 		super();
@@ -38,7 +38,7 @@ public class ItemEstusFlask extends ItemModSpecial {
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
 		if(stack.hasTagCompound())
-			tooltip.add(I18n.format("bb.misc.amountLeft") + ": " + stack.getTagCompound().getInteger(tag_estusUses));
+			tooltip.add(I18n.format("bb.misc.amountLeft") + ": " + stack.getTagCompound().getInteger(TAG_INT_USES));
 	}
 	
 	@Override
@@ -46,9 +46,9 @@ public class ItemEstusFlask extends ItemModSpecial {
 		if(!worldIn.isRemote) {
 			if(itemStackIn.getItemDamage() == 0) {
 				if(!playerIn.isSneaking()) {
-					if(itemStackIn.hasTagCompound() && itemStackIn.getTagCompound().getInteger(tag_estusUses) > 0) {
+					if(itemStackIn.hasTagCompound() && itemStackIn.getTagCompound().getInteger(TAG_INT_USES) > 0) {
 						playerIn.heal(4f);
-						itemStackIn.getTagCompound().setInteger(tag_estusUses, itemStackIn.getTagCompound().getInteger(tag_estusUses) - 1);
+						itemStackIn.getTagCompound().setInteger(TAG_INT_USES, itemStackIn.getTagCompound().getInteger(TAG_INT_USES) - 1);
 						return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
 					}
 				} else
@@ -58,12 +58,12 @@ public class ItemEstusFlask extends ItemModSpecial {
 					}
 			} else {
 				if(!playerIn.isSneaking()) {
-					if(itemStackIn.hasTagCompound() && itemStackIn.getTagCompound().getInteger(tag_estusUses) > 0) {
+					if(itemStackIn.hasTagCompound() && itemStackIn.getTagCompound().getInteger(TAG_INT_USES) > 0) {
 						final IRPG rpg = RPGCapabilityProvider.get(playerIn);
 						if(rpg != null)
 							if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerUndead) {
 								((CareerUndead) rpg.getCareer()).addFocus(150);
-								itemStackIn.getTagCompound().setInteger(tag_estusUses, itemStackIn.getTagCompound().getInteger(tag_estusUses) - 1);
+								itemStackIn.getTagCompound().setInteger(TAG_INT_USES, itemStackIn.getTagCompound().getInteger(TAG_INT_USES) - 1);
 								return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
 							}
 					}

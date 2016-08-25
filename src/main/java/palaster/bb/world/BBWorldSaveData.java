@@ -11,10 +11,10 @@ import net.minecraft.world.WorldSavedData;
 
 public class BBWorldSaveData extends WorldSavedData {
 	
-	public static String tag_bonfire = "Bonfire";
-	public static String tag_bonfireNumber = "BonfireNumber";
-	public static String tag_entityTag = "DeadEntityTag";
-	public static String tag_deadNumber = "DeadEntityNumber";
+	public static final String TAG_INT_BONFIRE_POS = "Bonfire";
+	public static final String TAG_INT_BONFIRE = "BonfireNumber";
+	public static final String TAG_TAG_DEAD = "DeadEntityTag";
+	public static final String TAG_INT_DEAD = "DeadEntityNumber";
 
     private static final String IDENTIFIER = "BloodBankWorldSaveData";
     private List<BlockPos> bonFirePos = new ArrayList<BlockPos>();
@@ -63,10 +63,10 @@ public class BBWorldSaveData extends WorldSavedData {
     
     @Override
     public void readFromNBT(NBTTagCompound nbt) {
-        for(int i = 0; i < nbt.getInteger(tag_bonfireNumber); i++)
-            bonFirePos.add(new BlockPos(nbt.getInteger(tag_bonfire + "X" + i), nbt.getInteger(tag_bonfire + "Y" + i), nbt.getInteger(tag_bonfire + "Z" + i)));
-        for(int i = 0; i < nbt.getInteger(tag_deadNumber); i++)
-        	addDeadEntity(nbt.getCompoundTag(tag_entityTag + i));
+        for(int i = 0; i < nbt.getInteger(TAG_INT_BONFIRE); i++)
+            bonFirePos.add(new BlockPos(nbt.getInteger(TAG_INT_BONFIRE_POS + "X" + i), nbt.getInteger(TAG_INT_BONFIRE_POS + "Y" + i), nbt.getInteger(TAG_INT_BONFIRE_POS + "Z" + i)));
+        for(int i = 0; i < nbt.getInteger(TAG_INT_DEAD); i++)
+        	addDeadEntity(nbt.getCompoundTag(TAG_TAG_DEAD + i));
     }
 
     @Override
@@ -74,19 +74,19 @@ public class BBWorldSaveData extends WorldSavedData {
         int i = 0;
         for(BlockPos bp : bonFirePos)
             if(bp != null) {
-                nbt.setInteger(tag_bonfire + "X" + i, bp.getX());
-                nbt.setInteger(tag_bonfire + "Y" + i, bp.getY());
-                nbt.setInteger(tag_bonfire + "Z" + i, bp.getZ());
+                nbt.setInteger(TAG_INT_BONFIRE_POS + "X" + i, bp.getX());
+                nbt.setInteger(TAG_INT_BONFIRE_POS + "Y" + i, bp.getY());
+                nbt.setInteger(TAG_INT_BONFIRE_POS + "Z" + i, bp.getZ());
                 i++;
             }
-        nbt.setInteger(tag_bonfireNumber, i);
+        nbt.setInteger(TAG_INT_BONFIRE, i);
         int j = 0;
         for(NBTTagCompound tag : deadEntities)
         	if(tag != null) {
-        		nbt.setTag(tag_entityTag + j, tag);
+        		nbt.setTag(TAG_TAG_DEAD + j, tag);
         		j++;
         	} 
-        nbt.setInteger(tag_deadNumber, j);
+        nbt.setInteger(TAG_INT_DEAD, j);
         return nbt;
     }
 

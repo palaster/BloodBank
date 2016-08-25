@@ -2,7 +2,6 @@ package palaster.bb.items;
 
 import java.util.List;
 
-import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 
 import net.minecraft.client.resources.I18n;
@@ -30,7 +29,7 @@ import palaster.bb.libs.LibMod;
 
 public class ItemLeacher extends ItemSword {
 	
-	public static String tag_kills = "LeacherKills";
+	public static final String TAG_INT_KILLS = "LeacherKills";
 
 	public ItemLeacher(ToolMaterial material) {
 		super(material);
@@ -48,7 +47,7 @@ public class ItemLeacher extends ItemSword {
 					if(p.getHeldItemMainhand() != null && p.getHeldItemMainhand().getItem() instanceof ItemLeacher) {
 						if(!p.getHeldItemMainhand().hasTagCompound())
 							p.getHeldItemMainhand().setTagCompound(new NBTTagCompound());
-						p.getHeldItemMainhand().getTagCompound().setInteger(tag_kills, ((EntityPlayer) e.getSource().getSourceOfDamage()).getHeldItemMainhand().getTagCompound().getInteger(tag_kills) + 1);
+						p.getHeldItemMainhand().getTagCompound().setInteger(TAG_INT_KILLS, ((EntityPlayer) e.getSource().getSourceOfDamage()).getHeldItemMainhand().getTagCompound().getInteger(TAG_INT_KILLS) + 1);
 						boolean wasBloodBottleFound = false;
 						if(e.getEntityLiving().worldObj.rand.nextInt(5) == 0)
 							for(int i = 0; i < p.inventory.getSizeInventory(); i++)
@@ -83,7 +82,7 @@ public class ItemLeacher extends ItemSword {
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
 		if(stack.hasTagCompound())
-			tooltip.add(I18n.format("bb.misc.leacher") + " : " + stack.getTagCompound().getInteger(tag_kills));
+			tooltip.add(I18n.format("bb.misc.leacher") + " : " + stack.getTagCompound().getInteger(TAG_INT_KILLS));
 	}
 	
 	@Override
@@ -91,23 +90,23 @@ public class ItemLeacher extends ItemSword {
 		if(!worldIn.isRemote) {
 			if(!stack.hasTagCompound())
 				stack.setTagCompound(new NBTTagCompound());
-			stack.getTagCompound().setInteger(tag_kills, 0);
+			stack.getTagCompound().setInteger(TAG_INT_KILLS, 0);
 		}
 	}
 	
 	@Override
 	public Item setUnlocalizedName(String unlocalizedName) {
-		setRegistryName(new ResourceLocation(LibMod.modid, unlocalizedName));
+		setRegistryName(new ResourceLocation(LibMod.MODID, unlocalizedName));
 		GameRegistry.register(this);
-		return super.setUnlocalizedName(LibMod.modid + ":" + unlocalizedName);
+		return super.setUnlocalizedName(LibMod.MODID + ":" + unlocalizedName);
 	}
 	
 	@Override
 	public Multimap<String, AttributeModifier> getAttributeModifiers(EntityEquipmentSlot slot, ItemStack stack) {
-		Multimap<String, AttributeModifier> multimap = HashMultimap.<String, AttributeModifier>create();
+		Multimap<String, AttributeModifier> multimap = super.getAttributeModifiers(slot, stack);
 		if(stack.hasTagCompound())
 			if(slot == EntityEquipmentSlot.MAINHAND) {
-				int lvl = stack.getTagCompound().getInteger(tag_kills) / 40;
+				int lvl = stack.getTagCompound().getInteger(TAG_INT_KILLS) / 40;
 				multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getAttributeUnlocalizedName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", 6 + lvl, 0));
 	            multimap.put(SharedMonsterAttributes.ATTACK_SPEED.getAttributeUnlocalizedName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", -1.9D, 0));
 			}

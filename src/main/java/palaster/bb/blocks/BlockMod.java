@@ -24,10 +24,10 @@ public abstract class BlockMod extends Block {
 	
 	@Override
 	public Block setUnlocalizedName(String name) {
-		setRegistryName(new ResourceLocation(LibMod.modid, name));
+		setRegistryName(new ResourceLocation(LibMod.MODID, name));
 		GameRegistry.register(this);
 		GameRegistry.register(new ItemBlock(this).setRegistryName(getRegistryName()));
-		return super.setUnlocalizedName(LibMod.modid + ":" + name);
+		return super.setUnlocalizedName(LibMod.MODID + ":" + name);
 	}
 
 	@SideOnly(Side.CLIENT)

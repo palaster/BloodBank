@@ -37,7 +37,7 @@ public class KPBoundArmor implements IKnowledgePiece {
             		case 0: boundArmor = new ItemStack(BBItems.boundBoots);
             		break;
             	}
-            	playerIn.inventory.armorInventory[i] = BBItemStackHelper.setItemStackInsideItemStack(boundArmor, playerIn.inventory.armorInventory[i], ItemBoundArmor.tag_itemStackInsideBoundArmor);
+            	playerIn.inventory.armorInventory[i] = BBItemStackHelper.setItemStackInsideItemStack(boundArmor, playerIn.inventory.armorInventory[i], ItemBoundArmor.TAG_TAG_INSIDE_BOUND);
             } else {
                 ItemStack boundArmor = new ItemStack(BBItems.boundHelmet);
                 switch(i) {

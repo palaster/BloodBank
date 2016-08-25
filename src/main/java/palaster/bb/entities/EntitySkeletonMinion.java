@@ -59,7 +59,7 @@ import palaster.bb.entities.ai.EntityModAIAttackRangedBow;
 
 public class EntitySkeletonMinion extends EntityTameable implements IMob, IRangedAttackMob {
 	
-	public static String tag_timer = "SkeletonMinionTimer";
+	public static final String TAG_INT_TIMER = "SkeletonMinionTimer";
 
     private int timer;
 
@@ -346,14 +346,14 @@ public class EntitySkeletonMinion extends EntityTameable implements IMob, IRange
             setSkeletonType(i);
         }
         setCombatTask();
-        timer = tagCompound.getInteger(tag_timer);
+        timer = tagCompound.getInteger(TAG_INT_TIMER);
     }
 
     @Override
     public void writeEntityToNBT(NBTTagCompound tagCompound) {
         super.writeEntityToNBT(tagCompound);
         tagCompound.setByte("SkeletonType", (byte)getSkeletonType());
-        tagCompound.setInteger(tag_timer, timer);
+        tagCompound.setInteger(TAG_INT_TIMER, timer);
     }
 
     @Override

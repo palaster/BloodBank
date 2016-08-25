@@ -17,7 +17,7 @@ import palaster.bb.world.BBWorldSaveData;
 
 public class ItemResurrectionStone extends ItemModSpecial {
 	
-	public static String tag_number = "SpiritNumber";
+	public static final String TAG_INT_SPIRIT = "SpiritNumber";
 
 	public ItemResurrectionStone() {
 		super();
@@ -29,11 +29,11 @@ public class ItemResurrectionStone extends ItemModSpecial {
 		if(!worldIn.isRemote) {
 			if(!stack.hasTagCompound()) {
 				stack.setTagCompound(new NBTTagCompound());
-				stack.getTagCompound().setInteger(tag_number, 0);
+				stack.getTagCompound().setInteger(TAG_INT_SPIRIT, 0);
 				return EnumActionResult.SUCCESS;
 			}
 			if(BBWorldSaveData.get(worldIn) != null && BBWorldSaveData.get(worldIn).getDeadEntities() != null && !BBWorldSaveData.get(worldIn).getDeadEntities().isEmpty()) {
-				NBTTagCompound entityTag = BBWorldSaveData.get(worldIn).getDeadEntity(stack.getTagCompound().getInteger(tag_number));
+				NBTTagCompound entityTag = BBWorldSaveData.get(worldIn).getDeadEntity(stack.getTagCompound().getInteger(TAG_INT_SPIRIT));
 				if(entityTag != null)
 					if(EntityList.createEntityFromNBT(entityTag, worldIn) != null)
 						if(EntityList.createEntityFromNBT(entityTag, worldIn) instanceof EntityLiving) {
@@ -58,18 +58,18 @@ public class ItemResurrectionStone extends ItemModSpecial {
 		if(!worldIn.isRemote) {
 			if(!itemStackIn.hasTagCompound()) {
 				itemStackIn.setTagCompound(new NBTTagCompound());
-				itemStackIn.getTagCompound().setInteger(tag_number, 0);
+				itemStackIn.getTagCompound().setInteger(TAG_INT_SPIRIT, 0);
 				return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
 			} 
 			if(playerIn.isSneaking()) {
-				if(BBWorldSaveData.get(worldIn) != null && BBWorldSaveData.get(worldIn).getDeadEntities() != null && !BBWorldSaveData.get(worldIn).getDeadEntities().isEmpty() && BBWorldSaveData.get(worldIn).getDeadEntities().size() <= itemStackIn.getTagCompound().getInteger(tag_number))
-					itemStackIn.getTagCompound().setInteger(tag_number, 0);
-				else if(BBWorldSaveData.get(worldIn) != null && BBWorldSaveData.get(worldIn).getDeadEntities() != null && !BBWorldSaveData.get(worldIn).getDeadEntities().isEmpty() && BBWorldSaveData.get(worldIn).getDeadEntities().size() > itemStackIn.getTagCompound().getInteger(tag_number))
-					itemStackIn.getTagCompound().setInteger(tag_number, itemStackIn.getTagCompound().getInteger(tag_number) + 1);
+				if(BBWorldSaveData.get(worldIn) != null && BBWorldSaveData.get(worldIn).getDeadEntities() != null && !BBWorldSaveData.get(worldIn).getDeadEntities().isEmpty() && BBWorldSaveData.get(worldIn).getDeadEntities().size() <= itemStackIn.getTagCompound().getInteger(TAG_INT_SPIRIT))
+					itemStackIn.getTagCompound().setInteger(TAG_INT_SPIRIT, 0);
+				else if(BBWorldSaveData.get(worldIn) != null && BBWorldSaveData.get(worldIn).getDeadEntities() != null && !BBWorldSaveData.get(worldIn).getDeadEntities().isEmpty() && BBWorldSaveData.get(worldIn).getDeadEntities().size() > itemStackIn.getTagCompound().getInteger(TAG_INT_SPIRIT))
+					itemStackIn.getTagCompound().setInteger(TAG_INT_SPIRIT, itemStackIn.getTagCompound().getInteger(TAG_INT_SPIRIT) + 1);
 				return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
 			} else {
 				if(BBWorldSaveData.get(worldIn) != null && BBWorldSaveData.get(worldIn).getDeadEntities() != null && !BBWorldSaveData.get(worldIn).getDeadEntities().isEmpty()) {
-					NBTTagCompound entityTag = BBWorldSaveData.get(worldIn).getDeadEntity(itemStackIn.getTagCompound().getInteger(tag_number));
+					NBTTagCompound entityTag = BBWorldSaveData.get(worldIn).getDeadEntity(itemStackIn.getTagCompound().getInteger(TAG_INT_SPIRIT));
 					if(entityTag != null) {
 						EntityLiving li = (EntityLiving) EntityList.createEntityFromNBT(entityTag, worldIn);
 						if(li != null) {

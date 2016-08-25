@@ -7,7 +7,7 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public class TileEntityCommunityTool extends TileEntityModInventory {
 	
-	public static String tag_uuid = "CommunityToolUUID";
+	public static final String TAG_UUID = "CommunityToolUUID";
 
 	private UUID owner;
         
@@ -17,7 +17,7 @@ public class TileEntityCommunityTool extends TileEntityModInventory {
     @Override
     public void readPacketNBT(NBTTagCompound compound) {
     	super.readPacketNBT(compound);
-    	UUID uuid = compound.getUniqueId(tag_uuid);
+    	UUID uuid = compound.getUniqueId(TAG_UUID);
     	if(uuid != null)
     		owner = uuid;
     }
@@ -25,7 +25,7 @@ public class TileEntityCommunityTool extends TileEntityModInventory {
     @Override
     public void writePacketNBT(NBTTagCompound compound) {
     	if(owner != null)
-    		compound.setUniqueId(tag_uuid, owner);
+    		compound.setUniqueId(TAG_UUID, owner);
     	super.writePacketNBT(compound);
     }
     

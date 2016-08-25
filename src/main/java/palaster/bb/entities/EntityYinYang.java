@@ -14,7 +14,7 @@ import palaster.bb.blocks.tile.TileEntityVoidTrap;
 
 public class EntityYinYang extends EntityThrowable {
 	
-	public static String tag_number = "YinYangSneaking";
+	public static final String TAG_INT_SNEAKIGN = "YinYangSneaking";
 
 	private int isSneaking = -1;
 
@@ -29,13 +29,13 @@ public class EntityYinYang extends EntityThrowable {
 	
 	@Override
 	public void readEntityFromNBT(NBTTagCompound tagCompund) {
-		isSneaking = tagCompund.getInteger(tag_number);
+		isSneaking = tagCompund.getInteger(TAG_INT_SNEAKIGN);
 		super.readEntityFromNBT(tagCompund);
 	}
 	
 	@Override
 	public void writeEntityToNBT(NBTTagCompound tagCompound) {
-		tagCompound.setInteger(tag_number, isSneaking);
+		tagCompound.setInteger(TAG_INT_SNEAKIGN, isSneaking);
 		super.writeEntityToNBT(tagCompound);
 	}
 

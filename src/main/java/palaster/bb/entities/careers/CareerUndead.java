@@ -5,9 +5,9 @@ import palaster.bb.api.rpg.RPGCareerBase;
 
 public class CareerUndead extends RPGCareerBase {
 	
-    public static String tag_souls = "Souls";
-    public static String tag_focus = "Focus";
-    public static String tag_focusMax = "FocusMax";
+    public static final String TAG_INT_SOULS = "Souls";
+    public static final String TAG_INT_FOCUS = "Focus";
+    public static final String TAG_INT_FOCUS_MAX = "FocusMax";
 
     private int souls;
     private int focus;
@@ -62,16 +62,16 @@ public class CareerUndead extends RPGCareerBase {
     @Override
     public NBTTagCompound saveNBT() {
         NBTTagCompound tagCompound = new NBTTagCompound();
-        tagCompound.setInteger(tag_souls, souls);
-        tagCompound.setInteger(tag_focus, focus);
-        tagCompound.setInteger(tag_focusMax, focusMax);
+        tagCompound.setInteger(TAG_INT_SOULS, souls);
+        tagCompound.setInteger(TAG_INT_FOCUS, focus);
+        tagCompound.setInteger(TAG_INT_FOCUS_MAX, focusMax);
         return tagCompound;
     }
 
     @Override
     public void loadNBT(NBTTagCompound nbt) {
-        souls = nbt.getInteger(tag_souls);
-        focus = nbt.getInteger(tag_focus);
-        focusMax = nbt.getInteger(tag_focusMax);
+        souls = nbt.getInteger(TAG_INT_SOULS);
+        focus = nbt.getInteger(TAG_INT_FOCUS);
+        focusMax = nbt.getInteger(TAG_INT_FOCUS_MAX);
     }
 }

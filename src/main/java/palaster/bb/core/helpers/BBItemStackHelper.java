@@ -55,14 +55,14 @@ public class BBItemStackHelper {
 	public static ItemStack setCountDown(ItemStack stack, int timer) {
 		if(!stack.hasTagCompound())
 			stack.setTagCompound(new NBTTagCompound());
-		stack.getTagCompound().setBoolean(BlockCommunityTool.tag_communityTool, true);
+		stack.getTagCompound().setBoolean(BlockCommunityTool.TAG_BOOLEAN_COMMUNITYTOOL, true);
 		stack.getItem().setMaxDamage(timer);
 		return stack;
 	}
 
 	public static boolean getCountDown(ItemStack stack) {
 		if(stack.hasTagCompound())
-			return stack.getTagCompound().getBoolean(BlockCommunityTool.tag_communityTool);
+			return stack.getTagCompound().getBoolean(BlockCommunityTool.TAG_BOOLEAN_COMMUNITYTOOL);
 		return false;
 	}
 }

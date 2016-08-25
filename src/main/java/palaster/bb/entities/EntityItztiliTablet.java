@@ -18,8 +18,8 @@ import palaster.bb.libs.LibResource;
 
 public class EntityItztiliTablet extends EntityCreature {
 	
-	public static String tag_timer = "ItztiliTimer";
-	public static String tag_number = "ItztiliEnemyCount";
+	public static final String TAG_INT_TIMER = "ItztiliTimer";
+	public static final String TAG_INT_COUNT = "ItztiliEnemyCount";
 
     private final BossInfoServer bossInfo = (BossInfoServer)(new BossInfoServer(getDisplayName(), BossInfo.Color.GREEN, BossInfo.Overlay.PROGRESS));
     private int enemyCount;
@@ -58,7 +58,7 @@ public class EntityItztiliTablet extends EntityCreature {
     }
     
     @Override
-    protected ResourceLocation getLootTable() { return LibResource.itztiliTabletLoot; }
+    protected ResourceLocation getLootTable() { return LibResource.ITZTLI_TABLET_LOOT; }
     
     @Override
     public void knockBack(Entity entityIn, float strenght, double xRatio, double zRatio) {}
@@ -73,15 +73,15 @@ public class EntityItztiliTablet extends EntityCreature {
     @Override
     public void writeEntityToNBT(NBTTagCompound tagCompound) {
         super.writeEntityToNBT(tagCompound);
-        tagCompound.setInteger(tag_number, enemyCount);
-        tagCompound.setInteger(tag_timer, delay);
+        tagCompound.setInteger(TAG_INT_COUNT, enemyCount);
+        tagCompound.setInteger(TAG_INT_TIMER, delay);
     }
 
     @Override
     public void readEntityFromNBT(NBTTagCompound tagCompund) {
         super.readEntityFromNBT(tagCompund);
-        enemyCount = tagCompund.getInteger(tag_number);
-        delay = tagCompund.getInteger(tag_timer);
+        enemyCount = tagCompund.getInteger(TAG_INT_COUNT);
+        delay = tagCompund.getInteger(TAG_INT_TIMER);
     }
 
     @Override

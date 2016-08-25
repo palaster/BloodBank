@@ -13,13 +13,13 @@ import net.minecraft.util.ResourceLocation;
 
 public class BloodRecipeCategory extends BlankRecipeCategory<BloodRecipeWrapper> {
 	
-	public static final String categoryUID = "bb.blood";
+	public static final String CATEGORY_UID = "bb.blood";
 
-	private static final int craftOutputSlot = 0;
-	private static final int craftInputSlot1 = 1;
+	private static final int CRAFT_OUTPUT_SLOT = 0;
+	private static final int CRAFT_INPUT_SLOT1 = 1;
 
-	public static final int width = 116;
-	public static final int height = 54;
+	public static final int WIDTH = 116;
+	public static final int HEIGHT = 54;
 
 	@Nonnull
 	private final IDrawable background;
@@ -28,12 +28,12 @@ public class BloodRecipeCategory extends BlankRecipeCategory<BloodRecipeWrapper>
 	
 	public BloodRecipeCategory(IGuiHelper guiHelper) {
 		ResourceLocation location = new ResourceLocation("minecraft", "textures/gui/container/crafting_table.png");
-		background = guiHelper.createDrawable(location, 29, 16, width, height);
-		craftingGridHelper = guiHelper.createCraftingGridHelper(craftInputSlot1, craftOutputSlot);
+		background = guiHelper.createDrawable(location, 29, 16, WIDTH, HEIGHT);
+		craftingGridHelper = guiHelper.createCraftingGridHelper(CRAFT_INPUT_SLOT1, CRAFT_OUTPUT_SLOT);
     }
 	
 	@Override
-	public String getUid() { return categoryUID; }
+	public String getUid() { return CATEGORY_UID; }
 
 	@Override
 	public String getTitle() { return I18n.format("bb.jei.blood"); }
@@ -44,10 +44,10 @@ public class BloodRecipeCategory extends BlankRecipeCategory<BloodRecipeWrapper>
 	@Override
 	public void setRecipe(IRecipeLayout recipeLayout, BloodRecipeWrapper recipeWrapper) {
 		IGuiItemStackGroup guiItemStacks = recipeLayout.getItemStacks();
-		guiItemStacks.init(craftOutputSlot, false, 94, 18);
+		guiItemStacks.init(CRAFT_OUTPUT_SLOT, false, 94, 18);
 		for(int y = 0; y < 3; ++y)
 			for(int x = 0; x < 3; ++x) {
-				int index = craftInputSlot1 + x + (y * 3);
+				int index = CRAFT_INPUT_SLOT1 + x + (y * 3);
 				guiItemStacks.init(index, true, x * 18, y * 18);
 			}
 		if(recipeWrapper instanceof BloodRecipeWrapper) {

@@ -12,10 +12,8 @@ import palaster.bb.libs.LibResource;
 @SideOnly(Side.CLIENT)
 public class RenderDemonicBankTeller extends RenderLiving<EntityDemonicBankTeller> {
 
-    public RenderDemonicBankTeller(RenderManager manager) {
-        super(manager, new ModelZombie(0.0F, true), .5f);
-    }
+    public RenderDemonicBankTeller(RenderManager manager) { super(manager, new ModelZombie(0.0F, true), .5f); }
 
     @Override
-    protected ResourceLocation getEntityTexture(EntityDemonicBankTeller entity) { return LibResource.bankTeller; }
+    protected ResourceLocation getEntityTexture(EntityDemonicBankTeller entity) { return LibResource.BANK_TELLER; }
 }

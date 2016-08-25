@@ -48,12 +48,13 @@ import palaster.bb.entities.careers.CareerUndead;
 
 public class ItemBBResources extends ItemModSpecial {
 	
-	public static String tag_hasVampireSigil = "HasVampireSigil";
-	public static String tag_soulAmount = "SoulAmount";
+	public static final String TAG_BOOLEAN_VAMPIRE_SIGIL = "HasVampireSigil";
+	public static final String TAG_BOOLEAN_PURIFIED = "IsPurified";
+	public static final String TAG_INT_SOUL_AMOUNT = "SoulAmount";
 
     public ItemBBResources() {
         super();
-        setMaxDamage(9);
+        setMaxDamage(10);
         setUnlocalizedName("bbResources");
         addPropertyOverride(new ResourceLocation("type"), new IItemPropertyGetter() {
             @SideOnly(Side.CLIENT)
@@ -136,11 +137,11 @@ public class ItemBBResources extends ItemModSpecial {
 	public void onAnvilUpdate(AnvilUpdateEvent e) {
 		if(e.getLeft() != null && e.getRight() != null) {
 			ItemStack copy = e.getLeft().copy();
-			if(e.getLeft().getItem().isRepairable() && !(e.getLeft().hasTagCompound() && e.getLeft().getTagCompound().getBoolean(tag_hasVampireSigil)))
+			if(e.getLeft().getItem().isRepairable() && !(e.getLeft().hasTagCompound() && e.getLeft().getTagCompound().getBoolean(TAG_BOOLEAN_VAMPIRE_SIGIL)))
 				if(e.getRight().getItem() instanceof ItemBBResources && e.getRight().getItemDamage() == 3) {
 					if(!copy.hasTagCompound())
 						copy.setTagCompound(new NBTTagCompound());
-					copy.getTagCompound().setBoolean(tag_hasVampireSigil, true);
+					copy.getTagCompound().setBoolean(TAG_BOOLEAN_VAMPIRE_SIGIL, true);
 					e.setMaterialCost(1);
 					e.setCost(1);
 					e.setOutput(copy);
@@ -150,16 +151,19 @@ public class ItemBBResources extends ItemModSpecial {
     
     @SubscribeEvent
 	public void tooltip(ItemTooltipEvent e) {
-		if(e.getItemStack() != null && e.getItemStack().hasTagCompound())
-			if(e.getItemStack().getTagCompound().getBoolean(tag_hasVampireSigil))
+		if(e.getItemStack() != null && e.getItemStack().hasTagCompound()) {
+			if(e.getItemStack().getTagCompound().getBoolean(TAG_BOOLEAN_VAMPIRE_SIGIL))
 				e.getToolTip().add(I18n.format("bb.misc.vampireSigil"));
+			if(e.getItemStack().getTagCompound().getBoolean(TAG_BOOLEAN_PURIFIED))
+				e.getToolTip().add(I18n.format("bb.misc.purified"));
+		}
 	}
     
     @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
     	if(stack.hasTagCompound() && stack.getItemDamage() == 6)
-    		tooltip.add(I18n.format("bb.undead.soulsAmount") + " : " + stack.getTagCompound().getInteger(tag_soulAmount));
+    		tooltip.add(I18n.format("bb.undead.soulsAmount") + " : " + stack.getTagCompound().getInteger(TAG_INT_SOUL_AMOUNT));
     }
 
     @Override
@@ -197,7 +201,7 @@ public class ItemBBResources extends ItemModSpecial {
             		final IRPG rpg = RPGCapabilityProvider.get(playerIn);
             		if(rpg != null)
             			if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerUndead) {
-            				((CareerUndead) rpg.getCareer()).addSoul(itemStackIn.getTagCompound().getInteger(tag_soulAmount));
+            				((CareerUndead) rpg.getCareer()).addSoul(itemStackIn.getTagCompound().getInteger(TAG_INT_SOUL_AMOUNT));
             				return ActionResult.newResult(EnumActionResult.SUCCESS, null);
                 		}
             	}

@@ -55,20 +55,20 @@ public class BlockBonfire extends BlockMod {
                 		ItemStack estusFlask = new ItemStack(BBItems.estusFlask);
                     	if(!estusFlask.hasTagCompound())
                     		estusFlask.setTagCompound(new NBTTagCompound());
-                    	estusFlask.getTagCompound().setInteger(ItemEstusFlask.tag_estusUses, 6);
+                    	estusFlask.getTagCompound().setInteger(ItemEstusFlask.TAG_INT_USES, 6);
                     	if(!playerIn.inventory.addItemStackToInventory(estusFlask))
                 			worldIn.spawnEntityInWorld(new EntityItem(worldIn, playerIn.posX, playerIn.posY, playerIn.posZ, estusFlask));
                 	} else {
                 		ItemStack estusFlask = new ItemStack(BBItems.estusFlask);
                     	if(!estusFlask.hasTagCompound())
                     		estusFlask.setTagCompound(new NBTTagCompound());
-                    	estusFlask.getTagCompound().setInteger(ItemEstusFlask.tag_estusUses, 6);
+                    	estusFlask.getTagCompound().setInteger(ItemEstusFlask.TAG_INT_USES, 6);
                     	playerIn.setHeldItem(hand, estusFlask);
                 	}
                 } else if(heldItem.getItem() instanceof ItemEstusFlask) {
                 	if(!heldItem.hasTagCompound())
                 		heldItem.setTagCompound(new NBTTagCompound());
-                	heldItem.getTagCompound().setInteger(ItemEstusFlask.tag_estusUses, 6);
+                	heldItem.getTagCompound().setInteger(ItemEstusFlask.TAG_INT_USES, 6);
                 	playerIn.setHeldItem(hand, heldItem);
                 } else if(heldItem.getItem() == Items.GOLD_INGOT) {
                 	if(heldItem.stackSize > 1) {
@@ -76,14 +76,14 @@ public class BlockBonfire extends BlockMod {
                 		ItemStack token = new ItemStack(BBItems.token);
                     	if(!token.hasTagCompound())
                     		token.setTagCompound(new NBTTagCompound());
-                    	token.getTagCompound().setInteger(ItemToken.tag_number, -1);
+                    	token.getTagCompound().setInteger(ItemToken.TAG_INT_TOKEN, -1);
                     	if(!playerIn.inventory.addItemStackToInventory(token))
                 			worldIn.spawnEntityInWorld(new EntityItem(worldIn, playerIn.posX, playerIn.posY, playerIn.posZ, token));
                 	} else {
                 		ItemStack token = new ItemStack(BBItems.token);
                     	if(!token.hasTagCompound())
                     		token.setTagCompound(new NBTTagCompound());
-                    	token.getTagCompound().setInteger(ItemToken.tag_number, -1);
+                    	token.getTagCompound().setInteger(ItemToken.TAG_INT_TOKEN, -1);
                     	playerIn.setHeldItem(hand, token);
                 	}
                 }

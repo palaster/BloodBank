@@ -32,7 +32,7 @@ public class GuiRPGIntro extends GuiContainer {
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
 		GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
-        mc.renderEngine.bindTexture(LibResource.blank);
+        mc.renderEngine.bindTexture(LibResource.BLANK);
         drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 	}
 	

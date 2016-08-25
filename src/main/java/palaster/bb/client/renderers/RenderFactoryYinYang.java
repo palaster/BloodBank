@@ -13,5 +13,5 @@ import palaster.bb.items.BBItems;
 public class RenderFactoryYinYang implements IRenderFactory<EntityYinYang> {
 
     @Override
-    public Render<? super EntityYinYang> createRenderFor(RenderManager manager) { return new RenderYinYang(manager, BBItems.yinYang, Minecraft.getMinecraft().getRenderItem()); }
+    public Render<? super EntityYinYang> createRenderFor(RenderManager manager) { return new RenderThrowable<EntityYinYang>(manager, BBItems.yinYang, Minecraft.getMinecraft().getRenderItem()); }
 }

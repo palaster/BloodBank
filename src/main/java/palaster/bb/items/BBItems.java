@@ -37,8 +37,9 @@ public class BBItems {
 	talisman,
 	boundPlayer,
 	boundBloodBottle,
-	apothecaryIntro,
-	rpgIntro;
+	rpgIntro,
+	clericStaff,
+	purifyingBook;
 
 	public static ItemArmor
 	boundHelmet,
@@ -80,8 +81,9 @@ public class BBItems {
 		talisman = new ItemTalisman();
 		boundPlayer = new ItemBoundPlayer();
 		boundBloodBottle = new ItemBoundBloodBottle();
-		apothecaryIntro = new ItemApothecaryIntro();
 		rpgIntro = new ItemRPGIntro();
+		clericStaff = new ItemClericStaff();
+		purifyingBook = new ItemPurifyingBook();
 
 		boundHelmet = new ItemBoundArmor(genericUnbreakableDiamond, 0, EntityEquipmentSlot.HEAD);
 		boundChestplate = new ItemBoundArmor(genericUnbreakableDiamond, 0, EntityEquipmentSlot.CHEST);
@@ -99,7 +101,7 @@ public class BBItems {
 	
 	public static void registerCustomModelResourceLocation() {
 		for(Item item : Item.REGISTRY)
-			if(item.getRegistryName().getResourceDomain().equalsIgnoreCase(LibMod.modid))
+			if(item.getRegistryName().getResourceDomain().equalsIgnoreCase(LibMod.MODID))
 				ItemMod.setCustomModelResourceLocation(item);
 	}
 }

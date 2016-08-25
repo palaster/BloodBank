@@ -13,5 +13,5 @@ import palaster.bb.items.BBItems;
 public class RenderFactoryTalisman implements IRenderFactory<EntityTalisman> {
 
 	@Override
-	public Render<? super EntityTalisman> createRenderFor(RenderManager manager) { return new RenderTalisman(manager, BBItems.talisman, Minecraft.getMinecraft().getRenderItem()); }
+	public Render<? super EntityTalisman> createRenderFor(RenderManager manager) { return new RenderThrowable<EntityTalisman>(manager, BBItems.talisman, Minecraft.getMinecraft().getRenderItem()); }
 }

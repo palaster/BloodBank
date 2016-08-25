@@ -20,7 +20,7 @@ public class GuiVoidAnchor extends GuiContainer {
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
 		GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
-        mc.getTextureManager().bindTexture(LibResource.voidAnchor);
+        mc.getTextureManager().bindTexture(LibResource.VOID_ANCHOR);
         drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 	}
 }

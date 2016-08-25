@@ -18,7 +18,7 @@ import palaster.bb.entities.effects.BBPotions;
 
 public class ItemSandArmor extends ItemModArmor implements ISpecialArmorAbility {
 	
-	public static String tag_timer = "SandArmorTimer";
+	public static final String TAG_INT_TIMER = "SandArmorTimer";
 
 	public ItemSandArmor(ArmorMaterial material, int renderIndex, EntityEquipmentSlot entityEquipmentSlot) {
 		super(material, renderIndex, entityEquipmentSlot);
@@ -30,9 +30,9 @@ public class ItemSandArmor extends ItemModArmor implements ISpecialArmorAbility 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
-		if(stack.hasTagCompound() && stack.getTagCompound().getInteger(tag_timer) > 0) {
-			int seconds = (stack.getTagCompound().getInteger(tag_timer) / 20) % 60;
-		    int totalMinutes = (stack.getTagCompound().getInteger(tag_timer) / 20) / 60;
+		if(stack.hasTagCompound() && stack.getTagCompound().getInteger(TAG_INT_TIMER) > 0) {
+			int seconds = (stack.getTagCompound().getInteger(TAG_INT_TIMER) / 20) % 60;
+		    int totalMinutes = (stack.getTagCompound().getInteger(TAG_INT_TIMER) / 20) / 60;
 		    int minutes = totalMinutes % 60;
 			tooltip.add(I18n.format("bb.misc.timeLeft") + ": " + minutes + " " + I18n.format("bb.misc.minutes") + " " + seconds + " " + I18n.format("bb.misc.seconds"));
 		}
@@ -51,30 +51,30 @@ public class ItemSandArmor extends ItemModArmor implements ISpecialArmorAbility 
 	public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack) {
 		if(!world.isRemote)
 			if(itemStack != null && itemStack.getItem() == BBItems.sandHelmet)
-				if(itemStack.hasTagCompound() && itemStack.getTagCompound().getInteger(tag_timer) > 0)
-					itemStack.getTagCompound().setInteger(tag_timer, itemStack.getTagCompound().getInteger(tag_timer) - 1);
+				if(itemStack.hasTagCompound() && itemStack.getTagCompound().getInteger(TAG_INT_TIMER) > 0)
+					itemStack.getTagCompound().setInteger(TAG_INT_TIMER, itemStack.getTagCompound().getInteger(TAG_INT_TIMER) - 1);
 	}
 	
 	@Override
 	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
 		if(!worldIn.isRemote)
 			if(stack != null && stack.getItem() == BBItems.sandHelmet)
-				if(stack.hasTagCompound() && stack.getTagCompound().getInteger(tag_timer) > 0)
-					stack.getTagCompound().setInteger(tag_timer, stack.getTagCompound().getInteger(tag_timer) - 1);
+				if(stack.hasTagCompound() && stack.getTagCompound().getInteger(TAG_INT_TIMER) > 0)
+					stack.getTagCompound().setInteger(TAG_INT_TIMER, stack.getTagCompound().getInteger(TAG_INT_TIMER) - 1);
 	}
 
 	@Override
 	public void doArmorAbility(World worldObj, EntityPlayer player) {
 		if(!worldObj.isRemote)
 			if(player.inventory.armorInventory[3] != null && player.inventory.armorInventory[3].getItem() instanceof ItemSandArmor)
-				if(!player.inventory.armorInventory[3].hasTagCompound() || player.inventory.armorInventory[3].getTagCompound().getInteger(tag_timer) <= 0)
+				if(!player.inventory.armorInventory[3].hasTagCompound() || player.inventory.armorInventory[3].getTagCompound().getInteger(TAG_INT_TIMER) <= 0)
 					if(player.inventory.armorInventory[2] != null && player.inventory.armorInventory[2].getItem() instanceof ItemSandArmor)
 						if(player.inventory.armorInventory[1] != null && player.inventory.armorInventory[1].getItem() instanceof ItemSandArmor)
 							if(player.inventory.armorInventory[0] != null && player.inventory.armorInventory[0].getItem() instanceof ItemSandArmor) {
 								player.addPotionEffect(new PotionEffect(BBPotions.sandBody, 600, 0, false, true));
 								if(!player.inventory.armorInventory[3].hasTagCompound())
 									player.inventory.armorInventory[3].setTagCompound(new NBTTagCompound());
-								player.inventory.armorInventory[3].getTagCompound().setInteger(tag_timer, 12000);
+								player.inventory.armorInventory[3].getTagCompound().setInteger(TAG_INT_TIMER, 12000);
 							}
 	}
 }

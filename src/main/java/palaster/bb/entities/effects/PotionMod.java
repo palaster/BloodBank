@@ -21,7 +21,7 @@ public class PotionMod extends Potion {
 
     public PotionMod(String name, boolean isBadEffectIn, int liquidColorIn, int iconIndex) {
         super(isBadEffectIn, liquidColorIn);
-        GameRegistry.register(this, new ResourceLocation(LibMod.modid, name));
+        GameRegistry.register(this, new ResourceLocation(LibMod.MODID, name));
         setPotionName("effect." + name);
         this.iconIndex = iconIndex;
     }
@@ -39,7 +39,7 @@ public class PotionMod extends Potion {
 
     @SideOnly(Side.CLIENT)
     private void render(int x, int y, float alpha) {
-        Minecraft.getMinecraft().renderEngine.bindTexture(LibResource.bbPotions);
+        Minecraft.getMinecraft().renderEngine.bindTexture(LibResource.BB_POTIONS);
         Tessellator tessellator = Tessellator.getInstance();
         VertexBuffer buf = tessellator.getBuffer();
         buf.begin(7, DefaultVertexFormats.POSITION_TEX);

@@ -14,7 +14,7 @@ import palaster.bb.items.BBItems;
 
 public class EntityTalisman extends EntityThrowable {
 	
-	public static String tag_number = "TalismanType";
+	public static final String TAG_INT_TYPE = "TalismanType";
 	
 	private int talismanType = 0;
 
@@ -29,13 +29,13 @@ public class EntityTalisman extends EntityThrowable {
 	
 	@Override
 	public void readEntityFromNBT(NBTTagCompound tagCompund) {
-		talismanType = tagCompund.getInteger(tag_number);
+		talismanType = tagCompund.getInteger(TAG_INT_TYPE);
 		super.readEntityFromNBT(tagCompund);
 	}
 	
 	@Override
 	public void writeEntityToNBT(NBTTagCompound tagCompound) {
-		tagCompound.setInteger(tag_number, talismanType);
+		tagCompound.setInteger(TAG_INT_TYPE, talismanType);
 		super.writeEntityToNBT(tagCompound);
 	}
 

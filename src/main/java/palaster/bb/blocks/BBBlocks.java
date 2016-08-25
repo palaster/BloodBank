@@ -41,7 +41,7 @@ public class BBBlocks {
 	
 	public static void registerCustomModelResourceLocation() {
 		for(Block block : Block.REGISTRY)
-			if(block.getRegistryName().getResourceDomain().equalsIgnoreCase(LibMod.modid))
+			if(block.getRegistryName().getResourceDomain().equalsIgnoreCase(LibMod.MODID))
 				BlockMod.setCustomModelResourceLocation(block);
 	}
 

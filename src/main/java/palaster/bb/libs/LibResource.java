@@ -4,17 +4,17 @@ import net.minecraft.util.ResourceLocation;
 
 public class LibResource {
 
-	private static final String gui = "textures/gui/";
-	private static final String models = "textures/models/";
+	private static final String GUI = "textures/gui/";
+	private static final String MODELS = "textures/models/";
 
-	public static final ResourceLocation voidAnchor = new ResourceLocation(LibMod.modid, gui + "voidAnchor.png");
-	public static final ResourceLocation blank = new ResourceLocation(LibMod.modid, gui + "blank.png");
+	public static final ResourceLocation VOID_ANCHOR = new ResourceLocation(LibMod.MODID, GUI + "voidAnchor.png");
+	public static final ResourceLocation BLANK = new ResourceLocation(LibMod.MODID, GUI + "blank.png");
 	
-	public static final ResourceLocation bbHUD = new ResourceLocation(LibMod.modid, gui + "bbHUD.png");
-	public static final ResourceLocation bbPotions = new ResourceLocation(LibMod.modid, gui + "bbPotions.png");
+	public static final ResourceLocation BB_HUD = new ResourceLocation(LibMod.MODID, GUI + "bbHUD.png");
+	public static final ResourceLocation BB_POTIONS = new ResourceLocation(LibMod.MODID, GUI + "bbPotions.png");
 
-	public static final ResourceLocation bankTeller = new ResourceLocation(LibMod.modid, models + "demonicBankTeller.png");
-	public static final ResourceLocation itztiliTablet = new ResourceLocation(LibMod.modid, models + "itztliTablet.png");
+	public static final ResourceLocation BANK_TELLER = new ResourceLocation(LibMod.MODID, MODELS + "demonicBankTeller.png");
+	public static final ResourceLocation ITZTLI_TABLET = new ResourceLocation(LibMod.MODID, MODELS + "itztliTablet.png");
 	
-	public static final ResourceLocation itztiliTabletLoot = new ResourceLocation(LibMod.modid, "entities/itztiliTablet");
+	public static final ResourceLocation ITZTLI_TABLET_LOOT = new ResourceLocation(LibMod.MODID, "entities/itztiliTablet");
 }

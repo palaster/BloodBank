@@ -13,7 +13,7 @@ import palaster.bb.core.helpers.BBItemStackHelper;
 
 public class ItemBoundArmor extends ItemModArmor {
 	
-	public static String tag_itemStackInsideBoundArmor = "ItemStackInsideBoundArmor";
+	public static final String TAG_TAG_INSIDE_BOUND = "ItemStackInsideBoundArmor";
 
 	public ItemBoundArmor(ArmorMaterial material, int renderIndex, EntityEquipmentSlot entityEquipmentSlot) {
 		super(material, renderIndex, entityEquipmentSlot);
@@ -28,8 +28,8 @@ public class ItemBoundArmor extends ItemModArmor {
 		if(!e.getPlayer().worldObj.isRemote)
 			if(e.getEntityItem().getEntityItem() != null && e.getEntityItem().getEntityItem().getItem() instanceof ItemBoundArmor) {
 				if(e.getEntityItem().getEntityItem().getItem() == BBItems.boundHelmet || e.getEntityItem().getEntityItem().getItem() == BBItems.boundChestplate || e.getEntityItem().getEntityItem().getItem() == BBItems.boundLeggings || e.getEntityItem().getEntityItem().getItem() == BBItems.boundBoots)
-					if(BBItemStackHelper.getItemStackFromItemStack(e.getEntityItem().getEntityItem(), tag_itemStackInsideBoundArmor) != null)
-						e.getPlayer().worldObj.spawnEntityInWorld(new EntityItem(e.getPlayer().worldObj, e.getPlayer().posX, e.getPlayer().posY, e.getPlayer().posZ, BBItemStackHelper.getItemStackFromItemStack(e.getEntityItem().getEntityItem(), tag_itemStackInsideBoundArmor)));
+					if(BBItemStackHelper.getItemStackFromItemStack(e.getEntityItem().getEntityItem(), TAG_TAG_INSIDE_BOUND) != null)
+						e.getPlayer().worldObj.spawnEntityInWorld(new EntityItem(e.getPlayer().worldObj, e.getPlayer().posX, e.getPlayer().posY, e.getPlayer().posZ, BBItemStackHelper.getItemStackFromItemStack(e.getEntityItem().getEntityItem(), TAG_TAG_INSIDE_BOUND)));
 				e.setCanceled(true);
 			}
 	}
@@ -63,7 +63,7 @@ public class ItemBoundArmor extends ItemModArmor {
     }
 
     public void removeBoundArmorFromInventory(ItemStack holder, EntityPlayer player, int itemSlot) {
-        ItemStack stack = BBItemStackHelper.getItemStackFromItemStack(holder, tag_itemStackInsideBoundArmor);
+        ItemStack stack = BBItemStackHelper.getItemStackFromItemStack(holder, TAG_TAG_INSIDE_BOUND);
         player.inventory.setInventorySlotContents(itemSlot, stack);
     }
 
@@ -71,6 +71,6 @@ public class ItemBoundArmor extends ItemModArmor {
         ItemStack stack1 = player.inventory.getStackInSlot(itemSlot);
         if(stack1 != null)
             if(stack1.getItem() == BBItems.boundHelmet || stack1.getItem() == BBItems.boundChestplate || stack1.getItem() == BBItems.boundLeggings || stack1.getItem() == BBItems.boundBoots)
-                player.inventory.setInventorySlotContents(itemSlot, BBItemStackHelper.getItemStackFromItemStack(stack, tag_itemStackInsideBoundArmor));
+                player.inventory.setInventorySlotContents(itemSlot, BBItemStackHelper.getItemStackFromItemStack(stack, TAG_TAG_INSIDE_BOUND));
     }
 }

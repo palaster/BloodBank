@@ -21,8 +21,8 @@ public class JEIBloodBankPlugin implements IModPlugin {
 		registry.addRecipeCategories(new BloodRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
 		registry.addRecipeHandlers(new BloodRecipeHandler());
 		IRecipeTransferRegistry recipeTransferRegistry = registry.getRecipeTransferRegistry();
-		recipeTransferRegistry.addRecipeTransferHandler(ContainerWorkbench.class, BloodRecipeCategory.categoryUID, 1, 9, 10, 36);
-		registry.addRecipeCategoryCraftingItem(new ItemStack(Blocks.CRAFTING_TABLE), BloodRecipeCategory.categoryUID);
+		recipeTransferRegistry.addRecipeTransferHandler(ContainerWorkbench.class, BloodRecipeCategory.CATEGORY_UID, 1, 9, 10, 36);
+		registry.addRecipeCategoryCraftingItem(new ItemStack(Blocks.CRAFTING_TABLE), BloodRecipeCategory.CATEGORY_UID);
 	}
 
 	@Override

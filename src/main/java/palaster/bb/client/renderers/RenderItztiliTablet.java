@@ -12,10 +12,8 @@ import palaster.bb.libs.LibResource;
 @SideOnly(Side.CLIENT)
 public class RenderItztiliTablet extends RenderLiving<EntityItztiliTablet> {
 
-    public RenderItztiliTablet(RenderManager manager) {
-        super(manager, new ModelItztliTablet(), .5f);
-    }
+    public RenderItztiliTablet(RenderManager manager) { super(manager, new ModelItztliTablet(), .5f); }
 
     @Override
-    protected ResourceLocation getEntityTexture(EntityItztiliTablet entity) { return LibResource.itztiliTablet; }
+    protected ResourceLocation getEntityTexture(EntityItztiliTablet entity) { return LibResource.ITZTLI_TABLET; }
 }

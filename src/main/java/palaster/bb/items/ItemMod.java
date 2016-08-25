@@ -19,9 +19,9 @@ public abstract class ItemMod extends Item {
 	
 	@Override
 	public Item setUnlocalizedName(String unlocalizedName) {
-		setRegistryName(new ResourceLocation(LibMod.modid, unlocalizedName));
+		setRegistryName(new ResourceLocation(LibMod.MODID, unlocalizedName));
 		GameRegistry.register(this);
-		return super.setUnlocalizedName(LibMod.modid + ":" + unlocalizedName);
+		return super.setUnlocalizedName(LibMod.MODID + ":" + unlocalizedName);
 	}
 
 	@SideOnly(Side.CLIENT)

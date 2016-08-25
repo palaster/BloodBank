@@ -10,9 +10,9 @@ import palaster.bb.api.rpg.RPGCareerBase;
 
 public class CareerBloodSorcerer extends RPGCareerBase {
 	
-	public static String tag_bloodCurrent = "BloodCurrent";
-	public static String tag_bloodMax = "BloodMax";
-	public static String tag_linkEntity = "LinkedEntity";
+	public static final String TAG_INT_BLOOD_CURRENT = "BloodCurrent";
+	public static final String TAG_INT_BLOOD_MAX = "BloodMax";
+	public static final String TAG_TAG_LINKED_ENTITY = "LinkedEntity";
 	
 	private int bloodMax;
     private int bloodCurrent;
@@ -25,8 +25,6 @@ public class CareerBloodSorcerer extends RPGCareerBase {
     	this.bloodCurrent = bloodCurrent;
     	this.link = new SoftReference<EntityLiving>(link);
     }
-    
-	public boolean isBloodSorcerer() { return getMaxBlood() > 0; }
     
 	public int consumeBlood(int amt) {
 		if(getMaxBlood() > 0)
@@ -79,21 +77,21 @@ public class CareerBloodSorcerer extends RPGCareerBase {
 	@Override
     public NBTTagCompound saveNBT() {
         NBTTagCompound tagCompound = new NBTTagCompound();
-        tagCompound.setInteger(tag_bloodCurrent, bloodCurrent);
-        tagCompound.setInteger(tag_bloodMax, bloodMax);
+        tagCompound.setInteger(TAG_INT_BLOOD_CURRENT, bloodCurrent);
+        tagCompound.setInteger(TAG_INT_BLOOD_MAX, bloodMax);
         NBTTagCompound nbtTagCompound = new NBTTagCompound();
         if(link != null && link.get() != null) {
             link.get().writeToNBTAtomically(nbtTagCompound);
-            tagCompound.setTag(tag_linkEntity, nbtTagCompound);
+            tagCompound.setTag(TAG_TAG_LINKED_ENTITY, nbtTagCompound);
         }
         return tagCompound;
     }
 
     @Override
     public void loadNBT(NBTTagCompound nbt) {
-        bloodCurrent = nbt.getInteger(tag_bloodCurrent);
-        bloodMax = nbt.getInteger(tag_bloodMax);
-        if(nbt.getCompoundTag(tag_linkEntity) != null)
-            link = new SoftReference<EntityLiving>((EntityLiving) EntityList.createEntityFromNBT(nbt.getCompoundTag(tag_linkEntity), DimensionManager.getWorld(0)));
+        bloodCurrent = nbt.getInteger(TAG_INT_BLOOD_CURRENT);
+        bloodMax = nbt.getInteger(TAG_INT_BLOOD_MAX);
+        if(nbt.getCompoundTag(TAG_TAG_LINKED_ENTITY) != null)
+            link = new SoftReference<EntityLiving>((EntityLiving) EntityList.createEntityFromNBT(nbt.getCompoundTag(TAG_TAG_LINKED_ENTITY), DimensionManager.getWorld(0)));
     }
 }

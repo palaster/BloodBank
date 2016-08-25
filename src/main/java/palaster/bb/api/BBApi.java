@@ -15,41 +15,41 @@ import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityProvider
 
 public class BBApi {
 
-    private static final List<Class<? extends EntityLiving>> excludeFromBloodLink = new ArrayList<Class<? extends EntityLiving>>();
-    private static final List<Class<? extends EntityLiving>> bossToken = new ArrayList<Class<? extends EntityLiving>>();
-    private static final List<ItemStack> itemToken = new ArrayList<ItemStack>();
+    private static final List<Class<? extends EntityLiving>> EXCLUDE_FROM_BLOOD_LINK = new ArrayList<Class<? extends EntityLiving>>();
+    private static final List<Class<? extends EntityLiving>> BOSS_TOKEN = new ArrayList<Class<? extends EntityLiving>>();
+    private static final List<ItemStack> ITEM_TOKEN = new ArrayList<ItemStack>();
 
     public static void addEntityLivingToExclude(EntityLiving el) {
         if(el != null) {
-            for(Class<? extends EntityLiving> classEL : excludeFromBloodLink)
+            for(Class<? extends EntityLiving> classEL : EXCLUDE_FROM_BLOOD_LINK)
                 if(classEL.getName().equals(el.getClass().getName())) {
                     System.out.println(el.getClass().getName() + " has already been excluded.");
                     return;
                 }
-            excludeFromBloodLink.add(el.getClass());
+            EXCLUDE_FROM_BLOOD_LINK.add(el.getClass());
         }
     }
 
     public static void addEntityLivingClassToExclude(Class<? extends EntityLiving> classELTemp) {
         if(classELTemp != null) {
-            for(Class<? extends EntityLiving> classEL : excludeFromBloodLink)
+            for(Class<? extends EntityLiving> classEL : EXCLUDE_FROM_BLOOD_LINK)
                 if(classEL.getName().equals(classELTemp.getName())) {
                     System.out.println(classELTemp.getName() + " has already been excluded.");
                     return;
                 }
-            excludeFromBloodLink.add(classELTemp);
+            EXCLUDE_FROM_BLOOD_LINK.add(classELTemp);
         }
     }
 
     public static boolean checkExcludesForEntity(EntityLiving el) {
-        for(Class<? extends EntityLiving> classEL : excludeFromBloodLink)
+        for(Class<? extends EntityLiving> classEL : EXCLUDE_FROM_BLOOD_LINK)
             if(classEL.getName().equals(el.getClass().getName()))
                 return true;
         return false;
     }
 
     public static boolean checkExcludesForClass(Class<? extends  EntityLiving> classELTemp) {
-        for(Class<? extends EntityLiving> classEL : excludeFromBloodLink)
+        for(Class<? extends EntityLiving> classEL : EXCLUDE_FROM_BLOOD_LINK)
             if(classEL.getName().equals(classELTemp.getName()))
                 return true;
         return false;
@@ -57,66 +57,66 @@ public class BBApi {
     
     public static void addBossToToken(EntityLiving el) {
         if(el != null) {
-            for(Class<? extends EntityLiving> classEL : bossToken)
+            for(Class<? extends EntityLiving> classEL : BOSS_TOKEN)
                 if(classEL.getName().equals(el.getClass().getName())) {
                     System.out.println(el.getClass().getName() + " has already been added.");
                     return;
                 }
-            bossToken.add(el.getClass());
+            BOSS_TOKEN.add(el.getClass());
         }
     }
 
     public static void addBossClassToToken(Class<? extends EntityLiving> classELTemp) {
         if(classELTemp != null) {
-            for(Class<? extends EntityLiving> classEL : bossToken)
+            for(Class<? extends EntityLiving> classEL : BOSS_TOKEN)
                 if(classEL.getName().equals(classELTemp.getName())) {
                     System.out.println(classELTemp.getName() + " has already been added.");
                     return;
                 }
-            bossToken.add(classELTemp);
+            BOSS_TOKEN.add(classELTemp);
         }
     }
     
     public static Class<? extends EntityLiving> getBossFromToken(int id) {
-    	if(bossToken.size() >= id)
-    		return bossToken.get(id);
+    	if(BOSS_TOKEN.size() >= id)
+    		return BOSS_TOKEN.get(id);
     	return null;
     }
     
     public static boolean checkTokensForBoss(Class<? extends  EntityLiving> classELTemp) {
-        for(Class<? extends EntityLiving> classEL : bossToken)
+        for(Class<? extends EntityLiving> classEL : BOSS_TOKEN)
             if(classEL.getName().equals(classELTemp.getName()))
                 return true;
         return false;
     }
     
-    public static int getSizeBossTokens() { return bossToken.size(); }
+    public static int getSizeBossTokens() { return BOSS_TOKEN.size(); }
     
     public static void addItemStackToToken(ItemStack itemStack) {
         if(itemStack != null) {
-            for(ItemStack stack : itemToken)
+            for(ItemStack stack : ITEM_TOKEN)
                 if(stack.getItem() == itemStack.getItem() && stack.getItemDamage() == itemStack.getItemDamage()) {
                     System.out.println(stack.getDisplayName() + " has already been added.");
                     return;
                 }
-            itemToken.add(itemStack);
+            ITEM_TOKEN.add(itemStack);
         }
     }
     
     public static ItemStack getItemStackFromToken(int id) {
-    	if(itemToken.size() >= id)
-    		return itemToken.get(id);
+    	if(ITEM_TOKEN.size() >= id)
+    		return ITEM_TOKEN.get(id);
     	return null;
     }
     
     public static boolean checkTokensForItemStack(ItemStack itemStack) {
-        for(ItemStack stack : itemToken)
+        for(ItemStack stack : ITEM_TOKEN)
             if(stack.getItem() == itemStack.getItem() && stack.getItemDamage() == itemStack.getItemDamage())
                 return true;
         return false;
     }
     
-    public static int getSizeItemTokens() { return itemToken.size(); }
+    public static int getSizeItemTokens() { return ITEM_TOKEN.size(); }
 
     // Undead Methods
     
@@ -126,14 +126,14 @@ public class BBApi {
     		if(rpg.getConstitution() <= 0) {
     			IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MAX_HEALTH);
                 try {
-                    iAttributeInstance.removeModifier(iAttributeInstance.getModifier(RPGCapabilityDefault.healthID));
+                    iAttributeInstance.removeModifier(iAttributeInstance.getModifier(RPGCapabilityDefault.HEALTH_ID));
                 } catch(Exception e) {}
     		} else {
     			IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MAX_HEALTH);
                 try {
-                    iAttributeInstance.removeModifier(iAttributeInstance.getModifier(RPGCapabilityDefault.healthID));
+                    iAttributeInstance.removeModifier(iAttributeInstance.getModifier(RPGCapabilityDefault.HEALTH_ID));
                 } catch(Exception e) {}
-                iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.healthID, "bb.rpg.constitution", rpg.getConstitution() * .4, 0));
+                iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.HEALTH_ID, "bb.rpg.constitution", rpg.getConstitution() * .4, 0));
     		}
     	}
     }
@@ -144,14 +144,14 @@ public class BBApi {
     		if(rpg.getStrength() <= 0) {
     			IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ATTACK_DAMAGE);
                 try {
-                    iAttributeInstance.removeModifier(iAttributeInstance.getModifier(RPGCapabilityDefault.strengthID));
+                    iAttributeInstance.removeModifier(iAttributeInstance.getModifier(RPGCapabilityDefault.STRENGTH_ID));
                 } catch(Exception e) {}
     		} else {
     			IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ATTACK_DAMAGE);
                 try {
-                    iAttributeInstance.removeModifier(iAttributeInstance.getModifier(RPGCapabilityDefault.strengthID));
+                    iAttributeInstance.removeModifier(iAttributeInstance.getModifier(RPGCapabilityDefault.STRENGTH_ID));
                 } catch(Exception e) {}
-                iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.strengthID, "bb.rpg.strength", rpg.getStrength() * .9, 0));
+                iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.STRENGTH_ID, "bb.rpg.strength", rpg.getStrength() * .9, 0));
     		}
     	}
     }
@@ -162,14 +162,14 @@ public class BBApi {
     		if(rpg.getDexterity() <= 0) {
     			IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MOVEMENT_SPEED);
                 try {
-                	iAttributeInstance.removeModifier(iAttributeInstance.getModifier(RPGCapabilityDefault.dexterityID));
+                	iAttributeInstance.removeModifier(iAttributeInstance.getModifier(RPGCapabilityDefault.DEXTERITY_ID));
                 } catch(Exception e) {}
     		} else {
     			IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MOVEMENT_SPEED);
                 try {
-                    iAttributeInstance.removeModifier(iAttributeInstance.getModifier(RPGCapabilityDefault.dexterityID));
+                    iAttributeInstance.removeModifier(iAttributeInstance.getModifier(RPGCapabilityDefault.DEXTERITY_ID));
                 } catch(Exception e) {}
-                iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.dexterityID, "bb.rpg.dexterity", rpg.getDexterity() * .008, 0));
+                iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.DEXTERITY_ID, "bb.rpg.dexterity", rpg.getDexterity() * .008, 0));
     		}
     	}
     }

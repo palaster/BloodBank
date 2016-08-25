@@ -28,8 +28,8 @@ import palaster.bb.entities.careers.CareerUndead;
 
 public class ItemFlames extends ItemModSpecial {
 
-	public static String tag_flameHolder = "FlameHolder";
-    public static String tag_previousFlameHolder = "PreviousFlameHolder";
+	public static final String TAG_TAG_FLAME_HOLDER = "FlameHolder";
+    public static final String TAG_TAG_PREVIOUS_FLAME_HOLDER = "PreviousFlameHolder";
 
     public ItemFlames() {
         super();
@@ -45,12 +45,12 @@ public class ItemFlames extends ItemModSpecial {
 					ItemStack copy = e.getLeft().copy();
 					if(!copy.hasTagCompound())
 						copy.setTagCompound(new NBTTagCompound());
-					if(BBItemStackHelper.getItemStackFromItemStack(copy, tag_flameHolder) == null)
-						copy = BBItemStackHelper.setItemStackInsideItemStack(copy, e.getRight(), tag_flameHolder);
-					else if(BBItemStackHelper.getItemStackFromItemStack(copy, tag_flameHolder) != null && BBItemStackHelper.getItemStackFromItemStack(copy, tag_previousFlameHolder) == null)
-						copy = BBItemStackHelper.setItemStackInsideItemStackRecordPrevious(copy, e.getRight(), tag_previousFlameHolder, tag_flameHolder);
+					if(BBItemStackHelper.getItemStackFromItemStack(copy, TAG_TAG_FLAME_HOLDER) == null)
+						copy = BBItemStackHelper.setItemStackInsideItemStack(copy, e.getRight(), TAG_TAG_FLAME_HOLDER);
+					else if(BBItemStackHelper.getItemStackFromItemStack(copy, TAG_TAG_FLAME_HOLDER) != null && BBItemStackHelper.getItemStackFromItemStack(copy, TAG_TAG_PREVIOUS_FLAME_HOLDER) == null)
+						copy = BBItemStackHelper.setItemStackInsideItemStackRecordPrevious(copy, e.getRight(), TAG_TAG_PREVIOUS_FLAME_HOLDER, TAG_TAG_FLAME_HOLDER);
 					else
-						copy = BBItemStackHelper.setItemStackInsideItemStackRecordPrevious(copy, e.getRight(), tag_previousFlameHolder, tag_flameHolder);
+						copy = BBItemStackHelper.setItemStackInsideItemStackRecordPrevious(copy, e.getRight(), TAG_TAG_PREVIOUS_FLAME_HOLDER, TAG_TAG_FLAME_HOLDER);
 					e.setMaterialCost(1);
 					e.setCost(1);
 					e.setOutput(copy);
@@ -63,28 +63,28 @@ public class ItemFlames extends ItemModSpecial {
 			if(e.getItemInput() != null && e.getIngredientInput() != null && e.getItemResult() != null)
 				if(e.getItemInput().getItem() instanceof ItemFlames && e.getIngredientInput().getItem() instanceof IFlameSpell && e.getItemResult().getItem() instanceof ItemFlames)
 					if(e.getItemResult().hasTagCompound())
-						if(BBItemStackHelper.getItemStackFromItemStack(e.getItemResult(), tag_previousFlameHolder) != null)
-							e.getEntityPlayer().worldObj.spawnEntityInWorld(new EntityItem(e.getEntityPlayer().worldObj, e.getEntityPlayer().posX, e.getEntityPlayer().posY + .1, e.getEntityPlayer().posZ, BBItemStackHelper.getItemStackFromItemStack(e.getItemResult(), tag_previousFlameHolder)));
+						if(BBItemStackHelper.getItemStackFromItemStack(e.getItemResult(), TAG_TAG_PREVIOUS_FLAME_HOLDER) != null)
+							e.getEntityPlayer().worldObj.spawnEntityInWorld(new EntityItem(e.getEntityPlayer().worldObj, e.getEntityPlayer().posX, e.getEntityPlayer().posY + .1, e.getEntityPlayer().posZ, BBItemStackHelper.getItemStackFromItemStack(e.getItemResult(), TAG_TAG_PREVIOUS_FLAME_HOLDER)));
 	}
     
     @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
-    	if(BBItemStackHelper.getItemStackFromItemStack(stack, tag_flameHolder) != null && BBItemStackHelper.getItemStackFromItemStack(stack, tag_flameHolder).getItem() instanceof IFlameSpell)
-    		tooltip.add(BBItemStackHelper.getItemStackFromItemStack(stack, tag_flameHolder).getDisplayName());
+    	if(BBItemStackHelper.getItemStackFromItemStack(stack, TAG_TAG_FLAME_HOLDER) != null && BBItemStackHelper.getItemStackFromItemStack(stack, TAG_TAG_FLAME_HOLDER).getItem() instanceof IFlameSpell)
+    		tooltip.add(BBItemStackHelper.getItemStackFromItemStack(stack, TAG_TAG_FLAME_HOLDER).getDisplayName());
     }
 
     @Override
     public boolean onLeftClickEntity(ItemStack stack, EntityPlayer player, Entity entity) {
         if(!player.worldObj.isRemote)
-            if(BBItemStackHelper.getItemStackFromItemStack(stack, tag_flameHolder) != null && BBItemStackHelper.getItemStackFromItemStack(stack, tag_flameHolder).getItem() instanceof IFlameSpell) {
+            if(BBItemStackHelper.getItemStackFromItemStack(stack, TAG_TAG_FLAME_HOLDER) != null && BBItemStackHelper.getItemStackFromItemStack(stack, TAG_TAG_FLAME_HOLDER).getItem() instanceof IFlameSpell) {
             	final IRPG rpg = RPGCapabilityProvider.get(player);
             	if(rpg != null)
             		if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerUndead)
-            			if(((CareerUndead) rpg.getCareer()).getFocus() >= ((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack, tag_flameHolder).getItem()).getSpellCost()) {
-            				boolean temp = ((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack, tag_flameHolder).getItem()).onSpellLeftClickEntity(stack, player, entity);
+            			if(((CareerUndead) rpg.getCareer()).getFocus() >= ((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack, TAG_TAG_FLAME_HOLDER).getItem()).getSpellCost()) {
+            				boolean temp = ((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack, TAG_TAG_FLAME_HOLDER).getItem()).onSpellLeftClickEntity(stack, player, entity);
             				if(temp)
-            					((CareerUndead) rpg.getCareer()).useFocus(((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack, tag_flameHolder).getItem()).getSpellCost());
+            					((CareerUndead) rpg.getCareer()).useFocus(((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack, TAG_TAG_FLAME_HOLDER).getItem()).getSpellCost());
             				return temp;
             			}
             }
@@ -94,14 +94,14 @@ public class ItemFlames extends ItemModSpecial {
     @Override
     public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         if(!worldIn.isRemote)
-            if(BBItemStackHelper.getItemStackFromItemStack(stack, tag_flameHolder) != null && BBItemStackHelper.getItemStackFromItemStack(stack, tag_flameHolder).getItem() instanceof IFlameSpell) {
+            if(BBItemStackHelper.getItemStackFromItemStack(stack, TAG_TAG_FLAME_HOLDER) != null && BBItemStackHelper.getItemStackFromItemStack(stack, TAG_TAG_FLAME_HOLDER).getItem() instanceof IFlameSpell) {
             	final IRPG rpg = RPGCapabilityProvider.get(playerIn);
             	if(rpg != null)
             		if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerUndead)
-            			if(((CareerUndead) rpg.getCareer()).getFocus() >= ((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack, tag_flameHolder).getItem()).getSpellCost()) {
-            				EnumActionResult temp = ((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack, tag_flameHolder).getItem()).onSpellUse(stack, playerIn, worldIn, pos, hand, facing, hitX, hitY, hitZ);
+            			if(((CareerUndead) rpg.getCareer()).getFocus() >= ((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack, TAG_TAG_FLAME_HOLDER).getItem()).getSpellCost()) {
+            				EnumActionResult temp = ((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack, TAG_TAG_FLAME_HOLDER).getItem()).onSpellUse(stack, playerIn, worldIn, pos, hand, facing, hitX, hitY, hitZ);
             				if(temp != null && temp == EnumActionResult.SUCCESS)
-            					((CareerUndead) rpg.getCareer()).useFocus(((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack, tag_flameHolder).getItem()).getSpellCost());
+            					((CareerUndead) rpg.getCareer()).useFocus(((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack, TAG_TAG_FLAME_HOLDER).getItem()).getSpellCost());
             				return temp;
             			}
             }
@@ -111,14 +111,14 @@ public class ItemFlames extends ItemModSpecial {
     @Override
     public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
         if(!worldIn.isRemote)
-            if(BBItemStackHelper.getItemStackFromItemStack(itemStackIn, tag_flameHolder) != null && BBItemStackHelper.getItemStackFromItemStack(itemStackIn, tag_flameHolder).getItem() instanceof IFlameSpell) {
+            if(BBItemStackHelper.getItemStackFromItemStack(itemStackIn, TAG_TAG_FLAME_HOLDER) != null && BBItemStackHelper.getItemStackFromItemStack(itemStackIn, TAG_TAG_FLAME_HOLDER).getItem() instanceof IFlameSpell) {
             	final IRPG rpg = RPGCapabilityProvider.get(playerIn);
             	if(rpg != null)
             		if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerUndead)
-            			if(((CareerUndead) rpg.getCareer()).getFocus() >= ((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(itemStackIn, tag_flameHolder).getItem()).getSpellCost()) {
-            				ActionResult<ItemStack> temp = ((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(itemStackIn, tag_flameHolder).getItem()).onSpellRightClick(itemStackIn, worldIn, playerIn, hand); 
+            			if(((CareerUndead) rpg.getCareer()).getFocus() >= ((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(itemStackIn, TAG_TAG_FLAME_HOLDER).getItem()).getSpellCost()) {
+            				ActionResult<ItemStack> temp = ((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(itemStackIn, TAG_TAG_FLAME_HOLDER).getItem()).onSpellRightClick(itemStackIn, worldIn, playerIn, hand); 
             				if(temp != null && temp.getType() == EnumActionResult.SUCCESS)
-            					((CareerUndead) rpg.getCareer()).useFocus(((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(itemStackIn, tag_flameHolder).getItem()).getSpellCost());
+            					((CareerUndead) rpg.getCareer()).useFocus(((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(itemStackIn, TAG_TAG_FLAME_HOLDER).getItem()).getSpellCost());
             				return temp;
             			}
             }
@@ -128,14 +128,14 @@ public class ItemFlames extends ItemModSpecial {
     @Override
     public boolean itemInteractionForEntity(ItemStack stack, EntityPlayer playerIn, EntityLivingBase target, EnumHand hand) {
         if(!playerIn.worldObj.isRemote)
-            if(BBItemStackHelper.getItemStackFromItemStack(stack, tag_flameHolder) != null && BBItemStackHelper.getItemStackFromItemStack(stack, tag_flameHolder).getItem() instanceof IFlameSpell) {
+            if(BBItemStackHelper.getItemStackFromItemStack(stack, TAG_TAG_FLAME_HOLDER) != null && BBItemStackHelper.getItemStackFromItemStack(stack, TAG_TAG_FLAME_HOLDER).getItem() instanceof IFlameSpell) {
             	final IRPG rpg = RPGCapabilityProvider.get(playerIn);
             	if(rpg != null)
             		if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerUndead)
-            			if(((CareerUndead) rpg.getCareer()).getFocus() >= ((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack, tag_flameHolder).getItem()).getSpellCost()) {
-            				boolean temp = ((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack, tag_flameHolder).getItem()).spellInteractionForEntity(stack, playerIn, target, hand);
+            			if(((CareerUndead) rpg.getCareer()).getFocus() >= ((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack, TAG_TAG_FLAME_HOLDER).getItem()).getSpellCost()) {
+            				boolean temp = ((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack, TAG_TAG_FLAME_HOLDER).getItem()).spellInteractionForEntity(stack, playerIn, target, hand);
             				if(temp)
-            					((CareerUndead) rpg.getCareer()).useFocus(((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack, tag_flameHolder).getItem()).getSpellCost());
+            					((CareerUndead) rpg.getCareer()).useFocus(((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack, TAG_TAG_FLAME_HOLDER).getItem()).getSpellCost());
             				return temp;
             			}
             }

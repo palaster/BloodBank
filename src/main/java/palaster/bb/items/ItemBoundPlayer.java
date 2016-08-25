@@ -11,7 +11,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemBoundPlayer extends ItemModSpecial {
 	
-	public static String tag_UUID = "BoundPlayerUUID";
+	public static final String TAG_UUID_PLAYER = "BoundPlayerUUID";
 
 	public ItemBoundPlayer() {
 		super();
@@ -22,8 +22,8 @@ public class ItemBoundPlayer extends ItemModSpecial {
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
 		if(stack.hasTagCompound()) {
-			if(playerIn.worldObj.getPlayerEntityByUUID(stack.getTagCompound().getUniqueId(tag_UUID)) != null)
-				tooltip.add(playerIn.worldObj.getPlayerEntityByUUID(stack.getTagCompound().getUniqueId(tag_UUID)).getName());
+			if(playerIn.worldObj.getPlayerEntityByUUID(stack.getTagCompound().getUniqueId(TAG_UUID_PLAYER)) != null)
+				tooltip.add(playerIn.worldObj.getPlayerEntityByUUID(stack.getTagCompound().getUniqueId(TAG_UUID_PLAYER)).getName());
 		}
 	}
 	
@@ -32,7 +32,7 @@ public class ItemBoundPlayer extends ItemModSpecial {
 		if(!worldIn.isRemote) {
 			if(!stack.hasTagCompound())
 				stack.setTagCompound(new NBTTagCompound());
-			stack.getTagCompound().setUniqueId(tag_UUID, playerIn.getUniqueID());
+			stack.getTagCompound().setUniqueId(TAG_UUID_PLAYER, playerIn.getUniqueID());
 		}
 	}
 }

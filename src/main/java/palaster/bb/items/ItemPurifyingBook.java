@@ -5,31 +5,31 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import palaster.bb.api.capabilities.items.IVampiric;
+import palaster.bb.api.capabilities.items.IPurified;
 
-public class ItemBloodBottle extends ItemModSpecial {
+public class ItemPurifyingBook extends ItemModSpecial {
 
-	public ItemBloodBottle() {
+	public ItemPurifyingBook() {
 		super();
 		setMaxDamage(2000);
-		setUnlocalizedName("bloodBottle");
+		setUnlocalizedName("purifyingBook");
 	}
 	
 	@Override
-	public ItemStack getContainerItem(ItemStack itemStack) { return new ItemStack(Items.GLASS_BOTTLE); }
+	public ItemStack getContainerItem(ItemStack itemStack) { return new ItemStack(Items.BOOK); }
 	
 	@Override
 	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
 		if(!worldIn.isRemote && entityIn instanceof EntityPlayer)
 			if(stack.getItemDamage() < stack.getMaxDamage()) {
 				for(int i = 0; i < ((EntityPlayer) entityIn).inventory.getSizeInventory(); i++)
-					if(((EntityPlayer) entityIn).inventory.getStackInSlot(i) != null && ((EntityPlayer) entityIn).inventory.getStackInSlot(i).getItem() instanceof IVampiric || ((EntityPlayer) entityIn).inventory.getStackInSlot(i) != null && ((EntityPlayer) entityIn).inventory.getStackInSlot(i).hasTagCompound() && ((EntityPlayer) entityIn).inventory.getStackInSlot(i).getTagCompound().getBoolean(ItemBBResources.TAG_BOOLEAN_VAMPIRE_SIGIL))
+					if(((EntityPlayer) entityIn).inventory.getStackInSlot(i) != null && ((EntityPlayer) entityIn).inventory.getStackInSlot(i).getItem() instanceof IPurified || ((EntityPlayer) entityIn).inventory.getStackInSlot(i) != null && ((EntityPlayer) entityIn).inventory.getStackInSlot(i).hasTagCompound() && ((EntityPlayer) entityIn).inventory.getStackInSlot(i).getTagCompound().getBoolean(ItemBBResources.TAG_BOOLEAN_PURIFIED))
 						if(((EntityPlayer) entityIn).inventory.getStackInSlot(i).getItemDamage() > 0) {
 							((EntityPlayer) entityIn).inventory.getStackInSlot(i).damageItem(-1, ((EntityPlayer) entityIn));
 							stack.damageItem(1, ((EntityPlayer) entityIn));
 						}
 				for(int i = 0; i < ((EntityPlayer) entityIn).inventory.armorInventory.length; i++)
-					if(((EntityPlayer) entityIn).inventory.armorItemInSlot(i) != null && ((EntityPlayer) entityIn).inventory.armorItemInSlot(i).getItem() instanceof IVampiric || ((EntityPlayer) entityIn).inventory.armorItemInSlot(i) != null && ((EntityPlayer) entityIn).inventory.armorItemInSlot(i).hasTagCompound() && ((EntityPlayer) entityIn).inventory.armorItemInSlot(i).getTagCompound().getBoolean(ItemBBResources.TAG_BOOLEAN_VAMPIRE_SIGIL))
+					if(((EntityPlayer) entityIn).inventory.armorItemInSlot(i) != null && ((EntityPlayer) entityIn).inventory.armorItemInSlot(i).getItem() instanceof IPurified || ((EntityPlayer) entityIn).inventory.armorItemInSlot(i) != null && ((EntityPlayer) entityIn).inventory.armorItemInSlot(i).hasTagCompound() && ((EntityPlayer) entityIn).inventory.armorItemInSlot(i).getTagCompound().getBoolean(ItemBBResources.TAG_BOOLEAN_PURIFIED))
 						if(((EntityPlayer) entityIn).inventory.armorItemInSlot(i).getItemDamage() >= 1) {
 							((EntityPlayer) entityIn).inventory.armorItemInSlot(i).damageItem(-1, ((EntityPlayer) entityIn));
 							stack.damageItem(1, ((EntityPlayer) entityIn));
