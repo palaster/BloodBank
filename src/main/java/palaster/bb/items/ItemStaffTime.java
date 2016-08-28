@@ -6,8 +6,9 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
+import palaster.bb.api.capabilities.items.IVampiric;
 
-public class ItemStaffTime extends ItemModStaff {
+public class ItemStaffTime extends ItemModStaff implements IVampiric {
 
 	public ItemStaffTime() {
 		super();

@@ -19,12 +19,15 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import palaster.bb.api.capabilities.entities.IRPG;
 import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityProvider;
+import palaster.bb.api.capabilities.items.IPurified;
 import palaster.bb.entities.careers.CareerCleric;
 
-public class ItemClericStaff extends ItemModSpecial {
-
+public class ItemClericStaff extends ItemModStaff implements IPurified {
+	
 	public ItemClericStaff() {
 		super();
+		powers = new String[]{"bb.clericStaff.0", "bb.clericStaff.1", "bb.clericStaff.2", "bb.clericStaff.3", "bb.clericStaff.4"};
+		setMaxDamage(256);
 		setUnlocalizedName("clericStaff");
 		MinecraftForge.EVENT_BUS.register(this);
 	}

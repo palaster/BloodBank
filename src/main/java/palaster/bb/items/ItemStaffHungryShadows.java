@@ -7,8 +7,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
+import palaster.bb.api.capabilities.items.IVampiric;
 
-public class ItemStaffHungryShadows extends ItemModStaff {
+public class ItemStaffHungryShadows extends ItemModStaff implements IVampiric {
 
 	public ItemStaffHungryShadows() {
 		super();

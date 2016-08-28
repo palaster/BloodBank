@@ -131,6 +131,10 @@ bb.staff.hs.0=Ray of Enfeeblement
 bb.staff.hs.1=Vampiric Touch
 bb.staff.hs.2=Enervation
 
+bb.clericStaff.0=Ward Spell : Peace
+bb.clericStaff.1=Ward Spell : Fertility
+bb.clericStaff.2=Ward Spell : Growing
+
 bb.knowledgePiece=Knowledge Piece
 bb.kp.boilingBlood=Boiling Blood
 bb.kp.bloodLink=Blood Link

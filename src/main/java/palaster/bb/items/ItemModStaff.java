@@ -9,9 +9,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import palaster.bb.api.capabilities.items.IVampiric;
 
-public abstract class ItemModStaff extends ItemModSpecial implements IVampiric {
+public abstract class ItemModStaff extends ItemModSpecial {
 	
 	public static String tag_number = "StaffPower";
 	public String[] powers = new String[] {};

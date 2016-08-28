@@ -11,8 +11,9 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
+import palaster.bb.api.capabilities.items.IVampiric;
 
-public class ItemStaffEfreet extends ItemModStaff {
+public class ItemStaffEfreet extends ItemModStaff implements IVampiric {
 	
 	public ItemStaffEfreet() {
 		super();

@@ -41,6 +41,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import palaster.bb.BloodBank;
@@ -306,8 +307,11 @@ public class BBEventHandler {
 	@SubscribeEvent
 	public void onWorldTick(TickEvent.WorldTickEvent e) {
 		if(e.side.isServer())
-			if((e.world.getTotalWorldTime() % 84000) == 0)
-				BBWorldSaveData.get(e.world).clearDeadEntities(e.world); // 7 Minecraft Days
+			if(e.phase == Phase.START) {
+				if((e.world.getTotalWorldTime() % 84000) == 0)
+					BBWorldSaveData.get(e.world).clearDeadEntities(e.world); // 7 Minecraft Days
+				BBWorldSaveData.get(e.world).tickTask(e.world);
+			}
 	}
 
 	@SubscribeEvent

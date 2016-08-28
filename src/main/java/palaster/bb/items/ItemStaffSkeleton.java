@@ -7,9 +7,10 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import palaster.bb.api.capabilities.items.IVampiric;
 import palaster.bb.entities.EntitySkeletonMinion;
 
-public class ItemStaffSkeleton extends ItemModStaff {
+public class ItemStaffSkeleton extends ItemModStaff implements IVampiric {
 
 	public ItemStaffSkeleton() {
 		super();
