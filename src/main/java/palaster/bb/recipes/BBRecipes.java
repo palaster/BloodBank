@@ -43,8 +43,9 @@ public class BBRecipes {
 		GameRegistry.addRecipe(new ItemStack(BBItems.resurrectionStone), "xyx", "yzy", "xyx", 'x', Blocks.SOUL_SAND, 'y', Items.GLOWSTONE_DUST, 'z', new ItemStack(BBItems.bbResources, 1, 8));
 		GameRegistry.addRecipe(new ItemStack(BBItems.ghostWhisper), "xzx", "zyz", "xzx", 'x', Blocks.SOUL_SAND, 'y', new ItemStack(BBItems.bbResources, 1, 8), 'z', Blocks.GLASS);
 		GameRegistry.addRecipe(new ItemStack(BBItems.pigDefense), "yxy", "xzx", "yxy", 'y', Items.ROTTEN_FLESH, 'x', Items.PORKCHOP, 'z', new ItemStack(BBItems.bbResources, 1, 7));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BBItems.clericStaff), " xy", " zx", "z  ", 'y', Items.IRON_INGOT, 'x', "dustSalt", 'z', Items.STICK));
 		GameRegistry.addShapelessRecipe(new ItemStack(BBItems.rpgIntro), new ItemStack(Items.BOOK), new ItemStack(Items.CLOCK), new ItemStack(Items.MAP));
-		GameRegistry.addShapelessRecipe(new ItemStack(BBItems.purifyingBook), new ItemStack(Items.BOOK), new ItemStack(BBItems.bbResources, 1, 9));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BBItems.purifyingBook), new ItemStack(Items.BOOK), "dustSalt"));
 		
 		GameRegistry.addRecipe(new ItemStack(BBItems.bbResources, 1, 0), "xxx", "xyx", "xxx", 'x', Items.PAPER, 'y', Blocks.NETHERRACK);
 		GameRegistry.addRecipe(new ItemStack(BBItems.bbResources, 1, 3), "xyx", "yzy", "xyx", 'x', Blocks.STONE, 'y', Items.EMERALD, 'z', Items.ROTTEN_FLESH);

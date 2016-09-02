@@ -1,5 +1,5 @@
 {
-    "parent": "bb:item/bbStandard",
+    "parent": "item/handheld",
     "textures": {
         "layer0": "bb:items/animalHerder"
     }

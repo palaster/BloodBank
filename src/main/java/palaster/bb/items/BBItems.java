@@ -6,6 +6,7 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraftforge.common.util.EnumHelper;
+import net.minecraftforge.oredict.OreDictionary;
 import palaster.bb.libs.LibMod;
 
 public class BBItems {
@@ -39,7 +40,8 @@ public class BBItems {
 	boundBloodBottle,
 	rpgIntro,
 	clericStaff,
-	purifyingBook;
+	purifyingBook,
+	salt;
 
 	public static ItemArmor
 	boundHelmet,
@@ -84,6 +86,7 @@ public class BBItems {
 		rpgIntro = new ItemRPGIntro();
 		clericStaff = new ItemClericStaff();
 		purifyingBook = new ItemPurifyingBook();
+		salt = new ItemSalt();
 
 		boundHelmet = new ItemBoundArmor(genericUnbreakableDiamond, 0, EntityEquipmentSlot.HEAD);
 		boundChestplate = new ItemBoundArmor(genericUnbreakableDiamond, 0, EntityEquipmentSlot.CHEST);
@@ -97,7 +100,11 @@ public class BBItems {
 		debug = new ItemDebug();
 		yinYang = new ItemYinYang();
 		bbResources = new ItemBBResources();
+		
+		registerOreDictionary();
 	}
+	
+	public static void registerOreDictionary() { OreDictionary.registerOre("dustSalt", salt); }
 	
 	public static void registerCustomModelResourceLocation() {
 		for(Item item : Item.REGISTRY)

@@ -49,12 +49,11 @@ import palaster.bb.entities.careers.CareerUndead;
 public class ItemBBResources extends ItemModSpecial {
 	
 	public static final String TAG_BOOLEAN_VAMPIRE_SIGIL = "HasVampireSigil";
-	public static final String TAG_BOOLEAN_PURIFIED = "IsPurified";
 	public static final String TAG_INT_SOUL_AMOUNT = "SoulAmount";
 
     public ItemBBResources() {
         super();
-        setMaxDamage(10);
+        setMaxDamage(9);
         setUnlocalizedName("bbResources");
         addPropertyOverride(new ResourceLocation("type"), new IItemPropertyGetter() {
             @SideOnly(Side.CLIENT)
@@ -154,8 +153,6 @@ public class ItemBBResources extends ItemModSpecial {
 		if(e.getItemStack() != null && e.getItemStack().hasTagCompound()) {
 			if(e.getItemStack().getTagCompound().getBoolean(TAG_BOOLEAN_VAMPIRE_SIGIL))
 				e.getToolTip().add(I18n.format("bb.misc.vampireSigil"));
-			if(e.getItemStack().getTagCompound().getBoolean(TAG_BOOLEAN_PURIFIED))
-				e.getToolTip().add(I18n.format("bb.misc.purified"));
 		}
 	}
     

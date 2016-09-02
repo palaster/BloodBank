@@ -3,10 +3,13 @@ package palaster.bb.items;
 import net.minecraft.block.BlockBed;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumActionResult;
@@ -26,7 +29,7 @@ public class ItemClericStaff extends ItemModStaff implements IPurified {
 	
 	public ItemClericStaff() {
 		super();
-		powers = new String[]{"bb.clericStaff.0", "bb.clericStaff.1", "bb.clericStaff.2", "bb.clericStaff.3", "bb.clericStaff.4"};
+		powers = new String[]{"bb.clericStaff.0", "bb.clericStaff.1", "bb.clericStaff.2", "bb.clericStaff.3", "bb.clericStaff.4", "bb.clericStaff.5"};
 		setMaxDamage(256);
 		setUnlocalizedName("clericStaff");
 		MinecraftForge.EVENT_BUS.register(this);
@@ -50,6 +53,30 @@ public class ItemClericStaff extends ItemModStaff implements IPurified {
 	
 	@Override
 	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) { return super.onItemUse(stack, playerIn, worldIn, pos, hand, facing, hitX, hitY, hitZ); }
+	
+	@Override
+	public boolean itemInteractionForEntity(ItemStack stack, EntityPlayer playerIn, EntityLivingBase target, EnumHand hand) {
+		if(!playerIn.worldObj.isRemote)
+			if(target instanceof EntityPlayer)
+				switch(getActivePower(stack)) {
+					case 3: {
+						target.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, 3000, 2, false, true));
+						stack.damageItem(64, playerIn);
+						break;
+					}
+					case 4: {
+						target.addPotionEffect(new PotionEffect(MobEffects.STRENGTH, 3000, 2, false, true));
+						stack.damageItem(64, playerIn);
+						break;
+					}
+					case 5: {
+						target.addPotionEffect(new PotionEffect(MobEffects.SPEED, 3000, 2, false, true));
+						stack.damageItem(64, playerIn);
+						break;
+					}
+				}
+		return true;
+	}
 	
 	@Override
 	public boolean onLeftClickEntity(ItemStack stack, EntityPlayer player, Entity entity) {

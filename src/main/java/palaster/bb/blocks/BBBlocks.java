@@ -6,9 +6,10 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import palaster.bb.blocks.tile.TileEntityBloodTicker;
 import palaster.bb.blocks.tile.TileEntityCommunityTool;
+import palaster.bb.blocks.tile.TileEntityDesalinator;
 import palaster.bb.blocks.tile.TileEntityTNTAbsorber;
-import palaster.bb.blocks.tile.TileEntityVoidTrap;
 import palaster.bb.blocks.tile.TileEntityVoidAnchor;
+import palaster.bb.blocks.tile.TileEntityVoidTrap;
 import palaster.bb.libs.LibMod;
 
 public class BBBlocks {
@@ -18,7 +19,8 @@ public class BBBlocks {
 	bonfire,
 	tntAbsorber,
 	bloodTicker,
-	voidTrap;
+	voidTrap,
+	desalinator;
 	
 	public static void init() {
 		voidAnchor = new BlockVoidAnchor(Material.ROCK);
@@ -27,6 +29,7 @@ public class BBBlocks {
 		tntAbsorber = new BlockTNTAbsorber(Material.ROCK);
 		bloodTicker = new BlockBloodTicker(Material.GROUND);
 		voidTrap = new BlockVoidTrap(Material.BARRIER);
+		desalinator = new Block(Material.ROCK);
 
 		registerTileEntities();
 	}
@@ -37,6 +40,7 @@ public class BBBlocks {
 		registerTileEntity(TileEntityTNTAbsorber.class, "tntAbsorber");
 		registerTileEntity(TileEntityBloodTicker.class, "bloodTicker");
 		registerTileEntity(TileEntityVoidTrap.class, "voidTrap");
+		registerTileEntity(TileEntityDesalinator.class, "desalinator");
 	}
 	
 	public static void registerCustomModelResourceLocation() {

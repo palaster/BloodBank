@@ -57,6 +57,7 @@ item.bb:boundBloodBottle.name=Bound Blood Bottle
 item.bb:rpgIntro.name=Introduction to a Basic Guide of a RPG
 item.bb:clericStaff.name=Cleric Staff
 item.bb:purifyingBook.name=Purifying Book
+item.bb:salt.name=Salt
 
 item.bb:bound.HEAD.name=Bound Helmet
 item.bb:bound.CHEST.name=Bound Chestplate
@@ -78,7 +79,6 @@ item.bb:bbResources.5.name=Dense Sand Particle
 item.bb:bbResources.6.name=Souls
 item.bb:bbResources.7.name=Itztili's Soul
 item.bb:bbResources.8.name=Soul Gem
-item.bb:bbResources.9.name=Salt
 
 bb.misc.activated=Activated
 bb.misc.broken=BROKEN (Normal Fix is a simple right-click)
@@ -134,6 +134,9 @@ bb.staff.hs.2=Enervation
 bb.clericStaff.0=Ward Spell : Peace
 bb.clericStaff.1=Ward Spell : Fertility
 bb.clericStaff.2=Ward Spell : Growing
+bb.clericStaff.3=Heal Spell
+bb.clericStaff.4=Attack Buff
+bb.clericStaff.5=Speed Buff
 
 bb.knowledgePiece=Knowledge Piece
 bb.kp.boilingBlood=Boiling Blood
