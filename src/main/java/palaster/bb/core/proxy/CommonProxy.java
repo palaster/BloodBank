@@ -21,7 +21,9 @@ import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityFactory;
 import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityProvider;
 import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityStorage;
 import palaster.bb.blocks.BBBlocks;
+import palaster.bb.blocks.tile.TileEntityDesalinator;
 import palaster.bb.blocks.tile.TileEntityVoidAnchor;
+import palaster.bb.client.gui.GuiDesalinator;
 import palaster.bb.client.gui.GuiRPGIntro;
 import palaster.bb.client.gui.GuiVoidAnchor;
 import palaster.bb.core.CreativeTabBB;
@@ -30,6 +32,7 @@ import palaster.bb.entities.BBEntities;
 import palaster.bb.entities.EntityItztiliTablet;
 import palaster.bb.entities.effects.BBPotions;
 import palaster.bb.entities.villager.BBVillagers;
+import palaster.bb.inventories.ContainerDesalinator;
 import palaster.bb.inventories.ContainerRPGIntro;
 import palaster.bb.inventories.ContainerVoidAnchor;
 import palaster.bb.items.BBItems;
@@ -87,6 +90,11 @@ public class CommonProxy implements IGuiHandler {
 					return new ContainerVoidAnchor(player.inventory, (TileEntityVoidAnchor) te);
 				break;
 			}
+			case 2: {
+				if(te != null && te instanceof TileEntityDesalinator)
+					return new ContainerDesalinator(player.inventory, (TileEntityDesalinator) te);
+				break;
+			}
 		}
 		return null;
 	}
@@ -103,6 +111,11 @@ public class CommonProxy implements IGuiHandler {
 			case 1: {
 				if(te != null && te instanceof TileEntityVoidAnchor)
 					return new GuiVoidAnchor(player.inventory, (TileEntityVoidAnchor) te);
+				break;
+			}
+			case 2: {
+				if(te != null && te instanceof TileEntityDesalinator)
+					return new GuiDesalinator(player.inventory, (TileEntityDesalinator) te);
 				break;
 			}
 		}

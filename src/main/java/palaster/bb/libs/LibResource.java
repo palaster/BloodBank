@@ -8,6 +8,7 @@ public class LibResource {
 	private static final String MODELS = "textures/models/";
 
 	public static final ResourceLocation VOID_ANCHOR = new ResourceLocation(LibMod.MODID, GUI + "voidAnchor.png");
+	public static final ResourceLocation DESALINATOR = new ResourceLocation(LibMod.MODID, GUI + "desalinator.png");
 	public static final ResourceLocation BLANK = new ResourceLocation(LibMod.MODID, GUI + "blank.png");
 	
 	public static final ResourceLocation BB_HUD = new ResourceLocation(LibMod.MODID, GUI + "bbHUD.png");

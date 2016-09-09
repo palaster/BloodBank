@@ -206,6 +206,12 @@ public class BBEventHandler {
 							((EntityLiving) e.getSource().getEntity()).addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 600, 2, false, true));
 							e.setCanceled(true);
 						}
+					if(p.getActivePotionEffect(BBPotions.peace) != null)
+						if(e.getSource().getEntity() instanceof EntityPlayer) {
+							EntityPlayer pSource = (EntityPlayer) e.getSource().getEntity();
+							if(pSource != null && pSource.getActivePotionEffect(BBPotions.peace) != null)
+								e.setCanceled(true);
+						}
 				}
 			}
 		}

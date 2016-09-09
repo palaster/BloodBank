@@ -29,7 +29,7 @@ public class BBBlocks {
 		tntAbsorber = new BlockTNTAbsorber(Material.ROCK);
 		bloodTicker = new BlockBloodTicker(Material.GROUND);
 		voidTrap = new BlockVoidTrap(Material.BARRIER);
-		desalinator = new Block(Material.ROCK);
+		desalinator = new BlockDesalinator(Material.ROCK);
 
 		registerTileEntities();
 	}

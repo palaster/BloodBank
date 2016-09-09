@@ -23,13 +23,13 @@ public class ItemPurifyingBook extends ItemModSpecial {
 		if(!worldIn.isRemote && entityIn instanceof EntityPlayer)
 			if(stack.getItemDamage() < stack.getMaxDamage()) {
 				for(int i = 0; i < ((EntityPlayer) entityIn).inventory.getSizeInventory(); i++)
-					if(((EntityPlayer) entityIn).inventory.getStackInSlot(i) != null && ((EntityPlayer) entityIn).inventory.getStackInSlot(i).getItem() instanceof IPurified || ((EntityPlayer) entityIn).inventory.getStackInSlot(i) != null && ((EntityPlayer) entityIn).inventory.getStackInSlot(i).hasTagCompound() && ((EntityPlayer) entityIn).inventory.getStackInSlot(i).getTagCompound().getBoolean(ItemSalt.TAG_BOOLEAN_PURIFIED))
+					if(((EntityPlayer) entityIn).inventory.getStackInSlot(i) != null && ((EntityPlayer) entityIn).inventory.getStackInSlot(i).getItem() instanceof IPurified)
 						if(((EntityPlayer) entityIn).inventory.getStackInSlot(i).getItemDamage() > 0) {
 							((EntityPlayer) entityIn).inventory.getStackInSlot(i).damageItem(-1, ((EntityPlayer) entityIn));
 							stack.damageItem(1, ((EntityPlayer) entityIn));
 						}
 				for(int i = 0; i < ((EntityPlayer) entityIn).inventory.armorInventory.length; i++)
-					if(((EntityPlayer) entityIn).inventory.armorItemInSlot(i) != null && ((EntityPlayer) entityIn).inventory.armorItemInSlot(i).getItem() instanceof IPurified || ((EntityPlayer) entityIn).inventory.armorItemInSlot(i) != null && ((EntityPlayer) entityIn).inventory.armorItemInSlot(i).hasTagCompound() && ((EntityPlayer) entityIn).inventory.armorItemInSlot(i).getTagCompound().getBoolean(ItemSalt.TAG_BOOLEAN_PURIFIED))
+					if(((EntityPlayer) entityIn).inventory.armorItemInSlot(i) != null && ((EntityPlayer) entityIn).inventory.armorItemInSlot(i).getItem() instanceof IPurified)
 						if(((EntityPlayer) entityIn).inventory.armorItemInSlot(i).getItemDamage() >= 1) {
 							((EntityPlayer) entityIn).inventory.armorItemInSlot(i).damageItem(-1, ((EntityPlayer) entityIn));
 							stack.damageItem(1, ((EntityPlayer) entityIn));

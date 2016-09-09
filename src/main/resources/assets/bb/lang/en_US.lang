@@ -10,6 +10,7 @@ effect.curseUnblinkingEye=Curse of the Unblinking Eye
 effect.curseBlackTongue=Curse of the Black Tongue
 effect.darkWings=Dark Wings
 effect.carthusFlameArc=Carthus Flame Arc
+effect.peace=Peace
 
 key.categories.bb=Blood Bank
 key.staffChange=Change Staff Power
@@ -26,6 +27,7 @@ tile.bb:bonfire.name=Bonfire
 tile.bb:tntAbsorber.name=TNT Absorber
 tile.bb:bloodTicker.name=Blood Ticker
 tile.bb:voidTrap.name=Void Trap
+tile.bb:desalinator.name=Desalinator
 
 item.bb:staffSkeleton.name=Skeleton Staff
 item.bb:staffEfreet.name=Efreet Staff
@@ -132,11 +134,9 @@ bb.staff.hs.1=Vampiric Touch
 bb.staff.hs.2=Enervation
 
 bb.clericStaff.0=Ward Spell : Peace
-bb.clericStaff.1=Ward Spell : Fertility
-bb.clericStaff.2=Ward Spell : Growing
-bb.clericStaff.3=Heal Spell
-bb.clericStaff.4=Attack Buff
-bb.clericStaff.5=Speed Buff
+bb.clericStaff.1=Heal Spell
+bb.clericStaff.2=Attack Buff
+bb.clericStaff.3=Speed Buff
 
 bb.knowledgePiece=Knowledge Piece
 bb.kp.boilingBlood=Boiling Blood
@@ -171,3 +171,5 @@ bb.rpg.dexterity=Dexterity
 
 bb.jei.blood=Blood
 bb.jei.bloodCost=Blood Cost
+
+player.salt=Don't be salty.

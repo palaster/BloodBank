@@ -11,7 +11,8 @@ public class BBPotions {
     curseUnblinkingEye,
     curseBlackTongue,
     darkWings,
-    carthusFlameArc;
+    carthusFlameArc,
+    peace;
 
     public static void init() {
         timedFlame = new PotionMod("timedFlame", true, 0xE25822, 0);
@@ -22,5 +23,6 @@ public class BBPotions {
         curseBlackTongue = new PotionMod("curseBlackTongue", true, 0x551A8B, 5);
         darkWings = new PotionModDarkWings("darkWings", false, 0x551A8B, 6);
         carthusFlameArc = new PotionMod("carthusFlameArc", false, 0xE25822, 7);
+        peace = new PotionMod("peace", false, 0x00ff00, 8);
     }
 }
