@@ -54,9 +54,9 @@ public class ItemBoundBloodBottle extends ItemModSpecial {
 							stack.damageItem(1, ((EntityPlayer) entityIn));
 						}
 				for(int i = 0; i < ((EntityPlayer) entityIn).inventory.armorInventory.length; i++)
-					if(((EntityPlayer) entityIn).inventory.armorItemInSlot(i) != null && ((EntityPlayer) entityIn).inventory.armorItemInSlot(i).getItem() instanceof IVampiric || ((EntityPlayer) entityIn).inventory.armorItemInSlot(i) != null && ((EntityPlayer) entityIn).inventory.armorItemInSlot(i).hasTagCompound() && ((EntityPlayer) entityIn).inventory.armorItemInSlot(i).getTagCompound().getBoolean(ItemBBResources.TAG_BOOLEAN_VAMPIRE_SIGIL))
-						if(((EntityPlayer) entityIn).inventory.armorItemInSlot(i).getItemDamage() >= 1) {
-							((EntityPlayer) entityIn).inventory.armorItemInSlot(i).damageItem(-1, ((EntityPlayer) entityIn));
+					if(((EntityPlayer) entityIn).inventory.armorInventory[i] != null && ((EntityPlayer) entityIn).inventory.armorInventory[i].getItem() instanceof IVampiric || ((EntityPlayer) entityIn).inventory.armorInventory[i] != null && ((EntityPlayer) entityIn).inventory.armorInventory[i].hasTagCompound() && ((EntityPlayer) entityIn).inventory.armorInventory[i].getTagCompound().getBoolean(ItemBBResources.TAG_BOOLEAN_VAMPIRE_SIGIL))
+						if(((EntityPlayer) entityIn).inventory.armorInventory[i].getItemDamage() >= 1) {
+							((EntityPlayer) entityIn).inventory.armorInventory[i].damageItem(-1, ((EntityPlayer) entityIn));
 							stack.damageItem(1, ((EntityPlayer) entityIn));
 						}
 			}
