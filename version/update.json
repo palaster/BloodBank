@@ -1,44 +1,12 @@
 {
-    "1.10": {
-        "0.6.8": "See https://minecraft.curseforge.com/projects/blood-bank/files/2310931",
-		"0.6.9": "See https://minecraft.curseforge.com/projects/blood-bank/files/2311160",
-		"0.7.0": "See https://minecraft.curseforge.com/projects/blood-bank/files/2312364"
-    },
     "1.10.2": {
-		"0.7.1": "See https://minecraft.curseforge.com/projects/blood-bank/files/2312382",
-		"0.7.2": "See https://minecraft.curseforge.com/projects/blood-bank/files/2314479",
-		"0.7.3": "See https://minecraft.curseforge.com/projects/blood-bank/files/2316740",
 		"0.7.4": "See https://minecraft.curseforge.com/projects/blood-bank/files/2319650",
 		"0.7.5": "See https://minecraft.curseforge.com/projects/blood-bank/files/2329223",
-		"0.7.6": "See "
-    },
-    "1.9": {
-		"0.4.0": "See https://minecraft.curseforge.com/projects/blood-bank/files/2292248",
-		"0.4.1": "See https://minecraft.curseforge.com/projects/blood-bank/files/2292554",
-		"0.4.2": "See https://minecraft.curseforge.com/projects/blood-bank/files/2292741",
-		"0.4.3": "See https://minecraft.curseforge.com/projects/blood-bank/files/2293149",
-		"0.4.4": "See https://minecraft.curseforge.com/projects/blood-bank/files/2294540",
-		"0.5.0": "See https://minecraft.curseforge.com/projects/blood-bank/files/2299109",
-		"0.5.1": "See https://minecraft.curseforge.com/projects/blood-bank/files/2300414"
-	},
-    "1.9.4": {
-		"0.6.0" : "See https://minecraft.curseforge.com/projects/blood-bank/files/2301972",
-		"0.6.1" : "See https://minecraft.curseforge.com/projects/blood-bank/files/2306233",
-		"0.6.2" : "See https://minecraft.curseforge.com/projects/blood-bank/files/2306258",
-		"0.6.3" : "See https://minecraft.curseforge.com/projects/blood-bank/files/2308885",
-		"0.6.4" : "See https://minecraft.curseforge.com/projects/blood-bank/files/2309091",
-		"0.6.5" : "See https://minecraft.curseforge.com/projects/blood-bank/files/2309139",
-		"0.6.6" : "See https://minecraft.curseforge.com/projects/blood-bank/files/2309333",
-		"0.6.7" : "See https://minecraft.curseforge.com/projects/blood-bank/files/2310927"
-    },
+		"0.7.6": "See https://minecraft.curseforge.com/projects/blood-bank/files/2329414"
+    }
     "homepage": "https://minecraft.curseforge.com/projects/blood-bank",
     "promos": {
-        "1.10-latest": "0.7.0",
-        "1.10-recommended": "0.7.0",
-        "1.10.2-latest": "0.7.3",
-        "1.10.2-recommended": "0.7.3",
-        "1.9-latest": "0.5.1",
-        "1.9.4-latest": "0.6.7",
-        "1.9.4-recommended": "0.6.7"
+        "1.10.2-latest": "0.7.6",
+        "1.10.2-recommended": "0.7.6"
     }
 }
