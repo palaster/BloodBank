@@ -51,6 +51,7 @@ public class BBRecipes {
 		GameRegistry.addRecipe(new ItemStack(BBItems.bbResources, 1, 0), "xxx", "xyx", "xxx", 'x', Items.PAPER, 'y', Blocks.NETHERRACK);
 		GameRegistry.addRecipe(new ItemStack(BBItems.bbResources, 1, 3), "xyx", "yzy", "xyx", 'x', Blocks.STONE, 'y', Items.EMERALD, 'z', Items.ROTTEN_FLESH);
 		GameRegistry.addRecipe(new ItemStack(BBItems.bbResources, 1, 4), "   ", "yzy", " y ", 'y', Items.NETHERBRICK, 'z', Items.FIRE_CHARGE);
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BBItems.bbResources, 1, 9), Items.PAPER, "dyePink", Items.FLINT_AND_STEEL));
 		
 		GameRegistry.addShapelessRecipe(new ItemStack(BBItems.boundPlayer), new ItemStack(Blocks.STONE_SLAB), new ItemStack(Items.BONE));
 		GameRegistry.addShapelessRecipe(new ItemStack(BBItems.boundBloodBottle), new ItemStack(BBItems.boundPlayer), new ItemStack(BBItems.bloodBottle));

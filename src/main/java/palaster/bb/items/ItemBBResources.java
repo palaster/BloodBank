@@ -45,7 +45,7 @@ import palaster.bb.entities.careers.CareerUndead;
 
 public class ItemBBResources extends ItemModSpecial {
 	
-	public static final String[] NAMES = {"bankContract", "bankID", "wormEater", "vampireSigil", "urn", "denseSandParticle", "soul", "itztiliSoul", "soulGem"};
+	public static final String[] NAMES = {"bankContract", "bankID", "wormEater", "vampireSigil", "urn", "denseSandParticle", "soul", "itztiliSoul", "soulGem", "pinkSlip"};
 	
 	public static final String TAG_BOOLEAN_VAMPIRE_SIGIL = "HasVampireSigil";
 	public static final String TAG_INT_SOUL_AMOUNT = "SoulAmount";
@@ -188,7 +188,7 @@ public class ItemBBResources extends ItemModSpecial {
             			return ActionResult.newResult(EnumActionResult.SUCCESS, null);
                 	}
             	}
-            } else if(itemStackIn.getItemDamage() == 6)
+            } else if(itemStackIn.getItemDamage() == 6) {
             	if(itemStackIn.hasTagCompound()) {
             		final IRPG rpg = RPGCapabilityProvider.get(playerIn);
             		if(rpg != null)
@@ -197,6 +197,15 @@ public class ItemBBResources extends ItemModSpecial {
             				return ActionResult.newResult(EnumActionResult.SUCCESS, null);
                 		}
             	}
+            } else if(itemStackIn.getItemDamage() == 9) {
+            	final IRPG rpg = RPGCapabilityProvider.get(playerIn);
+        		if(rpg != null)
+        			if(rpg.getCareer() != null) {
+        				rpg.setCareer(null);
+        				BBPlayerHelper.sendChatMessageToPlayer(playerIn, net.minecraft.util.text.translation.I18n.translateToLocal("bb.career.fired"));
+        				return ActionResult.newResult(EnumActionResult.SUCCESS, null);
+            		}
+            }
         return super.onItemRightClick(itemStackIn, worldIn, playerIn, hand);
     }
 

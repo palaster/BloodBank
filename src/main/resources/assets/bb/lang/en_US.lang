@@ -81,6 +81,7 @@ item.bb:bbResources.5.name=Dense Sand Particle
 item.bb:bbResources.6.name=Soul
 item.bb:bbResources.7.name=Itztili's Soul
 item.bb:bbResources.8.name=Soul Gem
+item.bb:bbResources.9.name=Pink Slip
 
 bb.misc.activated=Activated
 bb.misc.broken=BROKEN (Normal Fix is a simple right-click)
