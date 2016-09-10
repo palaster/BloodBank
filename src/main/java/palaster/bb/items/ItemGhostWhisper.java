@@ -1,6 +1,5 @@
 package palaster.bb.items;
 
-import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
@@ -9,6 +8,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import palaster.bb.core.helpers.BBPlayerHelper;
 import palaster.bb.world.BBWorldSaveData;
@@ -28,7 +28,7 @@ public class ItemGhostWhisper extends ItemModSpecial {
 					if(EntityList.createEntityFromNBT(tag, worldIn) != null)
 						if(EntityList.createEntityFromNBT(tag, worldIn) instanceof EntityLiving) {
 							EntityLiving li = (EntityLiving) EntityList.createEntityFromNBT(tag, worldIn);
-							BBPlayerHelper.sendChatMessageToPlayer(playerIn, I18n.format("bb.misc.ghostWhisper") + li.getName());							
+							BBPlayerHelper.sendChatMessageToPlayer(playerIn, I18n.translateToLocal("bb.misc.ghostWhisper") + " " + li.getName());							
 						}
 				return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
 			}

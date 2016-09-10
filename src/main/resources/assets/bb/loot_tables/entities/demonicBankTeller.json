@@ -6,7 +6,7 @@
         "type": "item",
         "name": "bb:bbResources",
         "functions": [
-		  { "function": "set_data", "data": 7 },
+		  { "function": "set_data", "data": 1 },
           { "function": "set_count", "count": 1 }
         ]
       }]

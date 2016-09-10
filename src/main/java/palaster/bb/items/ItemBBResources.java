@@ -3,19 +3,16 @@ package palaster.bb.items;
 import java.lang.ref.WeakReference;
 import java.util.List;
 
-import javax.annotation.Nullable;
-
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.SkeletonType;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
-import net.minecraft.item.IItemPropertyGetter;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
@@ -26,9 +23,9 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AnvilUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
@@ -48,17 +45,15 @@ import palaster.bb.entities.careers.CareerUndead;
 
 public class ItemBBResources extends ItemModSpecial {
 	
+	public static final String[] NAMES = {"bankContract", "bankID", "wormEater", "vampireSigil", "urn", "denseSandParticle", "soul", "itztiliSoul", "soulGem"};
+	
 	public static final String TAG_BOOLEAN_VAMPIRE_SIGIL = "HasVampireSigil";
 	public static final String TAG_INT_SOUL_AMOUNT = "SoulAmount";
 
     public ItemBBResources() {
         super();
-        setMaxDamage(9);
+        setHasSubtypes(true);
         setUnlocalizedName("bbResources");
-        addPropertyOverride(new ResourceLocation("type"), new IItemPropertyGetter() {
-            @SideOnly(Side.CLIENT)
-            public float apply(ItemStack stack, @Nullable World worldIn, @Nullable EntityLivingBase entityIn) { return stack.getItemDamage(); }
-        });
         MinecraftForge.EVENT_BUS.register(this);
     }
     
@@ -170,13 +165,13 @@ public class ItemBBResources extends ItemModSpecial {
             	final IRPG rpg = RPGCapabilityProvider.get(playerIn);
 				if(rpg != null) {
 	                if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerUndead)
-	                    BBPlayerHelper.sendChatMessageToPlayer(playerIn, I18n.format("bb.bank.undead"));
+	                    BBPlayerHelper.sendChatMessageToPlayer(playerIn, net.minecraft.util.text.translation.I18n.translateToLocal("bb.bank.undead"));
 	                else if(rpg.getCareer() == null || !(rpg.getCareer() instanceof CareerBloodSorcerer)) {
-	                    rpg.setCareer(new CareerBloodSorcerer(0, 2000, null));
-	                    BBPlayerHelper.sendChatMessageToPlayer(playerIn, I18n.format("bb.bank.join"));
+	                    rpg.setCareer(new CareerBloodSorcerer(2000, 0, null));
+	                    BBPlayerHelper.sendChatMessageToPlayer(playerIn, net.minecraft.util.text.translation.I18n.translateToLocal("bb.bank.join"));
 	                    return ActionResult.newResult(EnumActionResult.SUCCESS, new ItemStack(this, 1, 1));
 	                } else
-	                    BBPlayerHelper.sendChatMessageToPlayer(playerIn, I18n.format("bb.bank.refuse"));
+	                    BBPlayerHelper.sendChatMessageToPlayer(playerIn, net.minecraft.util.text.translation.I18n.translateToLocal("bb.bank.refuse"));
 				}
             } else if(itemStackIn.getItemDamage() == 4) {
             	final IRPG rpg = RPGCapabilityProvider.get(playerIn);
@@ -188,7 +183,7 @@ public class ItemBBResources extends ItemModSpecial {
                 	}
             		if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerBloodSorcerer) {
             			rpg.setCareer(new CareerUndead(0, 0, 1000));
-            			BBPlayerHelper.sendChatMessageToPlayer(playerIn, I18n.format("bb.bank.becomeUndead"));
+            			BBPlayerHelper.sendChatMessageToPlayer(playerIn, net.minecraft.util.text.translation.I18n.translateToLocal("bb.bank.becomeUndead"));
             			playerIn.attackEntityFrom(DamageSource.inFire, playerIn.getMaxHealth() + 5f);
             			return ActionResult.newResult(EnumActionResult.SUCCESS, null);
                 	}
@@ -238,14 +233,16 @@ public class ItemBBResources extends ItemModSpecial {
     @Override
     @SideOnly(Side.CLIENT)
     public void getSubItems(Item itemIn, CreativeTabs tab, List<ItemStack> subItems) {
-        for(int i = 0; i < itemIn.getMaxDamage(); i++)
+        for(int i = 0; i < NAMES.length; i++)
             subItems.add(new ItemStack(itemIn, 1, i));
     }
     
+    @SideOnly(Side.CLIENT)
+	public static void setCustomModelResourceLocation(Item item) {
+    	for(int i = 0; i < NAMES.length; i++)
+    		ModelLoader.setCustomModelResourceLocation(item, i, new ModelResourceLocation("bb:" + NAMES[i], "inventory"));
+    }
+    
     @Override
-	public boolean showDurabilityBar(ItemStack stack) { return false; }
-	
-	@SuppressWarnings("deprecation")
-	@Override
-	public String getItemStackDisplayName(ItemStack stack) { return ("" + net.minecraft.util.text.translation.I18n.translateToLocal(getUnlocalizedNameInefficiently(stack) + "." + stack.getItemDamage() + ".name")).trim(); }
+    public String getUnlocalizedName(ItemStack stack) { return super.getUnlocalizedName() + "." + stack.getItemDamage(); }
 }

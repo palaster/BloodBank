@@ -1,10 +1,12 @@
 package palaster.bb.items;
 
+import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.oredict.OreDictionary;
 import palaster.bb.libs.LibMod;
@@ -107,8 +109,14 @@ public class BBItems {
 	public static void registerOreDictionary() { OreDictionary.registerOre("dustSalt", salt); }
 	
 	public static void registerCustomModelResourceLocation() {
+		ResourceLocation[] rl = new ResourceLocation[ItemBBResources.NAMES.length];
+		for(int i = 0; i < ItemBBResources.NAMES.length; i++)
+			rl[i] = new ResourceLocation("bb:" + ItemBBResources.NAMES[i]);
+		ModelBakery.registerItemVariants(bbResources, rl);
+		
 		for(Item item : Item.REGISTRY)
-			if(item.getRegistryName().getResourceDomain().equalsIgnoreCase(LibMod.MODID))
+			if(item.getRegistryName().getResourceDomain().equalsIgnoreCase(LibMod.MODID) && !(item instanceof ItemBBResources))
 				ItemMod.setCustomModelResourceLocation(item);
+		ItemBBResources.setCustomModelResourceLocation(bbResources);
 	}
 }

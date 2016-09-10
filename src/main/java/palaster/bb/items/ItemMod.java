@@ -10,7 +10,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import palaster.bb.core.CreativeTabBB;
 import palaster.bb.libs.LibMod;
 
-public abstract class ItemMod extends Item {
+public class ItemMod extends Item {
 	
 	public ItemMod() {
 		super();

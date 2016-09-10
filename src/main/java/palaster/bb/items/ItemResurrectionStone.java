@@ -1,6 +1,5 @@
 package palaster.bb.items;
 
-import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
@@ -11,6 +10,7 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import palaster.bb.core.helpers.BBPlayerHelper;
 import palaster.bb.world.BBWorldSaveData;
@@ -73,7 +73,7 @@ public class ItemResurrectionStone extends ItemModSpecial {
 					if(entityTag != null) {
 						EntityLiving li = (EntityLiving) EntityList.createEntityFromNBT(entityTag, worldIn);
 						if(li != null) {
-							BBPlayerHelper.sendChatMessageToPlayer(playerIn, I18n.format("bb.misc.deadEntity") + " : " + li.getName());
+							BBPlayerHelper.sendChatMessageToPlayer(playerIn, I18n.translateToLocal("bb.misc.deadEntity") + " : " + li.getName());
 							return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
 						}
 					}

@@ -9,6 +9,7 @@ import net.minecraft.item.ItemGlassBottle;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import palaster.bb.api.capabilities.entities.IRPG;
@@ -16,6 +17,7 @@ import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityProvider
 import palaster.bb.core.helpers.BBPlayerHelper;
 import palaster.bb.entities.careers.CareerBloodSorcerer;
 import palaster.bb.items.BBItems;
+import palaster.bb.libs.LibResource;
 
 public class EntityDemonicBankTeller extends EntityLiving {
 
@@ -66,4 +68,7 @@ public class EntityDemonicBankTeller extends EntityLiving {
         }
         return super.applyPlayerInteraction(player, vec, stack, hand);
     }
+    
+    @Override
+    protected ResourceLocation getLootTable() { return LibResource.DEMONIC_BANK_TELLER_LOOT; }
 }

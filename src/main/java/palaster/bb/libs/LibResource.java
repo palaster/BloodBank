@@ -18,4 +18,5 @@ public class LibResource {
 	public static final ResourceLocation ITZTLI_TABLET = new ResourceLocation(LibMod.MODID, MODELS + "itztliTablet.png");
 	
 	public static final ResourceLocation ITZTLI_TABLET_LOOT = new ResourceLocation(LibMod.MODID, "entities/itztiliTablet");
+	public static final ResourceLocation DEMONIC_BANK_TELLER_LOOT = new ResourceLocation(LibMod.MODID, "entities/demonicBankTeller");
 }

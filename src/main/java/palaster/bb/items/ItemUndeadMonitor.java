@@ -1,11 +1,11 @@
 package palaster.bb.items;
 
-import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import palaster.bb.api.capabilities.entities.IRPG;
 import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityProvider;
@@ -28,8 +28,8 @@ public class ItemUndeadMonitor extends ItemModSpecial {
         	final IRPG rpg = RPGCapabilityProvider.get(playerIn);
         	if(rpg != null)
         		if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerUndead) {
-        			BBPlayerHelper.sendChatMessageToPlayer(playerIn, I18n.format("bb.undead.soul") + ": " + ((CareerUndead) rpg.getCareer()).getSoul());
-        			BBPlayerHelper.sendChatMessageToPlayer(playerIn, I18n.format("bb.undead.focus") + ": " + ((CareerUndead) rpg.getCareer()).getFocus() + " / " + ((CareerUndead) rpg.getCareer()).getFocusMax());
+        			BBPlayerHelper.sendChatMessageToPlayer(playerIn, I18n.translateToLocal("bb.undead.soul") + ": " + ((CareerUndead) rpg.getCareer()).getSoul());
+        			BBPlayerHelper.sendChatMessageToPlayer(playerIn, I18n.translateToLocal("bb.undead.focus") + ": " + ((CareerUndead) rpg.getCareer()).getFocus() + " / " + ((CareerUndead) rpg.getCareer()).getFocusMax());
                     return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
         		}
         }
