@@ -116,6 +116,16 @@ public class EntitySkeletonMinion extends EntityTameable implements IMob, IRange
         dataManager.register(SKELETON_MINION_VARIANT, 0);
         dataManager.register(field_184728_b, false);
     }
+    
+    @Override
+    public void setAttackTarget(EntityLivingBase entitylivingbaseIn) {
+    	if(entitylivingbaseIn != null && entitylivingbaseIn instanceof EntitySkeletonMinion) {
+			if(((EntitySkeletonMinion) entitylivingbaseIn).getOwnerId() != null && getOwnerId() != null)
+				if(((EntitySkeletonMinion) entitylivingbaseIn).getOwnerId().equals(getOwnerId()))
+					return;
+    	} else
+    		super.setAttackTarget(entitylivingbaseIn);
+    }
 
     @Override
     protected SoundEvent getAmbientSound() { return SoundEvents.ENTITY_SKELETON_AMBIENT; }

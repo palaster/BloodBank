@@ -178,7 +178,7 @@ public class BBApi {
     	final IRPG rpg = RPGCapabilityProvider.get(player);
     	if(rpg != null) {
     		int rpgLevel = (rpg.getConstitution() + rpg.getStrength() + rpg.getDefense() + rpg.getDexterity());
-    		return rpgLevel <= 0 ? 1 : (int) (rpgLevel * 1.25);
+    		return rpgLevel <= 0 ? 1 : (int) (rpgLevel * 1.2);
     	}
         return 0;
     }
