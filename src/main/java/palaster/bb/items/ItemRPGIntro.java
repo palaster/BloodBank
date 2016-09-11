@@ -44,9 +44,9 @@ public class ItemRPGIntro extends ItemModSpecial implements IRecieveButton {
 						else if(BBApi.getExperienceCostForNextLevel(player) > 0)
 							player.removeExperienceLevel(BBApi.getExperienceCostForNextLevel(player));
 						rpg.setConstitution(rpg.getConstitution() + 1);
-						BBApi.calculateConstitutionBoost(player);
 						BloodBank.proxy.syncPlayerRPGCapabilitiesToClient(player);
 					}
+					BBApi.calculateConstitutionBoost(player);
 					break;
 				}
 				case 1: {
@@ -56,9 +56,9 @@ public class ItemRPGIntro extends ItemModSpecial implements IRecieveButton {
 						else if(BBApi.getExperienceCostForNextLevel(player) > 0)
 							player.removeExperienceLevel(BBApi.getExperienceCostForNextLevel(player));
 						rpg.setStrength(rpg.getStrength() + 1);
-						BBApi.calculateStrengthBoost(player);
 						BloodBank.proxy.syncPlayerRPGCapabilitiesToClient(player);
 					}
+					BBApi.calculateStrengthBoost(player);
 					break;
 				}
 				case 2: {
@@ -79,9 +79,9 @@ public class ItemRPGIntro extends ItemModSpecial implements IRecieveButton {
 						else if(BBApi.getExperienceCostForNextLevel(player) > 0)
 							player.removeExperienceLevel(BBApi.getExperienceCostForNextLevel(player));
 						rpg.setDexterity(rpg.getDexterity() + 1);
-						BBApi.calculateDexterityBoost(player);
 						BloodBank.proxy.syncPlayerRPGCapabilitiesToClient(player);
 					}
+					BBApi.calculateDexterityBoost(player);
 					break;
 				}
 			}
