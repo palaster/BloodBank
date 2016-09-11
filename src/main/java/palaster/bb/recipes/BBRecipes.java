@@ -34,7 +34,7 @@ public class BBRecipes {
 	private static void registerCraftingRecipes() {
 		//Blocks
 		GameRegistry.addRecipe(new ItemStack(BBBlocks.voidAnchor), "xyx", "yzy", "xyx", 'x', new ItemStack(Blocks.OBSIDIAN), 'y', new ItemStack(Items.ENDER_PEARL), 'z', new ItemStack(Blocks.ENDER_CHEST));
-		GameRegistry.addRecipe(new ItemStack(BBBlocks.communityTool), "xyx", "yzy", "xyx", 'x', new ItemStack(Items.EMERALD), 'y', new ItemStack(Blocks.QUARTZ_BLOCK), 'z', new ItemStack(Blocks.CHEST));
+		GameRegistry.addRecipe(new ItemStack(BBBlocks.communityTool), "xyx", "yzy", "xyx", 'x', new ItemStack(Items.GOLD_INGOT), 'y', new ItemStack(Blocks.QUARTZ_BLOCK), 'z', new ItemStack(Blocks.CHEST));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BBBlocks.bonfire), "xyx", "yzy", "xyx", 'x', new ItemStack(Blocks.TORCH), 'y', "logWood", 'z', new ItemStack(Items.FIRE_CHARGE)));
 		GameRegistry.addRecipe(new ItemStack(BBBlocks.tntAbsorber), "xxx", "yyy", " z ", 'x', Items.WATER_BUCKET, 'y', Blocks.TNT, 'z', Items.ENDER_PEARL);
 		GameRegistry.addRecipe(new ItemStack(BBBlocks.bloodTicker), "xyx", "yzy", "xyx", 'x', Items.REPEATER, 'y', Items.ENDER_PEARL, 'z', Items.CLOCK);
@@ -50,6 +50,7 @@ public class BBRecipes {
 		
 		GameRegistry.addRecipe(new ItemStack(BBItems.bbResources, 1, 0), "xxx", "xyx", "xxx", 'x', Items.PAPER, 'y', Blocks.NETHERRACK);
 		GameRegistry.addRecipe(new ItemStack(BBItems.bbResources, 1, 3), "xyx", "yzy", "xyx", 'x', Blocks.STONE, 'y', Items.EMERALD, 'z', Items.ROTTEN_FLESH);
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BBItems.bbResources, 1, 3), "xyx", "yzy", "xyx", 'x', Blocks.STONE, 'y', "dyeRed", 'z', Items.ROTTEN_FLESH));
 		GameRegistry.addRecipe(new ItemStack(BBItems.bbResources, 1, 4), "   ", "yzy", " y ", 'y', Items.NETHERBRICK, 'z', Items.FIRE_CHARGE);
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BBItems.bbResources, 1, 9), Items.PAPER, "dyePink", Items.FLINT_AND_STEEL));
 		
