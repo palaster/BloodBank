@@ -316,7 +316,8 @@ public class BBEventHandler {
 			if(e.phase == Phase.START) {
 				if((e.world.getTotalWorldTime() % 84000) == 0)
 					BBWorldSaveData.get(e.world).clearDeadEntities(e.world); // 7 Minecraft Days
-				BBWorldSaveData.get(e.world).tickTask(e.world);
+				if(BBWorldSaveData.get(e.world).getTaskManager() != null)
+					BBWorldSaveData.get(e.world).getTaskManager().tickTask(e.world);
 			}
 	}
 
