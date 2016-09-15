@@ -168,6 +168,8 @@ public class TileEntityCommunityTool extends TileEntityModInventory {
 		private UUID uuid;
 		private ItemStack itemstack;
 		
+		public TaskCTRemoveItemStackFromPlayer() {}
+		
 		public TaskCTRemoveItemStackFromPlayer(BlockPos pos, UUID uuid, ItemStack itemstack) {
 			this.pos = pos;
 			this.uuid = uuid;

@@ -2,6 +2,7 @@ package palaster.bb.items;
 
 import java.util.List;
 
+import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 
 import net.minecraft.client.resources.I18n;
@@ -103,7 +104,7 @@ public class ItemLeacher extends ItemSword {
 	
 	@Override
 	public Multimap<String, AttributeModifier> getAttributeModifiers(EntityEquipmentSlot slot, ItemStack stack) {
-		Multimap<String, AttributeModifier> multimap = super.getAttributeModifiers(slot, stack);
+		Multimap<String, AttributeModifier> multimap = HashMultimap.<String, AttributeModifier>create();
 		if(stack.hasTagCompound())
 			if(slot == EntityEquipmentSlot.MAINHAND) {
 				int lvl = stack.getTagCompound().getInteger(TAG_INT_KILLS) / 40;
