@@ -70,6 +70,7 @@ public class BBEventHandler {
 
 	// Config Values
 	public static Configuration config;
+	public static boolean undeadKeepInventoryOnDeath = true;
 
 	public static void init(File configFile) {
 		if(config == null) {
@@ -85,6 +86,7 @@ public class BBEventHandler {
 	}
 
 	private static void loadConfiguration() {
+		undeadKeepInventoryOnDeath = config.getBoolean("undeadKeepInventoryOnDeath", Configuration.CATEGORY_GENERAL, true, "If true, then Blood Bank will try to respawn undead players with their inventories. This causes issues with graves mod... so if you have one set this to false.");
 		if(config.hasChanged())
 			config.save();
 	}
@@ -111,7 +113,7 @@ public class BBEventHandler {
 				rpgNew.setDefense(rpgOG.getDefense());
 				rpgNew.setDexterity(rpgOG.getDexterity());
 				BBApi.calculateDexterityBoost(e.getEntityPlayer());
-				if(e.isWasDeath()) {
+				if(e.isWasDeath())
 					if(rpgOG.getCareer() != null && rpgOG.getCareer() instanceof CareerUndead) {
 						BBWorldSaveData bbWorldSaveData = BBWorldSaveData.get(e.getOriginal().worldObj);
 						if(bbWorldSaveData != null) {
@@ -119,26 +121,26 @@ public class BBEventHandler {
 							if(closetBonfire != null)
 								e.getEntityPlayer().setPosition(closetBonfire.getX(), closetBonfire.getY() + .25D, closetBonfire.getZ());
 						}
-						e.getEntityPlayer().inventory.copyInventory(e.getOriginal().inventory);
+						if(undeadKeepInventoryOnDeath)
+							e.getEntityPlayer().inventory.copyInventory(e.getOriginal().inventory);
 					}
-				}
 			}
 		}
 	}
 
 	@SubscribeEvent
 	public void onPlayerDrops(PlayerDropsEvent e) {
-		if(e.getEntityPlayer() != null) {
-			final IRPG rpg = RPGCapabilityProvider.get(e.getEntityPlayer());
-			if(rpg != null)
-				if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerUndead) {
-					for(EntityItem entityItem : e.getDrops())
-						if(entityItem != null && entityItem.getEntityItem() != null)
-							e.getEntityPlayer().inventory.addItemStackToInventory(entityItem.getEntityItem());
-					e.setCanceled(true);
-				} 
-			
-		}
+		if(undeadKeepInventoryOnDeath)
+			if(e.getEntityPlayer() != null) {
+				final IRPG rpg = RPGCapabilityProvider.get(e.getEntityPlayer());
+				if(rpg != null)
+					if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerUndead) {
+						for(EntityItem entityItem : e.getDrops())
+							if(entityItem != null && entityItem.getEntityItem() != null)
+								e.getEntityPlayer().inventory.addItemStackToInventory(entityItem.getEntityItem());
+						e.setCanceled(true);
+					} 
+			}
 	}
 
 	@SubscribeEvent
