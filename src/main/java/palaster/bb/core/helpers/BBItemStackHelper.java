@@ -6,7 +6,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.WorldServer;
-import palaster.bb.blocks.BlockCommunityTool;
 import palaster.bb.items.ItemBoundArmor;
 
 public class BBItemStackHelper {
@@ -50,19 +49,5 @@ public class BBItemStackHelper {
 		if(holder != null && holder.hasTagCompound() && holder.getTagCompound() != null)
 			return ItemStack.loadItemStackFromNBT(holder.getTagCompound().getCompoundTag(tag));
 		return null;
-	}
-
-	public static ItemStack setCountDown(ItemStack stack, int timer) {
-		if(!stack.hasTagCompound())
-			stack.setTagCompound(new NBTTagCompound());
-		stack.getTagCompound().setBoolean(BlockCommunityTool.TAG_BOOLEAN_COMMUNITYTOOL, true);
-		stack.getItem().setMaxDamage(timer);
-		return stack;
-	}
-
-	public static boolean getCountDown(ItemStack stack) {
-		if(stack.hasTagCompound())
-			return stack.getTagCompound().getBoolean(BlockCommunityTool.TAG_BOOLEAN_COMMUNITYTOOL);
-		return false;
 	}
 }

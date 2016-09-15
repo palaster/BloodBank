@@ -9,7 +9,7 @@ public interface ITask {
 	
 	boolean isFinished();
 
-	NBTTagCompound saveNBT();
+	NBTTagCompound saveNBT(NBTTagCompound nbt);
 
     void loadNBT(NBTTagCompound nbt);
 }

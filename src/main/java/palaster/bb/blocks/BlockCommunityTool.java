@@ -3,9 +3,8 @@ package palaster.bb.blocks;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -16,90 +15,80 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
 import palaster.bb.blocks.tile.TileEntityCommunityTool;
-import palaster.bb.core.helpers.BBItemStackHelper;
 
 public class BlockCommunityTool extends BlockModContainer {
-	
-	public static final String TAG_BOOLEAN_COMMUNITYTOOL = "CommunityTool";
 
-    public BlockCommunityTool(Material material) {
-        super(material);
-        setBlockUnbreakable();
-        setUnlocalizedName("communityTool");
-        MinecraftForge.EVENT_BUS.register(this);
-    }
-    
-    @SubscribeEvent
-	public void onPlayerTick(TickEvent.PlayerTickEvent e) {
-		if(!e.player.worldObj.isRemote)
-			if(e.phase == TickEvent.Phase.START)
-				for(int i = 0; i < e.player.inventory.getSizeInventory(); i++)
-					if(e.player.inventory.getStackInSlot(i) != null && e.player.inventory.getStackInSlot(i).hasTagCompound())
-						if(BBItemStackHelper.getCountDown(e.player.inventory.getStackInSlot(i))) {
-							if(e.player.inventory.getStackInSlot(i).getItemDamage() < e.player.inventory.getStackInSlot(i).getMaxDamage())
-								e.player.inventory.getStackInSlot(i).damageItem(1, e.player);
-							else
-								e.player.inventory.setInventorySlotContents(i, null);
-						}
+	public BlockCommunityTool(Material material) {
+		super(material);
+		setBlockUnbreakable();
+		setUnlocalizedName("communityTool");
+		MinecraftForge.EVENT_BUS.register(this);
 	}
-    
-    @SubscribeEvent
+	
+	@SubscribeEvent
 	public void onItemToss(ItemTossEvent e) {
 		if(!e.getPlayer().worldObj.isRemote)
-			if(e.getEntityItem().getEntityItem().hasTagCompound() && BBItemStackHelper.getCountDown(e.getEntityItem().getEntityItem()))
+			if(e.getEntityItem().getEntityItem().hasTagCompound() && e.getEntityItem().getEntityItem().getTagCompound().getBoolean(TileEntityCommunityTool.TAG_BOOLEAN)) {
+				for(TileEntity te : e.getPlayer().worldObj.loadedTileEntityList) {
+					TileEntityCommunityTool ct = (TileEntityCommunityTool) te;
+					if(ct != null)
+						if(ct.removeUUIDItemStack(e.getPlayer().getUniqueID(), e.getEntityItem().getEntityItem()))
+							break;
+				}
 				e.setCanceled(true);
+			}
 	}
     
     @SubscribeEvent
 	public void tooltip(ItemTooltipEvent e) {
 		if(e.getItemStack() != null && e.getItemStack().hasTagCompound())
-			if(BBItemStackHelper.getCountDown(e.getItemStack()))
+			if(e.getItemStack().getTagCompound().getBoolean(TileEntityCommunityTool.TAG_BOOLEAN))
 				e.getToolTip().add(I18n.format("bb.misc.countDown"));
 	}
-
-    @Override
-    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
-        if(!worldIn.isRemote && hand == EnumHand.MAIN_HAND) {
-            TileEntityCommunityTool ct = (TileEntityCommunityTool) worldIn.getTileEntity(pos);
-            if(ct != null) {
-                if(ct.getOwner() == null)
-                    ct.setOwner(playerIn.getUniqueID());
-                else {
-                    if(playerIn.isSneaking() && ct.getOwner().equals(playerIn.getUniqueID())) {
-                        worldIn.setBlockState(pos, Blocks.AIR.getDefaultState());
-                        worldIn.spawnEntityInWorld(new EntityItem(worldIn, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(this)));
-                        return true;
-                    }
-                    if(ct.getItemHandler().getStackInSlot(0) != null) {
-                        if(ct.getOwner().equals(playerIn.getUniqueID())) {
-                            if(heldItem == null) {
-                                playerIn.setHeldItem(EnumHand.MAIN_HAND, ct.getItemHandler().getStackInSlot(0));
-                                ct.getItemHandler().setStackInSlot(0, null);
-                                return true;
-                            }
-                        } else {
-                            ItemStack ghostStack = ct.getItemHandler().getStackInSlot(0).copy();
-                            if(heldItem == null) {
-                                playerIn.setHeldItem(hand, BBItemStackHelper.setCountDown(ghostStack, 6000));
-                                return true;
-                            }
-                        }
-                    } else {
-                        if(ct.getOwner().equals(playerIn.getUniqueID()))
-                            if(heldItem != null && heldItem.getMaxStackSize() == 1) {
-                                ct.getItemHandler().setStackInSlot(0, heldItem);
-                                playerIn.setHeldItem(EnumHand.MAIN_HAND, null);
-                                return true;
-                            }
-                    }
-                }
-            }
-        }
-        return super.onBlockActivated(worldIn, pos, state, playerIn, hand, heldItem, side, hitX, hitY, hitZ);
-    }
-
-    @Override
-    public TileEntity createTileEntity(World world, IBlockState state) { return new TileEntityCommunityTool(); }
+	
+	@Override
+	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer,ItemStack stack) {
+		if(!worldIn.isRemote)
+			if(placer instanceof EntityPlayer) {
+				TileEntityCommunityTool ct = (TileEntityCommunityTool) worldIn.getTileEntity(pos);
+				if(ct != null)
+					ct.setOwner(placer.getUniqueID());
+			}
+	}
+	
+	@Override
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+		if(!worldIn.isRemote) {
+			if(hand == EnumHand.MAIN_HAND) {
+				TileEntityCommunityTool ct = (TileEntityCommunityTool) worldIn.getTileEntity(pos);
+				if(ct != null)
+					if(ct.getOwner().equals(playerIn.getUniqueID())) {
+						if(!playerIn.isSneaking()) {
+							if(heldItem != null) {
+								if(ct.getItemHandler().getStackInSlot(0) == null) {
+									ct.getItemHandler().setStackInSlot(0, playerIn.getHeldItemMainhand());
+									playerIn.setHeldItem(EnumHand.MAIN_HAND, null);
+								}
+							} else {
+								if(ct.getItemHandler().getStackInSlot(0) != null) {
+									// TODO: CT Remove All ItemStack
+									playerIn.setHeldItem(EnumHand.MAIN_HAND, ct.getItemHandler().getStackInSlot(0));
+									ct.getItemHandler().setStackInSlot(0, null);
+								}
+							}
+						} else if(heldItem == null)
+							worldIn.destroyBlock(pos, true);
+					} else
+						if(heldItem == null)
+							if(ct.getItemHandler().getStackInSlot(0) != null)
+								if(ct.canAddUUIDItemStack(playerIn.getUniqueID()))
+									playerIn.setHeldItem(EnumHand.MAIN_HAND, ct.addUUIDItemStack(playerIn.getUniqueID()));
+			}
+		}
+		return true;
+	}
+	
+	@Override
+	public TileEntity createTileEntity(World world, IBlockState state) { return new TileEntityCommunityTool(); }
 }

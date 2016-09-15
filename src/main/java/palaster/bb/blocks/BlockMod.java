@@ -15,8 +15,8 @@ import palaster.bb.libs.LibMod;
 
 public abstract class BlockMod extends Block {
 
-	public BlockMod(Material p_i45394_1_) {
-		super(p_i45394_1_);
+	public BlockMod(Material material) {
+		super(material);
 		setCreativeTab(CreativeTabBB.tabBB);
 		setHardness(3F);
 		setHarvestLevel("pickaxe", 0);

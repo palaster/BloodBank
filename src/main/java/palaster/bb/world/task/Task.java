@@ -16,10 +16,9 @@ public class Task implements ITask {
 	public boolean isFinished() { return isFinished; }
 
 	@Override
-	public NBTTagCompound saveNBT() {
-		NBTTagCompound nbtTagCompound = new NBTTagCompound();
-		nbtTagCompound.setBoolean(TAG_BOOLEAN_FINISHED, isFinished);
-		return nbtTagCompound;
+	public NBTTagCompound saveNBT(NBTTagCompound nbt) {
+		nbt.setBoolean(TAG_BOOLEAN_FINISHED, isFinished);
+		return nbt;
 	}
 
 	@Override
