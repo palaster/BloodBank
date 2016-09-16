@@ -18,6 +18,8 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EntityDamageSource;
+import net.minecraft.util.EntityDamageSourceIndirect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
@@ -189,7 +191,7 @@ public class BBEventHandler {
 
 	@SubscribeEvent
 	public void onLivingAttack(LivingAttackEvent e) {
-		if(!e.getEntityLiving().worldObj.isRemote) {
+		if(!e.getEntityLiving().worldObj.isRemote)
 			if(e.getEntityLiving() instanceof EntityPlayer) {
 				EntityPlayer p = (EntityPlayer) e.getEntityLiving();
 				if(e.getSource().getEntity() != null) {
@@ -216,28 +218,27 @@ public class BBEventHandler {
 						}
 				}
 			}
-		}
 	}
 	
 	@SubscribeEvent
 	public void onLivingHurt(LivingHurtEvent e) {
 		if(e.getEntityLiving() instanceof EntityPlayer)
-			if(!e.getSource().isUnblockable()) {
+			if(e.getSource() == DamageSource.cactus  || e.getSource() == DamageSource.fall || e.getSource() == DamageSource.generic || e.getSource() == DamageSource.anvil || e.getSource() == DamageSource.fallingBlock || !(e.getSource() instanceof EntityDamageSourceIndirect) && e.getSource() instanceof EntityDamageSource) {
 				IRPG rpg = RPGCapabilityProvider.get((EntityPlayer) e.getEntityLiving());
 				if(rpg != null)
 					if(rpg.getDefense() > 0) {
 						if(rpg.getDefense() >= 99)
 							e.setAmount(0);
 						else if(rpg.getDefense() > 85)
-							e.setAmount(e.getAmount() - (e.getAmount() /  .85F));
+							e.setAmount(e.getAmount() - (e.getAmount() *  .85F));
 						else if(rpg.getDefense() > 65)
-							e.setAmount(e.getAmount() - (e.getAmount() /  .65F));
+							e.setAmount(e.getAmount() - (e.getAmount() *  .65F));
 						else if(rpg.getDefense() > 45)
-							e.setAmount(e.getAmount() - (e.getAmount() /  .45F));
+							e.setAmount(e.getAmount() - (e.getAmount() *  .45F));
 						else if(rpg.getDefense() > 25)
-							e.setAmount(e.getAmount() - (e.getAmount() /  .25F));
+							e.setAmount(e.getAmount() - (e.getAmount() *  .25F));
 						else if(rpg.getDefense() > 5)
-							e.setAmount(e.getAmount() - (e.getAmount() /  .5F));
+							e.setAmount(e.getAmount() - (e.getAmount() *  .05F));
 					}
 			}
 		if(e.getEntityLiving() instanceof EntityItztiliTablet)
