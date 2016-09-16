@@ -10,7 +10,7 @@ import net.minecraft.world.World;
 import palaster.bb.api.capabilities.entities.IRPG;
 import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityProvider;
 import palaster.bb.core.helpers.BBPlayerHelper;
-import palaster.bb.entities.careers.CareerUndead;
+import palaster.bb.entities.careers.CareerSoulReaper;
 
 public class ItemUndeadMonitor extends ItemModSpecial {
 
@@ -27,9 +27,9 @@ public class ItemUndeadMonitor extends ItemModSpecial {
         if(!worldIn.isRemote) {
         	final IRPG rpg = RPGCapabilityProvider.get(playerIn);
         	if(rpg != null)
-        		if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerUndead) {
-        			BBPlayerHelper.sendChatMessageToPlayer(playerIn, I18n.translateToLocal("bb.undead.soul") + ": " + ((CareerUndead) rpg.getCareer()).getSoul());
-        			BBPlayerHelper.sendChatMessageToPlayer(playerIn, I18n.translateToLocal("bb.undead.focus") + ": " + ((CareerUndead) rpg.getCareer()).getFocus() + " / " + ((CareerUndead) rpg.getCareer()).getFocusMax());
+        		if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerSoulReaper) {
+        			BBPlayerHelper.sendChatMessageToPlayer(playerIn, I18n.translateToLocal("bb.undead.soul") + ": " + ((CareerSoulReaper) rpg.getCareer()).getSoul());
+        			BBPlayerHelper.sendChatMessageToPlayer(playerIn, I18n.translateToLocal("bb.undead.focus") + ": " + ((CareerSoulReaper) rpg.getCareer()).getFocus() + " / " + ((CareerSoulReaper) rpg.getCareer()).getFocusMax());
                     return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
         		}
         }

@@ -72,7 +72,7 @@ public class BlockCommunityTool extends BlockModContainer {
 								}
 							} else {
 								if(ct.getItemHandler().getStackInSlot(0) != null) {
-									// TODO: CT Remove All ItemStack
+									ct.removeAllItemStack();
 									playerIn.setHeldItem(EnumHand.MAIN_HAND, ct.getItemHandler().getStackInSlot(0));
 									ct.getItemHandler().setStackInSlot(0, null);
 								}

@@ -41,7 +41,7 @@ import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityProvider
 import palaster.bb.core.helpers.BBPlayerHelper;
 import palaster.bb.entities.EntityDemonicBankTeller;
 import palaster.bb.entities.careers.CareerBloodSorcerer;
-import palaster.bb.entities.careers.CareerUndead;
+import palaster.bb.entities.careers.CareerSoulReaper;
 
 public class ItemBBResources extends ItemModSpecial {
 	
@@ -164,7 +164,7 @@ public class ItemBBResources extends ItemModSpecial {
             if(itemStackIn.getItemDamage() == 0) {
             	final IRPG rpg = RPGCapabilityProvider.get(playerIn);
 				if(rpg != null) {
-	                if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerUndead)
+	                if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerSoulReaper)
 	                    BBPlayerHelper.sendChatMessageToPlayer(playerIn, net.minecraft.util.text.translation.I18n.translateToLocal("bb.bank.undead"));
 	                else if(rpg.getCareer() == null || !(rpg.getCareer() instanceof CareerBloodSorcerer)) {
 	                    rpg.setCareer(new CareerBloodSorcerer(2000, 0, null));
@@ -176,13 +176,13 @@ public class ItemBBResources extends ItemModSpecial {
             } else if(itemStackIn.getItemDamage() == 4) {
             	final IRPG rpg = RPGCapabilityProvider.get(playerIn);
             	if(rpg != null) {
-            		if(rpg.getCareer() == null || !(rpg.getCareer() instanceof CareerUndead)) {
-                		rpg.setCareer(new CareerUndead(0, 0, 1000));
+            		if(rpg.getCareer() == null || !(rpg.getCareer() instanceof CareerSoulReaper)) {
+                		rpg.setCareer(new CareerSoulReaper(0, 0, 1000));
                 		playerIn.attackEntityFrom(DamageSource.inFire, playerIn.getMaxHealth() + 5f);
                 		return ActionResult.newResult(EnumActionResult.SUCCESS, null);
                 	}
             		if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerBloodSorcerer) {
-            			rpg.setCareer(new CareerUndead(0, 0, 1000));
+            			rpg.setCareer(new CareerSoulReaper(0, 0, 1000));
             			BBPlayerHelper.sendChatMessageToPlayer(playerIn, net.minecraft.util.text.translation.I18n.translateToLocal("bb.bank.becomeUndead"));
             			playerIn.attackEntityFrom(DamageSource.inFire, playerIn.getMaxHealth() + 5f);
             			return ActionResult.newResult(EnumActionResult.SUCCESS, null);
@@ -192,8 +192,8 @@ public class ItemBBResources extends ItemModSpecial {
             	if(itemStackIn.hasTagCompound()) {
             		final IRPG rpg = RPGCapabilityProvider.get(playerIn);
             		if(rpg != null)
-            			if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerUndead) {
-            				((CareerUndead) rpg.getCareer()).addSoul(itemStackIn.getTagCompound().getInteger(TAG_INT_SOUL_AMOUNT));
+            			if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerSoulReaper) {
+            				((CareerSoulReaper) rpg.getCareer()).addSoul(itemStackIn.getTagCompound().getInteger(TAG_INT_SOUL_AMOUNT));
             				return ActionResult.newResult(EnumActionResult.SUCCESS, null);
                 		}
             	}

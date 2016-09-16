@@ -112,6 +112,26 @@ public class TileEntityCommunityTool extends TileEntityModInventory {
 		return null;
 	}
 	
+	public void removeAllItemStack() {
+		for(UUIDItemStack ui : uis)
+			if(ui != null && ui.getUUID() != null) {
+				EntityPlayer p = BBPlayerHelper.getPlayerFromDimensions(ui.getUUID());
+				if(p != null) {
+					if(p.inventory.hasItemStack(ui.getItemStack())) {
+						for(int i = 0; i < p.inventory.getSizeInventory(); i++)
+							if(p.inventory.getStackInSlot(i) != null)
+								if(p.inventory.getStackInSlot(i).hasTagCompound() && p.inventory.getStackInSlot(i).getTagCompound().getBoolean(TAG_BOOLEAN))
+									if(ItemStack.areItemsEqualIgnoreDurability(p.inventory.getStackInSlot(i), ui.getItemStack())) {
+										p.inventory.setInventorySlotContents(i, null);
+										uis.remove(ui);
+									}
+					} else
+						BBWorldSaveData.get(worldObj).addTask(new TaskCTRemoveItemStackFromPlayer(getPos(), ui.uuid, ui.stack));
+				} else
+					BBWorldSaveData.get(worldObj).addTask(new TaskCTRemoveItemStackFromPlayer(getPos(), ui.uuid, ui.stack));
+			}
+	}
+	
 	public static class UUIDItemStack {
 		
 		public static final String TAG_UUID = "UUIDItemStackUUID";
