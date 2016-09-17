@@ -60,6 +60,7 @@ item.bb:rpgIntro.name=Introduction to a Basic Guide of a RPG
 item.bb:clericStaff.name=Cleric Staff
 item.bb:purifyingBook.name=Purifying Book
 item.bb:salt.name=Salt
+item.bb:soulCoin.name=Soul Coin
 
 item.bb:bound.HEAD.name=Bound Helmet
 item.bb:bound.CHEST.name=Bound Chestplate
@@ -69,6 +70,10 @@ item.bb:sand.HEAD.name=Sand Helmet
 item.bb:sand.CHEST.name=Sand Chestplate
 item.bb:sand.LEGS.name=Sand Leggings
 item.bb:sand.FEET.name=Sand Boots
+item.bb:sun.HEAD.name=Sun Helmet
+item.bb:sun.CHEST.name=Sun Chestplate
+item.bb:sun.LEGS.name=Sun Leggings
+item.bb:sun.FEET.name=Sun Boots
 
 item.bb:debug.name=Debug
 item.bb:yinYang.name=Yin Yang

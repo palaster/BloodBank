@@ -6,6 +6,7 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
+import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.oredict.OreDictionary;
@@ -43,7 +44,8 @@ public class BBItems {
 	rpgIntro,
 	clericStaff,
 	purifyingBook,
-	salt;
+	salt,
+	soulCoin;
 
 	public static ItemArmor
 	boundHelmet,
@@ -53,7 +55,11 @@ public class BBItems {
 	sandHelmet,
 	sandChestplate,
 	sandLeggings,
-	sandBoots;
+	sandBoots,
+	sunHelmet,
+	sunChestplate,
+	sunLeggings,
+	sunBoots;
 	
 	public static Item debug,
 	yinYang,
@@ -89,6 +95,7 @@ public class BBItems {
 		clericStaff = new ItemClericStaff();
 		purifyingBook = new ItemPurifyingBook();
 		salt = new ItemSalt();
+		soulCoin = new ItemSoulCoin();
 
 		boundHelmet = new ItemBoundArmor(genericUnbreakableDiamond, 0, EntityEquipmentSlot.HEAD);
 		boundChestplate = new ItemBoundArmor(genericUnbreakableDiamond, 0, EntityEquipmentSlot.CHEST);
@@ -98,6 +105,10 @@ public class BBItems {
 		sandChestplate = new ItemSandArmor(sand, 0, EntityEquipmentSlot.CHEST);
 		sandLeggings = new ItemSandArmor(sand, 0, EntityEquipmentSlot.LEGS);
 		sandBoots = new ItemSandArmor(sand, 0, EntityEquipmentSlot.FEET);
+		sunHelmet = new ItemSunArmor(ArmorMaterial.DIAMOND, 0, EntityEquipmentSlot.HEAD);
+		sunChestplate = new ItemSunArmor(ArmorMaterial.DIAMOND, 0, EntityEquipmentSlot.CHEST);
+		sunLeggings = new ItemSunArmor(ArmorMaterial.DIAMOND, 0, EntityEquipmentSlot.LEGS);
+		sunBoots = new ItemSunArmor(ArmorMaterial.DIAMOND, 0, EntityEquipmentSlot.FEET);
 		
 		debug = new ItemDebug();
 		yinYang = new ItemYinYang();

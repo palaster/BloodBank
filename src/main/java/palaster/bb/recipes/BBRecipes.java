@@ -62,6 +62,11 @@ public class BBRecipes {
 		GameRegistry.addRecipe(new ItemStack(BBItems.sandBoots), "x x", "x x", 'x', Items.STRING);
 		GameRegistry.addRecipe(new ItemStack(BBItems.armorActivator), "xax", "bxc", "xdx", 'x', Items.GLOWSTONE_DUST, 'a', Items.DIAMOND_HELMET, 'b', Items.DIAMOND_CHESTPLATE, 'c', Items.DIAMOND_LEGGINGS, 'd', Items.DIAMOND_BOOTS);
 		
+		GameRegistry.addRecipe(new ItemStack(BBItems.sunHelmet), "xzx", "zyz", "xzx", 'y', Items.DIAMOND_HELMET, 'x', new ItemStack(Blocks.DOUBLE_PLANT, 1, 0), 'z', BBItems.soulCoin);
+		GameRegistry.addRecipe(new ItemStack(BBItems.sunChestplate), "xzx", "zyz", "xzx", 'y', Items.DIAMOND_CHESTPLATE, 'x', new ItemStack(Blocks.DOUBLE_PLANT, 1, 0), 'z', BBItems.soulCoin);
+		GameRegistry.addRecipe(new ItemStack(BBItems.sunLeggings), "xzx", "zyz", "xzx", 'y', Items.DIAMOND_LEGGINGS, 'x', new ItemStack(Blocks.DOUBLE_PLANT, 1, 0), 'z', BBItems.soulCoin);
+		GameRegistry.addRecipe(new ItemStack(BBItems.sunBoots), "xzx", "zyz", "xzx", 'y', Items.DIAMOND_BOOTS, 'x', new ItemStack(Blocks.DOUBLE_PLANT, 1, 0), 'z', BBItems.soulCoin);
+		
 		ItemStack token = new ItemStack(BBItems.token, 1, 1);
 		if(!token.hasTagCompound())
 			token.setTagCompound(new NBTTagCompound());

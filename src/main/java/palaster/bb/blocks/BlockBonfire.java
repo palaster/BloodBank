@@ -35,60 +35,75 @@ public class BlockBonfire extends BlockMod {
     @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
         if(!worldIn.isRemote) {
-            if(heldItem != null) {
-                if(heldItem.getItem() instanceof ItemClock) {
-            		heldItem.stackSize--;
-            		ItemStack um = new ItemStack(BBItems.undeadMonitor);
-            		if(!playerIn.inventory.addItemStackToInventory(um))
-            			worldIn.spawnEntityInWorld(new EntityItem(worldIn, playerIn.posX, playerIn.posY, playerIn.posZ, um));
-                } else if(heldItem.getItem() instanceof ItemFireball) {
-                	if(heldItem.stackSize > 1) {
-                		heldItem.stackSize--;
-                		ItemStack flames = new ItemStack(BBItems.flames);
-                		if(!playerIn.inventory.addItemStackToInventory(flames))
-                			worldIn.spawnEntityInWorld(new EntityItem(worldIn, playerIn.posX, playerIn.posY, playerIn.posZ, flames));
-                	} else
-                		playerIn.setHeldItem(hand, new ItemStack(BBItems.flames));
-                } else if(heldItem.getItem() instanceof ItemGlassBottle) {
-                	if(heldItem.stackSize > 1) {
-                		heldItem.stackSize--;
-                		ItemStack estusFlask = new ItemStack(BBItems.estusFlask);
-                    	if(!estusFlask.hasTagCompound())
-                    		estusFlask.setTagCompound(new NBTTagCompound());
-                    	estusFlask.getTagCompound().setInteger(ItemEstusFlask.TAG_INT_USES, 6);
-                    	if(!playerIn.inventory.addItemStackToInventory(estusFlask))
-                			worldIn.spawnEntityInWorld(new EntityItem(worldIn, playerIn.posX, playerIn.posY, playerIn.posZ, estusFlask));
-                	} else {
-                		ItemStack estusFlask = new ItemStack(BBItems.estusFlask);
-                    	if(!estusFlask.hasTagCompound())
-                    		estusFlask.setTagCompound(new NBTTagCompound());
-                    	estusFlask.getTagCompound().setInteger(ItemEstusFlask.TAG_INT_USES, 6);
-                    	playerIn.setHeldItem(hand, estusFlask);
-                	}
-                } else if(heldItem.getItem() instanceof ItemEstusFlask) {
-                	if(!heldItem.hasTagCompound())
-                		heldItem.setTagCompound(new NBTTagCompound());
-                	heldItem.getTagCompound().setInteger(ItemEstusFlask.TAG_INT_USES, 6);
-                	playerIn.setHeldItem(hand, heldItem);
-                } else if(heldItem.getItem() == Items.GOLD_INGOT) {
-                	if(heldItem.stackSize > 1) {
-                		heldItem.stackSize--;
-                		ItemStack token = new ItemStack(BBItems.token);
-                    	if(!token.hasTagCompound())
-                    		token.setTagCompound(new NBTTagCompound());
-                    	token.getTagCompound().setInteger(ItemToken.TAG_INT_TOKEN, -1);
-                    	if(!playerIn.inventory.addItemStackToInventory(token))
-                			worldIn.spawnEntityInWorld(new EntityItem(worldIn, playerIn.posX, playerIn.posY, playerIn.posZ, token));
-                	} else {
-                		ItemStack token = new ItemStack(BBItems.token);
-                    	if(!token.hasTagCompound())
-                    		token.setTagCompound(new NBTTagCompound());
-                    	token.getTagCompound().setInteger(ItemToken.TAG_INT_TOKEN, -1);
-                    	playerIn.setHeldItem(hand, token);
-                	}
-                }
-                return true;
-            }
+        	IRPG rpg = RPGCapabilityProvider.get(playerIn);
+        	if(rpg != null && rpg.getCareer() != null && rpg.getCareer() instanceof CareerUnkindled)
+	            if(heldItem != null) {
+	                if(heldItem.getItem() instanceof ItemClock) {
+	            		heldItem.stackSize--;
+	            		ItemStack um = new ItemStack(BBItems.undeadMonitor);
+	            		if(!playerIn.inventory.addItemStackToInventory(um))
+	            			worldIn.spawnEntityInWorld(new EntityItem(worldIn, playerIn.posX, playerIn.posY, playerIn.posZ, um));
+	                } else if(heldItem.getItem() instanceof ItemFireball) {
+	                	if(heldItem.stackSize > 1) {
+	                		heldItem.stackSize--;
+	                		ItemStack flames = new ItemStack(BBItems.flames);
+	                		if(!playerIn.inventory.addItemStackToInventory(flames))
+	                			worldIn.spawnEntityInWorld(new EntityItem(worldIn, playerIn.posX, playerIn.posY, playerIn.posZ, flames));
+	                	} else
+	                		playerIn.setHeldItem(hand, new ItemStack(BBItems.flames));
+	                } else if(heldItem.getItem() instanceof ItemGlassBottle) {
+	                	if(heldItem.stackSize > 1) {
+	                		heldItem.stackSize--;
+	                		ItemStack estusFlask = new ItemStack(BBItems.estusFlask);
+	                    	if(!estusFlask.hasTagCompound())
+	                    		estusFlask.setTagCompound(new NBTTagCompound());
+	                    	estusFlask.getTagCompound().setInteger(ItemEstusFlask.TAG_INT_USES, 6);
+	                    	if(!playerIn.inventory.addItemStackToInventory(estusFlask))
+	                			worldIn.spawnEntityInWorld(new EntityItem(worldIn, playerIn.posX, playerIn.posY, playerIn.posZ, estusFlask));
+	                	} else {
+	                		ItemStack estusFlask = new ItemStack(BBItems.estusFlask);
+	                    	if(!estusFlask.hasTagCompound())
+	                    		estusFlask.setTagCompound(new NBTTagCompound());
+	                    	estusFlask.getTagCompound().setInteger(ItemEstusFlask.TAG_INT_USES, 6);
+	                    	playerIn.setHeldItem(hand, estusFlask);
+	                	}
+	                } else if(heldItem.getItem() instanceof ItemEstusFlask) {
+	                	if(!heldItem.hasTagCompound())
+	                		heldItem.setTagCompound(new NBTTagCompound());
+	                	heldItem.getTagCompound().setInteger(ItemEstusFlask.TAG_INT_USES, 6);
+	                	playerIn.setHeldItem(hand, heldItem);
+	                } else if(heldItem.getItem() == Items.GOLD_INGOT) {
+	                	if(heldItem.stackSize > 1) {
+	                		heldItem.stackSize--;
+	                		ItemStack token = new ItemStack(BBItems.token);
+	                    	if(!token.hasTagCompound())
+	                    		token.setTagCompound(new NBTTagCompound());
+	                    	token.getTagCompound().setInteger(ItemToken.TAG_INT_TOKEN, -1);
+	                    	if(!playerIn.inventory.addItemStackToInventory(token))
+	                			worldIn.spawnEntityInWorld(new EntityItem(worldIn, playerIn.posX, playerIn.posY, playerIn.posZ, token));
+	                	} else {
+	                		ItemStack token = new ItemStack(BBItems.token);
+	                    	if(!token.hasTagCompound())
+	                    		token.setTagCompound(new NBTTagCompound());
+	                    	token.getTagCompound().setInteger(ItemToken.TAG_INT_TOKEN, -1);
+	                    	playerIn.setHeldItem(hand, token);
+	                	}
+	                } else if(heldItem.getItem() == Items.IRON_INGOT) {
+	                	if(((CareerUnkindled) rpg.getCareer()).getFocus() >= 100) {
+		                	if(heldItem.stackSize > 1) {
+		                		heldItem.stackSize--;
+		                		ItemStack soulCoin = new ItemStack(BBItems.soulCoin);
+		                		if(!playerIn.inventory.addItemStackToInventory(soulCoin))
+		                			worldIn.spawnEntityInWorld(new EntityItem(worldIn, playerIn.posX, playerIn.posY, playerIn.posZ, soulCoin));
+		                		((CareerUnkindled) rpg.getCareer()).setFocus(((CareerUnkindled) rpg.getCareer()).getFocus() - 100);
+		                	} else {
+		                		playerIn.setHeldItem(hand, new ItemStack(BBItems.soulCoin));
+		                		((CareerUnkindled) rpg.getCareer()).setFocus(((CareerUnkindled) rpg.getCareer()).getFocus() - 100);
+		                	}
+	                	}
+	                }
+	                return true;
+	            }
         }
         return super.onBlockActivated(worldIn, pos, state, playerIn, hand, heldItem, side, hitX, hitY, hitZ);
     }

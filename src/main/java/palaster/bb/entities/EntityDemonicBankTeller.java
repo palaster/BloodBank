@@ -5,6 +5,7 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemGlassBottle;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumActionResult;
@@ -36,17 +37,45 @@ public class EntityDemonicBankTeller extends EntityLiving {
     @Override
     public EnumActionResult applyPlayerInteraction(EntityPlayer player, Vec3d vec, ItemStack stack, EnumHand hand) {
         if(!worldObj.isRemote && hand == EnumHand.MAIN_HAND) {
-            if(player.getHeldItemMainhand() != null) {
-                if(player.getHeldItemMainhand().getItem() instanceof ItemGlassBottle) {
-                	final IRPG rpg = RPGCapabilityProvider.get(player);
-					if(rpg != null)
-						if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerBloodSorcerer)
+            if(stack != null) {
+            	final IRPG rpg = RPGCapabilityProvider.get(player);
+				if(rpg != null)
+					if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerBloodSorcerer) {
+						if(stack.getItem() instanceof ItemGlassBottle) {
 							if(((CareerBloodSorcerer) rpg.getCareer()).getCurrentBlood() >= 2000)
 								if(((CareerBloodSorcerer) rpg.getCareer()).consumeBlood(2000) <= 0) {
 		                        	player.setHeldItem(hand, new ItemStack(BBItems.bloodBottle));
 		                        	return EnumActionResult.SUCCESS;
 								}
-                }
+						} else if(stack.getItem() == Items.APPLE) {
+							if(((CareerBloodSorcerer) rpg.getCareer()).getMaxBlood() <= 2000) {
+								if(stack.stackSize > 1) {
+			                		stack.stackSize--;
+			                		((CareerBloodSorcerer) rpg.getCareer()).setMaxBlood(10000);
+			                	} else
+			                		player.setHeldItem(hand, null);
+							}
+							return EnumActionResult.SUCCESS;
+						} else if(ItemStack.areItemsEqual(stack, new ItemStack(Items.GOLDEN_APPLE, 1, 0))) {
+							if(((CareerBloodSorcerer) rpg.getCareer()).getMaxBlood() <= 10000) {
+								if(stack.stackSize > 1) {
+			                		stack.stackSize--;
+			                		((CareerBloodSorcerer) rpg.getCareer()).setMaxBlood(50000);
+			                	} else
+			                		player.setHeldItem(hand, null);
+							}
+							return EnumActionResult.SUCCESS;
+						} else if(ItemStack.areItemsEqual(stack, new ItemStack(Items.GOLDEN_APPLE, 1, 1))) {
+							if(((CareerBloodSorcerer) rpg.getCareer()).getMaxBlood() <= 50000) {
+								if(stack.stackSize > 1) {
+			                		stack.stackSize--;
+			                		((CareerBloodSorcerer) rpg.getCareer()).setMaxBlood(100000);
+			                	} else
+			                		player.setHeldItem(hand, null);
+							}
+							return EnumActionResult.SUCCESS;
+						}
+					}
             } else {
                 if(player.isSneaking()) {
                     setDead();

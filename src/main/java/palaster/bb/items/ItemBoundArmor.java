@@ -17,7 +17,7 @@ public class ItemBoundArmor extends ItemModArmor {
 
 	public ItemBoundArmor(ArmorMaterial material, int renderIndex, EntityEquipmentSlot entityEquipmentSlot) {
 		super(material, renderIndex, entityEquipmentSlot);
-		setUnlocalizedName("bound." + armorType);
+		setUnlocalizedName("bound." + entityEquipmentSlot);
 		setMaxDamage(6000);
 		if(entityEquipmentSlot == EntityEquipmentSlot.HEAD)
 			MinecraftForge.EVENT_BUS.register(this);

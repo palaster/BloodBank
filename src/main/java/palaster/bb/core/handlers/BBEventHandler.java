@@ -119,9 +119,9 @@ public class BBEventHandler {
 					if(rpgOG.getCareer() != null && rpgOG.getCareer() instanceof CareerUnkindled) {
 						BBWorldSaveData bbWorldSaveData = BBWorldSaveData.get(e.getOriginal().worldObj);
 						if(bbWorldSaveData != null) {
-							BlockPos closetBonfire = bbWorldSaveData.getNearestBonfireToPlayer(e.getOriginal(), e.getOriginal().getPosition());
-							if(closetBonfire != null)
-								e.getEntityPlayer().setPosition(closetBonfire.getX(), closetBonfire.getY() + .25D, closetBonfire.getZ());
+							BlockPos closestBonfire = bbWorldSaveData.getNearestBonfireToPlayer(e.getOriginal(), e.getOriginal().getPosition());
+							if(closestBonfire != null)
+								e.getEntityPlayer().setPosition(closestBonfire.getX(), closestBonfire.getY() + .25D, closestBonfire.getZ());
 						}
 						if(undeadKeepInventoryOnDeath)
 							e.getEntityPlayer().inventory.copyInventory(e.getOriginal().inventory);

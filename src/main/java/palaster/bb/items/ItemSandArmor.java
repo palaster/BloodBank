@@ -22,7 +22,7 @@ public class ItemSandArmor extends ItemModArmor implements ISpecialArmorAbility 
 
 	public ItemSandArmor(ArmorMaterial material, int renderIndex, EntityEquipmentSlot entityEquipmentSlot) {
 		super(material, renderIndex, entityEquipmentSlot);
-		setUnlocalizedName("sand." + armorType);
+		setUnlocalizedName("sand." + entityEquipmentSlot);
 		if(entityEquipmentSlot == EntityEquipmentSlot.HEAD)
 			MinecraftForge.EVENT_BUS.register(this);
 	}

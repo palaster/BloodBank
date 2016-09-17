@@ -78,11 +78,8 @@ public class ItemBBResources extends ItemModSpecial {
 	public void onPlayerTick(TickEvent.PlayerTickEvent e) {
 		if(!e.player.worldObj.isRemote)
 			if(e.phase == TickEvent.Phase.START)
-				if(e.player.getActivePotionEffects() != null && !e.player.getActivePotionEffects().isEmpty())
-					for(PotionEffect potionEffect : e.player.getActivePotionEffects())
-						if(potionEffect != null)
-							if(e.player.inventory.hasItemStack(new ItemStack(BBItems.bbResources, 1, 2)))
-								e.player.removePotionEffect(potionEffect.getPotion());
+				if(e.player.inventory.hasItemStack(new ItemStack(BBItems.bbResources, 1, 2)))
+					e.player.clearActivePotions();
 	}
     
     @SubscribeEvent
