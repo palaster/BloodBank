@@ -18,7 +18,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import palaster.bb.api.capabilities.entities.IRPG;
 import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityProvider;
-import palaster.bb.entities.careers.CareerSoulReaper;
+import palaster.bb.entities.careers.CareerUnkindled;
 
 public class ItemEstusFlask extends ItemModSpecial {
 	
@@ -61,8 +61,8 @@ public class ItemEstusFlask extends ItemModSpecial {
 					if(itemStackIn.hasTagCompound() && itemStackIn.getTagCompound().getInteger(TAG_INT_USES) > 0) {
 						final IRPG rpg = RPGCapabilityProvider.get(playerIn);
 						if(rpg != null)
-							if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerSoulReaper) {
-								((CareerSoulReaper) rpg.getCareer()).addFocus(150);
+							if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerUnkindled) {
+								((CareerUnkindled) rpg.getCareer()).addFocus(150);
 								itemStackIn.getTagCompound().setInteger(TAG_INT_USES, itemStackIn.getTagCompound().getInteger(TAG_INT_USES) - 1);
 								return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
 							}

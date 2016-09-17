@@ -3,7 +3,7 @@ package palaster.bb.entities.careers;
 import net.minecraft.nbt.NBTTagCompound;
 import palaster.bb.api.rpg.RPGCareerBase;
 
-public class CareerSoulReaper extends RPGCareerBase {
+public class CareerUnkindled extends RPGCareerBase {
 	
     public static final String TAG_INT_SOULS = "Souls";
     public static final String TAG_INT_FOCUS = "Focus";
@@ -13,9 +13,9 @@ public class CareerSoulReaper extends RPGCareerBase {
     private int focus;
     private int focusMax;
     
-    public CareerSoulReaper() { this(0, 0, 0); }
+    public CareerUnkindled() { this(0, 0, 0); }
     
-    public CareerSoulReaper(int souls, int focus, int focusMax) {
+    public CareerUnkindled(int souls, int focus, int focusMax) {
     	this.souls = souls;
     	this.focus = focus;
     	this.focusMax = focusMax;
@@ -57,7 +57,7 @@ public class CareerSoulReaper extends RPGCareerBase {
     }
     
     @Override
-    public String getUnlocalizedName() { return "bb.career.soulReaper"; }
+    public String getUnlocalizedName() { return "bb.career.unkindled"; }
 
     @Override
     public NBTTagCompound saveNBT() {

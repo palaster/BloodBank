@@ -54,7 +54,7 @@ import palaster.bb.api.recipes.ShapedBloodRecipes;
 import palaster.bb.core.proxy.ClientProxy;
 import palaster.bb.entities.EntityItztiliTablet;
 import palaster.bb.entities.careers.CareerBloodSorcerer;
-import palaster.bb.entities.careers.CareerSoulReaper;
+import palaster.bb.entities.careers.CareerUnkindled;
 import palaster.bb.entities.effects.BBPotions;
 import palaster.bb.items.BBItems;
 import palaster.bb.items.ItemBBResources;
@@ -116,7 +116,7 @@ public class BBEventHandler {
 				rpgNew.setDexterity(rpgOG.getDexterity());
 				BBApi.calculateDexterityBoost(e.getEntityPlayer());
 				if(e.isWasDeath())
-					if(rpgOG.getCareer() != null && rpgOG.getCareer() instanceof CareerSoulReaper) {
+					if(rpgOG.getCareer() != null && rpgOG.getCareer() instanceof CareerUnkindled) {
 						BBWorldSaveData bbWorldSaveData = BBWorldSaveData.get(e.getOriginal().worldObj);
 						if(bbWorldSaveData != null) {
 							BlockPos closetBonfire = bbWorldSaveData.getNearestBonfireToPlayer(e.getOriginal(), e.getOriginal().getPosition());
@@ -136,7 +136,7 @@ public class BBEventHandler {
 			if(e.getEntityPlayer() != null) {
 				final IRPG rpg = RPGCapabilityProvider.get(e.getEntityPlayer());
 				if(rpg != null)
-					if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerSoulReaper) {
+					if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerUnkindled) {
 						for(EntityItem entityItem : e.getDrops())
 							if(entityItem != null && entityItem.getEntityItem() != null)
 								e.getEntityPlayer().inventory.addItemStackToInventory(entityItem.getEntityItem());
@@ -159,27 +159,27 @@ public class BBEventHandler {
 			if(e.getEntityLiving() instanceof EntityPlayer) {
 				final IRPG rpg = RPGCapabilityProvider.get((EntityPlayer) e.getEntityLiving());
 				if(rpg != null) {
-					if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerSoulReaper) {
+					if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerUnkindled) {
 						if(e.getSource().getEntity() instanceof EntityPlayer) {
 							final IRPG rpgAttacker = RPGCapabilityProvider.get((EntityPlayer) e.getSource().getEntity());
 							if(rpgAttacker != null)
-								if(rpgAttacker.getCareer() != null && rpgAttacker.getCareer() instanceof CareerSoulReaper)
-									((CareerSoulReaper) rpgAttacker.getCareer()).addSoul(((CareerSoulReaper) rpg.getCareer()).getSoul());
-						} else if(((CareerSoulReaper) rpg.getCareer()).getSoul() > 0) {
+								if(rpgAttacker.getCareer() != null && rpgAttacker.getCareer() instanceof CareerUnkindled)
+									((CareerUnkindled) rpgAttacker.getCareer()).addSoul(((CareerUnkindled) rpg.getCareer()).getSoul());
+						} else if(((CareerUnkindled) rpg.getCareer()).getSoul() > 0) {
 							ItemStack souls = new ItemStack(BBItems.bbResources, 1, 6);
 							if(!souls.hasTagCompound())
 								souls.setTagCompound(new NBTTagCompound());
-							souls.getTagCompound().setInteger(ItemBBResources.TAG_INT_SOUL_AMOUNT, ((CareerSoulReaper) rpg.getCareer()).getSoul());
+							souls.getTagCompound().setInteger(ItemBBResources.TAG_INT_SOUL_AMOUNT, ((CareerUnkindled) rpg.getCareer()).getSoul());
 							e.getEntityLiving().worldObj.spawnEntityInWorld(new EntityItem(e.getEntityLiving().worldObj, e.getEntityLiving().posX, e.getEntityLiving().posY, e.getEntityLiving().posZ, souls));
 						}
-						((CareerSoulReaper) rpg.getCareer()).setSoul(0);
+						((CareerUnkindled) rpg.getCareer()).setSoul(0);
 					}
 				}
 			}
 			if(e.getSource().getEntity() instanceof EntityPlayer) {
 				final IRPG rpg = RPGCapabilityProvider.get((EntityPlayer) e.getSource().getEntity());
-				if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerSoulReaper)
-					((CareerSoulReaper) rpg.getCareer()).addSoul((int) e.getEntityLiving().getMaxHealth());
+				if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerUnkindled)
+					((CareerUnkindled) rpg.getCareer()).addSoul((int) e.getEntityLiving().getMaxHealth());
 			}
 			if(e.getEntityLiving() instanceof EntityLiving) {
 				NBTTagCompound nbt = new NBTTagCompound();
@@ -352,7 +352,7 @@ public class BBEventHandler {
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent(priority = EventPriority.NORMAL)
 	public void onRenderGameOverlay(RenderGameOverlayEvent.Post e) {
-		if(Minecraft.getMinecraft().currentScreen == null && Minecraft.getMinecraft().inGameHasFocus) {
+		if(Minecraft.getMinecraft().currentScreen == null && Minecraft.getMinecraft().inGameHasFocus)
 			if(e.getType() == ElementType.TEXT && Minecraft.getMinecraft().fontRendererObj != null) {
 				EntityPlayer p = Minecraft.getMinecraft().thePlayer;
 				if(p != null) {
@@ -370,6 +370,5 @@ public class BBEventHandler {
 					}
 				}
 			}	
-		}
 	}
 }

@@ -15,7 +15,7 @@ import palaster.bb.api.capabilities.entities.IRPG;
 import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityProvider;
 import palaster.bb.api.capabilities.items.IKnowledgePiece;
 import palaster.bb.core.helpers.BBPlayerHelper;
-import palaster.bb.entities.careers.CareerSoulReaper;
+import palaster.bb.entities.careers.CareerUnkindled;
 
 public class KPUndeadSummon implements IKnowledgePiece {
 
@@ -35,7 +35,7 @@ public class KPUndeadSummon implements IKnowledgePiece {
 				if(entity instanceof EntityPlayer) {
 					final IRPG rpg = RPGCapabilityProvider.get((EntityPlayer) entity);
 					if(rpg != null)
-						if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerSoulReaper) {
+						if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerUnkindled) {
 							entity.setPositionAndUpdate(pos.getX(), pos.getY() + 1, pos.getZ());
 							return EnumActionResult.SUCCESS;
 						}

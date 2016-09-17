@@ -18,7 +18,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import palaster.bb.api.capabilities.entities.IRPG;
 import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityProvider;
-import palaster.bb.entities.careers.CareerSoulReaper;
+import palaster.bb.entities.careers.CareerUnkindled;
 import palaster.bb.items.BBItems;
 import palaster.bb.items.ItemEstusFlask;
 import palaster.bb.items.ItemToken;
@@ -99,7 +99,7 @@ public class BlockBonfire extends BlockMod {
             if(placer instanceof EntityPlayer) {
             	final IRPG rpg = RPGCapabilityProvider.get((EntityPlayer) placer);
             	if(rpg != null)
-            		if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerSoulReaper)
+            		if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerUnkindled)
             			if(worldIn.provider.getDimension() == 0)
                 			return super.onBlockPlaced(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer);
             }
@@ -112,7 +112,7 @@ public class BlockBonfire extends BlockMod {
             if(placer instanceof EntityPlayer) {
             	final IRPG rpg = RPGCapabilityProvider.get((EntityPlayer) placer);
             	if(rpg != null)
-            		if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerSoulReaper)
+            		if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerUnkindled)
             			if(BBWorldSaveData.get(worldIn) != null)
             				BBWorldSaveData.get(worldIn).addBonfire(pos);
             }

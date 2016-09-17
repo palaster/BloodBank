@@ -162,13 +162,15 @@ bb.career.base=Career
 bb.career.hasCareer=You already have a career.
 bb.career.noCareer=Get a job you bum.
 bb.career.bloodSorcerer=Blood Sorcerer
-bb.career.soulReaper=Soul Reaper
+bb.career.unkindled=Unkindled
 bb.career.cleric=Cleric
 
 bb.rpg.constitution=Constitution
 bb.rpg.strength=Strength
 bb.rpg.defense=Defense
 bb.rpg.dexterity=Dexterity
+
+bb.expCost=Experience Cost
 
 bb.jei.blood=Blood
 bb.jei.bloodCost=Blood Cost

@@ -50,9 +50,9 @@ public class GuiRPGIntro extends GuiContainer {
                 fontRendererObj.drawString(I18n.format("bb.rpg.defense") + ": " + rpg.getDefense(), 6, 46, 4210752);
                 fontRendererObj.drawString(I18n.format("bb.rpg.dexterity") + ": " + rpg.getDexterity(), 6, 56, 4210752);
                 if(BBApi.getExperienceCostForNextLevel(player.get()) > player.get().experienceLevel)
-                	fontRendererObj.drawString(BBApi.getExperienceCostForNextLevel(player.get()) + "", 6, 76, 0x8A0707);
+                	fontRendererObj.drawString(I18n.format("bb.expCost") + ": " + BBApi.getExperienceCostForNextLevel(player.get()) + "", 6, 76, 0x8A0707);
                 else
-                	fontRendererObj.drawString(BBApi.getExperienceCostForNextLevel(player.get()) + "", 6, 76, 0x009900);
+                	fontRendererObj.drawString(I18n.format("bb.expCost") + ": " + BBApi.getExperienceCostForNextLevel(player.get()) + "", 6, 76, 0x009900);
     		}
     	}
     }

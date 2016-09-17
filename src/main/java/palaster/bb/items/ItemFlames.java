@@ -24,7 +24,7 @@ import palaster.bb.api.capabilities.entities.IRPG;
 import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityProvider;
 import palaster.bb.api.capabilities.items.IFlameSpell;
 import palaster.bb.core.helpers.BBItemStackHelper;
-import palaster.bb.entities.careers.CareerSoulReaper;
+import palaster.bb.entities.careers.CareerUnkindled;
 
 public class ItemFlames extends ItemModSpecial {
 
@@ -80,11 +80,11 @@ public class ItemFlames extends ItemModSpecial {
             if(BBItemStackHelper.getItemStackFromItemStack(stack, TAG_TAG_FLAME_HOLDER) != null && BBItemStackHelper.getItemStackFromItemStack(stack, TAG_TAG_FLAME_HOLDER).getItem() instanceof IFlameSpell) {
             	final IRPG rpg = RPGCapabilityProvider.get(player);
             	if(rpg != null)
-            		if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerSoulReaper)
-            			if(((CareerSoulReaper) rpg.getCareer()).getFocus() >= ((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack, TAG_TAG_FLAME_HOLDER).getItem()).getSpellCost()) {
+            		if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerUnkindled)
+            			if(((CareerUnkindled) rpg.getCareer()).getFocus() >= ((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack, TAG_TAG_FLAME_HOLDER).getItem()).getSpellCost()) {
             				boolean temp = ((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack, TAG_TAG_FLAME_HOLDER).getItem()).onSpellLeftClickEntity(stack, player, entity);
             				if(temp)
-            					((CareerSoulReaper) rpg.getCareer()).useFocus(((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack, TAG_TAG_FLAME_HOLDER).getItem()).getSpellCost());
+            					((CareerUnkindled) rpg.getCareer()).useFocus(((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack, TAG_TAG_FLAME_HOLDER).getItem()).getSpellCost());
             				return temp;
             			}
             }
@@ -97,11 +97,11 @@ public class ItemFlames extends ItemModSpecial {
             if(BBItemStackHelper.getItemStackFromItemStack(stack, TAG_TAG_FLAME_HOLDER) != null && BBItemStackHelper.getItemStackFromItemStack(stack, TAG_TAG_FLAME_HOLDER).getItem() instanceof IFlameSpell) {
             	final IRPG rpg = RPGCapabilityProvider.get(playerIn);
             	if(rpg != null)
-            		if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerSoulReaper)
-            			if(((CareerSoulReaper) rpg.getCareer()).getFocus() >= ((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack, TAG_TAG_FLAME_HOLDER).getItem()).getSpellCost()) {
+            		if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerUnkindled)
+            			if(((CareerUnkindled) rpg.getCareer()).getFocus() >= ((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack, TAG_TAG_FLAME_HOLDER).getItem()).getSpellCost()) {
             				EnumActionResult temp = ((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack, TAG_TAG_FLAME_HOLDER).getItem()).onSpellUse(stack, playerIn, worldIn, pos, hand, facing, hitX, hitY, hitZ);
             				if(temp != null && temp == EnumActionResult.SUCCESS)
-            					((CareerSoulReaper) rpg.getCareer()).useFocus(((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack, TAG_TAG_FLAME_HOLDER).getItem()).getSpellCost());
+            					((CareerUnkindled) rpg.getCareer()).useFocus(((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack, TAG_TAG_FLAME_HOLDER).getItem()).getSpellCost());
             				return temp;
             			}
             }
@@ -114,11 +114,11 @@ public class ItemFlames extends ItemModSpecial {
             if(BBItemStackHelper.getItemStackFromItemStack(itemStackIn, TAG_TAG_FLAME_HOLDER) != null && BBItemStackHelper.getItemStackFromItemStack(itemStackIn, TAG_TAG_FLAME_HOLDER).getItem() instanceof IFlameSpell) {
             	final IRPG rpg = RPGCapabilityProvider.get(playerIn);
             	if(rpg != null)
-            		if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerSoulReaper)
-            			if(((CareerSoulReaper) rpg.getCareer()).getFocus() >= ((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(itemStackIn, TAG_TAG_FLAME_HOLDER).getItem()).getSpellCost()) {
+            		if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerUnkindled)
+            			if(((CareerUnkindled) rpg.getCareer()).getFocus() >= ((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(itemStackIn, TAG_TAG_FLAME_HOLDER).getItem()).getSpellCost()) {
             				ActionResult<ItemStack> temp = ((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(itemStackIn, TAG_TAG_FLAME_HOLDER).getItem()).onSpellRightClick(itemStackIn, worldIn, playerIn, hand); 
             				if(temp != null && temp.getType() == EnumActionResult.SUCCESS)
-            					((CareerSoulReaper) rpg.getCareer()).useFocus(((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(itemStackIn, TAG_TAG_FLAME_HOLDER).getItem()).getSpellCost());
+            					((CareerUnkindled) rpg.getCareer()).useFocus(((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(itemStackIn, TAG_TAG_FLAME_HOLDER).getItem()).getSpellCost());
             				return temp;
             			}
             }
@@ -131,11 +131,11 @@ public class ItemFlames extends ItemModSpecial {
             if(BBItemStackHelper.getItemStackFromItemStack(stack, TAG_TAG_FLAME_HOLDER) != null && BBItemStackHelper.getItemStackFromItemStack(stack, TAG_TAG_FLAME_HOLDER).getItem() instanceof IFlameSpell) {
             	final IRPG rpg = RPGCapabilityProvider.get(playerIn);
             	if(rpg != null)
-            		if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerSoulReaper)
-            			if(((CareerSoulReaper) rpg.getCareer()).getFocus() >= ((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack, TAG_TAG_FLAME_HOLDER).getItem()).getSpellCost()) {
+            		if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerUnkindled)
+            			if(((CareerUnkindled) rpg.getCareer()).getFocus() >= ((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack, TAG_TAG_FLAME_HOLDER).getItem()).getSpellCost()) {
             				boolean temp = ((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack, TAG_TAG_FLAME_HOLDER).getItem()).spellInteractionForEntity(stack, playerIn, target, hand);
             				if(temp)
-            					((CareerSoulReaper) rpg.getCareer()).useFocus(((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack, TAG_TAG_FLAME_HOLDER).getItem()).getSpellCost());
+            					((CareerUnkindled) rpg.getCareer()).useFocus(((IFlameSpell) BBItemStackHelper.getItemStackFromItemStack(stack, TAG_TAG_FLAME_HOLDER).getItem()).getSpellCost());
             				return temp;
             			}
             }
