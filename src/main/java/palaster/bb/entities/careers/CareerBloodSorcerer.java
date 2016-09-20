@@ -2,10 +2,16 @@ package palaster.bb.entities.careers;
 
 import java.lang.ref.SoftReference;
 
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.DimensionManager;
+import palaster.bb.api.capabilities.entities.IRPG;
+import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityProvider;
 import palaster.bb.api.rpg.RPGCareerBase;
 
 public class CareerBloodSorcerer extends RPGCareerBase {
@@ -93,5 +99,13 @@ public class CareerBloodSorcerer extends RPGCareerBase {
         bloodMax = nbt.getInteger(TAG_INT_BLOOD_MAX);
         if(nbt.getCompoundTag(TAG_TAG_LINKED_ENTITY) != null)
             link = new SoftReference<EntityLiving>((EntityLiving) EntityList.createEntityFromNBT(nbt.getCompoundTag(TAG_TAG_LINKED_ENTITY), DimensionManager.getWorld(0)));
+    }
+    
+    @Override
+    public void drawExtraInformation(GuiContainer guiContainer, EntityPlayer player, FontRenderer fontRendererObj, int mouseX, int mouseY) {
+    	super.drawExtraInformation(guiContainer, player, fontRendererObj, mouseX, mouseY);
+    	IRPG rpg = RPGCapabilityProvider.get(player);
+    	if(rpg != null && rpg.getCareer() != null && rpg.getCareer() instanceof CareerBloodSorcerer)
+    		fontRendererObj.drawString(I18n.format("bb.jei.blood") + ": " + ((CareerBloodSorcerer) rpg.getCareer()).getCurrentBlood() + "/" + ((CareerBloodSorcerer) rpg.getCareer()).getMaxBlood(), 6, 90, 4210752);
     }
 }

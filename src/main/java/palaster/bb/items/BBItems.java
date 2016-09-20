@@ -26,7 +26,6 @@ public class BBItems {
 	animalHerder,
 	bloodBottle,
 	bloodBook,
-	undeadMonitor,
 	estusFlask,
 	armorActivator,
 	resurrectionStone,
@@ -75,8 +74,7 @@ public class BBItems {
 		staffHungryShadows = new ItemStaffHungryShadows();
 		animalHerder = new ItemAnimalHerder();
 		bloodBottle = new ItemBloodBottle();
-		bloodBook = new ItemBookBlood();
-		undeadMonitor = new ItemUndeadMonitor();
+		bloodBook = new ItemBookBlood();	
 		estusFlask = new ItemEstusFlask();
 		armorActivator = new ItemArmorActivator();
 		resurrectionStone = new ItemResurrectionStone();

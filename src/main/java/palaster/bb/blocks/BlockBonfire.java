@@ -7,7 +7,6 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.item.ItemClock;
 import net.minecraft.item.ItemFireball;
 import net.minecraft.item.ItemGlassBottle;
 import net.minecraft.item.ItemStack;
@@ -38,12 +37,7 @@ public class BlockBonfire extends BlockMod {
         	IRPG rpg = RPGCapabilityProvider.get(playerIn);
         	if(rpg != null && rpg.getCareer() != null && rpg.getCareer() instanceof CareerUnkindled)
 	            if(heldItem != null) {
-	                if(heldItem.getItem() instanceof ItemClock) {
-	            		heldItem.stackSize--;
-	            		ItemStack um = new ItemStack(BBItems.undeadMonitor);
-	            		if(!playerIn.inventory.addItemStackToInventory(um))
-	            			worldIn.spawnEntityInWorld(new EntityItem(worldIn, playerIn.posX, playerIn.posY, playerIn.posZ, um));
-	                } else if(heldItem.getItem() instanceof ItemFireball) {
+	                if(heldItem.getItem() instanceof ItemFireball) {
 	                	if(heldItem.stackSize > 1) {
 	                		heldItem.stackSize--;
 	                		ItemStack flames = new ItemStack(BBItems.flames);

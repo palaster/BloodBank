@@ -49,29 +49,29 @@ public class EntityDemonicBankTeller extends EntityLiving {
 								}
 						} else if(stack.getItem() == Items.APPLE) {
 							if(((CareerBloodSorcerer) rpg.getCareer()).getMaxBlood() <= 2000) {
-								if(stack.stackSize > 1) {
+								if(stack.stackSize > 1)
 			                		stack.stackSize--;
-			                		((CareerBloodSorcerer) rpg.getCareer()).setMaxBlood(10000);
-			                	} else
+			                	else
 			                		player.setHeldItem(hand, null);
+								((CareerBloodSorcerer) rpg.getCareer()).setMaxBlood(10000);
 							}
 							return EnumActionResult.SUCCESS;
 						} else if(ItemStack.areItemsEqual(stack, new ItemStack(Items.GOLDEN_APPLE, 1, 0))) {
 							if(((CareerBloodSorcerer) rpg.getCareer()).getMaxBlood() <= 10000) {
-								if(stack.stackSize > 1) {
+								if(stack.stackSize > 1)
 			                		stack.stackSize--;
-			                		((CareerBloodSorcerer) rpg.getCareer()).setMaxBlood(50000);
-			                	} else
+			                	else
 			                		player.setHeldItem(hand, null);
+								((CareerBloodSorcerer) rpg.getCareer()).setMaxBlood(50000);
 							}
 							return EnumActionResult.SUCCESS;
 						} else if(ItemStack.areItemsEqual(stack, new ItemStack(Items.GOLDEN_APPLE, 1, 1))) {
 							if(((CareerBloodSorcerer) rpg.getCareer()).getMaxBlood() <= 50000) {
-								if(stack.stackSize > 1) {
+								if(stack.stackSize > 1)
 			                		stack.stackSize--;
-			                		((CareerBloodSorcerer) rpg.getCareer()).setMaxBlood(100000);
-			                	} else
+			                	else
 			                		player.setHeldItem(hand, null);
+								((CareerBloodSorcerer) rpg.getCareer()).setMaxBlood(100000);
 							}
 							return EnumActionResult.SUCCESS;
 						}

@@ -1,6 +1,14 @@
 package palaster.bb.entities.careers;
 
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+import palaster.bb.api.capabilities.entities.IRPG;
+import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityProvider;
 import palaster.bb.api.rpg.RPGCareerBase;
 
 public class CareerUnkindled extends RPGCareerBase {
@@ -73,5 +81,16 @@ public class CareerUnkindled extends RPGCareerBase {
         souls = nbt.getInteger(TAG_INT_SOULS);
         focus = nbt.getInteger(TAG_INT_FOCUS);
         focusMax = nbt.getInteger(TAG_INT_FOCUS_MAX);
+    }
+    
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void drawExtraInformation(GuiContainer guiContainer, EntityPlayer player, FontRenderer fontRendererObj, int mouseX, int mouseY) {
+    	super.drawExtraInformation(guiContainer, player, fontRendererObj, mouseX, mouseY);
+    	IRPG rpg = RPGCapabilityProvider.get(player);
+    	if(rpg != null && rpg.getCareer() != null && rpg.getCareer() instanceof CareerUnkindled) {
+    		fontRendererObj.drawString(I18n.format("bb.undead.soul") + ": " + ((CareerUnkindled) rpg.getCareer()).getSoul(), 6, 90, 4210752);
+    		fontRendererObj.drawString(I18n.format("bb.undead.focus") + ": " + ((CareerUnkindled) rpg.getCareer()).getFocus() + " / " + ((CareerUnkindled) rpg.getCareer()).getFocusMax(), 6, 100, 4210752);
+    	}
     }
 }

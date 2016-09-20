@@ -200,6 +200,7 @@ public class ItemBBResources extends ItemModSpecial {
         		if(rpg != null)
         			if(rpg.getCareer() != null) {
         				rpg.setCareer(null);
+        				BloodBank.proxy.syncPlayerRPGCapabilitiesToClient(playerIn);
         				BBPlayerHelper.sendChatMessageToPlayer(playerIn, net.minecraft.util.text.translation.I18n.translateToLocal("bb.career.fired"));
         				return ActionResult.newResult(EnumActionResult.SUCCESS, null);
             		}

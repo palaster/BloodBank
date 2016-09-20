@@ -1,6 +1,0 @@
-{
-  "parent": "bb:item/bbStandard",
-  "textures": {
-    "layer0": "bb:items/undeadMonitor"
-  }
-}
