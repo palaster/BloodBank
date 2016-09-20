@@ -151,7 +151,26 @@ public class BBApi {
                 try {
                     iAttributeInstance.removeModifier(iAttributeInstance.getModifier(RPGCapabilityDefault.STRENGTH_ID));
                 } catch(Exception e) {}
-                iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.STRENGTH_ID, "bb.rpg.strength", rpg.getStrength() * .9, 0));
+                if(rpg.getStrength() >= 90)
+                	iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.STRENGTH_ID, "bb.rpg.strength", 70, 0));
+                else if(rpg.getStrength() >= 80)
+                	iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.STRENGTH_ID, "bb.rpg.strength", 65, 0));
+                else if(rpg.getStrength() >= 70)
+                	iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.STRENGTH_ID, "bb.rpg.strength", 60, 0));
+                else if(rpg.getStrength() >= 60)
+                	iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.STRENGTH_ID, "bb.rpg.strength", 55, 0));
+                else if(rpg.getStrength() >= 50)
+                	iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.STRENGTH_ID, "bb.rpg.strength", 50, 0));
+                else if(rpg.getStrength() >= 40)
+                	iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.STRENGTH_ID, "bb.rpg.strength", 45, 0));
+                else if(rpg.getStrength() >= 30)
+                	iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.STRENGTH_ID, "bb.rpg.strength", 40, 0));
+                else if(rpg.getStrength() >= 20)
+                	iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.STRENGTH_ID, "bb.rpg.strength", 35, 0));
+                else if(rpg.getStrength() >= 10)
+                	iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.STRENGTH_ID, "bb.rpg.strength", 30, 0));
+                else if(rpg.getStrength() > 0)
+                	iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.STRENGTH_ID, "bb.rpg.strength", 25, 0));
     		}
     	}
     }
