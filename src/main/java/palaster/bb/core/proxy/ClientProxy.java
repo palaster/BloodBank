@@ -15,7 +15,8 @@ import palaster.bb.items.BBItems;
 public class ClientProxy extends CommonProxy {
 	
 	public static KeyBinding staffChange = new KeyBinding("key.staffChange", Keyboard.KEY_U, "key.categories.bb");
-	public static boolean isItemInOffHandRenderingOverlay = false;
+	public static boolean isStaffRenderingHUD = false;
+	public static boolean isBloodBookRenderingHUD = false;
 	
 	@Override
 	public void preInit() {

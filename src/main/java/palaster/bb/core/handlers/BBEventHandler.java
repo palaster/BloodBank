@@ -329,7 +329,7 @@ public class BBEventHandler {
 	public void onPlayerSendChat(ServerChatEvent e) {
 		if(!e.getPlayer().worldObj.isRemote)
 			if(e.getPlayer().getActivePotionEffect(BBPotions.curseBlackTongue) != null)
-				e.setComponent(new TextComponentString("<" + e.getUsername() + "> " + I18n.format("bb.gimp." + e.getPlayer().worldObj.rand.nextInt(4))));
+				e.setComponent(new TextComponentString("<" + e.getUsername() + "> " + net.minecraft.util.text.translation.I18n.translateToLocal("bb.gimp." + e.getPlayer().worldObj.rand.nextInt(4))));
 	}
 
 	@SubscribeEvent
@@ -359,14 +359,14 @@ public class BBEventHandler {
 					if(p.getHeldItemOffhand() != null && p.getHeldItemOffhand().getItem() instanceof ItemModStaff && p.getHeldItemOffhand().hasTagCompound()) {
 						ItemStack staff = Minecraft.getMinecraft().thePlayer.getHeldItemOffhand();
 						String power = I18n.format(((ItemModStaff) staff.getItem()).powers[ItemModStaff.getActivePower(staff)]);
-						Minecraft.getMinecraft().fontRendererObj.drawString(I18n.format("bb.staff.active") + ": " + power, 2, 2, 0);
-						ClientProxy.isItemInOffHandRenderingOverlay = true;
+						Minecraft.getMinecraft().fontRendererObj.drawString(I18n.format("bb.staff.active") + ": " + power, 2, 2, 4210752);
+						ClientProxy.isStaffRenderingHUD = true;
 					} else if(p.getHeldItemOffhand() == null)
-						ClientProxy.isItemInOffHandRenderingOverlay = false;
-					if(!ClientProxy.isItemInOffHandRenderingOverlay && p.getHeldItemMainhand() != null && p.getHeldItemMainhand().getItem() instanceof ItemModStaff && p.getHeldItemMainhand().hasTagCompound()) {
+						ClientProxy.isStaffRenderingHUD = false;
+					if(ClientProxy.isBloodBookRenderingHUD && p.getHeldItemMainhand() != null && p.getHeldItemMainhand().getItem() instanceof ItemModStaff && p.getHeldItemMainhand().hasTagCompound()) {
 						ItemStack staff = Minecraft.getMinecraft().thePlayer.getHeldItemMainhand();
 						String power = I18n.format(((ItemModStaff) staff.getItem()).powers[ItemModStaff.getActivePower(staff)]);
-						Minecraft.getMinecraft().fontRendererObj.drawString(I18n.format("bb.staff.active") + ": " + power, 2, 2, 0);					
+						Minecraft.getMinecraft().fontRendererObj.drawString(I18n.format("bb.staff.active") + ": " + power, 2, 10, 4210752);					
 					}
 				}
 			}	

@@ -49,14 +49,11 @@ public class ItemBookBlood extends ItemModSpecial {
 					if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerBloodSorcerer) {
 						if(Minecraft.getMinecraft().thePlayer.getHeldItemOffhand() != null && Minecraft.getMinecraft().thePlayer.getHeldItemOffhand().getItem() == this && Minecraft.getMinecraft().thePlayer.getHeldItemOffhand().hasTagCompound()) {
 							Minecraft.getMinecraft().fontRendererObj.drawString(I18n.format("bb.knowledgePiece") + ": " + I18n.format(BBKnowledge.getKnowledgePiece(Minecraft.getMinecraft().thePlayer.getHeldItemOffhand().getTagCompound().getInteger(TAG_INT_KNOWLEDGE_PIECE)).getName()), 2, 2, 0x8A0707);
-							// TODO: Find a better way to sync server data to client Minecraft.getMinecraft().fontRendererObj.drawString("" + bloodBank.getCurrentBlood(), e.getResolution().getScaledWidth() - 32, e.getResolution().getScaledHeight() - 18, 0x8A0707);
-							ClientProxy.isItemInOffHandRenderingOverlay = true;
+							ClientProxy.isBloodBookRenderingHUD = true;
 						} else if(Minecraft.getMinecraft().thePlayer.getHeldItemOffhand() == null)
-							ClientProxy.isItemInOffHandRenderingOverlay = false;
-						if(!ClientProxy.isItemInOffHandRenderingOverlay && Minecraft.getMinecraft().thePlayer.getHeldItemMainhand() != null && Minecraft.getMinecraft().thePlayer.getHeldItemMainhand().getItem() == this && Minecraft.getMinecraft().thePlayer.getHeldItemMainhand().hasTagCompound()) {
-							Minecraft.getMinecraft().fontRendererObj.drawString(I18n.format("bb.knowledgePiece") + ": " + I18n.format(BBKnowledge.getKnowledgePiece(Minecraft.getMinecraft().thePlayer.getHeldItemMainhand().getTagCompound().getInteger(TAG_INT_KNOWLEDGE_PIECE)).getName()), 2, 2, 0x8A0707);
-							// TODO: Find a better way to sync server data to client Minecraft.getMinecraft().fontRendererObj.drawString("" + bloodBank.getCurrentBlood(), e.getResolution().getScaledWidth() - 32, e.getResolution().getScaledHeight() - 18, 0x8A0707);
-						}
+							ClientProxy.isBloodBookRenderingHUD = false;
+						if(ClientProxy.isStaffRenderingHUD && Minecraft.getMinecraft().thePlayer.getHeldItemMainhand() != null && Minecraft.getMinecraft().thePlayer.getHeldItemMainhand().getItem() == this && Minecraft.getMinecraft().thePlayer.getHeldItemMainhand().hasTagCompound())
+							Minecraft.getMinecraft().fontRendererObj.drawString(I18n.format("bb.knowledgePiece") + ": " + I18n.format(BBKnowledge.getKnowledgePiece(Minecraft.getMinecraft().thePlayer.getHeldItemMainhand().getTagCompound().getInteger(TAG_INT_KNOWLEDGE_PIECE)).getName()), 2, 10, 0x8A0707);
 					}
 			}
 	}
