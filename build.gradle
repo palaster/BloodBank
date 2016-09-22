@@ -38,6 +38,7 @@ minecraft {
     runDir = "run"
     mappings = "snapshot_20160518"
 	useDepAts = true
+	replace '@VERSION@', project.version
 }
 
 dependencies { deobfCompile "mezz.jei:jei_${config.mc_version}:${config.jei_version}" }
