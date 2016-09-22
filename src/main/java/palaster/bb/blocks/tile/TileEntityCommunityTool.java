@@ -28,7 +28,7 @@ public class TileEntityCommunityTool extends TileEntityModInventory {
 			for(UUIDItemStack ui : uis)
 				if(ui != null && ui.getUUID() != null) {
 					if(ui.getTimer() <= 0) {
-						EntityPlayer p = BBPlayerHelper.getPlayerFromDimensions(ui.getUUID());
+						EntityPlayer p = BBPlayerHelper.getPlayerFromUUID(ui.getUUID());
 						if(p != null) {
 							if(p.inventory.hasItemStack(ui.getItemStack())) {
 								for(int i = 0; i < p.inventory.getSizeInventory(); i++)
@@ -115,7 +115,7 @@ public class TileEntityCommunityTool extends TileEntityModInventory {
 	public void removeAllItemStack() {
 		for(UUIDItemStack ui : uis)
 			if(ui != null && ui.getUUID() != null) {
-				EntityPlayer p = BBPlayerHelper.getPlayerFromDimensions(ui.getUUID());
+				EntityPlayer p = BBPlayerHelper.getPlayerFromUUID(ui.getUUID());
 				if(p != null) {
 					if(p.inventory.hasItemStack(ui.getItemStack())) {
 						for(int i = 0; i < p.inventory.getSizeInventory(); i++)
@@ -198,7 +198,7 @@ public class TileEntityCommunityTool extends TileEntityModInventory {
 		
 		@Override
 		public void onTick(World world) {
-			EntityPlayer p = BBPlayerHelper.getPlayerFromDimensions(uuid);
+			EntityPlayer p = BBPlayerHelper.getPlayerFromUUID(uuid);
 			if(p != null)
 				if(p.inventory.hasItemStack(itemstack))
 					for(int i = 0; i < p.inventory.getSizeInventory(); i++)

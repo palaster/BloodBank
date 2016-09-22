@@ -20,7 +20,8 @@ public class BBBlocks {
 	tntAbsorber,
 	bloodTicker,
 	voidTrap,
-	desalinator;
+	desalinator,
+	slotMachine;
 	
 	public static void init() {
 		voidAnchor = new BlockVoidAnchor(Material.ROCK);
@@ -30,6 +31,7 @@ public class BBBlocks {
 		bloodTicker = new BlockBloodTicker(Material.GROUND);
 		voidTrap = new BlockVoidTrap(Material.BARRIER);
 		desalinator = new BlockDesalinator(Material.ROCK);
+		slotMachine = new BlockSlotMachine(Material.ROCK);
 
 		registerTileEntities();
 	}

@@ -28,6 +28,7 @@ tile.bb:tntAbsorber.name=TNT Absorber
 tile.bb:bloodTicker.name=Blood Ticker
 tile.bb:voidTrap.name=Void Trap
 tile.bb:desalinator.name=Desalinator
+tile.bb:slotMachine.name=Slot Machine
 
 item.bb:staffSkeleton.name=Skeleton Staff
 item.bb:staffEfreet.name=Efreet Staff
@@ -60,6 +61,7 @@ item.bb:clericStaff.name=Cleric Staff
 item.bb:purifyingBook.name=Purifying Book
 item.bb:salt.name=Salt
 item.bb:soulCoin.name=Soul Coin
+item.bb:whip.name=Whip
 
 item.bb:bound.HEAD.name=Bound Helmet
 item.bb:bound.CHEST.name=Bound Chestplate
@@ -163,12 +165,14 @@ bb.gimp.2=Jar Jar Binks is the best Star War's character.
 bb.gimp.3=I love Notch.
 
 bb.career.base=Career
+bb.career.fired=Your fired.
 bb.career.hasCareer=You already have a career.
 bb.career.additionalInfo=Additional Information
 bb.career.noCareer=Get a job you bum.
 bb.career.bloodSorcerer=Blood Sorcerer
 bb.career.unkindled=Unkindled
 bb.career.cleric=Cleric
+bb.career.monsterTamer=Monster Tamer
 
 bb.rpg.constitution=Constitution
 bb.rpg.strength=Strength

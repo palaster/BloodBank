@@ -17,9 +17,12 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import palaster.bb.BloodBank;
 import palaster.bb.api.BBApi;
 import palaster.bb.api.capabilities.entities.IRPG;
+import palaster.bb.api.capabilities.entities.ITameableMonster;
 import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityFactory;
 import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityProvider;
 import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityStorage;
+import palaster.bb.api.capabilities.entities.TameableMonsterCapability.TameableMonsterCapabilityFactory;
+import palaster.bb.api.capabilities.entities.TameableMonsterCapability.TameableMonsterCapabilityStorage;
 import palaster.bb.blocks.BBBlocks;
 import palaster.bb.blocks.tile.TileEntityDesalinator;
 import palaster.bb.blocks.tile.TileEntityVoidAnchor;
@@ -53,6 +56,7 @@ public class CommonProxy implements IGuiHandler {
 		BBItems.init();
 		BBPotions.init();
 		CapabilityManager.INSTANCE.register(IRPG.class, new RPGCapabilityStorage(), new RPGCapabilityFactory());
+		CapabilityManager.INSTANCE.register(ITameableMonster.class, new TameableMonsterCapabilityStorage(), new TameableMonsterCapabilityFactory());
 		MinecraftForge.EVENT_BUS.register(new BBEventHandler());
 	}
 	

@@ -3,6 +3,9 @@ package palaster.bb.api.capabilities.entities;
 import java.util.UUID;
 import java.util.concurrent.Callable;
 
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
@@ -10,23 +13,25 @@ import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
+import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityDefault;
+import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityProvider;
 import palaster.bb.api.rpg.IRPGCareer;
 
 public class RPGCapability {
 
 	public static class RPGCapabilityDefault implements IRPG {
 		
-		public static final String TAG_STRING_CLASS = "RPGCarrerClass";
-		public static final String TAG_CAREER = "RPGCareer";
-		public static final String TAG_INT_CONSTITUTION = "ConstitutionInteger";
-		public static final String TAG_INT_STRENGTH = "StrengthInteger";
-		public static final String TAG_INT_DEFENSE = "DefenseInteger";
-		public static final String TAG_INT_DEXTERITY = "DexterityInteger";
+		public static final String TAG_STRING_CLASS = "RPGCarrerClass",
+				TAG_CAREER = "RPGCareer",
+				TAG_INT_CONSTITUTION = "ConstitutionInteger",
+				TAG_INT_STRENGTH = "StrengthInteger",
+				TAG_INT_DEFENSE = "DefenseInteger",
+				TAG_INT_DEXTERITY = "DexterityInteger";
 		public static final int MAX_LEVEL = 99;
 		
-		public static final UUID HEALTH_ID = UUID.fromString("c6531f9f-b737-4cb6-aea1-fd01c25606be");
-		public static final UUID STRENGTH_ID = UUID.fromString("55d5fd28-76bd-4fa6-b5ec-b0961bad7a09");
-		public static final UUID DEXTERITY_ID = UUID.fromString("d0ff0df9-9f9c-491d-9d9c-5997b5d5ba22");
+		public static final UUID HEALTH_ID = UUID.fromString("c6531f9f-b737-4cb6-aea1-fd01c25606be"),
+				STRENGTH_ID = UUID.fromString("55d5fd28-76bd-4fa6-b5ec-b0961bad7a09"),
+				DEXTERITY_ID = UUID.fromString("d0ff0df9-9f9c-491d-9d9c-5997b5d5ba22");
 		
 		private IRPGCareer career;
 		
@@ -135,6 +140,88 @@ public class RPGCapability {
 				}
 			}
 		}
+		
+		public static void calculateConstitutionBoost(EntityPlayer player) {
+	    	final IRPG rpg = RPGCapabilityProvider.get(player);
+	    	if(rpg != null) {
+	    		if(rpg.getConstitution() <= 0) {
+	    			IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MAX_HEALTH);
+	                try {
+	                    iAttributeInstance.removeModifier(iAttributeInstance.getModifier(RPGCapabilityDefault.HEALTH_ID));
+	                } catch(Exception e) {}
+	    		} else {
+	    			IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MAX_HEALTH);
+	                try {
+	                    iAttributeInstance.removeModifier(iAttributeInstance.getModifier(RPGCapabilityDefault.HEALTH_ID));
+	                } catch(Exception e) {}
+	                iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.HEALTH_ID, "bb.rpg.constitution", rpg.getConstitution() * .4, 0));
+	    		}
+	    	}
+	    }
+	    
+	    public static void calculateStrengthBoost(EntityPlayer player) {
+	    	final IRPG rpg = RPGCapabilityProvider.get(player);
+	    	if(rpg != null) {
+	    		if(rpg.getStrength() <= 0) {
+	    			IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ATTACK_DAMAGE);
+	                try {
+	                    iAttributeInstance.removeModifier(iAttributeInstance.getModifier(RPGCapabilityDefault.STRENGTH_ID));
+	                } catch(Exception e) {}
+	    		} else {
+	    			IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ATTACK_DAMAGE);
+	                try {
+	                    iAttributeInstance.removeModifier(iAttributeInstance.getModifier(RPGCapabilityDefault.STRENGTH_ID));
+	                } catch(Exception e) {}
+	                if(rpg.getStrength() >= 90)
+	                	iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.STRENGTH_ID, "bb.rpg.strength", 70, 0));
+	                else if(rpg.getStrength() >= 80)
+	                	iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.STRENGTH_ID, "bb.rpg.strength", 65, 0));
+	                else if(rpg.getStrength() >= 70)
+	                	iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.STRENGTH_ID, "bb.rpg.strength", 60, 0));
+	                else if(rpg.getStrength() >= 60)
+	                	iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.STRENGTH_ID, "bb.rpg.strength", 55, 0));
+	                else if(rpg.getStrength() >= 50)
+	                	iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.STRENGTH_ID, "bb.rpg.strength", 50, 0));
+	                else if(rpg.getStrength() >= 40)
+	                	iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.STRENGTH_ID, "bb.rpg.strength", 45, 0));
+	                else if(rpg.getStrength() >= 30)
+	                	iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.STRENGTH_ID, "bb.rpg.strength", 40, 0));
+	                else if(rpg.getStrength() >= 20)
+	                	iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.STRENGTH_ID, "bb.rpg.strength", 35, 0));
+	                else if(rpg.getStrength() >= 10)
+	                	iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.STRENGTH_ID, "bb.rpg.strength", 30, 0));
+	                else if(rpg.getStrength() > 0)
+	                	iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.STRENGTH_ID, "bb.rpg.strength", 25, 0));
+	    		}
+	    	}
+	    }
+	    
+	    public static void calculateDexterityBoost(EntityPlayer player) {
+	    	final IRPG rpg = RPGCapabilityProvider.get(player);
+	    	if(rpg != null) {
+	    		if(rpg.getDexterity() <= 0) {
+	    			IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MOVEMENT_SPEED);
+	                try {
+	                	iAttributeInstance.removeModifier(iAttributeInstance.getModifier(RPGCapabilityDefault.DEXTERITY_ID));
+	                } catch(Exception e) {}
+	    		} else {
+	    			IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MOVEMENT_SPEED);
+	                try {
+	                    iAttributeInstance.removeModifier(iAttributeInstance.getModifier(RPGCapabilityDefault.DEXTERITY_ID));
+	                } catch(Exception e) {}
+	                iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.DEXTERITY_ID, "bb.rpg.dexterity", rpg.getDexterity() * .008, 0));
+	    		}
+	    	}
+	    }
+	    
+	    public static int getExperienceCostForNextLevel(EntityPlayer player) {
+	    	final IRPG rpg = RPGCapabilityProvider.get(player);
+	    	if(rpg != null) {
+	    		int rpgLevel = (rpg.getConstitution() + rpg.getStrength() + rpg.getDefense() + rpg.getDexterity());
+	    		return rpgLevel <= 0 ? 1 : (int) (rpgLevel * 1.2);
+	    	}
+	        return 0;
+	    }
 	}
 	
 	public static class RPGCapabilityFactory implements Callable<IRPG> {

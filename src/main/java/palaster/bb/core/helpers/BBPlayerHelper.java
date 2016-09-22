@@ -14,7 +14,7 @@ public class BBPlayerHelper {
 	public static void sendChatMessageToPlayer(EntityPlayer player, String message) { player.addChatMessage(new TextComponentString(message)); }
 	
 	@Nullable
-	public static EntityPlayer getPlayerFromDimensions(UUID uuid) {
+	public static EntityPlayer getPlayerFromUUID(UUID uuid) {
 		for(int i = 0; i < DimensionManager.getIDs().length; i++) {
 			World world = DimensionManager.getWorld(DimensionManager.getIDs()[i]);
 			if(world != null && !world.isRemote)

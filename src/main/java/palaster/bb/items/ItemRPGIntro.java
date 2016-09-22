@@ -7,7 +7,6 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 import palaster.bb.BloodBank;
-import palaster.bb.api.BBApi;
 import palaster.bb.api.capabilities.entities.IRPG;
 import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityDefault;
 import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityProvider;
@@ -38,50 +37,50 @@ public class ItemRPGIntro extends ItemModSpecial implements IRecieveButton {
 		if(rpg != null) {
 			switch(buttonId) {
 				case 0: {
-					if(player.experienceLevel >= BBApi.getExperienceCostForNextLevel(player) && rpg.getConstitution() < RPGCapabilityDefault.MAX_LEVEL) {
-						if(player.experienceLevel - BBApi.getExperienceCostForNextLevel(player) <= 0)
+					if(player.experienceLevel >= RPGCapabilityDefault.getExperienceCostForNextLevel(player) && rpg.getConstitution() < RPGCapabilityDefault.MAX_LEVEL) {
+						if(player.experienceLevel - RPGCapabilityDefault.getExperienceCostForNextLevel(player) <= 0)
 							player.removeExperienceLevel(player.experienceLevel);
-						else if(BBApi.getExperienceCostForNextLevel(player) > 0)
-							player.removeExperienceLevel(BBApi.getExperienceCostForNextLevel(player));
+						else if(RPGCapabilityDefault.getExperienceCostForNextLevel(player) > 0)
+							player.removeExperienceLevel(RPGCapabilityDefault.getExperienceCostForNextLevel(player));
 						rpg.setConstitution(rpg.getConstitution() + 1);
 						BloodBank.proxy.syncPlayerRPGCapabilitiesToClient(player);
 					}
-					BBApi.calculateConstitutionBoost(player);
+					RPGCapabilityDefault.calculateConstitutionBoost(player);
 					break;
 				}
 				case 1: {
-					if(player.experienceLevel >= BBApi.getExperienceCostForNextLevel(player) && rpg.getStrength() < RPGCapabilityDefault.MAX_LEVEL) {
-						if(player.experienceLevel - BBApi.getExperienceCostForNextLevel(player) <= 0)
+					if(player.experienceLevel >= RPGCapabilityDefault.getExperienceCostForNextLevel(player) && rpg.getStrength() < RPGCapabilityDefault.MAX_LEVEL) {
+						if(player.experienceLevel - RPGCapabilityDefault.getExperienceCostForNextLevel(player) <= 0)
 							player.removeExperienceLevel(player.experienceLevel);
-						else if(BBApi.getExperienceCostForNextLevel(player) > 0)
-							player.removeExperienceLevel(BBApi.getExperienceCostForNextLevel(player));
+						else if(RPGCapabilityDefault.getExperienceCostForNextLevel(player) > 0)
+							player.removeExperienceLevel(RPGCapabilityDefault.getExperienceCostForNextLevel(player));
 						rpg.setStrength(rpg.getStrength() + 1);
 						BloodBank.proxy.syncPlayerRPGCapabilitiesToClient(player);
 					}
-					BBApi.calculateStrengthBoost(player);
+					RPGCapabilityDefault.calculateStrengthBoost(player);
 					break;
 				}
 				case 2: {
-					if(player.experienceLevel >= BBApi.getExperienceCostForNextLevel(player) && rpg.getDefense() < RPGCapabilityDefault.MAX_LEVEL) {
-						if(player.experienceLevel - BBApi.getExperienceCostForNextLevel(player) <= 0)
+					if(player.experienceLevel >= RPGCapabilityDefault.getExperienceCostForNextLevel(player) && rpg.getDefense() < RPGCapabilityDefault.MAX_LEVEL) {
+						if(player.experienceLevel - RPGCapabilityDefault.getExperienceCostForNextLevel(player) <= 0)
 							player.removeExperienceLevel(player.experienceLevel);
-						else if(BBApi.getExperienceCostForNextLevel(player) > 0)
-							player.removeExperienceLevel(BBApi.getExperienceCostForNextLevel(player));
+						else if(RPGCapabilityDefault.getExperienceCostForNextLevel(player) > 0)
+							player.removeExperienceLevel(RPGCapabilityDefault.getExperienceCostForNextLevel(player));
 						rpg.setDefense(rpg.getDefense() + 1);
 						BloodBank.proxy.syncPlayerRPGCapabilitiesToClient(player);
 					}
 					break;
 				}
 				case 3: {
-					if(player.experienceLevel >= BBApi.getExperienceCostForNextLevel(player) && rpg.getDexterity() < RPGCapabilityDefault.MAX_LEVEL) {
-						if(player.experienceLevel - BBApi.getExperienceCostForNextLevel(player) <= 0)
+					if(player.experienceLevel >= RPGCapabilityDefault.getExperienceCostForNextLevel(player) && rpg.getDexterity() < RPGCapabilityDefault.MAX_LEVEL) {
+						if(player.experienceLevel - RPGCapabilityDefault.getExperienceCostForNextLevel(player) <= 0)
 							player.removeExperienceLevel(player.experienceLevel);
-						else if(BBApi.getExperienceCostForNextLevel(player) > 0)
-							player.removeExperienceLevel(BBApi.getExperienceCostForNextLevel(player));
+						else if(RPGCapabilityDefault.getExperienceCostForNextLevel(player) > 0)
+							player.removeExperienceLevel(RPGCapabilityDefault.getExperienceCostForNextLevel(player));
 						rpg.setDexterity(rpg.getDexterity() + 1);
 						BloodBank.proxy.syncPlayerRPGCapabilitiesToClient(player);
 					}
-					BBApi.calculateDexterityBoost(player);
+					RPGCapabilityDefault.calculateDexterityBoost(player);
 					break;
 				}
 			}

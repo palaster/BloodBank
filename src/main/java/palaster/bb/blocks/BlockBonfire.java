@@ -20,7 +20,6 @@ import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityProvider
 import palaster.bb.entities.careers.CareerUnkindled;
 import palaster.bb.items.BBItems;
 import palaster.bb.items.ItemEstusFlask;
-import palaster.bb.items.ItemToken;
 import palaster.bb.world.BBWorldSaveData;
 
 public class BlockBonfire extends BlockMod {
@@ -66,22 +65,6 @@ public class BlockBonfire extends BlockMod {
 	                		heldItem.setTagCompound(new NBTTagCompound());
 	                	heldItem.getTagCompound().setInteger(ItemEstusFlask.TAG_INT_USES, 6);
 	                	playerIn.setHeldItem(hand, heldItem);
-	                } else if(heldItem.getItem() == Items.GOLD_INGOT) {
-	                	if(heldItem.stackSize > 1) {
-	                		heldItem.stackSize--;
-	                		ItemStack token = new ItemStack(BBItems.token);
-	                    	if(!token.hasTagCompound())
-	                    		token.setTagCompound(new NBTTagCompound());
-	                    	token.getTagCompound().setInteger(ItemToken.TAG_INT_TOKEN, -1);
-	                    	if(!playerIn.inventory.addItemStackToInventory(token))
-	                			worldIn.spawnEntityInWorld(new EntityItem(worldIn, playerIn.posX, playerIn.posY, playerIn.posZ, token));
-	                	} else {
-	                		ItemStack token = new ItemStack(BBItems.token);
-	                    	if(!token.hasTagCompound())
-	                    		token.setTagCompound(new NBTTagCompound());
-	                    	token.getTagCompound().setInteger(ItemToken.TAG_INT_TOKEN, -1);
-	                    	playerIn.setHeldItem(hand, token);
-	                	}
 	                } else if(heldItem.getItem() == Items.IRON_INGOT) {
 	                	if(((CareerUnkindled) rpg.getCareer()).getFocus() >= 100) {
 		                	if(heldItem.stackSize > 1) {

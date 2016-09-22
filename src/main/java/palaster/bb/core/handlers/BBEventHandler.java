@@ -10,6 +10,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityTNTPrimed;
+import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemStack;
@@ -32,6 +33,7 @@ import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
 import net.minecraftforge.event.entity.player.PlayerDropsEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.SleepingLocationCheckEvent;
@@ -47,9 +49,11 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import palaster.bb.BloodBank;
-import palaster.bb.api.BBApi;
 import palaster.bb.api.capabilities.entities.IRPG;
+import palaster.bb.api.capabilities.entities.ITameableMonster;
+import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityDefault;
 import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityProvider;
+import palaster.bb.api.capabilities.entities.TameableMonsterCapability.TameableMonsterCapabilityProvider;
 import palaster.bb.api.recipes.ShapedBloodRecipes;
 import palaster.bb.core.proxy.ClientProxy;
 import palaster.bb.entities.EntityItztiliTablet;
@@ -98,6 +102,9 @@ public class BBEventHandler {
 		if(e.getEntity() instanceof EntityPlayer)
 			if((EntityPlayer) e.getEntity() != null && !((EntityPlayer) e.getEntity()).hasCapability(RPGCapabilityProvider.RPG_CAP, null))
 				e.addCapability(new ResourceLocation(LibMod.MODID, "IRPG"), new RPGCapabilityProvider());
+		if(e.getEntity() instanceof EntityMob && e.getEntity().isNonBoss())
+			if((EntityMob) e.getEntity() != null && !((EntityMob) e.getEntity()).hasCapability(TameableMonsterCapabilityProvider.TAMEABLE_MONSTER_CAP, null))
+				e.addCapability(new ResourceLocation(LibMod.MODID, "ITameableMonster"), new TameableMonsterCapabilityProvider());
 	}
 
 	@SubscribeEvent
@@ -109,12 +116,12 @@ public class BBEventHandler {
 				if(rpgOG.getCareer() != null)
 					rpgNew.setCareer(rpgOG.getCareer());
 				rpgNew.setConstitution(rpgOG.getConstitution());
-				BBApi.calculateConstitutionBoost(e.getEntityPlayer());
+				RPGCapabilityDefault.calculateConstitutionBoost(e.getEntityPlayer());
 				rpgNew.setStrength(rpgOG.getStrength());
-				BBApi.calculateStrengthBoost(e.getEntityPlayer());
+				RPGCapabilityDefault.calculateStrengthBoost(e.getEntityPlayer());
 				rpgNew.setDefense(rpgOG.getDefense());
 				rpgNew.setDexterity(rpgOG.getDexterity());
-				BBApi.calculateDexterityBoost(e.getEntityPlayer());
+				RPGCapabilityDefault.calculateDexterityBoost(e.getEntityPlayer());
 				if(e.isWasDeath())
 					if(rpgOG.getCareer() != null && rpgOG.getCareer() instanceof CareerUnkindled) {
 						BBWorldSaveData bbWorldSaveData = BBWorldSaveData.get(e.getOriginal().worldObj);
@@ -160,8 +167,8 @@ public class BBEventHandler {
 				final IRPG rpg = RPGCapabilityProvider.get((EntityPlayer) e.getEntityLiving());
 				if(rpg != null) {
 					if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerUnkindled) {
-						if(e.getSource().getEntity() instanceof EntityPlayer) {
-							final IRPG rpgAttacker = RPGCapabilityProvider.get((EntityPlayer) e.getSource().getEntity());
+						if(e.getSource().getSourceOfDamage() instanceof EntityPlayer) {
+							final IRPG rpgAttacker = RPGCapabilityProvider.get((EntityPlayer) e.getSource().getSourceOfDamage());
 							if(rpgAttacker != null)
 								if(rpgAttacker.getCareer() != null && rpgAttacker.getCareer() instanceof CareerUnkindled)
 									((CareerUnkindled) rpgAttacker.getCareer()).addSoul(((CareerUnkindled) rpg.getCareer()).getSoul());
@@ -176,8 +183,8 @@ public class BBEventHandler {
 					}
 				}
 			}
-			if(e.getSource().getEntity() instanceof EntityPlayer) {
-				final IRPG rpg = RPGCapabilityProvider.get((EntityPlayer) e.getSource().getEntity());
+			if(e.getSource().getSourceOfDamage() instanceof EntityPlayer) {
+				final IRPG rpg = RPGCapabilityProvider.get((EntityPlayer) e.getSource().getSourceOfDamage());
 				if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerUnkindled)
 					((CareerUnkindled) rpg.getCareer()).addSoul((int) e.getEntityLiving().getMaxHealth());
 			}
@@ -194,7 +201,7 @@ public class BBEventHandler {
 		if(!e.getEntityLiving().worldObj.isRemote)
 			if(e.getEntityLiving() instanceof EntityPlayer) {
 				EntityPlayer p = (EntityPlayer) e.getEntityLiving();
-				if(e.getSource().getEntity() != null) {
+				if(e.getSource().getSourceOfDamage() != null) {
 					final IRPG rpg = RPGCapabilityProvider.get(p);
 					if(rpg != null)
 						if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerBloodSorcerer)
@@ -203,16 +210,16 @@ public class BBEventHandler {
 								e.setCanceled(true);
 							}
 					if(p.getActivePotionEffect(BBPotions.sandBody) != null)
-						if(e.getSource().getEntity() instanceof EntityPlayer) {
-							((EntityPlayer) e.getSource().getEntity()).inventory.addItemStackToInventory(new ItemStack(BBItems.bbResources, 1, 5));
+						if(e.getSource().getSourceOfDamage() instanceof EntityPlayer) {
+							((EntityPlayer) e.getSource().getSourceOfDamage()).inventory.addItemStackToInventory(new ItemStack(BBItems.bbResources, 1, 5));
 							e.setCanceled(true);
-						} else if(e.getSource().getEntity() instanceof EntityLiving) {
-							((EntityLiving) e.getSource().getEntity()).addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 600, 2, false, true));
+						} else if(e.getSource().getSourceOfDamage() instanceof EntityLiving) {
+							((EntityLiving) e.getSource().getSourceOfDamage()).addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 600, 2, false, true));
 							e.setCanceled(true);
 						}
 					if(p.getActivePotionEffect(BBPotions.peace) != null)
-						if(e.getSource().getEntity() instanceof EntityPlayer) {
-							EntityPlayer pSource = (EntityPlayer) e.getSource().getEntity();
+						if(e.getSource().getSourceOfDamage() instanceof EntityPlayer) {
+							EntityPlayer pSource = (EntityPlayer) e.getSource().getSourceOfDamage();
 							if(pSource != null && pSource.getActivePotionEffect(BBPotions.peace) != null)
 								e.setCanceled(true);
 						}
@@ -323,6 +330,17 @@ public class BBEventHandler {
 					((EntityPlayer) e.getEntityLiving()).sendPlayerAbilities();
 				}
 		}
+	}
+	
+	@SubscribeEvent
+	public void onLivingTarget(LivingSetAttackTargetEvent e) {
+		if(!e.getEntityLiving().worldObj.isRemote)
+			if(e.getEntityLiving() instanceof EntityMob && e.getTarget() instanceof EntityPlayer) {
+				ITameableMonster tm = TameableMonsterCapabilityProvider.get((EntityMob) e.getEntityLiving());
+				if(tm != null && tm.getOwner() != null)
+					if(tm.getOwner().equals(e.getTarget().getUniqueID()))
+						((EntityMob)e.getEntityLiving()).setAttackTarget(null);
+			}
 	}
 	
 	@SubscribeEvent

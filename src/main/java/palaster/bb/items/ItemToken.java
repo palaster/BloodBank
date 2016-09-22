@@ -22,7 +22,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import palaster.bb.api.BBApi;
-import palaster.bb.blocks.BlockBonfire;
+import palaster.bb.blocks.BlockSlotMachine;
 
 public class ItemToken extends ItemModSpecial {
 	
@@ -92,7 +92,7 @@ public class ItemToken extends ItemModSpecial {
 			if(stack.getItemDamage() == 1) {
 				if(stack.getTagCompound().getInteger(TAG_INT_TOKEN) >= 0)
 					if(world.getBlockState(pos) != null)
-						if(world.getBlockState(pos).getBlock() instanceof BlockBonfire)
+						if(world.getBlockState(pos).getBlock() instanceof BlockSlotMachine)
 							if(BBApi.getBossFromToken(stack.getTagCompound().getInteger(TAG_INT_TOKEN)) != null) {
 								EntityLiving boss = null;
 								try {
@@ -120,7 +120,7 @@ public class ItemToken extends ItemModSpecial {
 			} else if(stack.getItemDamage() == 2)
 				if(stack.getTagCompound().getInteger(TAG_INT_TOKEN) >= 0)
 					if(world.getBlockState(pos) != null)
-						if(world.getBlockState(pos).getBlock() instanceof BlockBonfire)
+						if(world.getBlockState(pos).getBlock() instanceof BlockSlotMachine)
 							if(BBApi.getItemStackFromToken(stack.getTagCompound().getInteger(TAG_INT_TOKEN)) != null) {
 								player.setHeldItem(hand, BBApi.getItemStackFromToken(stack.getTagCompound().getInteger(TAG_INT_TOKEN)));
 								return EnumActionResult.SUCCESS;

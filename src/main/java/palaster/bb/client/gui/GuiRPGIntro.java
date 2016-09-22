@@ -10,8 +10,8 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import palaster.bb.api.BBApi;
 import palaster.bb.api.capabilities.entities.IRPG;
+import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityDefault;
 import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityProvider;
 import palaster.bb.inventories.ContainerRPGIntro;
 import palaster.bb.libs.LibResource;
@@ -26,7 +26,7 @@ public class GuiRPGIntro extends GuiContainer {
 	public GuiRPGIntro(EntityPlayer player) {
 		super(new ContainerRPGIntro(player));
 		this.player = new WeakReference<EntityPlayer>(player);
-		ySize = 200;
+		ySize = 160;
 	}
 
 	@Override
@@ -49,10 +49,10 @@ public class GuiRPGIntro extends GuiContainer {
                 fontRendererObj.drawString(I18n.format("bb.rpg.strength") + ": " + rpg.getStrength(), 6, 36, 4210752);
                 fontRendererObj.drawString(I18n.format("bb.rpg.defense") + ": " + rpg.getDefense(), 6, 46, 4210752);
                 fontRendererObj.drawString(I18n.format("bb.rpg.dexterity") + ": " + rpg.getDexterity(), 6, 56, 4210752);
-                if(BBApi.getExperienceCostForNextLevel(player.get()) > player.get().experienceLevel)
-                	fontRendererObj.drawString(I18n.format("bb.expCost") + ": " + BBApi.getExperienceCostForNextLevel(player.get()) + "", 6, 68, 0x8A0707);
+                if(RPGCapabilityDefault.getExperienceCostForNextLevel(player.get()) > player.get().experienceLevel)
+                	fontRendererObj.drawString(I18n.format("bb.expCost") + ": " + RPGCapabilityDefault.getExperienceCostForNextLevel(player.get()) + "", 6, 68, 0x8A0707);
                 else
-                	fontRendererObj.drawString(I18n.format("bb.expCost") + ": " + BBApi.getExperienceCostForNextLevel(player.get()) + "", 6, 68, 0x009900);
+                	fontRendererObj.drawString(I18n.format("bb.expCost") + ": " + RPGCapabilityDefault.getExperienceCostForNextLevel(player.get()) + "", 6, 68, 0x009900);
                 if(rpg.getCareer() != null)
                 	rpg.getCareer().drawExtraInformation(this, player.get(), fontRendererObj, mouseX, mouseY);
     		}

@@ -14,8 +14,8 @@ import palaster.bb.libs.LibMod;
 
 public class BBItems {
 
-	public static ItemArmor.ArmorMaterial genericUnbreakableDiamond = EnumHelper.addArmorMaterial("genericUnbreakableDiamond", "genericUnbreakableDiamond", -1, new int[]{3, 6, 8, 3}, 0, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0f);
-	public static ItemArmor.ArmorMaterial sand = EnumHelper.addArmorMaterial("sand", "sand", 5, new int[]{1, 2, 3, 1}, 15, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0.0F);
+	public static ItemArmor.ArmorMaterial genericUnbreakableDiamond = EnumHelper.addArmorMaterial("genericUnbreakableDiamond", "genericUnbreakableDiamond", -1, new int[]{3, 6, 8, 3}, 0, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0f),
+			sand = EnumHelper.addArmorMaterial("sand", "sand", 5, new int[]{1, 2, 3, 1}, 15, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0.0F);
 	public static ItemArmor.ToolMaterial leach = EnumHelper.addToolMaterial("leach", 3, -1, 8.0F, 3.0F, 0);
 	
 	public static Item staffSkeleton,
@@ -44,7 +44,8 @@ public class BBItems {
 	clericStaff,
 	purifyingBook,
 	salt,
-	soulCoin;
+	soulCoin,
+	whip;
 
 	public static ItemArmor
 	boundHelmet,
@@ -94,6 +95,7 @@ public class BBItems {
 		purifyingBook = new ItemPurifyingBook();
 		salt = new ItemSalt();
 		soulCoin = new ItemSoulCoin();
+		whip = new ItemWhip();
 
 		boundHelmet = new ItemBoundArmor(genericUnbreakableDiamond, 0, EntityEquipmentSlot.HEAD);
 		boundChestplate = new ItemBoundArmor(genericUnbreakableDiamond, 0, EntityEquipmentSlot.CHEST);
