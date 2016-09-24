@@ -12,10 +12,8 @@ import palaster.bb.entities.effects.BBPotions;
 
 public class ItemPigDefense extends ItemModSpecial implements IVampiric {
 
-	public ItemPigDefense() {
-		super();
-		setMaxDamage(24);
-		setUnlocalizedName("pigDefense");
+	public ItemPigDefense(String unlocalizedName) {
+		super(unlocalizedName, 24);
 		MinecraftForge.EVENT_BUS.register(this);
 	}
 	

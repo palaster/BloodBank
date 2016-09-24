@@ -12,34 +12,23 @@ import palaster.bb.entities.EntitySkeletonMinion;
 
 public class ItemStaffSkeleton extends ItemModStaff implements IVampiric {
 
-	public ItemStaffSkeleton() {
-		super();
+	public ItemStaffSkeleton(String unlocalizedName) {
+		super(unlocalizedName);
 		powers = new String[]{"bb.staff.skeleton.0", "bb.staff.skeleton.1"};
-		setUnlocalizedName("staffSkeleton");
 	}
 
 	@Override
 	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if(!worldIn.isRemote)
-			if(ItemModStaff.getActivePower(stack) == 1) {
-				EntitySkeletonMinion sm = new EntitySkeletonMinion(worldIn, 1);
-				sm.setPosition(pos.getX() + .5, pos.getY() + 1, pos.getZ() + .5);
-				sm.setTamed(true);
-				sm.setOwnerId(playerIn.getUniqueID());
-				sm.onInitialSpawn(worldIn.getDifficultyForLocation(new BlockPos(sm)), null, 1);
-				worldIn.spawnEntityInWorld(sm);
-				stack.damageItem(16, playerIn);
-				return EnumActionResult.SUCCESS;
-			} else if(ItemModStaff.getActivePower(stack) == 0) {
-				EntitySkeletonMinion sm = new EntitySkeletonMinion(worldIn, 0);
-				sm.setPosition(pos.getX() + .5, pos.getY() + 1, pos.getZ() + .5);
-				sm.setTamed(true);
-				sm.setOwnerId(playerIn.getUniqueID());
-				sm.onInitialSpawn(worldIn.getDifficultyForLocation(new BlockPos(sm)), null, 0);
-				worldIn.spawnEntityInWorld(sm);
-				stack.damageItem(8, playerIn);
-				return EnumActionResult.SUCCESS;
-			}
+		if(!worldIn.isRemote) {
+			EntitySkeletonMinion sm = new EntitySkeletonMinion(worldIn, ItemModStaff.getActivePower(stack));
+			sm.setPosition(pos.getX() + .5, pos.getY() + 1, pos.getZ() + .5);
+			sm.setTamed(true);
+			sm.setOwnerId(playerIn.getUniqueID());
+			sm.onInitialSpawn(worldIn.getDifficultyForLocation(new BlockPos(sm)), null, ItemModStaff.getActivePower(stack));
+			worldIn.spawnEntityInWorld(sm);
+			stack.damageItem(ItemModStaff.getActivePower(stack) == 1 ? 16 : 8, playerIn);
+			return EnumActionResult.SUCCESS;
+		}
 		return super.onItemUse(stack, playerIn, worldIn, pos, hand, facing, hitX, hitY, hitZ);
 	}
 }

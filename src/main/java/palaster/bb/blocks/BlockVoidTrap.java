@@ -22,10 +22,7 @@ import palaster.bb.blocks.tile.TileEntityVoidTrap;
 
 public class BlockVoidTrap extends BlockModContainer {
 
-	public BlockVoidTrap(Material p_i45394_1_) {
-		super(p_i45394_1_);
-		setUnlocalizedName("voidTrap");
-	}
+	public BlockVoidTrap(String unlocalizedName, Material p_i45394_1_) { super(unlocalizedName, p_i45394_1_); }
 	
 	@Override
 	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, World worldIn, BlockPos pos) { return new AxisAlignedBB(0.01D, 0.01D, 0.01D, 0.99D, 0.99D, 0.99D); }

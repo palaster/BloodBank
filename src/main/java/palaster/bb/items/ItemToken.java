@@ -28,10 +28,8 @@ public class ItemToken extends ItemModSpecial {
 	
 	public static final String TAG_INT_TOKEN = "TokenNumber";
 
-	public ItemToken() {
-		super();
-		setMaxDamage(2);
-		setUnlocalizedName("token");
+	public ItemToken(String unlocalizedName) {
+		super(unlocalizedName, 2);
 		addPropertyOverride(new ResourceLocation("type"), new IItemPropertyGetter() {
             @SideOnly(Side.CLIENT)
             public float apply(ItemStack stack, @Nullable World worldIn, @Nullable EntityLivingBase entityIn) { return stack.getItemDamage(); }

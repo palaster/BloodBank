@@ -4,9 +4,8 @@ import net.minecraftforge.common.MinecraftForge;
 
 public class ItemSalt extends ItemMod {
 	
-	public ItemSalt() {
-		super();
-		setUnlocalizedName("salt");
+	public ItemSalt(String unlocalizedName) {
+		super(unlocalizedName);
 		MinecraftForge.EVENT_BUS.register(this);
 	}
 }

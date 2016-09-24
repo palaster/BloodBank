@@ -17,9 +17,8 @@ import palaster.bb.blocks.tile.TileEntityTNTAbsorber;
 
 public class BlockTNTAbsorber extends BlockModContainer {
 
-	public BlockTNTAbsorber(Material material) {
-		super(material);
-		setUnlocalizedName("tntAbsorber");
+	public BlockTNTAbsorber(String unlocalizedName, Material material) {
+		super(unlocalizedName, material);
 		MinecraftForge.EVENT_BUS.register(this);
 	}
 	

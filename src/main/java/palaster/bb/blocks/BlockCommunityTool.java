@@ -19,10 +19,9 @@ import palaster.bb.blocks.tile.TileEntityCommunityTool;
 
 public class BlockCommunityTool extends BlockModContainer {
 
-	public BlockCommunityTool(Material material) {
-		super(material);
+	public BlockCommunityTool(String unlocalizedName, Material material) {
+		super(unlocalizedName, material);
 		setBlockUnbreakable();
-		setUnlocalizedName("communityTool");
 		MinecraftForge.EVENT_BUS.register(this);
 	}
 	

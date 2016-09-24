@@ -31,9 +31,8 @@ public class ItemFlames extends ItemModSpecial {
 	public static final String TAG_TAG_FLAME_HOLDER = "FlameHolder";
     public static final String TAG_TAG_PREVIOUS_FLAME_HOLDER = "PreviousFlameHolder";
 
-    public ItemFlames() {
-        super();
-        setUnlocalizedName("flames");
+    public ItemFlames(String unlocalizedName) {
+        super(unlocalizedName);
         MinecraftForge.EVENT_BUS.register(this);
     }
     

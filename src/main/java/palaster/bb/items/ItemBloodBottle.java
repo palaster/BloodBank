@@ -9,11 +9,7 @@ import palaster.bb.api.capabilities.items.IVampiric;
 
 public class ItemBloodBottle extends ItemModSpecial {
 
-	public ItemBloodBottle() {
-		super();
-		setMaxDamage(2000);
-		setUnlocalizedName("bloodBottle");
-	}
+	public ItemBloodBottle(String unlocalizedName) { super(unlocalizedName, 2000); }
 	
 	@Override
 	public ItemStack getContainerItem(ItemStack itemStack) { return new ItemStack(Items.GLASS_BOTTLE); }

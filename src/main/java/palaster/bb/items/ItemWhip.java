@@ -23,10 +23,7 @@ import palaster.bb.entities.careers.CareerMonsterTamer;
 
 public class ItemWhip extends ItemModSpecial {
 
-	public ItemWhip() {
-		super();
-		setUnlocalizedName("whip");
-	}
+	public ItemWhip(String unlocalizedName) { super(unlocalizedName); }
 	
 	@Override
 	public boolean onLeftClickEntity(ItemStack stack, EntityPlayer player, Entity entity) {

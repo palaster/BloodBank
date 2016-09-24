@@ -9,11 +9,7 @@ import palaster.bb.api.capabilities.items.IPurified;
 
 public class ItemPurifyingBook extends ItemModSpecial {
 
-	public ItemPurifyingBook() {
-		super();
-		setMaxDamage(2000);
-		setUnlocalizedName("purifyingBook");
-	}
+	public ItemPurifyingBook(String unlocalizedName) { super(unlocalizedName, 2000); }
 	
 	@Override
 	public ItemStack getContainerItem(ItemStack itemStack) { return new ItemStack(Items.BOOK); }

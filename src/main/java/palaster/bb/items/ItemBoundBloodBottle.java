@@ -17,19 +17,14 @@ public class ItemBoundBloodBottle extends ItemModSpecial {
 	
 	public static final String TAG_UUID_PLAYER = "BoundBloodBottleUUID";
 
-	public ItemBoundBloodBottle() {
-		super();
-		setMaxDamage(4000);
-		setUnlocalizedName("boundBloodBottle");
-	}
+	public ItemBoundBloodBottle(String unlocalizedName) { super(unlocalizedName, 4000); }
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
-		if(stack.hasTagCompound()) {
+		if(stack.hasTagCompound())
 			if(playerIn.worldObj.getPlayerEntityByUUID(stack.getTagCompound().getUniqueId(TAG_UUID_PLAYER)) != null)
 				tooltip.add(playerIn.worldObj.getPlayerEntityByUUID(stack.getTagCompound().getUniqueId(TAG_UUID_PLAYER)).getName());
-		}
 	}
 
 	@Override

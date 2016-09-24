@@ -30,11 +30,9 @@ import palaster.bb.entities.effects.BBPotions;
 
 public class ItemClericStaff extends ItemModStaff implements IPurified {
 	
-	public ItemClericStaff() {
-		super();
+	public ItemClericStaff(String unlocalizedName) {
+		super(unlocalizedName);
 		powers = new String[]{"bb.clericStaff.0", "bb.clericStaff.1", "bb.clericStaff.2", "bb.clericStaff.3"};
-		setMaxDamage(256);
-		setUnlocalizedName("clericStaff");
 		MinecraftForge.EVENT_BUS.register(this);
 	}
 	

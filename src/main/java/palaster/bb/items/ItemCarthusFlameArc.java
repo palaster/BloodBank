@@ -20,9 +20,8 @@ import palaster.bb.entities.effects.BBPotions;
 
 public class ItemCarthusFlameArc extends ItemModSpecial implements IFlameSpell {
 
-    public ItemCarthusFlameArc() {
-        super();
-        setUnlocalizedName("carthusFlameArc");
+    public ItemCarthusFlameArc(String unlocalizedName) {
+        super(unlocalizedName);
         MinecraftForge.EVENT_BUS.register(this);
     }
     

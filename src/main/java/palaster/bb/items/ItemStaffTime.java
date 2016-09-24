@@ -10,10 +10,9 @@ import palaster.bb.api.capabilities.items.IVampiric;
 
 public class ItemStaffTime extends ItemModStaff implements IVampiric {
 
-	public ItemStaffTime() {
-		super();
+	public ItemStaffTime(String unlocalizedName) {
+		super(unlocalizedName);
 		powers = new String[] {"bb.staff.time.0"};
-		setUnlocalizedName("staffTime");
 	}
 
 	@Override

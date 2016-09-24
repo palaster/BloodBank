@@ -10,7 +10,7 @@ import palaster.bb.blocks.tile.TileEntityModInventory;
 
 public abstract class BlockModContainer extends BlockMod {
 
-	public BlockModContainer(Material material) { super(material); }
+	public BlockModContainer(String unlocalizedName, Material material) { super(unlocalizedName, material); }
 	
 	// Override in classes that extend this class.
 	@Override

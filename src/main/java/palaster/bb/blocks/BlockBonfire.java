@@ -24,9 +24,8 @@ import palaster.bb.world.BBWorldSaveData;
 
 public class BlockBonfire extends BlockMod {
 
-    public BlockBonfire(Material material) {
-        super(material);
-        setUnlocalizedName("bonfire");
+    public BlockBonfire(String unlocalizedName, Material material) {
+        super(unlocalizedName, material);
         setHarvestLevel("axe", 0);
     }
 

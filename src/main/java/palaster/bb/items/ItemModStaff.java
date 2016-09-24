@@ -15,10 +15,9 @@ public abstract class ItemModStaff extends ItemModSpecial {
 	public static String tag_number = "StaffPower";
 	public String[] powers = new String[] {};
 
-	public ItemModStaff() {
-		super();
-		setMaxDamage(256);
-	}
+	public ItemModStaff(String unlocalizedName) { this(unlocalizedName, 256); }
+	
+	public ItemModStaff(String unlocalizedName, int maxDamage) { super(unlocalizedName, maxDamage); }
 
 	@Override
 	@SideOnly(Side.CLIENT)

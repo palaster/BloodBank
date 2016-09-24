@@ -10,10 +10,7 @@ import palaster.bb.api.capabilities.items.ISpecialArmorAbility;
 
 public class ItemArmorActivator extends ItemModSpecial {
 
-	public ItemArmorActivator() {
-		super();
-		setUnlocalizedName("armorActivator");
-	}
+	public ItemArmorActivator(String unlocalizedName) { super(unlocalizedName); }
 	
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {

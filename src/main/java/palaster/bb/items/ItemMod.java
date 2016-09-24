@@ -12,9 +12,10 @@ import palaster.bb.libs.LibMod;
 
 public class ItemMod extends Item {
 	
-	public ItemMod() {
+	public ItemMod(String unlocalizedName) {
 		super();
 		setCreativeTab(CreativeTabBB.tabBB);
+		setUnlocalizedName(unlocalizedName);
 	}
 	
 	@Override

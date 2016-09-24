@@ -12,10 +12,7 @@ import palaster.bb.blocks.tile.TileEntityBloodTicker;
 
 public class BlockBloodTicker extends BlockModContainer {
 
-	public BlockBloodTicker(Material p_i45394_1_) {
-		super(p_i45394_1_);
-		setUnlocalizedName("bloodTicker");
-	}
+	public BlockBloodTicker(String unlocalizedName, Material p_i45394_1_) { super(unlocalizedName, p_i45394_1_); }
 	
 	@Override
 	public TileEntity createTileEntity(World world, IBlockState state) { return new TileEntityBloodTicker(); }

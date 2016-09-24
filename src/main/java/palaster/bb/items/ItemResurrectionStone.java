@@ -19,10 +19,7 @@ public class ItemResurrectionStone extends ItemModSpecial {
 	
 	public static final String TAG_INT_SPIRIT = "SpiritNumber";
 
-	public ItemResurrectionStone() {
-		super();
-		setUnlocalizedName("resurrectionStone");
-	}
+	public ItemResurrectionStone(String unlocalizedName) { super(unlocalizedName); }
 	
 	@Override
 	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {

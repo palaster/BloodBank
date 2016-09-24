@@ -16,10 +16,7 @@ import palaster.bb.blocks.tile.TileEntityVoidAnchor;
 
 public class BlockVoidAnchor extends BlockModContainer {
 
-	public BlockVoidAnchor(Material p_i45394_1_) {
-		super(p_i45394_1_);
-		setUnlocalizedName("voidAnchor");
-	}
+	public BlockVoidAnchor(String unlocalizedName, Material p_i45394_1_) { super(unlocalizedName, p_i45394_1_); }
 	
 	@Override
 	public boolean isOpaqueCube(IBlockState state) { return false; }

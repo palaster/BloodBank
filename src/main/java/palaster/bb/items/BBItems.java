@@ -68,34 +68,34 @@ public class BBItems {
 	public static void init() {
 		sand.customCraftingMaterial = Item.getItemFromBlock(Blocks.SAND);
 		
-		staffSkeleton = new ItemStaffSkeleton();
-		staffEfreet = new ItemStaffEfreet();
-		staffTime = new ItemStaffTime();
-		staffVoidWalker = new ItemStaffVoidWalker();
-		staffHungryShadows = new ItemStaffHungryShadows();
-		animalHerder = new ItemAnimalHerder();
-		bloodBottle = new ItemBloodBottle();
-		bloodBook = new ItemBookBlood();	
-		estusFlask = new ItemEstusFlask();
-		armorActivator = new ItemArmorActivator();
-		resurrectionStone = new ItemResurrectionStone();
-		ghostWhisper = new ItemGhostWhisper();
-		token = new ItemToken();
-		pigDefense = new ItemPigDefense();
-		flames = new ItemFlames();
-		carthusFlameArc = new ItemCarthusFlameArc();
-		sacredFlame = new ItemSacredFlame();
+		staffSkeleton = new ItemStaffSkeleton("staffSkeleton");
+		staffEfreet = new ItemStaffEfreet("staffEfreet");
+		staffTime = new ItemStaffTime("staffTime");
+		staffVoidWalker = new ItemStaffVoidWalker("staffVoidWalker");
+		staffHungryShadows = new ItemStaffHungryShadows("staffHungryShadows");
+		animalHerder = new ItemAnimalHerder("animalHerder");
+		bloodBottle = new ItemBloodBottle("bloodBottle");
+		bloodBook = new ItemBookBlood("bookBlood");
+		estusFlask = new ItemEstusFlask("estusFlask");
+		armorActivator = new ItemArmorActivator("armorActivator");
+		resurrectionStone = new ItemResurrectionStone("resurrectionStone");
+		ghostWhisper = new ItemGhostWhisper("ghostWhisper");
+		token = new ItemToken("token");
+		pigDefense = new ItemPigDefense("pigDefense");
+		flames = new ItemFlames("flames");
+		carthusFlameArc = new ItemCarthusFlameArc("carthusFlameArc");
+		sacredFlame = new ItemSacredFlame("sacredFlame");
 		leacher = new ItemLeacher(leach);
-		horn = new ItemHorn();
-		talisman = new ItemTalisman();
-		boundPlayer = new ItemBoundPlayer();
-		boundBloodBottle = new ItemBoundBloodBottle();
-		rpgIntro = new ItemRPGIntro();
-		clericStaff = new ItemClericStaff();
-		purifyingBook = new ItemPurifyingBook();
-		salt = new ItemSalt();
-		soulCoin = new ItemSoulCoin();
-		whip = new ItemWhip();
+		horn = new ItemHorn("horn");
+		talisman = new ItemTalisman("talisman");
+		boundPlayer = new ItemBoundPlayer("boundPlayer");
+		boundBloodBottle = new ItemBoundBloodBottle("boundBloodBottle");
+		rpgIntro = new ItemRPGIntro("rpgIntro");
+		clericStaff = new ItemClericStaff("clericStaff");
+		purifyingBook = new ItemPurifyingBook("purifyingBook");
+		salt = new ItemSalt("salt");
+		soulCoin = new ItemMod("soulCoin");
+		whip = new ItemWhip("whip");
 
 		boundHelmet = new ItemBoundArmor(genericUnbreakableDiamond, 0, EntityEquipmentSlot.HEAD);
 		boundChestplate = new ItemBoundArmor(genericUnbreakableDiamond, 0, EntityEquipmentSlot.CHEST);
@@ -110,9 +110,9 @@ public class BBItems {
 		sunLeggings = new ItemSunArmor(ArmorMaterial.DIAMOND, 0, EntityEquipmentSlot.LEGS);
 		sunBoots = new ItemSunArmor(ArmorMaterial.DIAMOND, 0, EntityEquipmentSlot.FEET);
 		
-		debug = new ItemDebug();
-		yinYang = new ItemYinYang();
-		bbResources = new ItemBBResources();
+		debug = new ItemDebug("debug");
+		yinYang = new ItemYinYang("yinYang");
+		bbResources = new ItemBBResources("bbResources");
 		
 		registerOreDictionary();
 	}

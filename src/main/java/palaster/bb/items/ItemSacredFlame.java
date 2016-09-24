@@ -17,10 +17,7 @@ import palaster.bb.entities.effects.BBPotions;
 
 public class ItemSacredFlame extends ItemModSpecial implements IFlameSpell {
 
-    public ItemSacredFlame() {
-        super();
-        setUnlocalizedName("sacredFlame");
-    }
+    public ItemSacredFlame(String unlocalizedName) { super(unlocalizedName); }
 
     @Override
     public int getSpellCost() { return 25; }

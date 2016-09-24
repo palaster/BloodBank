@@ -20,13 +20,10 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import palaster.bb.entities.EntityTalisman;
 
-public class ItemTalisman extends ItemMod {
+public class ItemTalisman extends ItemModSpecial {
 
-	public ItemTalisman() {
-		super();
-		setMaxDamage(3);
-		setMaxStackSize(64);
-		setUnlocalizedName("talisman");
+	public ItemTalisman(String unlocalizedName) {
+		super(unlocalizedName, 3, 64);
 		addPropertyOverride(new ResourceLocation("type"), new IItemPropertyGetter() {
             @SideOnly(Side.CLIENT)
             public float apply(ItemStack stack, @Nullable World worldIn, @Nullable EntityLivingBase entityIn) { return stack.getItemDamage(); }

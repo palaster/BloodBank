@@ -15,11 +15,12 @@ import palaster.bb.libs.LibMod;
 
 public abstract class BlockMod extends Block {
 
-	public BlockMod(Material material) {
+	public BlockMod(String unlocalizedName, Material material) {
 		super(material);
 		setCreativeTab(CreativeTabBB.tabBB);
 		setHardness(3F);
 		setHarvestLevel("pickaxe", 0);
+		setUnlocalizedName(unlocalizedName);
 	}
 	
 	@Override

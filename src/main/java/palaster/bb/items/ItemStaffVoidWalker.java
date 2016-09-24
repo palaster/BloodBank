@@ -17,10 +17,9 @@ import palaster.bb.entities.EntityYinYang;
 
 public class ItemStaffVoidWalker extends ItemModStaff implements IVampiric {
 
-	public ItemStaffVoidWalker() {
-		super();
+	public ItemStaffVoidWalker(String unlocalizedName) {
+		super(unlocalizedName);
 		powers = new String[]{"bb.staff.voidWalker.0"};
-		setUnlocalizedName("staffVoidWalker");
 	}
 
 	@Override

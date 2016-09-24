@@ -19,10 +19,7 @@ import palaster.bb.blocks.tile.TileEntityDesalinator;
 
 public class BlockDesalinator extends BlockModContainer {
 
-	public BlockDesalinator(Material p_i45394_1_) {
-		super(p_i45394_1_);
-		setUnlocalizedName("desalinator");
-	}
+	public BlockDesalinator(String unlocalizedName, Material p_i45394_1_) { super(unlocalizedName, p_i45394_1_); }
 	
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {

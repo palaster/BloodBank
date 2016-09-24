@@ -15,10 +15,7 @@ import net.minecraft.world.World;
 
 public class ItemHorn extends ItemModSpecial{
 
-	public ItemHorn() {
-		super();
-		setUnlocalizedName("horn");
-	}
+	public ItemHorn(String unlocalizedName) { super(unlocalizedName); }
 	
 	@Override
 	public void onUsingTick(ItemStack stack, EntityLivingBase player, int count) {

@@ -11,10 +11,9 @@ import palaster.bb.api.capabilities.items.IVampiric;
 
 public class ItemStaffHungryShadows extends ItemModStaff implements IVampiric {
 
-	public ItemStaffHungryShadows() {
-		super();
+	public ItemStaffHungryShadows(String unlocalizedName) {
+		super(unlocalizedName);
 		powers = new String[]{"bb.staff.hs.0", "bb.staff.hs.1", "bb.staff.hs.2"};
-		setUnlocalizedName("staffHungryShadows");
 	}
 
 	@Override

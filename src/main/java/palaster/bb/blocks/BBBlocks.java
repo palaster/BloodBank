@@ -24,14 +24,14 @@ public class BBBlocks {
 	slotMachine;
 	
 	public static void init() {
-		voidAnchor = new BlockVoidAnchor(Material.ROCK);
-		communityTool = new BlockCommunityTool(Material.ROCK);
-		bonfire = new BlockBonfire(Material.WOOD);
-		tntAbsorber = new BlockTNTAbsorber(Material.ROCK);
-		bloodTicker = new BlockBloodTicker(Material.GROUND);
-		voidTrap = new BlockVoidTrap(Material.BARRIER);
-		desalinator = new BlockDesalinator(Material.ROCK);
-		slotMachine = new BlockSlotMachine(Material.ROCK);
+		voidAnchor = new BlockVoidAnchor("voidAnchor", Material.ROCK);
+		communityTool = new BlockCommunityTool("communityTool", Material.ROCK);
+		bonfire = new BlockBonfire("bonfire", Material.WOOD);
+		tntAbsorber = new BlockTNTAbsorber("tntAbsorber", Material.ROCK);
+		bloodTicker = new BlockBloodTicker("bloodTicker", Material.GROUND);
+		voidTrap = new BlockVoidTrap("voidTrap", Material.BARRIER);
+		desalinator = new BlockDesalinator("desalinator", Material.ROCK);
+		slotMachine = new BlockSlotMachine("slotMachine", Material.ROCK);
 
 		registerTileEntities();
 	}

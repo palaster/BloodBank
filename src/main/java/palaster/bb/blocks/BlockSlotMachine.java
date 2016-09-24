@@ -16,10 +16,7 @@ import palaster.bb.items.ItemToken;
 
 public class BlockSlotMachine extends BlockMod {
 
-	public BlockSlotMachine(Material material) {
-		super(material);
-		setUnlocalizedName("slotMachine");
-	}
+	public BlockSlotMachine(String unlocalizedName, Material material) { super(unlocalizedName, material); }
 	
 	@Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {

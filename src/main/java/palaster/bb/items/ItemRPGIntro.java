@@ -14,10 +14,7 @@ import palaster.bb.api.capabilities.items.IRecieveButton;
 
 public class ItemRPGIntro extends ItemModSpecial implements IRecieveButton {
 
-	public ItemRPGIntro() {
-		super();
-		setUnlocalizedName("rpgIntro");
-	}
+	public ItemRPGIntro(String unlocalizedName) { super(unlocalizedName); }
 	
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {

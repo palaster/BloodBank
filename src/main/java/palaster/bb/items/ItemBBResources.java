@@ -50,10 +50,9 @@ public class ItemBBResources extends ItemModSpecial {
 	public static final String TAG_BOOLEAN_VAMPIRE_SIGIL = "HasVampireSigil";
 	public static final String TAG_INT_SOUL_AMOUNT = "SoulAmount";
 
-    public ItemBBResources() {
-        super();
+    public ItemBBResources(String unlocalizedName) {
+        super(unlocalizedName);
         setHasSubtypes(true);
-        setUnlocalizedName("bbResources");
         MinecraftForge.EVENT_BUS.register(this);
     }
     

@@ -15,10 +15,9 @@ import palaster.bb.api.capabilities.items.IVampiric;
 
 public class ItemStaffEfreet extends ItemModStaff implements IVampiric {
 	
-	public ItemStaffEfreet() {
-		super();
+	public ItemStaffEfreet(String unlocalizedName) {
+		super(unlocalizedName);
 		powers = new String[]{"bb.staff.efreet.0"};
-		setUnlocalizedName("staffEfreet");
 	}
 	
 	@Override

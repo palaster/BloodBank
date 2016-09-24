@@ -33,9 +33,8 @@ public class ItemBookBlood extends ItemModSpecial {
 	
 	public static final String TAG_INT_KNOWLEDGE_PIECE = "KnowledgePiece";
 
-    public ItemBookBlood() {
-        super();
-        setUnlocalizedName("bookBlood");
+    public ItemBookBlood(String unlocalizedName) {
+        super(unlocalizedName);
         MinecraftForge.EVENT_BUS.register(this);
     }
     

@@ -23,9 +23,8 @@ public class ItemAnimalHerder extends ItemModSpecial {
 
 	private final int range = 5;
 
-	public ItemAnimalHerder() {
-		super();
-		setUnlocalizedName("animalHerder");
+	public ItemAnimalHerder(String unlocalizedName) {
+		super(unlocalizedName);
 		MinecraftForge.EVENT_BUS.register(this);
 	}
 	

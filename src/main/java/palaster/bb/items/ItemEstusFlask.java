@@ -24,10 +24,8 @@ public class ItemEstusFlask extends ItemModSpecial {
 	
 	public static final String TAG_INT_USES = "EstusUses";
 	
-	public ItemEstusFlask() {
-		super();
-		setMaxDamage(1);
-		setUnlocalizedName("estusFlask");
+	public ItemEstusFlask(String unlocalizedName) {
+		super(unlocalizedName, 1);
 		addPropertyOverride(new ResourceLocation("type"), new IItemPropertyGetter() {
             @SideOnly(Side.CLIENT)
             public float apply(ItemStack stack, @Nullable World worldIn, @Nullable EntityLivingBase entityIn) { return stack.getItemDamage(); }

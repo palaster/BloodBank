@@ -15,10 +15,7 @@ import palaster.bb.world.BBWorldSaveData;
 
 public class ItemGhostWhisper extends ItemModSpecial {
 
-	public ItemGhostWhisper() {
-		super();
-		setUnlocalizedName("ghostWhisper");
-	}
+	public ItemGhostWhisper(String unlocalizedName) { super(unlocalizedName); }
 	
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
