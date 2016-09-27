@@ -59,6 +59,7 @@ import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityDefault;
 import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityProvider;
 import palaster.bb.api.capabilities.entities.TameableMonsterCapability.TameableMonsterCapabilityProvider;
 import palaster.bb.api.recipes.ShapedBloodRecipes;
+import palaster.bb.core.helpers.NBTHelper;
 import palaster.bb.core.proxy.ClientProxy;
 import palaster.bb.entities.EntityItztiliTablet;
 import palaster.bb.entities.careers.CareerBloodSorcerer;
@@ -120,12 +121,9 @@ public class BBEventHandler {
 			if(rpgOG != null && rpgNew != null) {
 				if(rpgOG.getCareer() != null)
 					rpgNew.setCareer(rpgOG.getCareer());
-				rpgNew.setConstitution(rpgOG.getConstitution());
+				rpgNew.loadNBT(rpgOG.saveNBT());
 				RPGCapabilityDefault.calculateConstitutionBoost(e.getEntityPlayer());
-				rpgNew.setStrength(rpgOG.getStrength());
 				RPGCapabilityDefault.calculateStrengthBoost(e.getEntityPlayer());
-				rpgNew.setDefense(rpgOG.getDefense());
-				rpgNew.setDexterity(rpgOG.getDexterity());
 				RPGCapabilityDefault.calculateDexterityBoost(e.getEntityPlayer());
 				if(e.isWasDeath())
 					if(rpgOG.getCareer() != null && rpgOG.getCareer() instanceof CareerUnkindled) {
@@ -178,13 +176,8 @@ public class BBEventHandler {
 								if(rpgAttacker != null)
 									if(rpgAttacker.getCareer() != null && rpgAttacker.getCareer() instanceof CareerUnkindled)
 										((CareerUnkindled) rpgAttacker.getCareer()).addSoul(((CareerUnkindled) rpg.getCareer()).getSoul());
-							} else if(((CareerUnkindled) rpg.getCareer()).getSoul() > 0) {
-								ItemStack souls = new ItemStack(BBItems.bbResources, 1, 6);
-								if(!souls.hasTagCompound())
-									souls.setTagCompound(new NBTTagCompound());
-								souls.getTagCompound().setInteger(ItemBBResources.TAG_INT_SOUL_AMOUNT, ((CareerUnkindled) rpg.getCareer()).getSoul());
-								e.getEntityLiving().worldObj.spawnEntityInWorld(new EntityItem(e.getEntityLiving().worldObj, e.getEntityLiving().posX, e.getEntityLiving().posY, e.getEntityLiving().posZ, souls));
-							}
+							} else if(((CareerUnkindled) rpg.getCareer()).getSoul() > 0)
+								e.getEntityLiving().worldObj.spawnEntityInWorld(new EntityItem(e.getEntityLiving().worldObj, e.getEntityLiving().posX, e.getEntityLiving().posY, e.getEntityLiving().posZ, NBTHelper.setIntegerToItemStack(new ItemStack(BBItems.bbResources, 1, 6), ItemBBResources.TAG_INT_SOUL_AMOUNT, ((CareerUnkindled) rpg.getCareer()).getSoul())));
 							((CareerUnkindled) rpg.getCareer()).setSoul(0);
 						}
 						if(rpg.getCareer() instanceof CareerGod)
@@ -303,11 +296,8 @@ public class BBEventHandler {
 			if(e.crafting != null && e.crafting.getItem() == BBItems.boundBloodBottle)
 				for(int i = 0; i < e.craftMatrix.getSizeInventory(); i++)
 					if(e.craftMatrix.getStackInSlot(i) != null && e.craftMatrix.getStackInSlot(i).getItem() == BBItems.boundPlayer)
-						if(e.craftMatrix.getStackInSlot(i).hasTagCompound()) {
-							if(!e.crafting.hasTagCompound())
-								e.crafting.setTagCompound(new NBTTagCompound());
-							e.crafting.getTagCompound().setUniqueId(ItemBoundBloodBottle.TAG_UUID_PLAYER, e.craftMatrix.getStackInSlot(i).getTagCompound().getUniqueId(ItemBoundPlayer.TAG_UUID_PLAYER));
-						}
+						if(e.craftMatrix.getStackInSlot(i).hasTagCompound())
+							NBTHelper.setUUIDToItemStack(e.crafting, ItemBoundBloodBottle.TAG_UUID_PLAYER, NBTHelper.getUUIDFromItemStack(e.craftMatrix.getStackInSlot(i), ItemBoundPlayer.TAG_UUID_PLAYER));
 		}
 	}
 
@@ -325,8 +315,7 @@ public class BBEventHandler {
 			else if(e.getEntityLiving().getActivePotionEffect(BBPotions.instantDeath) != null && e.getEntityLiving().getActivePotionEffect(BBPotions.instantDeath).getDuration() == 1)
 				e.getEntityLiving().attackEntityFrom(DamageSource.magic, Float.MAX_VALUE);
 			else if(e.getEntityLiving().getActivePotionEffect(BBPotions.bloodHive) != null && e.getEntityLiving().getActivePotionEffect(BBPotions.bloodHive).getDuration() == 1) {
-				EntityTNTPrimed tnt = new EntityTNTPrimed(e.getEntityLiving().worldObj, e.getEntityLiving().posX, e.getEntityLiving().posY, e.getEntityLiving().posZ, e.getEntityLiving());
-				e.getEntityLiving().worldObj.spawnEntityInWorld(tnt);
+				e.getEntityLiving().worldObj.spawnEntityInWorld(new EntityTNTPrimed(e.getEntityLiving().worldObj, e.getEntityLiving().posX, e.getEntityLiving().posY, e.getEntityLiving().posZ, e.getEntityLiving()));
 			} else if(e.getEntityLiving().getActivePotionEffect(BBPotions.darkWings) != null && e.getEntityLiving().getActivePotionEffect(BBPotions.darkWings).getDuration() == 1) {
 				if(e.getEntityLiving() instanceof EntityPlayer)
 					if(!((EntityPlayer) e.getEntityLiving()).isSpectator() && !((EntityPlayer) e.getEntityLiving()).capabilities.isCreativeMode) {

@@ -38,6 +38,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import palaster.bb.BloodBank;
 import palaster.bb.api.capabilities.entities.IRPG;
 import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityProvider;
+import palaster.bb.core.helpers.NBTHelper;
 import palaster.bb.core.helpers.BBPlayerHelper;
 import palaster.bb.entities.EntityDemonicBankTeller;
 import palaster.bb.entities.careers.CareerBloodSorcerer;
@@ -128,31 +129,27 @@ public class ItemBBResources extends ItemModSpecial {
 	public void onAnvilUpdate(AnvilUpdateEvent e) {
 		if(e.getLeft() != null && e.getRight() != null) {
 			ItemStack copy = e.getLeft().copy();
-			if(e.getLeft().getItem().isRepairable() && !(e.getLeft().hasTagCompound() && e.getLeft().getTagCompound().getBoolean(TAG_BOOLEAN_VAMPIRE_SIGIL)))
+			if(e.getLeft().getItem().isRepairable() && !(NBTHelper.getBooleanFromItemStack(e.getLeft(), TAG_BOOLEAN_VAMPIRE_SIGIL)))
 				if(e.getRight().getItem() instanceof ItemBBResources && e.getRight().getItemDamage() == 3) {
-					if(!copy.hasTagCompound())
-						copy.setTagCompound(new NBTTagCompound());
-					copy.getTagCompound().setBoolean(TAG_BOOLEAN_VAMPIRE_SIGIL, true);
 					e.setMaterialCost(1);
 					e.setCost(1);
-					e.setOutput(copy);
+					e.setOutput(NBTHelper.setBooleanToItemStack(copy, TAG_BOOLEAN_VAMPIRE_SIGIL, true));
 				}
 		}
 	}
     
     @SubscribeEvent
 	public void tooltip(ItemTooltipEvent e) {
-		if(e.getItemStack() != null && e.getItemStack().hasTagCompound()) {
-			if(e.getItemStack().getTagCompound().getBoolean(TAG_BOOLEAN_VAMPIRE_SIGIL))
+		if(e.getItemStack() != null)
+			if(NBTHelper.getBooleanFromItemStack(e.getItemStack(), TAG_BOOLEAN_VAMPIRE_SIGIL))
 				e.getToolTip().add(I18n.format("bb.misc.vampireSigil"));
-		}
 	}
     
     @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
     	if(stack.hasTagCompound() && stack.getItemDamage() == 6)
-    		tooltip.add(I18n.format("bb.undead.soulsAmount") + " : " + stack.getTagCompound().getInteger(TAG_INT_SOUL_AMOUNT));
+    		tooltip.add(I18n.format("bb.undead.soulsAmount") + " : " + NBTHelper.getIntegerFromItemStack(stack, TAG_INT_SOUL_AMOUNT));
     }
 
     @Override

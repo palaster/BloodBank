@@ -19,6 +19,7 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import palaster.bb.api.recipes.ShapedBloodRecipes;
 import palaster.bb.blocks.BBBlocks;
+import palaster.bb.core.helpers.NBTHelper;
 import palaster.bb.items.BBItems;
 import palaster.bb.items.ItemToken;
 
@@ -67,23 +68,9 @@ public class BBRecipes {
 		GameRegistry.addRecipe(new ItemStack(BBItems.sunLeggings), "xzx", "zyz", "xzx", 'y', Items.DIAMOND_LEGGINGS, 'x', new ItemStack(Blocks.DOUBLE_PLANT, 1, 0), 'z', BBItems.soulCoin);
 		GameRegistry.addRecipe(new ItemStack(BBItems.sunBoots), "xzx", "zyz", "xzx", 'y', Items.DIAMOND_BOOTS, 'x', new ItemStack(Blocks.DOUBLE_PLANT, 1, 0), 'z', BBItems.soulCoin);
 		
-		ItemStack token = new ItemStack(BBItems.token, 1, 1);
-		if(!token.hasTagCompound())
-			token.setTagCompound(new NBTTagCompound());
-		token.getTagCompound().setInteger(ItemToken.TAG_INT_TOKEN, 0);
-		GameRegistry.addRecipe(token, "xyx", "yzy", "xyx", 'x', Blocks.STONE, 'y', Items.GOLD_NUGGET, 'z', BBItems.token);
-		
-		token = new ItemStack(BBItems.token, 1, 2);
-		if(!token.hasTagCompound())
-			token.setTagCompound(new NBTTagCompound());
-		token.getTagCompound().setInteger(ItemToken.TAG_INT_TOKEN, 0);
-		GameRegistry.addRecipe(token, "xya", "yzy", "ayx", 'a', new ItemStack(BBItems.bbResources, 1, 3), 'x', Items.DIAMOND_SWORD, 'y', Items.ROTTEN_FLESH, 'z', BBItems.token);
-		
-		token = new ItemStack(BBItems.token, 1, 2);
-		if(!token.hasTagCompound())
-			token.setTagCompound(new NBTTagCompound());
-		token.getTagCompound().setInteger(ItemToken.TAG_INT_TOKEN, 1);
-		GameRegistry.addRecipe(new ShapedOreRecipe(token, "yxw", " z ", "wxy", 'w', Items.REDSTONE, 'x', Blocks.NOTEBLOCK, 'y', "record", 'z', BBItems.token));
+		GameRegistry.addRecipe(NBTHelper.setIntegerToItemStack(new ItemStack(BBItems.token, 1, 1), ItemToken.TAG_INT_TOKEN, 0), "xyx", "yzy", "xyx", 'x', Blocks.STONE, 'y', Items.GOLD_NUGGET, 'z', BBItems.token);
+		GameRegistry.addRecipe(NBTHelper.setIntegerToItemStack(new ItemStack(BBItems.token, 1, 2), ItemToken.TAG_INT_TOKEN, 0), "xya", "yzy", "ayx", 'a', new ItemStack(BBItems.bbResources, 1, 3), 'x', Items.DIAMOND_SWORD, 'y', Items.ROTTEN_FLESH, 'z', BBItems.token);
+		GameRegistry.addRecipe(new ShapedOreRecipe(NBTHelper.setIntegerToItemStack(new ItemStack(BBItems.token, 1, 2), ItemToken.TAG_INT_TOKEN, 1), "yxw", " z ", "wxy", 'w', Items.REDSTONE, 'x', Blocks.NOTEBLOCK, 'y', "record", 'z', BBItems.token));
 		
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BBItems.talisman, 1, 0), new ItemStack(Items.PAPER), "dyeBlack", new ItemStack(Items.GLOWSTONE_DUST)));
 		GameRegistry.addShapelessRecipe(new ItemStack(BBItems.talisman, 1, 1), new ItemStack(BBItems.talisman, 1, 0), new ItemStack(Items.SUGAR));

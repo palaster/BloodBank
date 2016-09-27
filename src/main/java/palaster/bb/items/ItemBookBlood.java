@@ -8,7 +8,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
@@ -25,6 +24,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import palaster.bb.BloodBank;
 import palaster.bb.api.capabilities.entities.IRPG;
 import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityProvider;
+import palaster.bb.core.helpers.NBTHelper;
 import palaster.bb.core.proxy.ClientProxy;
 import palaster.bb.entities.careers.CareerBloodSorcerer;
 import palaster.bb.entities.knowledge.BBKnowledge;
@@ -47,12 +47,12 @@ public class ItemBookBlood extends ItemModSpecial {
 				if(rpg != null)
 					if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerBloodSorcerer) {
 						if(Minecraft.getMinecraft().thePlayer.getHeldItemOffhand() != null && Minecraft.getMinecraft().thePlayer.getHeldItemOffhand().getItem() == this && Minecraft.getMinecraft().thePlayer.getHeldItemOffhand().hasTagCompound()) {
-							Minecraft.getMinecraft().fontRendererObj.drawString(I18n.format("bb.knowledgePiece") + ": " + I18n.format(BBKnowledge.getKnowledgePiece(Minecraft.getMinecraft().thePlayer.getHeldItemOffhand().getTagCompound().getInteger(TAG_INT_KNOWLEDGE_PIECE)).getName()), 2, 2, 0x8A0707);
+							Minecraft.getMinecraft().fontRendererObj.drawString(I18n.format("bb.knowledgePiece") + ": " + I18n.format(BBKnowledge.getKnowledgePiece(NBTHelper.getIntegerFromItemStack(Minecraft.getMinecraft().thePlayer.getHeldItemOffhand(), TAG_INT_KNOWLEDGE_PIECE)).getName()), 2, 2, 0x8A0707);
 							ClientProxy.isBloodBookRenderingHUD = true;
 						} else if(Minecraft.getMinecraft().thePlayer.getHeldItemOffhand() == null)
 							ClientProxy.isBloodBookRenderingHUD = false;
 						if(ClientProxy.isStaffRenderingHUD && Minecraft.getMinecraft().thePlayer.getHeldItemMainhand() != null && Minecraft.getMinecraft().thePlayer.getHeldItemMainhand().getItem() == this && Minecraft.getMinecraft().thePlayer.getHeldItemMainhand().hasTagCompound())
-							Minecraft.getMinecraft().fontRendererObj.drawString(I18n.format("bb.knowledgePiece") + ": " + I18n.format(BBKnowledge.getKnowledgePiece(Minecraft.getMinecraft().thePlayer.getHeldItemMainhand().getTagCompound().getInteger(TAG_INT_KNOWLEDGE_PIECE)).getName()), 2, 10, 0x8A0707);
+							Minecraft.getMinecraft().fontRendererObj.drawString(I18n.format("bb.knowledgePiece") + ": " + I18n.format(BBKnowledge.getKnowledgePiece(NBTHelper.getIntegerFromItemStack(Minecraft.getMinecraft().thePlayer.getHeldItemMainhand(), TAG_INT_KNOWLEDGE_PIECE)).getName()), 2, 10, 0x8A0707);
 					}
 			}
 	}
@@ -69,15 +69,11 @@ public class ItemBookBlood extends ItemModSpecial {
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
         if(stack.hasTagCompound() && stack.getTagCompound().getInteger(TAG_INT_KNOWLEDGE_PIECE) >= 0)
-            tooltip.add(I18n.format("bb.knowledgePiece") + ": " + I18n.format(BBKnowledge.getKnowledgePiece(stack.getTagCompound().getInteger(TAG_INT_KNOWLEDGE_PIECE)).getName()));
+            tooltip.add(I18n.format("bb.knowledgePiece") + ": " + I18n.format(BBKnowledge.getKnowledgePiece(NBTHelper.getIntegerFromItemStack(stack, TAG_INT_KNOWLEDGE_PIECE)).getName()));
     }
 
     @Override
-    public void onCreated(ItemStack stack, World worldIn, EntityPlayer playerIn) {
-        if(!stack.hasTagCompound())
-            stack.setTagCompound(new NBTTagCompound());
-        stack.getTagCompound().setInteger(TAG_INT_KNOWLEDGE_PIECE, 0);
-    }
+    public void onCreated(ItemStack stack, World worldIn, EntityPlayer playerIn) { stack = NBTHelper.setIntegerToItemStack(stack, TAG_INT_KNOWLEDGE_PIECE, 0); }
 
     @Override
     public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
@@ -87,28 +83,24 @@ public class ItemBookBlood extends ItemModSpecial {
 				if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerBloodSorcerer) {
 		            if(itemStackIn.hasTagCompound()) {
 		                if(playerIn.isSneaking()) {
-		                    int temp = itemStackIn.getTagCompound().getInteger(TAG_INT_KNOWLEDGE_PIECE);
+		                    int temp = NBTHelper.getIntegerFromItemStack(itemStackIn, TAG_INT_KNOWLEDGE_PIECE);
 		                    if(temp++ < BBKnowledge.getKnowledgeSize() - 1)
-		                        itemStackIn.getTagCompound().setInteger(TAG_INT_KNOWLEDGE_PIECE, temp++);
+		                    	itemStackIn = NBTHelper.setIntegerToItemStack(itemStackIn, TAG_INT_KNOWLEDGE_PIECE, temp++);
 		                    else if(temp++ >= BBKnowledge.getKnowledgeSize())
-		                        itemStackIn.getTagCompound().setInteger(TAG_INT_KNOWLEDGE_PIECE, 0);
+		                    	itemStackIn = NBTHelper.setIntegerToItemStack(itemStackIn, TAG_INT_KNOWLEDGE_PIECE, 0);
 		                    return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
-		                } else if(itemStackIn.getTagCompound().getInteger(TAG_INT_KNOWLEDGE_PIECE) >= 0) {
-		                    if(BBKnowledge.getKnowledgePiece(itemStackIn.getTagCompound().getInteger(TAG_INT_KNOWLEDGE_PIECE)) != null) {
+		                } else if(NBTHelper.getIntegerFromItemStack(itemStackIn, TAG_INT_KNOWLEDGE_PIECE) >= 0)
+		                    if(BBKnowledge.getKnowledgePiece(NBTHelper.getIntegerFromItemStack(itemStackIn, TAG_INT_KNOWLEDGE_PIECE)) != null) {
 		                    	ActionResult<ItemStack> temp = BBKnowledge.getKnowledgePiece(itemStackIn.getTagCompound().getInteger(TAG_INT_KNOWLEDGE_PIECE)).onKnowledgePieceRightClick(itemStackIn, worldIn, playerIn, hand);
 		                    	if(temp != null && temp.getType() != null && temp.getType() == EnumActionResult.SUCCESS) {
 		                    		int remainingBloodCost = ((CareerBloodSorcerer) rpg.getCareer()).consumeBlood(BBKnowledge.getKnowledgePiece(itemStackIn.getTagCompound().getInteger(TAG_INT_KNOWLEDGE_PIECE)).getPrice());
 		                    		if(remainingBloodCost > 0)
 		                    			playerIn.attackEntityFrom(BloodBank.proxy.bbBlood, remainingBloodCost / 100);
+		                    		return temp;
 		                    	}
 		                    }
-		                    return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
-		                }
-		            } else {
-		                itemStackIn.setTagCompound(new NBTTagCompound());
-		                itemStackIn.getTagCompound().setInteger(TAG_INT_KNOWLEDGE_PIECE, 0);
-		                return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
-		            }
+		            } else
+		                return ActionResult.newResult(EnumActionResult.SUCCESS, NBTHelper.setIntegerToItemStack(itemStackIn, TAG_INT_KNOWLEDGE_PIECE, 0));
 				}
 			}
 		}
@@ -121,17 +113,16 @@ public class ItemBookBlood extends ItemModSpecial {
         	final IRPG rpg = RPGCapabilityProvider.get(playerIn);
 			if(rpg != null)
 				if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerBloodSorcerer)
-		            if(stack.hasTagCompound() && stack.getTagCompound().getInteger(TAG_INT_KNOWLEDGE_PIECE) >= 0) {
-		            	if(BBKnowledge.getKnowledgePiece(stack.getTagCompound().getInteger(TAG_INT_KNOWLEDGE_PIECE)) != null) {
-		            		EnumActionResult temp = BBKnowledge.getKnowledgePiece(stack.getTagCompound().getInteger(TAG_INT_KNOWLEDGE_PIECE)).onKnowledgePieceUse(stack, playerIn, worldIn, pos, hand, facing, hitX, hitY, hitZ); 
+		            if(NBTHelper.getIntegerFromItemStack(stack, TAG_INT_KNOWLEDGE_PIECE) >= 0)
+		            	if(BBKnowledge.getKnowledgePiece(NBTHelper.getIntegerFromItemStack(stack, TAG_INT_KNOWLEDGE_PIECE)) != null) {
+		            		EnumActionResult temp = BBKnowledge.getKnowledgePiece(NBTHelper.getIntegerFromItemStack(stack, TAG_INT_KNOWLEDGE_PIECE)).onKnowledgePieceUse(stack, playerIn, worldIn, pos, hand, facing, hitX, hitY, hitZ); 
 		            		if(temp != null && temp == EnumActionResult.SUCCESS) {
-	            				int remainingBloodCost = ((CareerBloodSorcerer) rpg.getCareer()).consumeBlood(BBKnowledge.getKnowledgePiece(stack.getTagCompound().getInteger(TAG_INT_KNOWLEDGE_PIECE)).getPrice());
+	            				int remainingBloodCost = ((CareerBloodSorcerer) rpg.getCareer()).consumeBlood(BBKnowledge.getKnowledgePiece(NBTHelper.getIntegerFromItemStack(stack, TAG_INT_KNOWLEDGE_PIECE)).getPrice());
 	            				if(remainingBloodCost > 0)
 	            					playerIn.attackEntityFrom(BloodBank.proxy.bbBlood, remainingBloodCost / 100);
+	            				return temp;
 		            		}
 		            	}
-		                return EnumActionResult.SUCCESS;
-		            }
 		}
         return super.onItemUse(stack, playerIn, worldIn, pos, hand, facing, hitX, hitY, hitZ);
     }
@@ -142,10 +133,10 @@ public class ItemBookBlood extends ItemModSpecial {
         	final IRPG rpg = RPGCapabilityProvider.get(playerIn);
 			if(rpg != null) {
 				if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerBloodSorcerer)
-		            if(stack.hasTagCompound() && stack.getTagCompound().getInteger(TAG_INT_KNOWLEDGE_PIECE) >= 0) {
-		            	if(BBKnowledge.getKnowledgePiece(stack.getTagCompound().getInteger(TAG_INT_KNOWLEDGE_PIECE)) != null)
-		            		if(BBKnowledge.getKnowledgePiece(stack.getTagCompound().getInteger(TAG_INT_KNOWLEDGE_PIECE)).knowledgePieceInteractionForEntity(stack, playerIn, target, hand)) {
-		            			int remainingBloodCost = ((CareerBloodSorcerer) rpg.getCareer()).consumeBlood(BBKnowledge.getKnowledgePiece(stack.getTagCompound().getInteger(TAG_INT_KNOWLEDGE_PIECE)).getPrice());
+		            if(NBTHelper.getIntegerFromItemStack(stack, TAG_INT_KNOWLEDGE_PIECE) >= 0) {
+		            	if(BBKnowledge.getKnowledgePiece(NBTHelper.getIntegerFromItemStack(stack, TAG_INT_KNOWLEDGE_PIECE)) != null)
+		            		if(BBKnowledge.getKnowledgePiece(NBTHelper.getIntegerFromItemStack(stack, TAG_INT_KNOWLEDGE_PIECE)).knowledgePieceInteractionForEntity(stack, playerIn, target, hand)) {
+		            			int remainingBloodCost = ((CareerBloodSorcerer) rpg.getCareer()).consumeBlood(BBKnowledge.getKnowledgePiece(NBTHelper.getIntegerFromItemStack(stack, TAG_INT_KNOWLEDGE_PIECE)).getPrice());
 		            			if(remainingBloodCost > 0)
 		            				playerIn.attackEntityFrom(BloodBank.proxy.bbBlood, remainingBloodCost / 100);
 		            		}
