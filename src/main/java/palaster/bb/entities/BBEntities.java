@@ -19,8 +19,9 @@ public class BBEntities {
 		EntityRegistry.registerModEntity(EntitySkeletonMinion.class, "skeletonMinion", 0, BloodBank.instance, 80, 3, true);
 		EntityRegistry.registerModEntity(EntityYinYang.class, "yinYang", 1, BloodBank.instance, 64, 10, true);
 		EntityRegistry.registerModEntity(EntityDemonicBankTeller.class, "demonicBankTeller", 2, BloodBank.instance, 80, 3, true, 0x8A0707, 0x663300);
-		EntityRegistry.registerModEntity(EntityItztiliTablet.class, "itztiliTablet", 3, BloodBank.instance, 80, 3, true, 0xFFFFFF, 0x00FF00);
+		EntityRegistry.registerModEntity(EntityItztiliTablet.class, "itztiliTablet", 3, BloodBank.instance, 80, 3, true, 0x8A0707, 0x00FF00);
 		EntityRegistry.registerModEntity(EntityTalisman.class, "talisman", 4, BloodBank.instance, 64, 10, true);
+		EntityRegistry.registerModEntity(EntityPectusRapientem.class, "pectusRapientem", 5, BloodBank.instance, 80, 3, true, 0x8A0707, 0x000000);
 	}
 
 	public static void registerEntityRenderers() {

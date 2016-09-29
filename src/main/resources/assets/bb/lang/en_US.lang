@@ -20,6 +20,7 @@ entity.bb.skeletonMinion.name=Skeleton Minion
 entity.bb.yinYang.name=Yin Yang
 entity.bb.demonicBankTeller.name=Demonic Bank Teller
 entity.bb.itztiliTablet.name=Itztili Tablet
+entity.bb.pectusRapientem.name=Pectus Rapientem
 
 tile.bb:voidAnchor.name=Void Anchor
 tile.bb:communityTool.name=Community Tools
@@ -62,6 +63,7 @@ item.bb:purifyingBook.name=Purifying Book
 item.bb:salt.name=Salt
 item.bb:soulCoin.name=Soul Coin
 item.bb:whip.name=Whip
+item.bb:careerPamphlet.name=Career Pamphlet
 
 item.bb:bound.HEAD.name=Bound Helmet
 item.bb:bound.CHEST.name=Bound Chestplate
@@ -78,16 +80,13 @@ item.bb:sun.FEET.name=Sun Boots
 
 item.bb:debug.name=Debug
 item.bb:yinYang.name=Yin Yang
-item.bb:bbResources.0.name=Bank Contract
-item.bb:bbResources.1.name=Bank ID
-item.bb:bbResources.2.name=Worm Eater
-item.bb:bbResources.3.name=Vampire Sigil
-item.bb:bbResources.4.name=Urn
-item.bb:bbResources.5.name=Dense Sand Particle
-item.bb:bbResources.6.name=Soul
-item.bb:bbResources.7.name=Itztili's Soul
-item.bb:bbResources.8.name=Soul Gem
-item.bb:bbResources.9.name=Pink Slip
+item.bb:bbResources.0.name=Worm Eater
+item.bb:bbResources.1.name=Vampire Sigil
+item.bb:bbResources.2.name=Dense Sand Particle
+item.bb:bbResources.3.name=Soul
+item.bb:bbResources.4.name=Itztili's Soul
+item.bb:bbResources.5.name=Soul Gem
+item.bb:bbResources.6.name=Pink Slip
 
 bb.misc.activated=Activated
 bb.misc.broken=BROKEN (Normal Fix is a simple right-click)
@@ -173,6 +172,8 @@ bb.career.bloodSorcerer=Blood Sorcerer
 bb.career.unkindled=Unkindled
 bb.career.cleric=Cleric
 bb.career.monsterTamer=Monster Tamer
+bb.career.workshopWitch=Workshop Witch
+bb.career.god=God
 
 bb.rpg.constitution=Constitution
 bb.rpg.strength=Strength

@@ -21,8 +21,6 @@ public interface IRPG {
 	
 	public int getDexterity();
 	
-	void changeCareer(IRPGCareer career);
-	
 	void setCareer(IRPGCareer career);
 	
 	IRPGCareer getCareer();

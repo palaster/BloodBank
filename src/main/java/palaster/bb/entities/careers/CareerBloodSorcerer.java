@@ -24,7 +24,7 @@ public class CareerBloodSorcerer extends RPGCareerBase {
     private int bloodCurrent;
     private SoftReference<EntityLiving> link;
     
-    public CareerBloodSorcerer() { this(0, 0, null); }
+    public CareerBloodSorcerer() { this(2000, 0, null); }
     
     public CareerBloodSorcerer(int bloodMax, int bloodCurrent, EntityLiving link) {
     	this.bloodMax = bloodMax;

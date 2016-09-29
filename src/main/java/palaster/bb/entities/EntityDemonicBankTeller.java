@@ -3,14 +3,12 @@ package palaster.bb.entities;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemGlassBottle;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import palaster.bb.api.capabilities.entities.IRPG;
@@ -18,7 +16,6 @@ import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityProvider
 import palaster.bb.core.helpers.BBPlayerHelper;
 import palaster.bb.entities.careers.CareerBloodSorcerer;
 import palaster.bb.items.BBItems;
-import palaster.bb.libs.LibResource;
 
 public class EntityDemonicBankTeller extends EntityLiving {
 
@@ -78,9 +75,7 @@ public class EntityDemonicBankTeller extends EntityLiving {
 					}
             } else {
                 if(player.isSneaking()) {
-                    setDead();
-                    EntityItem bankID = new EntityItem(worldObj, player.posX, player.posY, player.posZ, new ItemStack(BBItems.bbResources, 1, 1));
-                    worldObj.spawnEntityInWorld(bankID);
+                    setDead();	
                     return EnumActionResult.SUCCESS;
                 } else {
                 	final IRPG rpg = RPGCapabilityProvider.get(player);
@@ -97,7 +92,4 @@ public class EntityDemonicBankTeller extends EntityLiving {
         }
         return super.applyPlayerInteraction(player, vec, stack, hand);
     }
-    
-    @Override
-    protected ResourceLocation getLootTable() { return LibResource.DEMONIC_BANK_TELLER_LOOT; }
 }

@@ -177,7 +177,7 @@ public class BBEventHandler {
 									if(rpgAttacker.getCareer() != null && rpgAttacker.getCareer() instanceof CareerUnkindled)
 										((CareerUnkindled) rpgAttacker.getCareer()).addSoul(((CareerUnkindled) rpg.getCareer()).getSoul());
 							} else if(((CareerUnkindled) rpg.getCareer()).getSoul() > 0)
-								e.getEntityLiving().worldObj.spawnEntityInWorld(new EntityItem(e.getEntityLiving().worldObj, e.getEntityLiving().posX, e.getEntityLiving().posY, e.getEntityLiving().posZ, NBTHelper.setIntegerToItemStack(new ItemStack(BBItems.bbResources, 1, 6), ItemBBResources.TAG_INT_SOUL_AMOUNT, ((CareerUnkindled) rpg.getCareer()).getSoul())));
+								e.getEntityLiving().worldObj.spawnEntityInWorld(new EntityItem(e.getEntityLiving().worldObj, e.getEntityLiving().posX, e.getEntityLiving().posY, e.getEntityLiving().posZ, NBTHelper.setIntegerToItemStack(new ItemStack(BBItems.bbResources, 1, 4), ItemBBResources.TAG_INT_SOUL_AMOUNT, ((CareerUnkindled) rpg.getCareer()).getSoul())));
 							((CareerUnkindled) rpg.getCareer()).setSoul(0);
 						}
 						if(rpg.getCareer() instanceof CareerGod)
@@ -213,7 +213,7 @@ public class BBEventHandler {
 							}
 					if(p.getActivePotionEffect(BBPotions.sandBody) != null)
 						if(e.getSource().getSourceOfDamage() instanceof EntityPlayer) {
-							((EntityPlayer) e.getSource().getSourceOfDamage()).inventory.addItemStackToInventory(new ItemStack(BBItems.bbResources, 1, 5));
+							((EntityPlayer) e.getSource().getSourceOfDamage()).inventory.addItemStackToInventory(new ItemStack(BBItems.bbResources, 1, 3));
 							e.setCanceled(true);
 						} else if(e.getSource().getSourceOfDamage() instanceof EntityLiving) {
 							((EntityLiving) e.getSource().getSourceOfDamage()).addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 600, 2, false, true));

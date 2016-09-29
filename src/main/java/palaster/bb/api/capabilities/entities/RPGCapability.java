@@ -13,8 +13,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
-import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityDefault;
-import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityProvider;
 import palaster.bb.api.rpg.IRPGCareer;
 
 public class RPGCapability {
@@ -91,12 +89,6 @@ public class RPGCapability {
 		
 		@Override
 		public int getDexterity() { return dexterity; }
-		
-		@Override
-		public void changeCareer(IRPGCareer career) {
-			this.career.leaveCareer();
-			setCareer(career);
-		}
 		
 		@Override
 		public void setCareer(IRPGCareer career) { this.career = career; }
@@ -250,7 +242,7 @@ public class RPGCapability {
 		@Override
 		public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
 			if(RPG_CAP != null && capability == RPG_CAP)
-	            return (T) rpg;
+	            return RPG_CAP.cast(rpg);
 	        return null;
 		}
 

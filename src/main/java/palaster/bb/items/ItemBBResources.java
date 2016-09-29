@@ -16,14 +16,10 @@ import net.minecraft.init.MobEffects;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
@@ -38,15 +34,14 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import palaster.bb.BloodBank;
 import palaster.bb.api.capabilities.entities.IRPG;
 import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityProvider;
-import palaster.bb.core.helpers.NBTHelper;
 import palaster.bb.core.helpers.BBPlayerHelper;
-import palaster.bb.entities.EntityDemonicBankTeller;
+import palaster.bb.core.helpers.NBTHelper;
 import palaster.bb.entities.careers.CareerBloodSorcerer;
 import palaster.bb.entities.careers.CareerUnkindled;
 
 public class ItemBBResources extends ItemModSpecial {
 	
-	public static final String[] NAMES = {"bankContract", "bankID", "wormEater", "vampireSigil", "urn", "denseSandParticle", "soul", "itztiliSoul", "soulGem", "pinkSlip"};
+	public static final String[] NAMES = {"wormEater", "vampireSigil", "denseSandParticle", "soul", "itztiliSoul", "soulGem", "pinkSlip"};
 	
 	public static final String TAG_BOOLEAN_VAMPIRE_SIGIL = "HasVampireSigil";
 	public static final String TAG_INT_SOUL_AMOUNT = "SoulAmount";
@@ -61,11 +56,11 @@ public class ItemBBResources extends ItemModSpecial {
 	public void onLivingAttack(LivingAttackEvent e) {
 		if(!e.getEntityLiving().worldObj.isRemote) {
 			if(e.getEntityLiving() instanceof EntityPlayer)
-				if(e.getSource().isMagicDamage() && ((EntityPlayer) e.getEntityLiving()).inventory.hasItemStack(new ItemStack(BBItems.bbResources, 1, 2)))
+				if(e.getSource().isMagicDamage() && ((EntityPlayer) e.getEntityLiving()).inventory.hasItemStack(new ItemStack(BBItems.bbResources, 1, 0)))
 					e.setCanceled(true);
-			if(e.getSource().getSourceOfDamage() instanceof EntityPlayer)
+			if(e.getSource().getEntity() instanceof EntityPlayer)
 				if(((EntityPlayer )e.getSource().getSourceOfDamage()).getHeldItemMainhand() != null && ((EntityPlayer)e.getSource().getSourceOfDamage()).getHeldItemMainhand().getItem() instanceof ItemSword)
-					if(((EntityPlayer) e.getSource().getSourceOfDamage()).getHeldItem(EnumHand.OFF_HAND) != null && ((EntityPlayer) e.getSource().getSourceOfDamage()).getHeldItem(EnumHand.OFF_HAND).getItem() == new ItemStack(BBItems.bbResources, 1, 3).getItem() && ((EntityPlayer) e.getSource().getSourceOfDamage()).getHeldItem(EnumHand.OFF_HAND).getItemDamage() == 3) {
+					if(((EntityPlayer) e.getSource().getSourceOfDamage()).getHeldItem(EnumHand.OFF_HAND) != null && ((EntityPlayer) e.getSource().getSourceOfDamage()).getHeldItem(EnumHand.OFF_HAND).getItem() == new ItemStack(BBItems.bbResources, 1, 1).getItem() && ((EntityPlayer) e.getSource().getSourceOfDamage()).getHeldItem(EnumHand.OFF_HAND).getItemDamage() == 1) {
 						final IRPG rpg = RPGCapabilityProvider.get((EntityPlayer) e.getSource().getSourceOfDamage());
 						if(rpg != null)
 							if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerBloodSorcerer)
@@ -78,7 +73,7 @@ public class ItemBBResources extends ItemModSpecial {
 	public void onPlayerTick(TickEvent.PlayerTickEvent e) {
 		if(!e.player.worldObj.isRemote)
 			if(e.phase == TickEvent.Phase.START)
-				if(e.player.inventory.hasItemStack(new ItemStack(BBItems.bbResources, 1, 2)))
+				if(e.player.inventory.hasItemStack(new ItemStack(BBItems.bbResources, 1, 0)))
 					e.player.clearActivePotions();
 	}
     
@@ -91,21 +86,21 @@ public class ItemBBResources extends ItemModSpecial {
     		    		if(e.getEntityPlayer().getHeldItem(e.getHand()) != null && e.getEntityPlayer().getHeldItem(e.getHand()).getItem() == Items.DIAMOND) {
     		    			if(e.getEntityPlayer().getHeldItemOffhand().stackSize > 1) {
     							e.getEntityPlayer().getHeldItemOffhand().stackSize--;
-    		            		ItemStack soulGem = new ItemStack(BBItems.bbResources, 1, 8);
+    		            		ItemStack soulGem = new ItemStack(BBItems.bbResources, 1, 5);
     		            		if(!e.getEntityPlayer().inventory.addItemStackToInventory(soulGem))
     		            			e.getWorld().spawnEntityInWorld(new EntityItem(e.getWorld(), e.getEntityPlayer().posX, e.getEntityPlayer().posY, e.getEntityPlayer().posZ, soulGem));
     		            	} else
-    		            		e.getEntityPlayer().setHeldItem(EnumHand.OFF_HAND, new ItemStack(BBItems.bbResources, 1, 8));
+    		            		e.getEntityPlayer().setHeldItem(EnumHand.OFF_HAND, new ItemStack(BBItems.bbResources, 1, 5));
     		    		}
     		    	} else if(e.getHand() == EnumHand.MAIN_HAND) {
     		    		if(e.getEntityPlayer().getHeldItem(e.getHand()) != null && e.getEntityPlayer().getHeldItem(e.getHand()).getItem() == Items.DIAMOND) {
     		    			if(e.getEntityPlayer().getHeldItemMainhand().stackSize > 1) {
     							e.getEntityPlayer().getHeldItemMainhand().stackSize--;
-    		            		ItemStack soulGem = new ItemStack(BBItems.bbResources, 1, 8);
+    		            		ItemStack soulGem = new ItemStack(BBItems.bbResources, 1, 5);
     		            		if(!e.getEntityPlayer().inventory.addItemStackToInventory(soulGem))
     		            			e.getWorld().spawnEntityInWorld(new EntityItem(e.getWorld(), e.getEntityPlayer().posX, e.getEntityPlayer().posY, e.getEntityPlayer().posZ, soulGem));
     		            	} else
-    		            		e.getEntityPlayer().setHeldItem(EnumHand.MAIN_HAND, new ItemStack(BBItems.bbResources, 1, 8));
+    		            		e.getEntityPlayer().setHeldItem(EnumHand.MAIN_HAND, new ItemStack(BBItems.bbResources, 1, 5));
     		    		}
     		    	}
     }
@@ -115,7 +110,7 @@ public class ItemBBResources extends ItemModSpecial {
 		if(!e.getWorld().isRemote && e.getSide().isServer())
 			if(e.getHand() == EnumHand.MAIN_HAND)
 				if(e.getEntityPlayer().getHeldItemMainhand() != null && e.getEntityPlayer().getHeldItemMainhand().getItem() instanceof ItemSword)
-					if(e.getEntityPlayer().getHeldItem(EnumHand.OFF_HAND) != null && e.getEntityPlayer().getHeldItem(EnumHand.OFF_HAND).getItem() == new ItemStack(BBItems.bbResources, 1, 3).getItem() && e.getEntityPlayer().getHeldItem(EnumHand.OFF_HAND).getItemDamage() == 3) {
+					if(e.getEntityPlayer().getHeldItem(EnumHand.OFF_HAND) != null && e.getEntityPlayer().getHeldItem(EnumHand.OFF_HAND).getItem() == new ItemStack(BBItems.bbResources, 1, 1).getItem() && e.getEntityPlayer().getHeldItem(EnumHand.OFF_HAND).getItemDamage() == 1) {
 						final IRPG rpg = RPGCapabilityProvider.get(e.getEntityPlayer());
 						if(rpg != null)
 							if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerBloodSorcerer) {
@@ -130,7 +125,7 @@ public class ItemBBResources extends ItemModSpecial {
 		if(e.getLeft() != null && e.getRight() != null) {
 			ItemStack copy = e.getLeft().copy();
 			if(e.getLeft().getItem().isRepairable() && !(NBTHelper.getBooleanFromItemStack(e.getLeft(), TAG_BOOLEAN_VAMPIRE_SIGIL)))
-				if(e.getRight().getItem() instanceof ItemBBResources && e.getRight().getItemDamage() == 3) {
+				if(e.getRight().getItem() instanceof ItemBBResources && e.getRight().getItemDamage() == 1) {
 					e.setMaterialCost(1);
 					e.setCost(1);
 					e.setOutput(NBTHelper.setBooleanToItemStack(copy, TAG_BOOLEAN_VAMPIRE_SIGIL, true));
@@ -148,41 +143,14 @@ public class ItemBBResources extends ItemModSpecial {
     @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
-    	if(stack.hasTagCompound() && stack.getItemDamage() == 6)
+    	if(stack.hasTagCompound() && stack.getItemDamage() == 3)
     		tooltip.add(I18n.format("bb.undead.soulsAmount") + " : " + NBTHelper.getIntegerFromItemStack(stack, TAG_INT_SOUL_AMOUNT));
     }
 
     @Override
     public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
         if(!worldIn.isRemote)
-            if(itemStackIn.getItemDamage() == 0) {
-            	final IRPG rpg = RPGCapabilityProvider.get(playerIn);
-				if(rpg != null) {
-	                if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerUnkindled)
-	                    BBPlayerHelper.sendChatMessageToPlayer(playerIn, net.minecraft.util.text.translation.I18n.translateToLocal("bb.bank.undead"));
-	                else if(rpg.getCareer() == null || !(rpg.getCareer() instanceof CareerBloodSorcerer)) {
-	                    rpg.setCareer(new CareerBloodSorcerer(2000, 0, null));
-	                    BBPlayerHelper.sendChatMessageToPlayer(playerIn, net.minecraft.util.text.translation.I18n.translateToLocal("bb.bank.join"));
-	                    return ActionResult.newResult(EnumActionResult.SUCCESS, new ItemStack(this, 1, 1));
-	                } else
-	                    BBPlayerHelper.sendChatMessageToPlayer(playerIn, net.minecraft.util.text.translation.I18n.translateToLocal("bb.bank.refuse"));
-				}
-            } else if(itemStackIn.getItemDamage() == 4) {
-            	final IRPG rpg = RPGCapabilityProvider.get(playerIn);
-            	if(rpg != null) {
-            		if(rpg.getCareer() == null || !(rpg.getCareer() instanceof CareerUnkindled)) {
-                		rpg.setCareer(new CareerUnkindled(0, 0, 1000));
-                		playerIn.attackEntityFrom(DamageSource.inFire, playerIn.getMaxHealth() + 5f);
-                		return ActionResult.newResult(EnumActionResult.SUCCESS, null);
-                	}
-            		if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerBloodSorcerer) {
-            			rpg.setCareer(new CareerUnkindled(0, 0, 1000));
-            			BBPlayerHelper.sendChatMessageToPlayer(playerIn, net.minecraft.util.text.translation.I18n.translateToLocal("bb.bank.becomeUndead"));
-            			playerIn.attackEntityFrom(DamageSource.inFire, playerIn.getMaxHealth() + 5f);
-            			return ActionResult.newResult(EnumActionResult.SUCCESS, null);
-                	}
-            	}
-            } else if(itemStackIn.getItemDamage() == 6) {
+        	if(itemStackIn.getItemDamage() == 3) {
             	if(itemStackIn.hasTagCompound()) {
             		final IRPG rpg = RPGCapabilityProvider.get(playerIn);
             		if(rpg != null)
@@ -191,7 +159,7 @@ public class ItemBBResources extends ItemModSpecial {
             				return ActionResult.newResult(EnumActionResult.SUCCESS, null);
                 		}
             	}
-            } else if(itemStackIn.getItemDamage() == 9) {
+            } else if(itemStackIn.getItemDamage() == 6) {
             	final IRPG rpg = RPGCapabilityProvider.get(playerIn);
         		if(rpg != null)
         			if(rpg.getCareer() != null) {
@@ -205,26 +173,9 @@ public class ItemBBResources extends ItemModSpecial {
     }
 
     @Override
-    public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-        if(!worldIn.isRemote)
-            if(stack.getItemDamage() == 1) {
-            	final IRPG rpg = RPGCapabilityProvider.get(playerIn);
-				if(rpg != null)
-					if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerBloodSorcerer) {
-	                    EntityDemonicBankTeller dbt = new EntityDemonicBankTeller(worldIn);
-	                    dbt.setPosition(pos.getX(), pos.getY() + 1, pos.getZ());
-	                    worldIn.spawnEntityInWorld(dbt);
-	                    playerIn.setHeldItem(hand, null);
-	                    return EnumActionResult.SUCCESS;
-	                }
-            }
-        return EnumActionResult.PASS;
-    }
-    
-    @Override
     public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
     	if(!worldIn.isRemote)
-    		if(stack.getItemDamage() == 5 && entityIn instanceof EntityPlayer)
+    		if(stack.getItemDamage() == 2 && entityIn instanceof EntityPlayer)
     			if(((EntityPlayer) entityIn).getActivePotionEffect(MobEffects.SLOWNESS) != null) {
     				WeakReference<PotionEffect> pe = new WeakReference<PotionEffect>(((EntityPlayer) entityIn).getActivePotionEffect(MobEffects.SLOWNESS));
     				((EntityPlayer) entityIn).removeActivePotionEffect(MobEffects.SLOWNESS);

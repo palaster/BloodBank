@@ -45,7 +45,8 @@ public class BBItems {
 	purifyingBook,
 	salt,
 	soulCoin,
-	whip;
+	whip,
+	careerPamphlet;
 
 	public static ItemArmor
 	boundHelmet,
@@ -96,6 +97,7 @@ public class BBItems {
 		salt = new ItemSalt("salt");
 		soulCoin = new ItemMod("soulCoin");
 		whip = new ItemWhip("whip");
+		careerPamphlet = new ItemCareerPamphlet("careerPamphlet");
 
 		boundHelmet = new ItemBoundArmor(genericUnbreakableDiamond, 0, EntityEquipmentSlot.HEAD);
 		boundChestplate = new ItemBoundArmor(genericUnbreakableDiamond, 0, EntityEquipmentSlot.CHEST);

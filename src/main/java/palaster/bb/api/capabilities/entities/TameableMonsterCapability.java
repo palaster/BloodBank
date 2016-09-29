@@ -69,7 +69,7 @@ public class TameableMonsterCapability {
 		@Override
 		public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
 			if(TAMEABLE_MONSTER_CAP != null && capability == TAMEABLE_MONSTER_CAP)
-	            return (T) tameableMonster;
+	            return TAMEABLE_MONSTER_CAP.cast(tameableMonster);
 	        return null;
 		}
 
