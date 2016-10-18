@@ -12,7 +12,5 @@ import palaster.bb.libs.LibMod;
 @SideOnly(Side.CLIENT)
 public class BBGuiConfig extends GuiConfig {
 
-    public BBGuiConfig(GuiScreen guiScreen) {
-        super(guiScreen, new ConfigElement(BBEventHandler.config.getCategory(Configuration.CATEGORY_GENERAL)).getChildElements(), LibMod.MODID, false, false, GuiConfig.getAbridgedConfigPath(BBEventHandler.config.toString()));
-    }
+    public BBGuiConfig(GuiScreen guiScreen) { super(guiScreen, new ConfigElement(BBEventHandler.config.getCategory(Configuration.CATEGORY_GENERAL)).getChildElements(), LibMod.MODID, false, false, GuiConfig.getAbridgedConfigPath(BBEventHandler.config.toString())); }
 }

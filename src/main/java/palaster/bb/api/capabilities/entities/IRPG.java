@@ -1,15 +1,16 @@
 package palaster.bb.api.capabilities.entities;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import palaster.bb.api.rpg.IRPGCareer;
 
 public interface IRPG {
 	
-	public void setConstitution(int amt);
+	public void setConstitution(EntityPlayer player, int amt);
 	
 	public int getConstitution();
 	
-	public void setStrength(int amt);
+	public void setStrength(EntityPlayer player, int amt);
 	
 	public int getStrength();
 	
@@ -17,15 +18,25 @@ public interface IRPG {
 	
 	public int getDefense();
 	
-	public void setDexterity(int amt);
+	public void setDexterity(EntityPlayer player, int amt);
 	
 	public int getDexterity();
 	
-	void setCareer(IRPGCareer career);
+	public void setIntelligence(int amt);
+	
+	public int getIntelligence();
+	
+	public void setMagick(int amt);
+	
+	public int getMagick();
+	
+	public int getMaxMagick();
+	
+	void setCareer(EntityPlayer player, IRPGCareer career);
 	
 	IRPGCareer getCareer();
 	
 	NBTTagCompound saveNBT();
 
-    void loadNBT(NBTTagCompound nbt);
+    void loadNBT(EntityPlayer player, NBTTagCompound nbt);
 }

@@ -6,18 +6,20 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import palaster.libpal.items.ItemModSpecial;
 
 public abstract class ItemModStaff extends ItemModSpecial {
 	
 	public static String tag_number = "StaffPower";
 	public String[] powers = new String[] {};
 
-	public ItemModStaff(String unlocalizedName) { this(unlocalizedName, 256); }
+	public ItemModStaff(ResourceLocation rl) { this(rl, 256); }
 	
-	public ItemModStaff(String unlocalizedName, int maxDamage) { super(unlocalizedName, maxDamage); }
+	public ItemModStaff(ResourceLocation rl, int maxDamage) { super(rl, maxDamage); }
 
 	@Override
 	@SideOnly(Side.CLIENT)

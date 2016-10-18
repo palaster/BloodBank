@@ -2,6 +2,7 @@ package palaster.bb.blocks.tile;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.ITickable;
+import palaster.libpal.blocks.tile.TileEntityMod;
 
 public class TileEntityBloodTicker extends TileEntityMod {
 	

@@ -2,7 +2,6 @@ package palaster.bb.items;
 
 import java.util.List;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -12,50 +11,24 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.eventhandler.EventPriority;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import palaster.bb.BloodBank;
 import palaster.bb.api.capabilities.entities.IRPG;
 import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityProvider;
 import palaster.bb.core.helpers.NBTHelper;
-import palaster.bb.core.proxy.ClientProxy;
 import palaster.bb.entities.careers.CareerBloodSorcerer;
 import palaster.bb.entities.knowledge.BBKnowledge;
+import palaster.libpal.items.ItemModSpecial;
 
 public class ItemBookBlood extends ItemModSpecial {
 	
 	public static final String TAG_INT_KNOWLEDGE_PIECE = "KnowledgePiece";
 
-    public ItemBookBlood(String unlocalizedName) {
-        super(unlocalizedName);
-        MinecraftForge.EVENT_BUS.register(this);
-    }
-    
-    @SideOnly(Side.CLIENT)
-	@SubscribeEvent(priority = EventPriority.NORMAL)
-	public void onRenderGameOverlay(RenderGameOverlayEvent.Post e) {
-		if(Minecraft.getMinecraft().currentScreen == null && Minecraft.getMinecraft().inGameHasFocus)
-			if(e.getType() == ElementType.TEXT && Minecraft.getMinecraft().fontRendererObj != null) {
-				final IRPG rpg = RPGCapabilityProvider.get(Minecraft.getMinecraft().thePlayer);
-				if(rpg != null)
-					if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerBloodSorcerer) {
-						if(Minecraft.getMinecraft().thePlayer.getHeldItemOffhand() != null && Minecraft.getMinecraft().thePlayer.getHeldItemOffhand().getItem() == this && Minecraft.getMinecraft().thePlayer.getHeldItemOffhand().hasTagCompound()) {
-							Minecraft.getMinecraft().fontRendererObj.drawString(I18n.format("bb.knowledgePiece") + ": " + I18n.format(BBKnowledge.getKnowledgePiece(NBTHelper.getIntegerFromItemStack(Minecraft.getMinecraft().thePlayer.getHeldItemOffhand(), TAG_INT_KNOWLEDGE_PIECE)).getName()), 2, 2, 0x8A0707);
-							ClientProxy.isBloodBookRenderingHUD = true;
-						} else if(Minecraft.getMinecraft().thePlayer.getHeldItemOffhand() == null)
-							ClientProxy.isBloodBookRenderingHUD = false;
-						if(ClientProxy.isStaffRenderingHUD && Minecraft.getMinecraft().thePlayer.getHeldItemMainhand() != null && Minecraft.getMinecraft().thePlayer.getHeldItemMainhand().getItem() == this && Minecraft.getMinecraft().thePlayer.getHeldItemMainhand().hasTagCompound())
-							Minecraft.getMinecraft().fontRendererObj.drawString(I18n.format("bb.knowledgePiece") + ": " + I18n.format(BBKnowledge.getKnowledgePiece(NBTHelper.getIntegerFromItemStack(Minecraft.getMinecraft().thePlayer.getHeldItemMainhand(), TAG_INT_KNOWLEDGE_PIECE)).getName()), 2, 10, 0x8A0707);
-					}
-			}
-	}
+    public ItemBookBlood(ResourceLocation rl) { super(rl); }
     
     @Override
     public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {

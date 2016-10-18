@@ -13,21 +13,23 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
+import palaster.libpal.items.ItemModSpecial;
 
 public class ItemAnimalHerder extends ItemModSpecial {
 
 	private final int range = 5;
 
-	public ItemAnimalHerder(String unlocalizedName) {
-		super(unlocalizedName);
+	public ItemAnimalHerder(ResourceLocation rl) {
+		super(rl);
 		MinecraftForge.EVENT_BUS.register(this);
 	}
-	
+
 	// TODO: This doesn't work in single-player worlds.
 	@SubscribeEvent
 	public void onPlayerLogOff(PlayerLoggedOutEvent e) {
@@ -35,7 +37,6 @@ public class ItemAnimalHerder extends ItemModSpecial {
 			for(Entity entity : e.player.getPassengers())
 				entity.dismountRidingEntity();
 	}
-	
 
 	@Override
 	public boolean itemInteractionForEntity(ItemStack stack, EntityPlayer playerIn, EntityLivingBase target, EnumHand hand) {
@@ -61,7 +62,7 @@ public class ItemAnimalHerder extends ItemModSpecial {
 		}
 		return false;
 	}
-	
+
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
 		if(playerIn.getPassengers() != null)

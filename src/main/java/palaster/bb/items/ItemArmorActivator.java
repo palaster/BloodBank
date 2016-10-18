@@ -5,12 +5,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import palaster.bb.api.capabilities.items.ISpecialArmorAbility;
+import palaster.libpal.items.ItemModSpecial;
 
 public class ItemArmorActivator extends ItemModSpecial {
 
-	public ItemArmorActivator(String unlocalizedName) { super(unlocalizedName); }
+	public ItemArmorActivator(ResourceLocation rl) { super(rl); }
 	
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {

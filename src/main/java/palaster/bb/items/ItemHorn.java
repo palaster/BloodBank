@@ -10,12 +10,14 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
+import palaster.libpal.items.ItemModSpecial;
 
 public class ItemHorn extends ItemModSpecial{
 
-	public ItemHorn(String unlocalizedName) { super(unlocalizedName); }
+	public ItemHorn(ResourceLocation rl) { super(rl); }
 	
 	@Override
 	public void onUsingTick(ItemStack stack, EntityLivingBase player, int count) {

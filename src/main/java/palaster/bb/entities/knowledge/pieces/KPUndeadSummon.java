@@ -9,7 +9,6 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import palaster.bb.api.capabilities.entities.IRPG;
 import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityProvider;
@@ -40,7 +39,7 @@ public class KPUndeadSummon implements IKnowledgePiece {
 							return EnumActionResult.SUCCESS;
 						}
 				}
-			BBPlayerHelper.sendChatMessageToPlayer(playerIn, I18n.translateToLocal("bb.undead.cantFind"));
+			BBPlayerHelper.sendChatMessageToPlayer(playerIn, net.minecraft.util.text.translation.I18n.translateToLocal("bb.undead.cantFind"));
 		}
 		return EnumActionResult.PASS;
 	}

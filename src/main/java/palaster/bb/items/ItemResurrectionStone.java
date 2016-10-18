@@ -9,17 +9,18 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import palaster.bb.core.helpers.BBPlayerHelper;
 import palaster.bb.world.BBWorldSaveData;
+import palaster.libpal.items.ItemModSpecial;
 
 public class ItemResurrectionStone extends ItemModSpecial {
 	
 	public static final String TAG_INT_SPIRIT = "SpiritNumber";
 
-	public ItemResurrectionStone(String unlocalizedName) { super(unlocalizedName); }
+	public ItemResurrectionStone(ResourceLocation rl) { super(rl); }
 	
 	@Override
 	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
@@ -70,7 +71,7 @@ public class ItemResurrectionStone extends ItemModSpecial {
 					if(entityTag != null) {
 						EntityLiving li = (EntityLiving) EntityList.createEntityFromNBT(entityTag, worldIn);
 						if(li != null) {
-							BBPlayerHelper.sendChatMessageToPlayer(playerIn, I18n.translateToLocal("bb.misc.deadEntity") + " : " + li.getName());
+							BBPlayerHelper.sendChatMessageToPlayer(playerIn, net.minecraft.util.text.translation.I18n.translateToLocal("bb.misc.deadEntity") + " : " + li.getName());
 							return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
 						}
 					}

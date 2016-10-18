@@ -1,5 +1,7 @@
 package palaster.bb.api.rpg;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
@@ -9,7 +11,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public interface IRPGCareer {
 	
-	void leaveCareer();
+	void leaveCareer(@Nullable EntityPlayer player);
 	
 	String getUnlocalizedName();
 	
@@ -18,5 +20,5 @@ public interface IRPGCareer {
     void loadNBT(NBTTagCompound nbt);
     
     @SideOnly(Side.CLIENT)
-    void drawExtraInformation(GuiContainer guiContainer, EntityPlayer player, FontRenderer fontRendererObj, int mouseX, int mouseY);
+    void drawExtraInformation(GuiContainer guiContainer, @Nullable EntityPlayer player, FontRenderer fontRendererObj, int mouseX, int mouseY);
 }

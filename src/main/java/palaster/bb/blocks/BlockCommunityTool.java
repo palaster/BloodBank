@@ -9,6 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
@@ -16,11 +17,12 @@ import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import palaster.bb.blocks.tile.TileEntityCommunityTool;
+import palaster.libpal.blocks.BlockModContainer;
 
 public class BlockCommunityTool extends BlockModContainer {
 
-	public BlockCommunityTool(String unlocalizedName, Material material) {
-		super(unlocalizedName, material);
+	public BlockCommunityTool(ResourceLocation rl, Material material) {
+		super(rl, material);
 		setBlockUnbreakable();
 		MinecraftForge.EVENT_BUS.register(this);
 	}

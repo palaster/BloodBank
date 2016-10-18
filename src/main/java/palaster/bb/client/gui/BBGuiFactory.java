@@ -15,9 +15,7 @@ public class BBGuiFactory implements IModGuiFactory {
     public void initialize(Minecraft minecraftInstance) {}
 
     @Override
-    public Class<? extends GuiScreen> mainConfigGuiClass() {
-        return BBGuiConfig.class;
-    }
+    public Class<? extends GuiScreen> mainConfigGuiClass() { return BBGuiConfig.class; }
 
     @Override
     public Set<RuntimeOptionCategoryElement> runtimeGuiCategories() { return null; }

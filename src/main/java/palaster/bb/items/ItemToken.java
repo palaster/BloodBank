@@ -23,13 +23,14 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import palaster.bb.api.BBApi;
 import palaster.bb.blocks.BlockSlotMachine;
+import palaster.libpal.items.ItemModSpecial;
 
 public class ItemToken extends ItemModSpecial {
 	
 	public static final String TAG_INT_TOKEN = "TokenNumber";
 
-	public ItemToken(String unlocalizedName) {
-		super(unlocalizedName, 2);
+	public ItemToken(ResourceLocation rl) {
+		super(rl, 2);
 		addPropertyOverride(new ResourceLocation("type"), new IItemPropertyGetter() {
             @SideOnly(Side.CLIENT)
             public float apply(ItemStack stack, @Nullable World worldIn, @Nullable EntityLivingBase entityIn) { return stack.getItemDamage(); }

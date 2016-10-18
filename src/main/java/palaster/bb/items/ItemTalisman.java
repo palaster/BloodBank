@@ -19,11 +19,12 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import palaster.bb.entities.EntityTalisman;
+import palaster.libpal.items.ItemModSpecial;
 
 public class ItemTalisman extends ItemModSpecial {
 
-	public ItemTalisman(String unlocalizedName) {
-		super(unlocalizedName, 3, 64);
+	public ItemTalisman(ResourceLocation rl) {
+		super(rl, 3, 64);
 		addPropertyOverride(new ResourceLocation("type"), new IItemPropertyGetter() {
             @SideOnly(Side.CLIENT)
             public float apply(ItemStack stack, @Nullable World worldIn, @Nullable EntityLivingBase entityIn) { return stack.getItemDamage(); }

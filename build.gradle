@@ -1,10 +1,7 @@
 buildscript {
     repositories {
         jcenter()
-        maven {
-            name = "forge"
-            url = "http://files.minecraftforge.net/maven"
-        }
+        maven { url = "http://files.minecraftforge.net/maven" }
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
@@ -18,13 +15,7 @@ repositories {
 }
 
 apply plugin: 'net.minecraftforge.gradle.forge'
-
-/*
-// for people who want stable - not yet functional for MC 1.8.8 - we require the forgegradle 2.1 snapshot
-plugins {
-    id "net.minecraftforge.gradle.forge" version "2.0.2"
-}
-*/
+//Only edit below this line, the above code adds and enables the nessasary things for Forge to be setup.
 
 ext.configFile = file('build.properties')
 ext.config = parseConfig(configFile)
@@ -32,6 +23,11 @@ ext.config = parseConfig(configFile)
 version = "${config.version}"
 group= "palaster.bb"
 archivesBaseName = "BloodBank"
+
+sourceCompatibility = targetCompatibility = "1.6" // Need this here so eclipse task generates correctly.
+compileJava {
+    sourceCompatibility = targetCompatibility = "1.6"
+}
 
 minecraft {
     version = "${config.mc_version}-${config.forge_version}"

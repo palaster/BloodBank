@@ -10,14 +10,16 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import palaster.bb.api.capabilities.items.IFlameSpell;
 import palaster.bb.entities.effects.BBPotions;
+import palaster.libpal.items.ItemModSpecial;
 
 public class ItemSacredFlame extends ItemModSpecial implements IFlameSpell {
 
-    public ItemSacredFlame(String unlocalizedName) { super(unlocalizedName); }
+    public ItemSacredFlame(ResourceLocation rl) { super(rl); }
 
     @Override
     public int getSpellCost() { return 25; }

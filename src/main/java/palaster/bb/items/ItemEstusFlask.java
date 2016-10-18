@@ -19,13 +19,14 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import palaster.bb.api.capabilities.entities.IRPG;
 import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityProvider;
 import palaster.bb.entities.careers.CareerUnkindled;
+import palaster.libpal.items.ItemModSpecial;
 
 public class ItemEstusFlask extends ItemModSpecial {
 	
 	public static final String TAG_INT_USES = "EstusUses";
 	
-	public ItemEstusFlask(String unlocalizedName) {
-		super(unlocalizedName, 1);
+	public ItemEstusFlask(ResourceLocation rl) {
+		super(rl, 1);
 		addPropertyOverride(new ResourceLocation("type"), new IItemPropertyGetter() {
             @SideOnly(Side.CLIENT)
             public float apply(ItemStack stack, @Nullable World worldIn, @Nullable EntityLivingBase entityIn) { return stack.getItemDamage(); }

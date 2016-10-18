@@ -20,6 +20,7 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
@@ -36,8 +37,10 @@ import palaster.bb.api.capabilities.entities.IRPG;
 import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityProvider;
 import palaster.bb.core.helpers.BBPlayerHelper;
 import palaster.bb.core.helpers.NBTHelper;
+import palaster.bb.core.proxy.CommonProxy;
 import palaster.bb.entities.careers.CareerBloodSorcerer;
 import palaster.bb.entities.careers.CareerUnkindled;
+import palaster.libpal.items.ItemModSpecial;
 
 public class ItemBBResources extends ItemModSpecial {
 	
@@ -46,12 +49,12 @@ public class ItemBBResources extends ItemModSpecial {
 	public static final String TAG_BOOLEAN_VAMPIRE_SIGIL = "HasVampireSigil";
 	public static final String TAG_INT_SOUL_AMOUNT = "SoulAmount";
 
-    public ItemBBResources(String unlocalizedName) {
-        super(unlocalizedName);
+    public ItemBBResources(ResourceLocation rl) {
+        super(rl);
         setHasSubtypes(true);
         MinecraftForge.EVENT_BUS.register(this);
     }
-    
+
     @SubscribeEvent
 	public void onLivingAttack(LivingAttackEvent e) {
 		if(!e.getEntityLiving().worldObj.isRemote) {
@@ -156,17 +159,19 @@ public class ItemBBResources extends ItemModSpecial {
             		if(rpg != null)
             			if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerUnkindled) {
             				((CareerUnkindled) rpg.getCareer()).addSoul(itemStackIn.getTagCompound().getInteger(TAG_INT_SOUL_AMOUNT));
-            				return ActionResult.newResult(EnumActionResult.SUCCESS, null);
+            				playerIn.setHeldItem(hand, null);
+            				return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
                 		}
             	}
             } else if(itemStackIn.getItemDamage() == 6) {
             	final IRPG rpg = RPGCapabilityProvider.get(playerIn);
         		if(rpg != null)
         			if(rpg.getCareer() != null) {
-        				rpg.setCareer(null);
-        				BloodBank.proxy.syncPlayerRPGCapabilitiesToClient(playerIn);
+        				rpg.setCareer(playerIn, null);
+        				CommonProxy.syncPlayerRPGCapabilitiesToClient(playerIn);
         				BBPlayerHelper.sendChatMessageToPlayer(playerIn, net.minecraft.util.text.translation.I18n.translateToLocal("bb.career.fired"));
-        				return ActionResult.newResult(EnumActionResult.SUCCESS, null);
+        				playerIn.setHeldItem(hand, null);
+        				return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
             		}
             }
         return super.onItemRightClick(itemStackIn, worldIn, playerIn, hand);

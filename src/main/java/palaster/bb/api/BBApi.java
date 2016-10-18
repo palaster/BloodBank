@@ -4,14 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.ai.attributes.IAttributeInstance;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import palaster.bb.api.capabilities.entities.IRPG;
-import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityDefault;
-import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityProvider;
 
 public class BBApi {
 

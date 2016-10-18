@@ -3,6 +3,7 @@ package palaster.bb.blocks.tile;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import palaster.bb.items.BBItems;
+import palaster.libpal.blocks.tile.TileEntityModInventory;
 
 public class TileEntityDesalinator extends TileEntityModInventory {
 

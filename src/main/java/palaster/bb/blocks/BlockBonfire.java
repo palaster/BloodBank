@@ -13,6 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import palaster.bb.api.capabilities.entities.IRPG;
@@ -21,11 +22,12 @@ import palaster.bb.entities.careers.CareerUnkindled;
 import palaster.bb.items.BBItems;
 import palaster.bb.items.ItemEstusFlask;
 import palaster.bb.world.BBWorldSaveData;
+import palaster.libpal.blocks.BlockMod;
 
 public class BlockBonfire extends BlockMod {
 
-    public BlockBonfire(String unlocalizedName, Material material) {
-        super(unlocalizedName, material);
+    public BlockBonfire(ResourceLocation rl, Material material) {
+        super(rl, material);
         setHarvestLevel("axe", 0);
     }
 

@@ -5,7 +5,6 @@ import java.util.List;
 
 import palaster.bb.api.capabilities.items.IKnowledgePiece;
 import palaster.bb.entities.knowledge.pieces.KPBloodHive;
-import palaster.bb.entities.knowledge.pieces.KPBloodLink;
 import palaster.bb.entities.knowledge.pieces.KPBoilingBlood;
 import palaster.bb.entities.knowledge.pieces.KPBoundArmor;
 import palaster.bb.entities.knowledge.pieces.KPCurseBlackTongue;
@@ -47,7 +46,6 @@ public class BBKnowledge {
 
     static {
         addKnowledgePiece(new KPBoilingBlood());
-        addKnowledgePiece(new KPBloodLink());
         addKnowledgePiece(new KPBoundArmor());
         addKnowledgePiece(new KPBloodHive());
         addKnowledgePiece(new KPUndeadSummon());

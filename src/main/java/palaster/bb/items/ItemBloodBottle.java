@@ -4,12 +4,14 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import palaster.bb.api.capabilities.items.IVampiric;
+import palaster.libpal.items.ItemModSpecial;
 
 public class ItemBloodBottle extends ItemModSpecial {
 
-	public ItemBloodBottle(String unlocalizedName) { super(unlocalizedName, 2000); }
+	public ItemBloodBottle(ResourceLocation rl) { super(rl, 2000); }
 	
 	@Override
 	public ItemStack getContainerItem(ItemStack itemStack) { return new ItemStack(Items.GLASS_BOTTLE); }

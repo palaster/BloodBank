@@ -1,5 +1,6 @@
 package palaster.bb.api.capabilities.entities;
 
+import java.lang.ref.WeakReference;
 import java.util.UUID;
 import java.util.concurrent.Callable;
 
@@ -24,7 +25,9 @@ public class RPGCapability {
 				TAG_INT_CONSTITUTION = "ConstitutionInteger",
 				TAG_INT_STRENGTH = "StrengthInteger",
 				TAG_INT_DEFENSE = "DefenseInteger",
-				TAG_INT_DEXTERITY = "DexterityInteger";
+				TAG_INT_DEXTERITY = "DexterityInteger",
+				TAG_INT_INTELLIGENCE = "IntelligenceInteger",
+				TAG_INT_MAGICK = "MagickInteger";
 		public static final int MAX_LEVEL = 99;
 		
 		public static final UUID HEALTH_ID = UUID.fromString("c6531f9f-b737-4cb6-aea1-fd01c25606be"),
@@ -36,29 +39,74 @@ public class RPGCapability {
 		private int constitution,
 		strength,
 		defense,
-		dexterity;
+		dexterity,
+		intelligence,
+		magick;
 		
 		@Override
-		public void setConstitution(int amt) {
+		public void setConstitution(EntityPlayer player, int amt) {
 			if(amt > MAX_LEVEL)
 				constitution = MAX_LEVEL;
 			else if(amt <= 0)
 				constitution = 0;
 			else
 				constitution = amt;
+			if(constitution <= 0) {
+    			IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MAX_HEALTH);
+                try {
+                    iAttributeInstance.removeModifier(iAttributeInstance.getModifier(RPGCapabilityDefault.HEALTH_ID));
+                } catch(Exception e) {}
+    		} else {
+    			IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MAX_HEALTH);
+                try {
+                    iAttributeInstance.removeModifier(iAttributeInstance.getModifier(RPGCapabilityDefault.HEALTH_ID));
+                } catch(Exception e) {}
+                iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.HEALTH_ID, "bb.rpg.constitution", constitution * .4, 0));
+    		}
 		}
 		
 		@Override
 		public int getConstitution() { return constitution; }
 		
 		@Override
-		public void setStrength(int amt) {
+		public void setStrength(EntityPlayer player, int amt) {
 			if(amt > MAX_LEVEL)
 				strength = MAX_LEVEL;
 			else if(amt <= 0)
 				strength = 0;
 			else
 				strength = amt;
+			if(strength <= 0) {
+    			IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ATTACK_DAMAGE);
+                try {
+                    iAttributeInstance.removeModifier(iAttributeInstance.getModifier(RPGCapabilityDefault.STRENGTH_ID));
+                } catch(Exception e) {}
+    		} else {
+    			IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ATTACK_DAMAGE);
+                try {
+                    iAttributeInstance.removeModifier(iAttributeInstance.getModifier(RPGCapabilityDefault.STRENGTH_ID));
+                } catch(Exception e) {}
+                if(strength >= 90)
+                	iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.STRENGTH_ID, "bb.rpg.strength", 70, 0));
+                else if(strength >= 80)
+                	iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.STRENGTH_ID, "bb.rpg.strength", 65, 0));
+                else if(strength >= 70)
+                	iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.STRENGTH_ID, "bb.rpg.strength", 60, 0));
+                else if(strength >= 60)
+                	iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.STRENGTH_ID, "bb.rpg.strength", 55, 0));
+                else if(strength >= 50)
+                	iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.STRENGTH_ID, "bb.rpg.strength", 50, 0));
+                else if(strength >= 40)
+                	iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.STRENGTH_ID, "bb.rpg.strength", 45, 0));
+                else if(strength >= 30)
+                	iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.STRENGTH_ID, "bb.rpg.strength", 40, 0));
+                else if(strength >= 20)
+                	iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.STRENGTH_ID, "bb.rpg.strength", 35, 0));
+                else if(strength >= 10)
+                	iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.STRENGTH_ID, "bb.rpg.strength", 30, 0));
+                else if(strength > 0)
+                	iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.STRENGTH_ID, "bb.rpg.strength", 25, 0));
+    		}
 		}
 		
 		@Override
@@ -78,20 +126,67 @@ public class RPGCapability {
 		public int getDefense() { return defense; }
 		
 		@Override
-		public void setDexterity(int amt) {
+		public void setDexterity(EntityPlayer player, int amt) {
 			if(amt > MAX_LEVEL)
 				dexterity = MAX_LEVEL;
 			else if(amt <= 0)
 				dexterity = 0;
 			else
 				dexterity = amt;
+			if(dexterity <= 0) {
+    			IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MOVEMENT_SPEED);
+                try {
+                	iAttributeInstance.removeModifier(iAttributeInstance.getModifier(RPGCapabilityDefault.DEXTERITY_ID));
+                } catch(Exception e) {}
+    		} else {
+    			IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MOVEMENT_SPEED);
+                try {
+                    iAttributeInstance.removeModifier(iAttributeInstance.getModifier(RPGCapabilityDefault.DEXTERITY_ID));
+                } catch(Exception e) {}
+                iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.DEXTERITY_ID, "bb.rpg.dexterity", dexterity * .008, 0));
+    		}
 		}
 		
 		@Override
 		public int getDexterity() { return dexterity; }
 		
 		@Override
-		public void setCareer(IRPGCareer career) { this.career = career; }
+		public void setIntelligence(int amt) {
+			if(amt > MAX_LEVEL)
+				intelligence = MAX_LEVEL;
+			else if(amt <= 0)
+				intelligence = 0;
+			else
+				intelligence = amt;
+			
+		}
+		
+		@Override
+		public int getIntelligence() { return intelligence; }
+		
+
+		@Override
+		public void setMagick(int amt) {
+			if(amt > getMaxMagick())
+				magick = getMaxMagick();
+			else if(amt <= 0)
+				magick = 0;
+			else
+				magick = amt;
+		}
+
+		@Override
+		public int getMagick() { return magick; }
+
+		@Override
+		public int getMaxMagick() { return getIntelligence() * 1000; }
+		
+		@Override
+		public void setCareer(EntityPlayer player, IRPGCareer career) {
+			if(player != null && this.career != null)
+				this.career.leaveCareer(player);
+			this.career = career;
+		}
 
 		@Override
 		public IRPGCareer getCareer() { return career; }
@@ -103,6 +198,8 @@ public class RPGCapability {
 			nbt.setInteger(TAG_INT_STRENGTH, strength);
 			nbt.setInteger(TAG_INT_DEFENSE, defense);
 			nbt.setInteger(TAG_INT_DEXTERITY, dexterity);
+			nbt.setInteger(TAG_INT_INTELLIGENCE, intelligence);
+			nbt.setInteger(TAG_INT_MAGICK, magick);
 			if(career != null && career.getClass() != null && !career.getClass().getName().isEmpty()) {
 				nbt.setString(TAG_STRING_CLASS, career.getClass().getName());
 				nbt.setTag(TAG_CAREER, career.saveNBT());
@@ -111,17 +208,20 @@ public class RPGCapability {
 		}
 
 		@Override
-		public void loadNBT(NBTTagCompound nbt) {
-			constitution = nbt.getInteger(TAG_INT_CONSTITUTION);
-			strength = nbt.getInteger(TAG_INT_STRENGTH);
-			defense = nbt.getInteger(TAG_INT_DEFENSE);
-			dexterity = nbt.getInteger(TAG_INT_DEXTERITY);
+		public void loadNBT(EntityPlayer player, NBTTagCompound nbt) {
+			setConstitution(player, nbt.getInteger(TAG_INT_CONSTITUTION));
+			setStrength(player, nbt.getInteger(TAG_INT_STRENGTH));
+			setDefense(nbt.getInteger(TAG_INT_DEFENSE));
+			setDexterity(player, nbt.getInteger(TAG_INT_DEXTERITY));
+			setIntelligence(nbt.getInteger(TAG_INT_INTELLIGENCE));
+			setMagick(nbt.getInteger(TAG_INT_MAGICK));
 			if(!nbt.getString(TAG_STRING_CLASS).isEmpty()) {
 				try {
 					Object obj = Class.forName(nbt.getString(TAG_STRING_CLASS)).newInstance();
 					if(obj != null && obj instanceof IRPGCareer) {
 						career = (IRPGCareer) obj;
-						career.loadNBT(nbt.getCompoundTag(TAG_CAREER));
+						if(nbt.hasKey(TAG_CAREER) && nbt.getCompoundTag(TAG_CAREER) != null)
+							career.loadNBT(nbt.getCompoundTag(TAG_CAREER));
 					}
 				} catch (ClassNotFoundException e) {
 					e.printStackTrace();
@@ -129,87 +229,18 @@ public class RPGCapability {
 					e.printStackTrace();
 				} catch (IllegalAccessException e) {
 					e.printStackTrace();
+				} catch (IllegalArgumentException e) {
+					e.printStackTrace();
+				} catch (SecurityException e) {
+					e.printStackTrace();
 				}
 			}
 		}
-		
-		public static void calculateConstitutionBoost(EntityPlayer player) {
-	    	final IRPG rpg = RPGCapabilityProvider.get(player);
-	    	if(rpg != null) {
-	    		if(rpg.getConstitution() <= 0) {
-	    			IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MAX_HEALTH);
-	                try {
-	                    iAttributeInstance.removeModifier(iAttributeInstance.getModifier(RPGCapabilityDefault.HEALTH_ID));
-	                } catch(Exception e) {}
-	    		} else {
-	    			IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MAX_HEALTH);
-	                try {
-	                    iAttributeInstance.removeModifier(iAttributeInstance.getModifier(RPGCapabilityDefault.HEALTH_ID));
-	                } catch(Exception e) {}
-	                iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.HEALTH_ID, "bb.rpg.constitution", rpg.getConstitution() * .4, 0));
-	    		}
-	    	}
-	    }
-	    
-	    public static void calculateStrengthBoost(EntityPlayer player) {
-	    	final IRPG rpg = RPGCapabilityProvider.get(player);
-	    	if(rpg != null) {
-	    		if(rpg.getStrength() <= 0) {
-	    			IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ATTACK_DAMAGE);
-	                try {
-	                    iAttributeInstance.removeModifier(iAttributeInstance.getModifier(RPGCapabilityDefault.STRENGTH_ID));
-	                } catch(Exception e) {}
-	    		} else {
-	    			IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ATTACK_DAMAGE);
-	                try {
-	                    iAttributeInstance.removeModifier(iAttributeInstance.getModifier(RPGCapabilityDefault.STRENGTH_ID));
-	                } catch(Exception e) {}
-	                if(rpg.getStrength() >= 90)
-	                	iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.STRENGTH_ID, "bb.rpg.strength", 70, 0));
-	                else if(rpg.getStrength() >= 80)
-	                	iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.STRENGTH_ID, "bb.rpg.strength", 65, 0));
-	                else if(rpg.getStrength() >= 70)
-	                	iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.STRENGTH_ID, "bb.rpg.strength", 60, 0));
-	                else if(rpg.getStrength() >= 60)
-	                	iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.STRENGTH_ID, "bb.rpg.strength", 55, 0));
-	                else if(rpg.getStrength() >= 50)
-	                	iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.STRENGTH_ID, "bb.rpg.strength", 50, 0));
-	                else if(rpg.getStrength() >= 40)
-	                	iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.STRENGTH_ID, "bb.rpg.strength", 45, 0));
-	                else if(rpg.getStrength() >= 30)
-	                	iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.STRENGTH_ID, "bb.rpg.strength", 40, 0));
-	                else if(rpg.getStrength() >= 20)
-	                	iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.STRENGTH_ID, "bb.rpg.strength", 35, 0));
-	                else if(rpg.getStrength() >= 10)
-	                	iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.STRENGTH_ID, "bb.rpg.strength", 30, 0));
-	                else if(rpg.getStrength() > 0)
-	                	iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.STRENGTH_ID, "bb.rpg.strength", 25, 0));
-	    		}
-	    	}
-	    }
-	    
-	    public static void calculateDexterityBoost(EntityPlayer player) {
-	    	final IRPG rpg = RPGCapabilityProvider.get(player);
-	    	if(rpg != null) {
-	    		if(rpg.getDexterity() <= 0) {
-	    			IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MOVEMENT_SPEED);
-	                try {
-	                	iAttributeInstance.removeModifier(iAttributeInstance.getModifier(RPGCapabilityDefault.DEXTERITY_ID));
-	                } catch(Exception e) {}
-	    		} else {
-	    			IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MOVEMENT_SPEED);
-	                try {
-	                    iAttributeInstance.removeModifier(iAttributeInstance.getModifier(RPGCapabilityDefault.DEXTERITY_ID));
-	                } catch(Exception e) {}
-	                iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.DEXTERITY_ID, "bb.rpg.dexterity", rpg.getDexterity() * .008, 0));
-	    		}
-	    	}
-	    }
-	    
+
 	    public static int getExperienceCostForNextLevel(EntityPlayer player) {
 	    	final IRPG rpg = RPGCapabilityProvider.get(player);
 	    	if(rpg != null) {
-	    		int rpgLevel = (rpg.getConstitution() + rpg.getStrength() + rpg.getDefense() + rpg.getDexterity());
+	    		int rpgLevel = (rpg.getConstitution() + rpg.getStrength() + rpg.getDefense() + rpg.getDexterity() + rpg.getIntelligence());
 	    		return rpgLevel <= 0 ? 1 : (int) (rpgLevel * 1.2);
 	    	}
 	        return 0;
@@ -228,7 +259,12 @@ public class RPGCapability {
 		
 	    protected IRPG rpg = null;
 
-	    public RPGCapabilityProvider() { rpg = new RPGCapabilityDefault(); }
+	    private final WeakReference<EntityPlayer> p;
+
+	    public RPGCapabilityProvider(EntityPlayer player) {
+	    	rpg = new RPGCapabilityDefault();
+	    	p = new WeakReference<EntityPlayer>(player);
+	    }
 	    
 	    public static IRPG get(EntityPlayer player) {
 	        if(player.hasCapability(RPG_CAP, null))
@@ -250,15 +286,18 @@ public class RPGCapability {
 		public NBTTagCompound serializeNBT() { return rpg.saveNBT(); }
 
 		@Override
-		public void deserializeNBT(NBTTagCompound nbt) { rpg.loadNBT(nbt); }
+		public void deserializeNBT(NBTTagCompound nbt) {
+			if(p != null && p.get() != null)
+				rpg.loadNBT(p.get(), nbt);
+		}
 	}
 	
 	public static class RPGCapabilityStorage implements Capability.IStorage<IRPG> {
 		
 		@Override
-		public NBTBase writeNBT(Capability<IRPG> capability, IRPG instance, EnumFacing side) { return instance.saveNBT(); }
+		public NBTBase writeNBT(Capability<IRPG> capability, IRPG instance, EnumFacing side) { return null; }
 
 		@Override
-		public void readNBT(Capability<IRPG> capability, IRPG instance, EnumFacing side, NBTBase nbt) { instance.loadNBT((NBTTagCompound) nbt); }
+		public void readNBT(Capability<IRPG> capability, IRPG instance, EnumFacing side, NBTBase nbt) {}
 	}
 }

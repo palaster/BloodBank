@@ -4,12 +4,14 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import palaster.bb.api.capabilities.items.IPurified;
+import palaster.libpal.items.ItemModSpecial;
 
 public class ItemPurifyingBook extends ItemModSpecial {
 
-	public ItemPurifyingBook(String unlocalizedName) { super(unlocalizedName, 2000); }
+	public ItemPurifyingBook(ResourceLocation rl) { super(rl, 2000); }
 	
 	@Override
 	public ItemStack getContainerItem(ItemStack itemStack) { return new ItemStack(Items.BOOK); }

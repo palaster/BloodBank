@@ -8,8 +8,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.relauncher.Side;
 import palaster.bb.api.capabilities.items.IRecieveButton;
-import palaster.bb.blocks.tile.TileEntityMod;
-import palaster.bb.network.AbstractMessage.AbstractServerMessage;
+import palaster.libpal.blocks.tile.TileEntityMod;
+import palaster.libpal.network.AbstractMessage.AbstractServerMessage;
 
 public class GuiButtonMessage extends AbstractServerMessage<GuiButtonMessage> {
 	

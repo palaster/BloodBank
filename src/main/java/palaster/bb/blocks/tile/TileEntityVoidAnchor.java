@@ -1,5 +1,7 @@
 package palaster.bb.blocks.tile;
 
+import palaster.libpal.blocks.tile.TileEntityModInventory;
+
 public class TileEntityVoidAnchor extends TileEntityModInventory {
 
 	@Override

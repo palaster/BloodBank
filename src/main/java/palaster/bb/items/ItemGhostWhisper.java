@@ -8,14 +8,15 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.text.translation.I18n;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import palaster.bb.core.helpers.BBPlayerHelper;
 import palaster.bb.world.BBWorldSaveData;
+import palaster.libpal.items.ItemModSpecial;
 
 public class ItemGhostWhisper extends ItemModSpecial {
 
-	public ItemGhostWhisper(String unlocalizedName) { super(unlocalizedName); }
+	public ItemGhostWhisper(ResourceLocation rl) { super(rl); }
 	
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
@@ -25,7 +26,7 @@ public class ItemGhostWhisper extends ItemModSpecial {
 					if(EntityList.createEntityFromNBT(tag, worldIn) != null)
 						if(EntityList.createEntityFromNBT(tag, worldIn) instanceof EntityLiving) {
 							EntityLiving li = (EntityLiving) EntityList.createEntityFromNBT(tag, worldIn);
-							BBPlayerHelper.sendChatMessageToPlayer(playerIn, I18n.translateToLocal("bb.misc.ghostWhisper") + " " + li.getName());							
+							BBPlayerHelper.sendChatMessageToPlayer(playerIn, net.minecraft.util.text.translation.I18n.translateToLocal("bb.misc.ghostWhisper") + " " + li.getName());							
 						}
 				return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
 			}

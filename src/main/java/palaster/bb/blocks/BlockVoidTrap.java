@@ -15,14 +15,16 @@ import net.minecraft.item.Item;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import palaster.bb.blocks.tile.TileEntityVoidTrap;
+import palaster.libpal.blocks.BlockModContainer;
 
 public class BlockVoidTrap extends BlockModContainer {
 
-	public BlockVoidTrap(String unlocalizedName, Material p_i45394_1_) { super(unlocalizedName, p_i45394_1_); }
+	public BlockVoidTrap(ResourceLocation rl, Material material) { super(rl, material); }
 	
 	@Override
 	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, World worldIn, BlockPos pos) { return new AxisAlignedBB(0.01D, 0.01D, 0.01D, 0.99D, 0.99D, 0.99D); }

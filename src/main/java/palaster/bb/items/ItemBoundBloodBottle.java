@@ -5,6 +5,7 @@ import java.util.List;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -12,12 +13,13 @@ import palaster.bb.api.capabilities.entities.IRPG;
 import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityProvider;
 import palaster.bb.api.capabilities.items.IVampiric;
 import palaster.bb.entities.careers.CareerBloodSorcerer;
+import palaster.libpal.items.ItemModSpecial;
 
 public class ItemBoundBloodBottle extends ItemModSpecial {
 	
 	public static final String TAG_UUID_PLAYER = "BoundBloodBottleUUID";
 
-	public ItemBoundBloodBottle(String unlocalizedName) { super(unlocalizedName, 4000); }
+	public ItemBoundBloodBottle(ResourceLocation rl) { super(rl, 4000); }
 	
 	@Override
 	@SideOnly(Side.CLIENT)

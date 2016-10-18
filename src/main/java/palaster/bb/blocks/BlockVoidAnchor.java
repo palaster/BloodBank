@@ -7,16 +7,18 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import palaster.bb.BloodBank;
 import palaster.bb.blocks.tile.TileEntityVoidAnchor;
+import palaster.libpal.blocks.BlockModContainer;
 
 public class BlockVoidAnchor extends BlockModContainer {
 
-	public BlockVoidAnchor(String unlocalizedName, Material p_i45394_1_) { super(unlocalizedName, p_i45394_1_); }
+	public BlockVoidAnchor(ResourceLocation rl, Material p_i45394_1_) { super(rl, p_i45394_1_); }
 	
 	@Override
 	public boolean isOpaqueCube(IBlockState state) { return false; }

@@ -28,18 +28,18 @@ public class NBTHelper {
 		return stack;
 	}
 	
+	public static ItemStack setStringToItemStack(ItemStack stack, String key, String value) {
+		if(!stack.hasTagCompound())
+			stack = giveNBTTagCompound(stack);
+		stack.getTagCompound().setString(key, value);
+		return stack;
+	}
+	
 	public static ItemStack setUUIDToItemStack(ItemStack stack, String key, @Nullable UUID value) {
 		if(!stack.hasTagCompound())
 			stack = giveNBTTagCompound(stack);
 		if(value != null)
 			stack.getTagCompound().setUniqueId(key, value);
-		return stack;
-	}
-	
-	public static ItemStack setStringToItemStack(ItemStack stack, String key, String value) {
-		if(!stack.hasTagCompound())
-			stack = giveNBTTagCompound(stack);
-		stack.getTagCompound().setString(key, value);
 		return stack;
 	}
 	
@@ -57,18 +57,18 @@ public class NBTHelper {
 		return false;
 	}
 	
+	public static String getStringFromItemStack(ItemStack stack, String key) {
+		if(stack.hasTagCompound())
+			if(stack.getTagCompound().hasKey(key))
+				return stack.getTagCompound().getString(key);
+		return "";
+	}
+	
 	@Nullable
 	public static UUID getUUIDFromItemStack(ItemStack stack, String key) {
 		if(stack.hasTagCompound())
 			if(stack.getTagCompound().hasKey(key))
 				return stack.getTagCompound().getUniqueId(key);
 		return null;
-	}
-	
-	public static String getStringFromItemStack(ItemStack stack, String key) {
-		if(stack.hasTagCompound())
-			if(stack.getTagCompound().hasKey(key))
-				return stack.getTagCompound().getString(key);
-		return "";
 	}
 }

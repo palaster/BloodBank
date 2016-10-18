@@ -9,7 +9,7 @@ import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.relauncher.Side;
 import palaster.bb.api.capabilities.entities.IRPG;
 import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityProvider;
-import palaster.bb.network.AbstractMessage;
+import palaster.libpal.network.AbstractMessage;
 
 public class UpdateRPGMessage extends AbstractMessage.AbstractClientMessage<UpdateRPGMessage> {
 
@@ -29,6 +29,6 @@ public class UpdateRPGMessage extends AbstractMessage.AbstractClientMessage<Upda
 	protected void process(EntityPlayer player, Side side) {
 		final IRPG rpg = RPGCapabilityProvider.get(player);
 		if(rpg != null)
-			rpg.loadNBT(tag);
+			rpg.loadNBT(player, tag);
 	}
 }

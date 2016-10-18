@@ -2,6 +2,7 @@ package palaster.bb.blocks.tile;
 
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
+import palaster.libpal.blocks.tile.TileEntityMod;
 
 public class TileEntityVoidTrap extends TileEntityMod {
 	

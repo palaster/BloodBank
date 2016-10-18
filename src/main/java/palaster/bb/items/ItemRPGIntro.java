@@ -5,23 +5,26 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import palaster.bb.BloodBank;
 import palaster.bb.api.capabilities.entities.IRPG;
 import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityDefault;
 import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityProvider;
 import palaster.bb.api.capabilities.items.IRecieveButton;
+import palaster.bb.core.proxy.CommonProxy;
+import palaster.libpal.items.ItemModSpecial;
 
 public class ItemRPGIntro extends ItemModSpecial implements IRecieveButton {
 
-	public ItemRPGIntro(String unlocalizedName) { super(unlocalizedName); }
+	public ItemRPGIntro(ResourceLocation rl) { super(rl); }
 	
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
 		if(!worldIn.isRemote) {
 			final IRPG rpg = RPGCapabilityProvider.get(playerIn);
 			if(rpg != null) {
-				BloodBank.proxy.syncPlayerRPGCapabilitiesToClient(playerIn);
+				CommonProxy.syncPlayerRPGCapabilitiesToClient(playerIn);
 				playerIn.openGui(BloodBank.instance, 0, worldIn, (int) playerIn.posX, (int) playerIn.posY, (int) playerIn.posZ);
 				return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
 			}
@@ -39,10 +42,9 @@ public class ItemRPGIntro extends ItemModSpecial implements IRecieveButton {
 							player.removeExperienceLevel(player.experienceLevel);
 						else if(RPGCapabilityDefault.getExperienceCostForNextLevel(player) > 0)
 							player.removeExperienceLevel(RPGCapabilityDefault.getExperienceCostForNextLevel(player));
-						rpg.setConstitution(rpg.getConstitution() + 1);
-						BloodBank.proxy.syncPlayerRPGCapabilitiesToClient(player);
+						rpg.setConstitution(player, rpg.getConstitution() + 1);
+						CommonProxy.syncPlayerRPGCapabilitiesToClient(player);
 					}
-					RPGCapabilityDefault.calculateConstitutionBoost(player);
 					break;
 				}
 				case 1: {
@@ -51,10 +53,9 @@ public class ItemRPGIntro extends ItemModSpecial implements IRecieveButton {
 							player.removeExperienceLevel(player.experienceLevel);
 						else if(RPGCapabilityDefault.getExperienceCostForNextLevel(player) > 0)
 							player.removeExperienceLevel(RPGCapabilityDefault.getExperienceCostForNextLevel(player));
-						rpg.setStrength(rpg.getStrength() + 1);
-						BloodBank.proxy.syncPlayerRPGCapabilitiesToClient(player);
+						rpg.setStrength(player, rpg.getStrength() + 1);
+						CommonProxy.syncPlayerRPGCapabilitiesToClient(player);
 					}
-					RPGCapabilityDefault.calculateStrengthBoost(player);
 					break;
 				}
 				case 2: {
@@ -64,7 +65,7 @@ public class ItemRPGIntro extends ItemModSpecial implements IRecieveButton {
 						else if(RPGCapabilityDefault.getExperienceCostForNextLevel(player) > 0)
 							player.removeExperienceLevel(RPGCapabilityDefault.getExperienceCostForNextLevel(player));
 						rpg.setDefense(rpg.getDefense() + 1);
-						BloodBank.proxy.syncPlayerRPGCapabilitiesToClient(player);
+						CommonProxy.syncPlayerRPGCapabilitiesToClient(player);
 					}
 					break;
 				}
@@ -74,10 +75,20 @@ public class ItemRPGIntro extends ItemModSpecial implements IRecieveButton {
 							player.removeExperienceLevel(player.experienceLevel);
 						else if(RPGCapabilityDefault.getExperienceCostForNextLevel(player) > 0)
 							player.removeExperienceLevel(RPGCapabilityDefault.getExperienceCostForNextLevel(player));
-						rpg.setDexterity(rpg.getDexterity() + 1);
-						BloodBank.proxy.syncPlayerRPGCapabilitiesToClient(player);
+						rpg.setDexterity(player, rpg.getDexterity() + 1);
+						CommonProxy.syncPlayerRPGCapabilitiesToClient(player);
 					}
-					RPGCapabilityDefault.calculateDexterityBoost(player);
+					break;
+				}
+				case 4: {
+					if(player.experienceLevel >= RPGCapabilityDefault.getExperienceCostForNextLevel(player) && rpg.getIntelligence() < RPGCapabilityDefault.MAX_LEVEL) {
+						if(player.experienceLevel - RPGCapabilityDefault.getExperienceCostForNextLevel(player) <= 0)
+							player.removeExperienceLevel(player.experienceLevel);
+						else if(RPGCapabilityDefault.getExperienceCostForNextLevel(player) > 0)
+							player.removeExperienceLevel(RPGCapabilityDefault.getExperienceCostForNextLevel(player));
+						rpg.setIntelligence(rpg.getIntelligence() + 1);
+						CommonProxy.syncPlayerRPGCapabilitiesToClient(player);
+					}
 					break;
 				}
 			}

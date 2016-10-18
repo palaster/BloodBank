@@ -6,14 +6,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.IThreadListener;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import palaster.bb.BloodBank;
 import palaster.bb.api.BBApi;
 import palaster.bb.api.capabilities.entities.IRPG;
@@ -40,9 +38,13 @@ import palaster.bb.inventories.ContainerRPGIntro;
 import palaster.bb.inventories.ContainerVoidAnchor;
 import palaster.bb.items.BBItems;
 import palaster.bb.items.ItemRPGIntro;
-import palaster.bb.network.PacketHandler;
+import palaster.bb.libs.LibMod;
 import palaster.bb.network.client.UpdateRPGMessage;
+import palaster.bb.network.server.GuiButtonMessage;
+import palaster.bb.network.server.KeyClickMessage;
 import palaster.bb.recipes.BBRecipes;
+import palaster.libpal.core.helpers.LibPalHelper;
+import palaster.libpal.network.PacketHandler;
 
 public class CommonProxy implements IGuiHandler {
 	
@@ -50,11 +52,14 @@ public class CommonProxy implements IGuiHandler {
 	
 	public void preInit() {
 		CreativeTabBB.init();
-		PacketHandler.registerPackets();
+		PacketHandler.registerMessage(GuiButtonMessage.class);
+		PacketHandler.registerMessage(KeyClickMessage.class);
+		PacketHandler.registerMessage(UpdateRPGMessage.class);
 		BBBlocks.init();
 		BBEntities.init();
 		BBItems.init();
 		BBPotions.init();
+		LibPalHelper.setCreativeTab(LibMod.MODID, CreativeTabBB.tabBB);
 		CapabilityManager.INSTANCE.register(IRPG.class, new RPGCapabilityStorage(), new RPGCapabilityFactory());
 		CapabilityManager.INSTANCE.register(ITameableMonster.class, new TameableMonsterCapabilityStorage(), new TameableMonsterCapabilityFactory());
 		MinecraftForge.EVENT_BUS.register(new BBEventHandler());
@@ -70,15 +75,11 @@ public class CommonProxy implements IGuiHandler {
 	
 	public void postInit() { BBRecipes.init(); }
 	
-	public void syncPlayerRPGCapabilitiesToClient(EntityPlayer player) {
+	public static void syncPlayerRPGCapabilitiesToClient(EntityPlayer player) {
 		if(player != null && !player.worldObj.isRemote)
 			if(RPGCapabilityProvider.get(player) != null)
 				PacketHandler.sendTo(new UpdateRPGMessage(RPGCapabilityProvider.get(player).saveNBT()), (EntityPlayerMP) player);
 	}
-	
-	public EntityPlayer getPlayerEntity(MessageContext ctx) { return ctx.getServerHandler().playerEntity; }
-	
-	public IThreadListener getThreadFromContext(MessageContext ctx) { return ctx.getServerHandler().playerEntity.getServerWorld(); }
 
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
@@ -86,7 +87,7 @@ public class CommonProxy implements IGuiHandler {
 		switch(ID) {
 			case 0: {
 				if(player.getHeldItem(EnumHand.MAIN_HAND) != null && player.getHeldItem(EnumHand.MAIN_HAND).getItem() instanceof ItemRPGIntro)
-					return new ContainerRPGIntro(player);
+					return new ContainerRPGIntro();
 				break;
 			}
 			case 1: {

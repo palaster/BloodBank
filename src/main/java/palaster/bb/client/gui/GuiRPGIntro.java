@@ -15,8 +15,8 @@ import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityDefault;
 import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityProvider;
 import palaster.bb.inventories.ContainerRPGIntro;
 import palaster.bb.libs.LibResource;
-import palaster.bb.network.PacketHandler;
 import palaster.bb.network.server.GuiButtonMessage;
+import palaster.libpal.network.PacketHandler;
 
 @SideOnly(Side.CLIENT)
 public class GuiRPGIntro extends GuiContainer {
@@ -24,7 +24,7 @@ public class GuiRPGIntro extends GuiContainer {
 	private WeakReference<EntityPlayer> player;
 
 	public GuiRPGIntro(EntityPlayer player) {
-		super(new ContainerRPGIntro(player));
+		super(new ContainerRPGIntro());
 		this.player = new WeakReference<EntityPlayer>(player);
 		ySize = 160;
 	}
@@ -49,10 +49,12 @@ public class GuiRPGIntro extends GuiContainer {
                 fontRendererObj.drawString(I18n.format("bb.rpg.strength") + ": " + rpg.getStrength(), 6, 36, 4210752);
                 fontRendererObj.drawString(I18n.format("bb.rpg.defense") + ": " + rpg.getDefense(), 6, 46, 4210752);
                 fontRendererObj.drawString(I18n.format("bb.rpg.dexterity") + ": " + rpg.getDexterity(), 6, 56, 4210752);
+                fontRendererObj.drawString(I18n.format("bb.rpg.intelligence") + ": " + rpg.getIntelligence(), 6, 66, 4210752);
+                fontRendererObj.drawString(I18n.format("bb.rpg.magick") + ": " + rpg.getMagick() + "/" + rpg.getMaxMagick(), 96, 66, 4210752);
                 if(RPGCapabilityDefault.getExperienceCostForNextLevel(player.get()) > player.get().experienceLevel)
-                	fontRendererObj.drawString(I18n.format("bb.expCost") + ": " + RPGCapabilityDefault.getExperienceCostForNextLevel(player.get()) + "", 6, 68, 0x8A0707);
+                	fontRendererObj.drawString(I18n.format("bb.expCost") + ": " + RPGCapabilityDefault.getExperienceCostForNextLevel(player.get()) + "", 6, 78, 0x8A0707);
                 else
-                	fontRendererObj.drawString(I18n.format("bb.expCost") + ": " + RPGCapabilityDefault.getExperienceCostForNextLevel(player.get()) + "", 6, 68, 0x009900);
+                	fontRendererObj.drawString(I18n.format("bb.expCost") + ": " + RPGCapabilityDefault.getExperienceCostForNextLevel(player.get()) + "", 6, 78, 0x009900);
                 if(rpg.getCareer() != null)
                 	rpg.getCareer().drawExtraInformation(this, player.get(), fontRendererObj, mouseX, mouseY);
     		}
@@ -64,15 +66,17 @@ public class GuiRPGIntro extends GuiContainer {
         super.initGui();
         buttonList.clear();
 
-        GuiButton constitutionIncrease = new GuiButton(0, guiLeft + 100, guiTop + 26, 12, 10, "->");
-        GuiButton strengthIncrease = new GuiButton(1, guiLeft + 100, guiTop + 36, 12, 10, "->");
-        GuiButton defenseIncrease = new GuiButton(2, guiLeft + 100, guiTop + 46, 12, 10, "->");
-        GuiButton dexterityIncrease = new GuiButton(3, guiLeft + 100, guiTop + 56, 12, 10, "->");
+        GuiButton constitutionIncrease = new GuiButton(0, guiLeft + 82, guiTop + 26, 12, 10, "->");
+        GuiButton strengthIncrease = new GuiButton(1, guiLeft + 82, guiTop + 36, 12, 10, "->");
+        GuiButton defenseIncrease = new GuiButton(2, guiLeft + 82, guiTop + 46, 12, 10, "->");
+        GuiButton dexterityIncrease = new GuiButton(3, guiLeft + 82, guiTop + 56, 12, 10, "->");
+        GuiButton intelligenceIncrease = new GuiButton(4, guiLeft + 82, guiTop + 66, 12, 10, "->");
 
         buttonList.add(constitutionIncrease);
         buttonList.add(strengthIncrease);
         buttonList.add(defenseIncrease);
         buttonList.add(dexterityIncrease);
+        buttonList.add(intelligenceIncrease);
     }
 
     @Override

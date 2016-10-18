@@ -5,13 +5,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import palaster.bb.api.capabilities.items.IVampiric;
 
 public class ItemStaffTime extends ItemModStaff implements IVampiric {
 
-	public ItemStaffTime(String unlocalizedName) {
-		super(unlocalizedName);
+	public ItemStaffTime(ResourceLocation rl) {
+		super(rl);
 		powers = new String[] {"bb.staff.time.0"};
 	}
 

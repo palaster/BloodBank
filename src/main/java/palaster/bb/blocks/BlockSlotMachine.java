@@ -9,14 +9,16 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import palaster.bb.items.BBItems;
 import palaster.bb.items.ItemToken;
+import palaster.libpal.blocks.BlockMod;
 
 public class BlockSlotMachine extends BlockMod {
 
-	public BlockSlotMachine(String unlocalizedName, Material material) { super(unlocalizedName, material); }
+	public BlockSlotMachine(ResourceLocation rl, Material material) { super(rl, material); }
 	
 	@Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {

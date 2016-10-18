@@ -6,7 +6,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.relauncher.Side;
 import palaster.bb.items.ItemModStaff;
-import palaster.bb.network.AbstractMessage.AbstractServerMessage;
+import palaster.libpal.network.AbstractMessage.AbstractServerMessage;
 
 public class KeyClickMessage extends AbstractServerMessage<KeyClickMessage> {
 

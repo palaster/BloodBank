@@ -21,7 +21,9 @@ import palaster.bb.blocks.BBBlocks;
 import palaster.bb.core.helpers.NBTHelper;
 import palaster.bb.entities.careers.CareerBloodSorcerer;
 import palaster.bb.entities.careers.CareerCleric;
+import palaster.bb.entities.careers.CareerMonsterTamer;
 import palaster.bb.entities.careers.CareerUnkindled;
+import palaster.bb.entities.careers.CareerWorkshopWitch;
 import palaster.bb.items.BBItems;
 import palaster.bb.items.ItemCareerPamphlet;
 import palaster.bb.items.ItemToken;
@@ -55,8 +57,8 @@ public class BBRecipes {
 		GameRegistry.addShapelessRecipe(NBTHelper.setStringToItemStack(new ItemStack(BBItems.careerPamphlet), ItemCareerPamphlet.TAG_STRING_CAREER_CLASS, new CareerBloodSorcerer().getClass().getName()), new ItemStack(BBItems.careerPamphlet), Items.GLASS_BOTTLE, Items.ROTTEN_FLESH);
 		GameRegistry.addShapelessRecipe(NBTHelper.setStringToItemStack(new ItemStack(BBItems.careerPamphlet), ItemCareerPamphlet.TAG_STRING_CAREER_CLASS, new CareerUnkindled().getClass().getName()), new ItemStack(BBItems.careerPamphlet), Items.FIRE_CHARGE, Items.NETHERBRICK);
 		GameRegistry.addRecipe(new ShapelessOreRecipe(NBTHelper.setStringToItemStack(new ItemStack(BBItems.careerPamphlet), ItemCareerPamphlet.TAG_STRING_CAREER_CLASS, new CareerCleric().getClass().getName()), new ItemStack(BBItems.careerPamphlet), BBItems.clericStaff, "dustSalt"));
-		// TODO: GameRegistry.addShapelessRecipe(NBTHelper.setStringToItemStack(new ItemStack(BBItems.careerPamphlet), ItemCareerPamphlet.TAG_STRING_CAREER_CLASS, new CareerMonsterTamer().getClass().getName()), new ItemStack(BBItems.careerPamphlet), BBItems.whip, Items.EGG);
-		// TODO: GameRegistry.addShapelessRecipe(NBTHelper.setStringToItemStack(new ItemStack(BBItems.careerPamphlet), ItemCareerPamphlet.TAG_STRING_CAREER_CLASS, new CareerWorkshopWitch().getClass().getName()), new ItemStack(BBItems.careerPamphlet), Blocks.BREWING_STAND, Blocks.CAULDRON);
+		GameRegistry.addShapelessRecipe(NBTHelper.setStringToItemStack(new ItemStack(BBItems.careerPamphlet), ItemCareerPamphlet.TAG_STRING_CAREER_CLASS, new CareerMonsterTamer().getClass().getName()), new ItemStack(BBItems.careerPamphlet), BBItems.whip, Items.EGG);
+		GameRegistry.addShapelessRecipe(NBTHelper.setStringToItemStack(new ItemStack(BBItems.careerPamphlet), ItemCareerPamphlet.TAG_STRING_CAREER_CLASS, new CareerWorkshopWitch().getClass().getName()), new ItemStack(BBItems.careerPamphlet), Items.BREWING_STAND, Items.CAULDRON);
 		
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BBItems.bbResources, 1, 1), "xyx", "yzy", "xyx", 'x', Blocks.STONE, 'y', "dyeRed", 'z', Items.ROTTEN_FLESH));
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BBItems.bbResources, 1, 6), Items.PAPER, "dyePink", Items.FLINT_AND_STEEL));

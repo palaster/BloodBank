@@ -3,28 +3,35 @@ package palaster.bb.world;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSavedData;
+import net.minecraft.world.chunk.Chunk;
+import palaster.bb.world.chunk.WorkshopChunkWrapper;
 import palaster.bb.world.task.ITask;
 
 public class BBWorldSaveData extends WorldSavedData {
 	
-	public static final String TAG_INT_BONFIRE_POS = "Bonfire";
-	public static final String TAG_INT_BONFIRE = "BonfireNumber";
-	public static final String TAG_TAG_DEAD = "DeadEntityTag";
-	public static final String TAG_INT_DEAD = "DeadEntityNumber";
-	public static final String TAG_INT_TASK = "TaskNumber";
-	public static final String TAG_STRING_TASK = "TaskClass";
-	public static final String TAG_TAG_TASK = "TaskTag";
+	public static final String TAG_INT_BONFIRE_POS = "Bonfire",
+		TAG_INT_BONFIRE = "BonfireNumber",
+		TAG_TAG_DEAD = "DeadEntityTag",
+		TAG_INT_DEAD = "DeadEntityNumber",
+		TAG_INT_TASK = "TaskNumber",
+		TAG_STRING_TASK = "TaskClass",
+		TAG_TAG_TASK = "TaskTag",
+		TAG_INT_WORKSHOP = "WorkshopChunkAmount",
+		TAG_TAG_WORKSHOP = "WorkshopChunkTag";
 	
     private static final String IDENTIFIER = "BloodBankWorldSaveData";
     
     private List<BlockPos> bonFirePos = new ArrayList<BlockPos>();
     private List<NBTTagCompound> deadEntities = new ArrayList<NBTTagCompound>();
     private List<ITask> worldTask = new ArrayList<ITask>();
+    private List<WorkshopChunkWrapper> wcws = new ArrayList<WorkshopChunkWrapper>();
 
     public BBWorldSaveData() { super(IDENTIFIER); }
 
@@ -87,10 +94,38 @@ public class BBWorldSaveData extends WorldSavedData {
     		}
     }
     
+    public void addWorkshopChunkWrapper(WorkshopChunkWrapper wcw) {
+    	wcws.add(wcw);
+    	markDirty();
+    }
+    
+    public void removeWorkshopChunkWrapper(WorkshopChunkWrapper wcw) {
+    	wcws.remove(wcw);
+    	markDirty();
+    }
+    
+    @Nullable
+    public WorkshopChunkWrapper getWorkshopChunkWrapperFromChunk(Chunk chunk) {
+    	for(WorkshopChunkWrapper wcw : wcws)
+    		if(wcw != null)
+    			if(wcw.getChunk().equals(chunk))
+    				return wcw;
+    	return null;
+    }
+    
+    @Nullable
+    public WorkshopChunkWrapper getWorkshopChunkWrapper(int xChunk, int zChunk) {
+    	for(WorkshopChunkWrapper wcw : wcws)
+    		if(wcw != null)
+    			if(wcw.getChunk().xPosition == xChunk && wcw.getChunk().zPosition == zChunk)
+    				return wcw;
+    	return null;
+    }
+    
     @Override
     public void readFromNBT(NBTTagCompound nbt) {
         for(int i = 0; i < nbt.getInteger(TAG_INT_BONFIRE); i++)
-            bonFirePos.add(new BlockPos(nbt.getInteger(TAG_INT_BONFIRE_POS + "X" + i), nbt.getInteger(TAG_INT_BONFIRE_POS + "Y" + i), nbt.getInteger(TAG_INT_BONFIRE_POS + "Z" + i)));
+            addBonfire(new BlockPos(nbt.getInteger(TAG_INT_BONFIRE_POS + "X" + i), nbt.getInteger(TAG_INT_BONFIRE_POS + "Y" + i), nbt.getInteger(TAG_INT_BONFIRE_POS + "Z" + i)));
         for(int i = 0; i < nbt.getInteger(TAG_INT_DEAD); i++)
         	addDeadEntity(nbt.getCompoundTag(TAG_TAG_DEAD + i));
         for(int i = 0; i < nbt.getInteger(TAG_INT_TASK); i++) {
@@ -110,6 +145,12 @@ public class BBWorldSaveData extends WorldSavedData {
 				}
         	}
         }
+        for(int i = 0; i < nbt.getInteger(TAG_INT_WORKSHOP); i++)
+        	if(nbt.hasKey(TAG_TAG_WORKSHOP + i)) {
+        		WorkshopChunkWrapper wcw = new WorkshopChunkWrapper();
+        		wcw.loadNBT(nbt.getCompoundTag(TAG_INT_WORKSHOP + i));
+        		addWorkshopChunkWrapper(wcw);
+        	}
     }
 
     @Override
@@ -141,6 +182,14 @@ public class BBWorldSaveData extends WorldSavedData {
 	        		k++;
 	        	}
         nbt.setInteger(TAG_INT_TASK, k);
+        int l = 0;
+        if(!wcws.isEmpty())
+        	for(WorkshopChunkWrapper wcw : wcws)
+        		if(wcw != null) {
+        			nbt.setTag(TAG_TAG_WORKSHOP + l, wcw.saveNBT());
+        			l++;
+        		}
+        nbt.setInteger(TAG_INT_WORKSHOP, l);
         return nbt;
     }
 

@@ -12,6 +12,7 @@ import net.minecraft.world.World;
 import palaster.bb.core.helpers.BBPlayerHelper;
 import palaster.bb.world.BBWorldSaveData;
 import palaster.bb.world.task.Task;
+import palaster.libpal.blocks.tile.TileEntityModInventory;
 
 public class TileEntityCommunityTool extends TileEntityModInventory {
 	

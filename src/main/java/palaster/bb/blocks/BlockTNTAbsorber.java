@@ -4,6 +4,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -14,11 +15,12 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.world.ExplosionEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import palaster.bb.blocks.tile.TileEntityTNTAbsorber;
+import palaster.libpal.blocks.BlockModContainer;
 
 public class BlockTNTAbsorber extends BlockModContainer {
 
-	public BlockTNTAbsorber(String unlocalizedName, Material material) {
-		super(unlocalizedName, material);
+	public BlockTNTAbsorber(ResourceLocation rl, Material material) {
+		super(rl, material);
 		MinecraftForge.EVENT_BUS.register(this);
 	}
 	

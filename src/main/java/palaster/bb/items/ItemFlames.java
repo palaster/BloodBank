@@ -12,6 +12,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
@@ -25,14 +26,15 @@ import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityProvider
 import palaster.bb.api.capabilities.items.IFlameSpell;
 import palaster.bb.core.helpers.BBItemStackHelper;
 import palaster.bb.entities.careers.CareerUnkindled;
+import palaster.libpal.items.ItemModSpecial;
 
 public class ItemFlames extends ItemModSpecial {
 
 	public static final String TAG_TAG_FLAME_HOLDER = "FlameHolder";
     public static final String TAG_TAG_PREVIOUS_FLAME_HOLDER = "PreviousFlameHolder";
 
-    public ItemFlames(String unlocalizedName) {
-        super(unlocalizedName);
+    public ItemFlames(ResourceLocation rl) {
+        super(rl);
         MinecraftForge.EVENT_BUS.register(this);
     }
     

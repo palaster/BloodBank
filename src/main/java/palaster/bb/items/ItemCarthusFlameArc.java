@@ -10,6 +10,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
@@ -17,11 +18,12 @@ import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import palaster.bb.api.capabilities.items.IFlameSpell;
 import palaster.bb.entities.effects.BBPotions;
+import palaster.libpal.items.ItemModSpecial;
 
 public class ItemCarthusFlameArc extends ItemModSpecial implements IFlameSpell {
 
-    public ItemCarthusFlameArc(String unlocalizedName) {
-        super(unlocalizedName);
+    public ItemCarthusFlameArc(ResourceLocation rl) {
+        super(rl);
         MinecraftForge.EVENT_BUS.register(this);
     }
     

@@ -8,6 +8,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import palaster.bb.api.capabilities.items.IVampiric;
@@ -17,8 +18,8 @@ import palaster.bb.entities.EntityYinYang;
 
 public class ItemStaffVoidWalker extends ItemModStaff implements IVampiric {
 
-	public ItemStaffVoidWalker(String unlocalizedName) {
-		super(unlocalizedName);
+	public ItemStaffVoidWalker(ResourceLocation rl) {
+		super(rl);
 		powers = new String[]{"bb.staff.voidWalker.0"};
 	}
 

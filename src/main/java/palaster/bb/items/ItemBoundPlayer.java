@@ -5,15 +5,17 @@ import java.util.List;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import palaster.libpal.items.ItemModSpecial;
 
 public class ItemBoundPlayer extends ItemModSpecial {
 	
 	public static final String TAG_UUID_PLAYER = "BoundPlayerUUID";
 
-	public ItemBoundPlayer(String unlocalizedName) { super(unlocalizedName); }
+	public ItemBoundPlayer(ResourceLocation rl) { super(rl); }
 	
 	@Override
 	@SideOnly(Side.CLIENT)

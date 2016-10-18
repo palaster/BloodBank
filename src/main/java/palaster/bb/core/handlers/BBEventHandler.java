@@ -6,8 +6,6 @@ import java.util.UUID;
 import org.lwjgl.input.Keyboard;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityTNTPrimed;
@@ -27,8 +25,6 @@ import net.minecraft.util.EntityDamageSourceIndirect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.ServerChatEvent;
@@ -36,7 +32,6 @@ import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
 import net.minecraftforge.event.entity.player.PlayerDropsEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickBlock;
@@ -44,23 +39,19 @@ import net.minecraftforge.event.entity.player.SleepingLocationCheckEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.eventhandler.Event;
-import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import palaster.bb.BloodBank;
 import palaster.bb.api.capabilities.entities.IRPG;
-import palaster.bb.api.capabilities.entities.ITameableMonster;
-import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityDefault;
 import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityProvider;
 import palaster.bb.api.capabilities.entities.TameableMonsterCapability.TameableMonsterCapabilityProvider;
 import palaster.bb.api.recipes.ShapedBloodRecipes;
 import palaster.bb.core.helpers.NBTHelper;
 import palaster.bb.core.proxy.ClientProxy;
+import palaster.bb.core.proxy.CommonProxy;
 import palaster.bb.entities.EntityItztiliTablet;
 import palaster.bb.entities.careers.CareerBloodSorcerer;
 import palaster.bb.entities.careers.CareerGod;
@@ -71,18 +62,19 @@ import palaster.bb.items.ItemBBResources;
 import palaster.bb.items.ItemBloodBottle;
 import palaster.bb.items.ItemBoundBloodBottle;
 import palaster.bb.items.ItemBoundPlayer;
-import palaster.bb.items.ItemModStaff;
 import palaster.bb.libs.LibMod;
-import palaster.bb.network.PacketHandler;
 import palaster.bb.network.server.KeyClickMessage;
 import palaster.bb.world.BBWorldSaveData;
 import palaster.bb.world.WorldEventListener;
+import palaster.libpal.network.PacketHandler;
 
 public class BBEventHandler {
 
 	// Config Values
 	public static Configuration config;
 	public static boolean unkindledKeepInventoryOnDeath = true;
+	
+	private int timer = 0;
 
 	public static void init(File configFile) {
 		if(config == null) {
@@ -107,7 +99,7 @@ public class BBEventHandler {
 	public void attachEntityCapability(AttachCapabilitiesEvent.Entity e) {
 		if(e.getEntity() instanceof EntityPlayer)
 			if((EntityPlayer) e.getEntity() != null && !((EntityPlayer) e.getEntity()).hasCapability(RPGCapabilityProvider.RPG_CAP, null))
-				e.addCapability(new ResourceLocation(LibMod.MODID, "IRPG"), new RPGCapabilityProvider());
+				e.addCapability(new ResourceLocation(LibMod.MODID, "IRPG"), new RPGCapabilityProvider((EntityPlayer) e.getEntity()));
 		if(e.getEntity() instanceof EntityMob && e.getEntity().isNonBoss())
 			if((EntityMob) e.getEntity() != null && !((EntityMob) e.getEntity()).hasCapability(TameableMonsterCapabilityProvider.TAMEABLE_MONSTER_CAP, null))
 				e.addCapability(new ResourceLocation(LibMod.MODID, "ITameableMonster"), new TameableMonsterCapabilityProvider());
@@ -119,12 +111,7 @@ public class BBEventHandler {
 			final IRPG rpgOG = RPGCapabilityProvider.get(e.getOriginal());
 			final IRPG rpgNew = RPGCapabilityProvider.get(e.getEntityPlayer());
 			if(rpgOG != null && rpgNew != null) {
-				if(rpgOG.getCareer() != null)
-					rpgNew.setCareer(rpgOG.getCareer());
-				rpgNew.loadNBT(rpgOG.saveNBT());
-				RPGCapabilityDefault.calculateConstitutionBoost(e.getEntityPlayer());
-				RPGCapabilityDefault.calculateStrengthBoost(e.getEntityPlayer());
-				RPGCapabilityDefault.calculateDexterityBoost(e.getEntityPlayer());
+				rpgNew.loadNBT(e.getEntityPlayer(), rpgOG.saveNBT());
 				if(e.isWasDeath())
 					if(rpgOG.getCareer() != null && rpgOG.getCareer() instanceof CareerUnkindled) {
 						BBWorldSaveData bbWorldSaveData = BBWorldSaveData.get(e.getOriginal().worldObj);
@@ -158,14 +145,6 @@ public class BBEventHandler {
 	@SubscribeEvent
 	public void onLivingDeath(LivingDeathEvent e) {
 		if(!e.getEntityLiving().worldObj.isRemote) {
-			for(Entity entity : e.getEntityLiving().worldObj.loadedEntityList)
-				if(entity instanceof EntityPlayer) {
-					final IRPG rpg = RPGCapabilityProvider.get((EntityPlayer) entity);
-					if(rpg != null)
-						if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerBloodSorcerer)
-							if(((CareerBloodSorcerer) rpg.getCareer()).isLinked() && e.getEntityLiving().getUniqueID().equals(((CareerBloodSorcerer) rpg.getCareer()).getLinked().getUniqueID()))
-								((CareerBloodSorcerer) rpg.getCareer()).linkEntity(null);
-				}
 			if(e.getEntityLiving() instanceof EntityPlayer) {
 				final IRPG rpg = RPGCapabilityProvider.get((EntityPlayer) e.getEntityLiving());
 				if(rpg != null) {
@@ -204,13 +183,6 @@ public class BBEventHandler {
 			if(e.getEntityLiving() instanceof EntityPlayer) {
 				EntityPlayer p = (EntityPlayer) e.getEntityLiving();
 				if(e.getSource().getSourceOfDamage() != null) {
-					final IRPG rpg = RPGCapabilityProvider.get(p);
-					if(rpg != null)
-						if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerBloodSorcerer)
-							if(((CareerBloodSorcerer) rpg.getCareer()).isLinked()) {
-								((CareerBloodSorcerer) rpg.getCareer()).getLinked().attackEntityFrom(BloodBank.proxy.bbBlood, e.getAmount());
-								e.setCanceled(true);
-							}
 					if(p.getActivePotionEffect(BBPotions.sandBody) != null)
 						if(e.getSource().getSourceOfDamage() instanceof EntityPlayer) {
 							((EntityPlayer) e.getSource().getSourceOfDamage()).inventory.addItemStackToInventory(new ItemStack(BBItems.bbResources, 1, 3));
@@ -332,21 +304,21 @@ public class BBEventHandler {
 				}
 			if(e.getEntityLiving() instanceof EntityPlayer) {
 				IRPG rpg = RPGCapabilityProvider.get((EntityPlayer) e.getEntityLiving());
-				if(rpg != null && rpg.getCareer() != null && rpg.getCareer() instanceof CareerGod)
-					e.getEntityLiving().clearActivePotions();
+				if(rpg != null) {
+					if(timer >= 20) {
+						if(rpg.getMagick() < rpg.getMaxMagick()) {
+							rpg.setMagick(rpg.getMagick() + 1);
+							CommonProxy.syncPlayerRPGCapabilitiesToClient((EntityPlayer) e.getEntityLiving());
+						}
+						timer = 0;
+					} else
+						timer++;
+					if(rpg.getCareer() != null)
+						if(rpg.getCareer() instanceof CareerGod)
+							e.getEntityLiving().clearActivePotions();
+				}
 			}
 		}
-	}
-	
-	@SubscribeEvent
-	public void onLivingTarget(LivingSetAttackTargetEvent e) {
-		if(!e.getEntityLiving().worldObj.isRemote)
-			if(e.getEntityLiving() instanceof EntityMob && e.getTarget() instanceof EntityPlayer) {
-				ITameableMonster tm = TameableMonsterCapabilityProvider.get((EntityMob) e.getEntityLiving());
-				if(tm != null && tm.getOwner() != null)
-					if(tm.getOwner().equals(e.getTarget().getUniqueID()))
-						((EntityMob)e.getEntityLiving()).setAttackTarget(null);
-			}
 	}
 	
 	@SubscribeEvent
@@ -366,7 +338,7 @@ public class BBEventHandler {
 						if(e.getEntityPlayer().worldObj.getBlockState(e.getPos()) != null && e.getEntityPlayer().worldObj.getBlockState(e.getPos()).getBlock() == Blocks.DIAMOND_BLOCK) {
 							e.getEntityPlayer().setHeldItem(e.getHand(), null);
 							e.getEntityPlayer().worldObj.setBlockToAir(e.getPos());
-							rpg.setCareer(new CareerGod());
+							rpg.setCareer(e.getEntityPlayer(), new CareerGod(e.getEntityPlayer()));
 						}
 			}
 	}
@@ -386,28 +358,5 @@ public class BBEventHandler {
 		if(Minecraft.getMinecraft().inGameHasFocus)
 			if(Keyboard.isKeyDown(ClientProxy.staffChange.getKeyCode()))
 				PacketHandler.sendToServer(new KeyClickMessage());
-	}
-	
-	@SideOnly(Side.CLIENT)
-	@SubscribeEvent(priority = EventPriority.NORMAL)
-	public void onRenderGameOverlay(RenderGameOverlayEvent.Post e) {
-		if(Minecraft.getMinecraft().currentScreen == null && Minecraft.getMinecraft().inGameHasFocus)
-			if(e.getType() == ElementType.TEXT && Minecraft.getMinecraft().fontRendererObj != null) {
-				EntityPlayer p = Minecraft.getMinecraft().thePlayer;
-				if(p != null) {
-					if(p.getHeldItemOffhand() != null && p.getHeldItemOffhand().getItem() instanceof ItemModStaff && p.getHeldItemOffhand().hasTagCompound()) {
-						ItemStack staff = Minecraft.getMinecraft().thePlayer.getHeldItemOffhand();
-						String power = I18n.format(((ItemModStaff) staff.getItem()).powers[ItemModStaff.getActivePower(staff)]);
-						Minecraft.getMinecraft().fontRendererObj.drawString(I18n.format("bb.staff.active") + ": " + power, 2, 2, 4210752);
-						ClientProxy.isStaffRenderingHUD = true;
-					} else if(p.getHeldItemOffhand() == null)
-						ClientProxy.isStaffRenderingHUD = false;
-					if(ClientProxy.isBloodBookRenderingHUD && p.getHeldItemMainhand() != null && p.getHeldItemMainhand().getItem() instanceof ItemModStaff && p.getHeldItemMainhand().hasTagCompound()) {
-						ItemStack staff = Minecraft.getMinecraft().thePlayer.getHeldItemMainhand();
-						String power = I18n.format(((ItemModStaff) staff.getItem()).powers[ItemModStaff.getActivePower(staff)]);
-						Minecraft.getMinecraft().fontRendererObj.drawString(I18n.format("bb.staff.active") + ": " + power, 2, 10, 4210752);					
-					}
-				}
-			}	
 	}
 }

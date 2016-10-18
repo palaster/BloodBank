@@ -7,12 +7,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
 import palaster.bb.api.capabilities.items.IVampiric;
 
 public class ItemStaffHungryShadows extends ItemModStaff implements IVampiric {
 
-	public ItemStaffHungryShadows(String unlocalizedName) {
-		super(unlocalizedName);
+	public ItemStaffHungryShadows(ResourceLocation rl) {
+		super(rl);
 		powers = new String[]{"bb.staff.hs.0", "bb.staff.hs.1", "bb.staff.hs.2"};
 	}
 
