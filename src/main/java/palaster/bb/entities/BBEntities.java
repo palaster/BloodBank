@@ -8,7 +8,6 @@ import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import palaster.bb.BloodBank;
 import palaster.bb.client.renderers.RenderDemonicBankTeller;
-import palaster.bb.client.renderers.RenderItztiliTablet;
 import palaster.bb.client.renderers.RenderSkeletonMinion;
 import palaster.bb.client.renderers.RenderThrowable;
 import palaster.bb.items.BBItems;
@@ -19,8 +18,7 @@ public class BBEntities {
 		EntityRegistry.registerModEntity(EntitySkeletonMinion.class, "skeletonMinion", 0, BloodBank.instance, 80, 3, true);
 		EntityRegistry.registerModEntity(EntityYinYang.class, "yinYang", 1, BloodBank.instance, 64, 10, true);
 		EntityRegistry.registerModEntity(EntityDemonicBankTeller.class, "demonicBankTeller", 2, BloodBank.instance, 80, 3, true, 0x8A0707, 0x663300);
-		EntityRegistry.registerModEntity(EntityItztiliTablet.class, "itztiliTablet", 3, BloodBank.instance, 80, 3, true, 0x8A0707, 0x00FF00);
-		EntityRegistry.registerModEntity(EntityTalisman.class, "talisman", 4, BloodBank.instance, 64, 10, true);
+		EntityRegistry.registerModEntity(EntityTalisman.class, "talisman", 3, BloodBank.instance, 64, 10, true);
 	}
 
 	public static void registerEntityRenderers() {
@@ -35,10 +33,6 @@ public class BBEntities {
 		RenderingRegistry.registerEntityRenderingHandler(EntityDemonicBankTeller.class, new IRenderFactory<EntityDemonicBankTeller>() {
 			@Override
 			public Render<? super EntityDemonicBankTeller> createRenderFor(RenderManager manager) { return new RenderDemonicBankTeller(manager); }
-		});
-		RenderingRegistry.registerEntityRenderingHandler(EntityItztiliTablet.class, new IRenderFactory<EntityItztiliTablet>() {
-			@Override
-			public Render<? super EntityItztiliTablet> createRenderFor(RenderManager manager) { return new RenderItztiliTablet(manager); }
 		});
 		RenderingRegistry.registerEntityRenderingHandler(EntityTalisman.class, new IRenderFactory<EntityTalisman>() {
 			@Override

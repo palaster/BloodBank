@@ -7,23 +7,18 @@ import org.lwjgl.input.Keyboard;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.init.MobEffects;
-import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.EntityDamageSourceIndirect;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
@@ -32,7 +27,6 @@ import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.event.entity.player.PlayerDropsEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickBlock;
 import net.minecraftforge.event.entity.player.SleepingLocationCheckEvent;
@@ -52,13 +46,10 @@ import palaster.bb.api.recipes.ShapedBloodRecipes;
 import palaster.bb.core.helpers.NBTHelper;
 import palaster.bb.core.proxy.ClientProxy;
 import palaster.bb.core.proxy.CommonProxy;
-import palaster.bb.entities.EntityItztiliTablet;
 import palaster.bb.entities.careers.CareerBloodSorcerer;
 import palaster.bb.entities.careers.CareerGod;
-import palaster.bb.entities.careers.CareerUnkindled;
 import palaster.bb.entities.effects.BBPotions;
 import palaster.bb.items.BBItems;
-import palaster.bb.items.ItemBBResources;
 import palaster.bb.items.ItemBloodBottle;
 import palaster.bb.items.ItemBoundBloodBottle;
 import palaster.bb.items.ItemBoundPlayer;
@@ -110,71 +101,19 @@ public class BBEventHandler {
 		if(!e.getEntityPlayer().worldObj.isRemote) {
 			final IRPG rpgOG = RPGCapabilityProvider.get(e.getOriginal());
 			final IRPG rpgNew = RPGCapabilityProvider.get(e.getEntityPlayer());
-			if(rpgOG != null && rpgNew != null) {
+			if(rpgOG != null && rpgNew != null)
 				rpgNew.loadNBT(e.getEntityPlayer(), rpgOG.saveNBT());
-				if(e.isWasDeath())
-					if(rpgOG.getCareer() != null && rpgOG.getCareer() instanceof CareerUnkindled) {
-						BBWorldSaveData bbWorldSaveData = BBWorldSaveData.get(e.getOriginal().worldObj);
-						if(bbWorldSaveData != null) {
-							BlockPos closestBonfire = bbWorldSaveData.getNearestBonfireToPlayer(e.getOriginal(), e.getOriginal().getPosition());
-							if(closestBonfire != null)
-								e.getEntityPlayer().setPosition(closestBonfire.getX(), closestBonfire.getY() + .25D, closestBonfire.getZ());
-						}
-						if(unkindledKeepInventoryOnDeath)
-							e.getEntityPlayer().inventory.copyInventory(e.getOriginal().inventory);
-					}
-			}
 		}
 	}
 
 	@SubscribeEvent
-	public void onPlayerDrops(PlayerDropsEvent e) {
-		if(unkindledKeepInventoryOnDeath)
-			if(e.getEntityPlayer() != null) {
-				final IRPG rpg = RPGCapabilityProvider.get(e.getEntityPlayer());
-				if(rpg != null)
-					if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerUnkindled) {
-						for(EntityItem entityItem : e.getDrops())
-							if(entityItem != null && entityItem.getEntityItem() != null)
-								e.getEntityPlayer().inventory.addItemStackToInventory(entityItem.getEntityItem());
-						e.setCanceled(true);
-					} 
-			}
-	}
-
-	@SubscribeEvent
 	public void onLivingDeath(LivingDeathEvent e) {
-		if(!e.getEntityLiving().worldObj.isRemote) {
-			if(e.getEntityLiving() instanceof EntityPlayer) {
-				final IRPG rpg = RPGCapabilityProvider.get((EntityPlayer) e.getEntityLiving());
-				if(rpg != null) {
-					if(rpg.getCareer() != null) {
-						if(rpg.getCareer() instanceof CareerUnkindled) {
-							if(e.getSource().getSourceOfDamage() instanceof EntityPlayer) {
-								final IRPG rpgAttacker = RPGCapabilityProvider.get((EntityPlayer) e.getSource().getSourceOfDamage());
-								if(rpgAttacker != null)
-									if(rpgAttacker.getCareer() != null && rpgAttacker.getCareer() instanceof CareerUnkindled)
-										((CareerUnkindled) rpgAttacker.getCareer()).addSoul(((CareerUnkindled) rpg.getCareer()).getSoul());
-							} else if(((CareerUnkindled) rpg.getCareer()).getSoul() > 0)
-								e.getEntityLiving().worldObj.spawnEntityInWorld(new EntityItem(e.getEntityLiving().worldObj, e.getEntityLiving().posX, e.getEntityLiving().posY, e.getEntityLiving().posZ, NBTHelper.setIntegerToItemStack(new ItemStack(BBItems.bbResources, 1, 4), ItemBBResources.TAG_INT_SOUL_AMOUNT, ((CareerUnkindled) rpg.getCareer()).getSoul())));
-							((CareerUnkindled) rpg.getCareer()).setSoul(0);
-						}
-						if(rpg.getCareer() instanceof CareerGod)
-							e.setCanceled(true);
-					}
-				}
-			}
-			if(e.getSource().getSourceOfDamage() instanceof EntityPlayer) {
-				final IRPG rpg = RPGCapabilityProvider.get((EntityPlayer) e.getSource().getSourceOfDamage());
-				if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerUnkindled)
-					((CareerUnkindled) rpg.getCareer()).addSoul((int) e.getEntityLiving().getMaxHealth());
-			}
+		if(!e.getEntityLiving().worldObj.isRemote)
 			if(e.getEntityLiving() instanceof EntityLiving) {
 				NBTTagCompound nbt = new NBTTagCompound();
 				((EntityLiving) e.getEntityLiving()).writeToNBTAtomically(nbt);
 				BBWorldSaveData.get(e.getEntityLiving().worldObj).addDeadEntity(nbt);
 			}
-		}
 	}
 
 	@SubscribeEvent
@@ -182,22 +121,13 @@ public class BBEventHandler {
 		if(!e.getEntityLiving().worldObj.isRemote)
 			if(e.getEntityLiving() instanceof EntityPlayer) {
 				EntityPlayer p = (EntityPlayer) e.getEntityLiving();
-				if(e.getSource().getSourceOfDamage() != null) {
-					if(p.getActivePotionEffect(BBPotions.sandBody) != null)
-						if(e.getSource().getSourceOfDamage() instanceof EntityPlayer) {
-							((EntityPlayer) e.getSource().getSourceOfDamage()).inventory.addItemStackToInventory(new ItemStack(BBItems.bbResources, 1, 3));
-							e.setCanceled(true);
-						} else if(e.getSource().getSourceOfDamage() instanceof EntityLiving) {
-							((EntityLiving) e.getSource().getSourceOfDamage()).addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 600, 2, false, true));
-							e.setCanceled(true);
-						}
+				if(e.getSource().getSourceOfDamage() != null)
 					if(p.getActivePotionEffect(BBPotions.peace) != null)
 						if(e.getSource().getSourceOfDamage() instanceof EntityPlayer) {
 							EntityPlayer pSource = (EntityPlayer) e.getSource().getSourceOfDamage();
 							if(pSource != null && pSource.getActivePotionEffect(BBPotions.peace) != null)
 								e.setCanceled(true);
 						}
-				}
 			}
 	}
 	
@@ -225,9 +155,6 @@ public class BBEventHandler {
 						e.setCanceled(true);
 				}
 			}
-		if(e.getEntityLiving() instanceof EntityItztiliTablet)
-			if(e.getSource() != DamageSource.outOfWorld && e.getSource() != DamageSource.inWall)
-				e.setCanceled(true);
 	}
 	
 	@SubscribeEvent

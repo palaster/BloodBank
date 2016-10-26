@@ -30,9 +30,7 @@ import palaster.bb.client.gui.GuiVoidAnchor;
 import palaster.bb.core.CreativeTabBB;
 import palaster.bb.core.handlers.BBEventHandler;
 import palaster.bb.entities.BBEntities;
-import palaster.bb.entities.EntityItztiliTablet;
 import palaster.bb.entities.effects.BBPotions;
-import palaster.bb.entities.villager.BBVillagers;
 import palaster.bb.inventories.ContainerDesalinator;
 import palaster.bb.inventories.ContainerRPGIntro;
 import palaster.bb.inventories.ContainerVoidAnchor;
@@ -67,8 +65,6 @@ public class CommonProxy implements IGuiHandler {
 	
 	public void init() {
 		NetworkRegistry.INSTANCE.registerGuiHandler(BloodBank.instance, this);
-		BBVillagers.init();
-		BBApi.addBossClassToToken(EntityItztiliTablet.class);
 		BBApi.addItemStackToToken(new ItemStack(BBItems.leacher));
 		BBApi.addItemStackToToken(new ItemStack(BBItems.horn));
 	}

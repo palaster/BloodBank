@@ -22,7 +22,6 @@ import palaster.bb.core.helpers.NBTHelper;
 import palaster.bb.entities.careers.CareerBloodSorcerer;
 import palaster.bb.entities.careers.CareerCleric;
 import palaster.bb.entities.careers.CareerMonsterTamer;
-import palaster.bb.entities.careers.CareerUnkindled;
 import palaster.bb.entities.careers.CareerWorkshopWitch;
 import palaster.bb.items.BBItems;
 import palaster.bb.items.ItemCareerPamphlet;
@@ -41,44 +40,32 @@ public class BBRecipes {
 		// Blocks
 		GameRegistry.addRecipe(new ItemStack(BBBlocks.voidAnchor), "xyx", "yzy", "xyx", 'x', new ItemStack(Blocks.OBSIDIAN), 'y', new ItemStack(Items.ENDER_PEARL), 'z', new ItemStack(Blocks.ENDER_CHEST));
 		GameRegistry.addRecipe(new ItemStack(BBBlocks.communityTool), "xyx", "yzy", "xyx", 'x', new ItemStack(Items.GOLD_INGOT), 'y', new ItemStack(Blocks.QUARTZ_BLOCK), 'z', new ItemStack(Blocks.CHEST));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BBBlocks.bonfire), "xyx", "yzy", "xyx", 'x', new ItemStack(Blocks.TORCH), 'y', "logWood", 'z', new ItemStack(Items.FIRE_CHARGE)));
 		GameRegistry.addRecipe(new ItemStack(BBBlocks.tntAbsorber), "xxx", "yyy", " z ", 'x', Items.WATER_BUCKET, 'y', Blocks.TNT, 'z', Items.ENDER_PEARL);
 		GameRegistry.addRecipe(new ItemStack(BBBlocks.bloodTicker), "xyx", "yzy", "xyx", 'x', Items.REPEATER, 'y', Items.ENDER_PEARL, 'z', Items.CLOCK);
 		GameRegistry.addRecipe(new ItemStack(BBBlocks.desalinator), "xyx", "xzx", "xyx", 'x', Blocks.COBBLESTONE, 'y', Items.BOWL, 'z', Items.FLINT_AND_STEEL);
 
 		// Items
-		GameRegistry.addRecipe(new ItemStack(BBItems.resurrectionStone), "xyx", "yzy", "xyx", 'x', Blocks.SOUL_SAND, 'y', Items.GLOWSTONE_DUST, 'z', new ItemStack(BBItems.bbResources, 1, 5));
-		GameRegistry.addRecipe(new ItemStack(BBItems.ghostWhisper), "xzx", "zyz", "xzx", 'x', Blocks.SOUL_SAND, 'y', new ItemStack(BBItems.bbResources, 1, 5), 'z', Blocks.GLASS);
-		GameRegistry.addRecipe(new ItemStack(BBItems.pigDefense), "yxy", "xzx", "yxy", 'y', Items.ROTTEN_FLESH, 'x', Items.PORKCHOP, 'z', new ItemStack(BBItems.bbResources, 1, 4));
+		GameRegistry.addRecipe(new ItemStack(BBItems.resurrectionStone), "xyx", "yzy", "xyx", 'x', Blocks.SOUL_SAND, 'y', Items.GLOWSTONE_DUST, 'z', BBItems.soulGem);
+		GameRegistry.addRecipe(new ItemStack(BBItems.ghostWhisper), "xzx", "zyz", "xzx", 'x', Blocks.SOUL_SAND, 'y', BBItems.soulGem, 'z', Blocks.GLASS);
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BBItems.clericStaff), " xy", " zx", "z  ", 'y', Items.IRON_INGOT, 'x', "dustSalt", 'z', Items.STICK));
 		GameRegistry.addShapelessRecipe(new ItemStack(BBItems.rpgIntro), new ItemStack(Items.BOOK), new ItemStack(Items.CLOCK), new ItemStack(Items.MAP));
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BBItems.purifyingBook), new ItemStack(Items.BOOK), "dustSalt"));
-		GameRegistry.addShapelessRecipe(NBTHelper.setStringToItemStack(new ItemStack(BBItems.careerPamphlet), ItemCareerPamphlet.TAG_STRING_CAREER_CLASS, ""), new ItemStack(Items.WRITABLE_BOOK), new ItemStack(BBItems.bbResources, 1, 6));
+		GameRegistry.addShapelessRecipe(NBTHelper.setStringToItemStack(new ItemStack(BBItems.careerPamphlet), ItemCareerPamphlet.TAG_STRING_CAREER_CLASS, ""), new ItemStack(Items.WRITABLE_BOOK), new ItemStack(BBItems.pinkSlip));
 		GameRegistry.addShapelessRecipe(NBTHelper.setStringToItemStack(new ItemStack(BBItems.careerPamphlet), ItemCareerPamphlet.TAG_STRING_CAREER_CLASS, new CareerBloodSorcerer().getClass().getName()), new ItemStack(BBItems.careerPamphlet), Items.GLASS_BOTTLE, Items.ROTTEN_FLESH);
-		GameRegistry.addShapelessRecipe(NBTHelper.setStringToItemStack(new ItemStack(BBItems.careerPamphlet), ItemCareerPamphlet.TAG_STRING_CAREER_CLASS, new CareerUnkindled().getClass().getName()), new ItemStack(BBItems.careerPamphlet), Items.FIRE_CHARGE, Items.NETHERBRICK);
 		GameRegistry.addRecipe(new ShapelessOreRecipe(NBTHelper.setStringToItemStack(new ItemStack(BBItems.careerPamphlet), ItemCareerPamphlet.TAG_STRING_CAREER_CLASS, new CareerCleric().getClass().getName()), new ItemStack(BBItems.careerPamphlet), BBItems.clericStaff, "dustSalt"));
 		GameRegistry.addShapelessRecipe(NBTHelper.setStringToItemStack(new ItemStack(BBItems.careerPamphlet), ItemCareerPamphlet.TAG_STRING_CAREER_CLASS, new CareerMonsterTamer().getClass().getName()), new ItemStack(BBItems.careerPamphlet), BBItems.whip, Items.EGG);
 		GameRegistry.addShapelessRecipe(NBTHelper.setStringToItemStack(new ItemStack(BBItems.careerPamphlet), ItemCareerPamphlet.TAG_STRING_CAREER_CLASS, new CareerWorkshopWitch().getClass().getName()), new ItemStack(BBItems.careerPamphlet), Items.BREWING_STAND, Items.CAULDRON);
 		
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BBItems.bbResources, 1, 1), "xyx", "yzy", "xyx", 'x', Blocks.STONE, 'y', "dyeRed", 'z', Items.ROTTEN_FLESH));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BBItems.bbResources, 1, 6), Items.PAPER, "dyePink", Items.FLINT_AND_STEEL));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BBItems.vampireSigil), "xyx", "yzy", "xyx", 'x', Blocks.STONE, 'y', "dyeRed", 'z', Items.ROTTEN_FLESH));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BBItems.pinkSlip), Items.PAPER, "dyePink", Items.FLINT_AND_STEEL));
 		
 		GameRegistry.addShapelessRecipe(new ItemStack(BBItems.boundPlayer), new ItemStack(Blocks.STONE_SLAB), new ItemStack(Items.BONE));
 		GameRegistry.addShapelessRecipe(new ItemStack(BBItems.boundBloodBottle), new ItemStack(BBItems.boundPlayer), new ItemStack(BBItems.bloodBottle));
-		
-		GameRegistry.addRecipe(new ItemStack(BBItems.sandHelmet), "xxx", "x x", 'x', Items.STRING);
-		GameRegistry.addRecipe(new ItemStack(BBItems.sandChestplate), "x x", "xxx", "xxx", 'x', Items.STRING);
-		GameRegistry.addRecipe(new ItemStack(BBItems.sandLeggings), "xxx", "x x", "x x", 'x', Items.STRING);
-		GameRegistry.addRecipe(new ItemStack(BBItems.sandBoots), "x x", "x x", 'x', Items.STRING);
+
 		GameRegistry.addRecipe(new ItemStack(BBItems.armorActivator), "xax", "bxc", "xdx", 'x', Items.GLOWSTONE_DUST, 'a', Items.DIAMOND_HELMET, 'b', Items.DIAMOND_CHESTPLATE, 'c', Items.DIAMOND_LEGGINGS, 'd', Items.DIAMOND_BOOTS);
 		
-		GameRegistry.addRecipe(new ItemStack(BBItems.sunHelmet), "xzx", "zyz", "xzx", 'y', Items.DIAMOND_HELMET, 'x', new ItemStack(Blocks.DOUBLE_PLANT, 1, 0), 'z', BBItems.soulCoin);
-		GameRegistry.addRecipe(new ItemStack(BBItems.sunChestplate), "xzx", "zyz", "xzx", 'y', Items.DIAMOND_CHESTPLATE, 'x', new ItemStack(Blocks.DOUBLE_PLANT, 1, 0), 'z', BBItems.soulCoin);
-		GameRegistry.addRecipe(new ItemStack(BBItems.sunLeggings), "xzx", "zyz", "xzx", 'y', Items.DIAMOND_LEGGINGS, 'x', new ItemStack(Blocks.DOUBLE_PLANT, 1, 0), 'z', BBItems.soulCoin);
-		GameRegistry.addRecipe(new ItemStack(BBItems.sunBoots), "xzx", "zyz", "xzx", 'y', Items.DIAMOND_BOOTS, 'x', new ItemStack(Blocks.DOUBLE_PLANT, 1, 0), 'z', BBItems.soulCoin);
-		
 		GameRegistry.addRecipe(NBTHelper.setIntegerToItemStack(new ItemStack(BBItems.token, 1, 1), ItemToken.TAG_INT_TOKEN, 0), "xyx", "yzy", "xyx", 'x', Blocks.STONE, 'y', Items.GOLD_NUGGET, 'z', BBItems.token);
-		GameRegistry.addRecipe(NBTHelper.setIntegerToItemStack(new ItemStack(BBItems.token, 1, 2), ItemToken.TAG_INT_TOKEN, 0), "xya", "yzy", "ayx", 'a', new ItemStack(BBItems.bbResources, 1, 1), 'x', Items.DIAMOND_SWORD, 'y', Items.ROTTEN_FLESH, 'z', BBItems.token);
+		GameRegistry.addRecipe(NBTHelper.setIntegerToItemStack(new ItemStack(BBItems.token, 1, 2), ItemToken.TAG_INT_TOKEN, 0), "xya", "yzy", "ayx", 'a', BBItems.vampireSigil, 'x', Items.DIAMOND_SWORD, 'y', Items.ROTTEN_FLESH, 'z', BBItems.token);
 		GameRegistry.addRecipe(new ShapedOreRecipe(NBTHelper.setIntegerToItemStack(new ItemStack(BBItems.token, 1, 2), ItemToken.TAG_INT_TOKEN, 1), "yxw", " z ", "wxy", 'w', Items.REDSTONE, 'x', Blocks.NOTEBLOCK, 'y', "record", 'z', BBItems.token));
 		
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(BBItems.talisman, 1, 0), new ItemStack(Items.PAPER), "dyeBlack", new ItemStack(Items.GLOWSTONE_DUST)));
@@ -93,13 +80,13 @@ public class BBRecipes {
 		addShapedBloodRecipe(250, new ItemStack(BBItems.staffVoidWalker), "  x", " y ", "y  ", 'x', Blocks.END_STONE, 'y', Items.STICK);
 		addShapedBloodRecipe(250, new ItemStack(BBItems.staffHungryShadows), "  x", " y ", "y  ", 'x', Items.NETHER_STAR, 'y', Items.STICK);
 		addShapedBloodRecipe(250, new ItemStack(BBItems.animalHerder), "  x", " y ", "y  ", 'x', Items.WHEAT, 'y', Items.STICK);
-		addShapedBloodRecipe(500, new ItemStack(BBItems.bloodBook), "yyy", "yxy", "yyy", 'x', new ItemStack(BBItems.bbResources, 1, 1), 'y', Items.PAPER);
+		addShapedBloodRecipe(500, new ItemStack(BBItems.bloodBook), "yyy", "yxy", "yyy", 'x', BBItems.vampireSigil, 'y', Items.PAPER);
 		
 		ItemStack health = new ItemStack(Items.POTIONITEM);
 		PotionUtils.addPotionToItemStack(health, PotionType.getPotionTypeForName("strong_healing"));
 		ItemStack damage = new ItemStack(Items.POTIONITEM);
 		PotionUtils.addPotionToItemStack(damage, PotionType.getPotionTypeForName("strong_harming"));
-		addShapedBloodRecipe(500, new ItemStack(BBItems.bbResources, 1, 0), "wyx", "yzy", "xyw", 'w', health, 'x', damage, 'y', Blocks.OBSIDIAN, 'z', new ItemStack(Items.SKULL, 1, 1));
+		addShapedBloodRecipe(500, new ItemStack(BBItems.wormEater), "wyx", "yzy", "xyw", 'w', health, 'x', damage, 'y', Blocks.OBSIDIAN, 'z', new ItemStack(Items.SKULL, 1, 1));
 	}
 	
 	public static ShapedBloodRecipes addShapedBloodRecipe(int bloodCost, ItemStack stack, Object... recipeComponents) {

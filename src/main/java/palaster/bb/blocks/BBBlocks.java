@@ -23,7 +23,6 @@ public class BBBlocks {
 	
 	public static Block voidAnchor,
 	communityTool,
-	bonfire,
 	tntAbsorber,
 	bloodTicker,
 	voidTrap,
@@ -34,7 +33,6 @@ public class BBBlocks {
 	public static void init() {
 		voidAnchor = new BlockVoidAnchor(createResourceLocation("voidAnchor"), Material.ROCK);
 		communityTool = new BlockCommunityTool(createResourceLocation("communityTool"), Material.ROCK);
-		bonfire = new BlockBonfire(createResourceLocation("bonfire"), Material.WOOD);
 		tntAbsorber = new BlockTNTAbsorber(createResourceLocation("tntAbsorber"), Material.ROCK);
 		bloodTicker = new BlockBloodTicker(createResourceLocation("bloodTicker"), Material.GROUND);
 		voidTrap = new BlockVoidTrap(createResourceLocation("voidTrap"), Material.BARRIER);

@@ -25,7 +25,4 @@ public class ClientProxy extends CommonProxy {
 		super.init();
 		ClientRegistry.registerKeyBinding(staffChange);
 	}
-
-	@Override
-	public void postInit() { super.postInit(); }
 }
