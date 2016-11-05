@@ -6,20 +6,20 @@ import java.util.UUID;
 import org.lwjgl.input.Keyboard;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.item.crafting.CraftingManager;
-import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.EntityDamageSourceIndirect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.world.World;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.ServerChatEvent;
@@ -38,25 +38,22 @@ import net.minecraftforge.fml.common.gameevent.InputEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
-import palaster.bb.BloodBank;
 import palaster.bb.api.capabilities.entities.IRPG;
 import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityProvider;
 import palaster.bb.api.capabilities.entities.TameableMonsterCapability.TameableMonsterCapabilityProvider;
-import palaster.bb.api.recipes.ShapedBloodRecipes;
-import palaster.bb.core.helpers.NBTHelper;
+import palaster.bb.api.capabilities.worlds.BBWorldCapability.BBWorldCapabilityProvider;
+import palaster.bb.api.capabilities.worlds.IBBWorld;
 import palaster.bb.core.proxy.ClientProxy;
 import palaster.bb.core.proxy.CommonProxy;
-import palaster.bb.entities.careers.CareerBloodSorcerer;
 import palaster.bb.entities.careers.CareerGod;
 import palaster.bb.entities.effects.BBPotions;
 import palaster.bb.items.BBItems;
-import palaster.bb.items.ItemBloodBottle;
 import palaster.bb.items.ItemBoundBloodBottle;
 import palaster.bb.items.ItemBoundPlayer;
 import palaster.bb.libs.LibMod;
 import palaster.bb.network.server.KeyClickMessage;
-import palaster.bb.world.BBWorldSaveData;
 import palaster.bb.world.WorldEventListener;
+import palaster.libpal.core.helpers.NBTHelper;
 import palaster.libpal.network.PacketHandler;
 
 public class BBEventHandler {
@@ -87,13 +84,19 @@ public class BBEventHandler {
 	}
 
 	@SubscribeEvent
-	public void attachEntityCapability(AttachCapabilitiesEvent.Entity e) {
-		if(e.getEntity() instanceof EntityPlayer)
-			if((EntityPlayer) e.getEntity() != null && !((EntityPlayer) e.getEntity()).hasCapability(RPGCapabilityProvider.RPG_CAP, null))
-				e.addCapability(new ResourceLocation(LibMod.MODID, "IRPG"), new RPGCapabilityProvider((EntityPlayer) e.getEntity()));
-		if(e.getEntity() instanceof EntityMob && e.getEntity().isNonBoss())
-			if((EntityMob) e.getEntity() != null && !((EntityMob) e.getEntity()).hasCapability(TameableMonsterCapabilityProvider.TAMEABLE_MONSTER_CAP, null))
+	public void attachEntityCapability(AttachCapabilitiesEvent<Entity> e) {
+		if(e.getObject() instanceof EntityPlayer)
+			if((EntityPlayer) e.getObject() != null && !((EntityPlayer) e.getObject()).hasCapability(RPGCapabilityProvider.RPG_CAP, null))
+				e.addCapability(new ResourceLocation(LibMod.MODID, "IRPG"), new RPGCapabilityProvider((EntityPlayer) e.getObject()));
+		if(e.getObject() instanceof EntityMob && e.getObject().isNonBoss())
+			if((EntityMob) e.getObject() != null && !((EntityMob) e.getObject()).hasCapability(TameableMonsterCapabilityProvider.TAMEABLE_MONSTER_CAP, null))
 				e.addCapability(new ResourceLocation(LibMod.MODID, "ITameableMonster"), new TameableMonsterCapabilityProvider());
+	}
+	
+	@SubscribeEvent
+	public void attachWorldCapability(AttachCapabilitiesEvent<World> e) {
+		if(e.getObject() != null && !e.getObject().hasCapability(BBWorldCapabilityProvider.BB_WORLD_CAP, null))
+			e.addCapability(new ResourceLocation(LibMod.MODID, "IBBWorld"), new BBWorldCapabilityProvider());
 	}
 
 	@SubscribeEvent
@@ -112,7 +115,8 @@ public class BBEventHandler {
 			if(e.getEntityLiving() instanceof EntityLiving) {
 				NBTTagCompound nbt = new NBTTagCompound();
 				((EntityLiving) e.getEntityLiving()).writeToNBTAtomically(nbt);
-				BBWorldSaveData.get(e.getEntityLiving().worldObj).addDeadEntity(nbt);
+				if(BBWorldCapabilityProvider.get(e.getEntityLiving().worldObj) != null)
+					BBWorldCapabilityProvider.get(e.getEntityLiving().worldObj).addDeadEntity(nbt);
 			}
 	}
 
@@ -166,38 +170,12 @@ public class BBEventHandler {
 	
 	@SubscribeEvent
 	public void onCraft(ItemCraftedEvent e) {
-		if(!e.player.worldObj.isRemote) {
-			if(CraftingManager.getInstance().getRecipeList() != null)
-				for(IRecipe recipe : CraftingManager.getInstance().getRecipeList())
-					if(recipe != null && recipe instanceof ShapedBloodRecipes)
-						if(recipe.getRecipeOutput() != null && recipe.getRecipeOutput().getItem() == e.crafting.getItem() && recipe.getRecipeOutput().getItemDamage() == e.crafting.getItemDamage()) {
-							for(int i = 0; i < e.player.inventory.getSizeInventory(); i++)
-								if(e.player.inventory.getStackInSlot(i) != null)
-									if(e.player.inventory.getStackInSlot(i).getItem() instanceof ItemBloodBottle)
-										if((e.player.inventory.getStackInSlot(i).getMaxDamage() - e.player.inventory.getStackInSlot(i).getItemDamage()) >= ((ShapedBloodRecipes) recipe).recipeBloodCost) {
-											e.player.inventory.getStackInSlot(i).damageItem(((ShapedBloodRecipes) recipe).recipeBloodCost, e.player);
-											return;
-										}
-							final IRPG rpg = RPGCapabilityProvider.get(e.player);
-							if(rpg != null) {
-								if(rpg.getCareer() != null && rpg.getCareer() instanceof CareerBloodSorcerer) {
-									int temp = ((CareerBloodSorcerer) rpg.getCareer()).consumeBlood(((ShapedBloodRecipes) recipe).recipeBloodCost); 
-									if(temp > 0) {
-										e.player.attackEntityFrom(BloodBank.proxy.bbBlood, temp / 100);
-										return;
-									}
-								}
-							} else {
-								e.player.attackEntityFrom(BloodBank.proxy.bbBlood, (((ShapedBloodRecipes) recipe).recipeBloodCost / 100));
-								return;
-							}
-						}
+		if(!e.player.worldObj.isRemote)
 			if(e.crafting != null && e.crafting.getItem() == BBItems.boundBloodBottle)
 				for(int i = 0; i < e.craftMatrix.getSizeInventory(); i++)
 					if(e.craftMatrix.getStackInSlot(i) != null && e.craftMatrix.getStackInSlot(i).getItem() == BBItems.boundPlayer)
 						if(e.craftMatrix.getStackInSlot(i).hasTagCompound())
 							NBTHelper.setUUIDToItemStack(e.crafting, ItemBoundBloodBottle.TAG_UUID_PLAYER, NBTHelper.getUUIDFromItemStack(e.craftMatrix.getStackInSlot(i), ItemBoundPlayer.TAG_UUID_PLAYER));
-		}
 	}
 
 	@SubscribeEvent
@@ -230,12 +208,13 @@ public class BBEventHandler {
 					((EntityPlayer) e.getEntityLiving()).sendPlayerAbilities();
 				}
 			if(e.getEntityLiving() instanceof EntityPlayer) {
-				IRPG rpg = RPGCapabilityProvider.get((EntityPlayer) e.getEntityLiving());
+				EntityPlayer p = (EntityPlayer) e.getEntityLiving();
+				IRPG rpg = RPGCapabilityProvider.get(p);
 				if(rpg != null) {
 					if(timer >= 20) {
 						if(rpg.getMagick() < rpg.getMaxMagick()) {
 							rpg.setMagick(rpg.getMagick() + 1);
-							CommonProxy.syncPlayerRPGCapabilitiesToClient((EntityPlayer) e.getEntityLiving());
+							CommonProxy.syncPlayerRPGCapabilitiesToClient(p);
 						}
 						timer = 0;
 					} else
@@ -274,9 +253,10 @@ public class BBEventHandler {
 	public void onWorldTick(TickEvent.WorldTickEvent e) {
 		if(e.side.isServer())
 			if(e.phase == Phase.START) {
-				if((e.world.getTotalWorldTime() % 84000) == 0)
-					BBWorldSaveData.get(e.world).clearDeadEntities(e.world); // 7 Minecraft Days
-				BBWorldSaveData.get(e.world).tickTask(e.world);
+				IBBWorld bbWorld = BBWorldCapabilityProvider.get(e.world);
+				if(bbWorld != null)
+					if((e.world.getTotalWorldTime() % 84000) == 0)
+						bbWorld.clearDeadEntities(e.world); // 7 Minecraft Days
 			}
 	}
 

@@ -17,7 +17,7 @@ public class BlockBloodTicker extends BlockModContainer {
 	public BlockBloodTicker(ResourceLocation rl, Material p_i45394_1_) { super(rl, p_i45394_1_); }
 	
 	@Override
-	public TileEntity createTileEntity(World world, IBlockState state) { return new TileEntityBloodTicker(); }
+	public TileEntity createModTileEntity(World world, IBlockState state) { return new TileEntityBloodTicker(); }
 	
 	@Override
 	public boolean canSustainPlant(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing direction, IPlantable plantable) { return true; }

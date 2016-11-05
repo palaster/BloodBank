@@ -86,7 +86,7 @@ public class EntitySkeletonMinion extends EntityTameable implements IMob, IRange
         tasks.addTask(2, aiSit = new EntityAISit(this));
         tasks.addTask(2, new EntityAIRestrictSun(this));
         tasks.addTask(3, new EntityAIFleeSun(this, 1.0D));
-        tasks.addTask(3, new EntityAIAvoidEntity(this, EntityWolf.class, 6.0F, 1.0D, 1.2D));
+        tasks.addTask(3, new EntityAIAvoidEntity<EntityWolf>(this, EntityWolf.class, 6.0F, 1.0D, 1.2D));
         tasks.addTask(5, new EntityAIFollowOwner(this, 1.0D, 10.0F, 2.0F));
         tasks.addTask(6, new EntityAIWander(this, 1.0D));
         tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));

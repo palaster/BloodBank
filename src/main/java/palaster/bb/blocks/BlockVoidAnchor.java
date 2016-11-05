@@ -32,7 +32,7 @@ public class BlockVoidAnchor extends BlockModContainer {
 			playerIn.openGui(BloodBank.instance, 1, worldIn, pos.getX(), pos.getY(), pos.getZ());
 		return true;
 	}
-	
+
 	@Override
-	public TileEntity createTileEntity(World world, IBlockState state) { return new TileEntityVoidAnchor(); }
+	public TileEntity createModTileEntity(World world, IBlockState state) { return new TileEntityVoidAnchor(); }
 }

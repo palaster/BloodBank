@@ -15,7 +15,6 @@ repositories {
 }
 
 apply plugin: 'net.minecraftforge.gradle.forge'
-//Only edit below this line, the above code adds and enables the nessasary things for Forge to be setup.
 
 ext.configFile = file('build.properties')
 ext.config = parseConfig(configFile)
@@ -24,9 +23,9 @@ version = "${config.version}"
 group= "palaster.bb"
 archivesBaseName = "BloodBank"
 
-sourceCompatibility = targetCompatibility = "1.6" // Need this here so eclipse task generates correctly.
+sourceCompatibility = targetCompatibility = "1.8"
 compileJava {
-    sourceCompatibility = targetCompatibility = "1.6"
+    sourceCompatibility = targetCompatibility = "1.8"
 }
 
 minecraft {
@@ -37,7 +36,7 @@ minecraft {
 	replace '@VERSION@', project.version
 }
 
-dependencies { deobfCompile "mezz.jei:jei_${config.mc_version}:${config.jei_version}" }
+dependencies {}
 
 processResources {
 	inputs.property "version", project.version

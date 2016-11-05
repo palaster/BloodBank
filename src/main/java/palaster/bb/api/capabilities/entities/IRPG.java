@@ -2,7 +2,7 @@ package palaster.bb.api.capabilities.entities;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import palaster.bb.api.rpg.IRPGCareer;
+import palaster.bb.api.rpg.RPGCareerBase;
 
 public interface IRPG {
 	
@@ -32,9 +32,9 @@ public interface IRPG {
 	
 	public int getMaxMagick();
 	
-	void setCareer(EntityPlayer player, IRPGCareer career);
+	void setCareer(EntityPlayer player, RPGCareerBase career);
 	
-	IRPGCareer getCareer();
+	RPGCareerBase getCareer();
 	
 	NBTTagCompound saveNBT();
 

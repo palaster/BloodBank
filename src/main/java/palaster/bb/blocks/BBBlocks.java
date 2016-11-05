@@ -11,7 +11,6 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import palaster.bb.blocks.tile.TileEntityBloodTicker;
-import palaster.bb.blocks.tile.TileEntityCommunityTool;
 import palaster.bb.blocks.tile.TileEntityDesalinator;
 import palaster.bb.blocks.tile.TileEntityTNTAbsorber;
 import palaster.bb.blocks.tile.TileEntityVoidAnchor;
@@ -22,30 +21,25 @@ import palaster.libpal.blocks.BlockMod;
 public class BBBlocks {
 	
 	public static Block voidAnchor,
-	communityTool,
 	tntAbsorber,
 	bloodTicker,
 	voidTrap,
 	desalinator,
-	slotMachine,
-	workshopSeal;
+	slotMachine;
 	
 	public static void init() {
 		voidAnchor = new BlockVoidAnchor(createResourceLocation("voidAnchor"), Material.ROCK);
-		communityTool = new BlockCommunityTool(createResourceLocation("communityTool"), Material.ROCK);
 		tntAbsorber = new BlockTNTAbsorber(createResourceLocation("tntAbsorber"), Material.ROCK);
 		bloodTicker = new BlockBloodTicker(createResourceLocation("bloodTicker"), Material.GROUND);
 		voidTrap = new BlockVoidTrap(createResourceLocation("voidTrap"), Material.BARRIER);
 		desalinator = new BlockDesalinator(createResourceLocation("desalinator"), Material.ROCK);
 		slotMachine = new BlockSlotMachine(createResourceLocation("slotMachine"), Material.ROCK);
-		workshopSeal = new BlockWorkshopSeal(createResourceLocation("workshopSeal"), Material.ROCK);
 
 		registerTileEntities();
 	}
 	
 	public static void registerTileEntities() {
 		registerTileEntity(TileEntityVoidAnchor.class, "voidAnchor");
-		registerTileEntity(TileEntityCommunityTool.class, "communityTool");
 		registerTileEntity(TileEntityTNTAbsorber.class, "tntAbsorber");
 		registerTileEntity(TileEntityBloodTicker.class, "bloodTicker");
 		registerTileEntity(TileEntityVoidTrap.class, "voidTrap");

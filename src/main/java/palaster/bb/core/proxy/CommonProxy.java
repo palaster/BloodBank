@@ -21,6 +21,9 @@ import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityProvider
 import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityStorage;
 import palaster.bb.api.capabilities.entities.TameableMonsterCapability.TameableMonsterCapabilityFactory;
 import palaster.bb.api.capabilities.entities.TameableMonsterCapability.TameableMonsterCapabilityStorage;
+import palaster.bb.api.capabilities.worlds.BBWorldCapability.BBWorldCapabilityFactory;
+import palaster.bb.api.capabilities.worlds.BBWorldCapability.BBWorldCapabilityStorage;
+import palaster.bb.api.capabilities.worlds.IBBWorld;
 import palaster.bb.blocks.BBBlocks;
 import palaster.bb.blocks.tile.TileEntityDesalinator;
 import palaster.bb.blocks.tile.TileEntityVoidAnchor;
@@ -60,6 +63,7 @@ public class CommonProxy implements IGuiHandler {
 		LibPalHelper.setCreativeTab(LibMod.MODID, CreativeTabBB.tabBB);
 		CapabilityManager.INSTANCE.register(IRPG.class, new RPGCapabilityStorage(), new RPGCapabilityFactory());
 		CapabilityManager.INSTANCE.register(ITameableMonster.class, new TameableMonsterCapabilityStorage(), new TameableMonsterCapabilityFactory());
+		CapabilityManager.INSTANCE.register(IBBWorld.class, new BBWorldCapabilityStorage(), new BBWorldCapabilityFactory());
 		MinecraftForge.EVENT_BUS.register(new BBEventHandler());
 	}
 	

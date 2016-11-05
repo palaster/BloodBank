@@ -1,6 +1,6 @@
 package palaster.bb.api.capabilities.entities;
 
-import java.lang.ref.WeakReference;
+import java.lang.ref.SoftReference;
 import java.util.UUID;
 import java.util.concurrent.Callable;
 
@@ -14,7 +14,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
-import palaster.bb.api.rpg.IRPGCareer;
+import palaster.bb.api.rpg.RPGCareerBase;
 
 public class RPGCapability {
 
@@ -34,7 +34,7 @@ public class RPGCapability {
 				STRENGTH_ID = UUID.fromString("55d5fd28-76bd-4fa6-b5ec-b0961bad7a09"),
 				DEXTERITY_ID = UUID.fromString("d0ff0df9-9f9c-491d-9d9c-5997b5d5ba22");
 		
-		private IRPGCareer career;
+		private RPGCareerBase career;
 		
 		private int constitution,
 		strength,
@@ -53,14 +53,12 @@ public class RPGCapability {
 				constitution = amt;
 			if(constitution <= 0) {
     			IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MAX_HEALTH);
-                try {
-                    iAttributeInstance.removeModifier(iAttributeInstance.getModifier(RPGCapabilityDefault.HEALTH_ID));
-                } catch(Exception e) {}
+    			if(iAttributeInstance.getModifier(RPGCapabilityDefault.HEALTH_ID) != null)
+    				iAttributeInstance.removeModifier(iAttributeInstance.getModifier(RPGCapabilityDefault.HEALTH_ID));
     		} else {
     			IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MAX_HEALTH);
-                try {
-                    iAttributeInstance.removeModifier(iAttributeInstance.getModifier(RPGCapabilityDefault.HEALTH_ID));
-                } catch(Exception e) {}
+    			if(iAttributeInstance.getModifier(RPGCapabilityDefault.HEALTH_ID) != null)
+    				iAttributeInstance.removeModifier(iAttributeInstance.getModifier(RPGCapabilityDefault.HEALTH_ID));
                 iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.HEALTH_ID, "bb.rpg.constitution", constitution * .4, 0));
     		}
 		}
@@ -78,14 +76,12 @@ public class RPGCapability {
 				strength = amt;
 			if(strength <= 0) {
     			IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ATTACK_DAMAGE);
-                try {
-                    iAttributeInstance.removeModifier(iAttributeInstance.getModifier(RPGCapabilityDefault.STRENGTH_ID));
-                } catch(Exception e) {}
+                if(iAttributeInstance.getModifier(RPGCapabilityDefault.STRENGTH_ID) != null)
+                	iAttributeInstance.removeModifier(iAttributeInstance.getModifier(RPGCapabilityDefault.STRENGTH_ID));
     		} else {
     			IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ATTACK_DAMAGE);
-                try {
+    			if(iAttributeInstance.getModifier(RPGCapabilityDefault.STRENGTH_ID) != null)
                     iAttributeInstance.removeModifier(iAttributeInstance.getModifier(RPGCapabilityDefault.STRENGTH_ID));
-                } catch(Exception e) {}
                 if(strength >= 90)
                 	iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.STRENGTH_ID, "bb.rpg.strength", 70, 0));
                 else if(strength >= 80)
@@ -135,14 +131,12 @@ public class RPGCapability {
 				dexterity = amt;
 			if(dexterity <= 0) {
     			IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MOVEMENT_SPEED);
-                try {
+    			if(iAttributeInstance.getModifier(RPGCapabilityDefault.DEXTERITY_ID) != null)
                 	iAttributeInstance.removeModifier(iAttributeInstance.getModifier(RPGCapabilityDefault.DEXTERITY_ID));
-                } catch(Exception e) {}
     		} else {
     			IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MOVEMENT_SPEED);
-                try {
-                    iAttributeInstance.removeModifier(iAttributeInstance.getModifier(RPGCapabilityDefault.DEXTERITY_ID));
-                } catch(Exception e) {}
+    			if(iAttributeInstance.getModifier(RPGCapabilityDefault.DEXTERITY_ID) != null)
+                	iAttributeInstance.removeModifier(iAttributeInstance.getModifier(RPGCapabilityDefault.DEXTERITY_ID));
                 iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.DEXTERITY_ID, "bb.rpg.dexterity", dexterity * .008, 0));
     		}
 		}
@@ -164,7 +158,6 @@ public class RPGCapability {
 		@Override
 		public int getIntelligence() { return intelligence; }
 		
-
 		@Override
 		public void setMagick(int amt) {
 			if(amt > getMaxMagick())
@@ -182,14 +175,14 @@ public class RPGCapability {
 		public int getMaxMagick() { return getIntelligence() * 1000; }
 		
 		@Override
-		public void setCareer(EntityPlayer player, IRPGCareer career) {
+		public void setCareer(EntityPlayer player, RPGCareerBase career) {
 			if(player != null && this.career != null)
 				this.career.leaveCareer(player);
 			this.career = career;
 		}
 
 		@Override
-		public IRPGCareer getCareer() { return career; }
+		public RPGCareerBase getCareer() { return career; }
 
 		@Override
 		public NBTTagCompound saveNBT() {
@@ -202,7 +195,7 @@ public class RPGCapability {
 			nbt.setInteger(TAG_INT_MAGICK, magick);
 			if(career != null && career.getClass() != null && !career.getClass().getName().isEmpty()) {
 				nbt.setString(TAG_STRING_CLASS, career.getClass().getName());
-				nbt.setTag(TAG_CAREER, career.saveNBT());
+				nbt.setTag(TAG_CAREER, career.serializeNBT());
 			}
 			return nbt;
 		}
@@ -218,20 +211,10 @@ public class RPGCapability {
 			if(!nbt.getString(TAG_STRING_CLASS).isEmpty()) {
 				try {
 					Object obj = Class.forName(nbt.getString(TAG_STRING_CLASS)).newInstance();
-					if(obj != null && obj instanceof IRPGCareer) {
-						career = (IRPGCareer) obj;
+					if(obj != null && obj instanceof RPGCareerBase)
 						if(nbt.hasKey(TAG_CAREER) && nbt.getCompoundTag(TAG_CAREER) != null)
-							career.loadNBT(nbt.getCompoundTag(TAG_CAREER));
-					}
-				} catch (ClassNotFoundException e) {
-					e.printStackTrace();
-				} catch (InstantiationException e) {
-					e.printStackTrace();
-				} catch (IllegalAccessException e) {
-					e.printStackTrace();
-				} catch (IllegalArgumentException e) {
-					e.printStackTrace();
-				} catch (SecurityException e) {
+							((RPGCareerBase) obj).deserializeNBT(nbt.getCompoundTag(TAG_CAREER));
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
@@ -259,11 +242,11 @@ public class RPGCapability {
 		
 	    protected IRPG rpg = null;
 
-	    private final WeakReference<EntityPlayer> p;
+	    private final SoftReference<EntityPlayer> p;
 
 	    public RPGCapabilityProvider(EntityPlayer player) {
 	    	rpg = new RPGCapabilityDefault();
-	    	p = new WeakReference<EntityPlayer>(player);
+	    	p = new SoftReference<EntityPlayer>(player);
 	    }
 	    
 	    public static IRPG get(EntityPlayer player) {

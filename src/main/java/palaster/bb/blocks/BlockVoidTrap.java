@@ -63,7 +63,7 @@ public class BlockVoidTrap extends BlockModContainer {
 	@Override
 	@Nullable
 	public Item getItemDropped(IBlockState state, Random rand, int fortune) { return Item.getItemFromBlock(Blocks.AIR); }
-	
+
 	@Override
-	public TileEntity createTileEntity(World world, IBlockState state) { return new TileEntityVoidTrap(); }
+	public TileEntity createModTileEntity(World world, IBlockState state) { return new TileEntityVoidTrap(); }
 }

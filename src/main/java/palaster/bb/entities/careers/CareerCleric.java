@@ -7,5 +7,5 @@ public class CareerCleric extends RPGCareerBase {
 	public CareerCleric() { super(); }
 	
 	@Override
-	public String getUnlocalizedName() { return "bb.career.cleric"; }
+	public String getCareerName() { return "bb.career.cleric"; }
 }

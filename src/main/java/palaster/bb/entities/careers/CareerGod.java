@@ -23,5 +23,5 @@ public class CareerGod extends RPGCareerBase {
 	}
 	
 	@Override
-	public String getUnlocalizedName() { return "bb.career.god"; }
+	public String getCareerName() { return "bb.career.god"; }
 }

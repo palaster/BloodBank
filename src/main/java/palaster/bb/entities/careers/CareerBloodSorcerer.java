@@ -60,19 +60,19 @@ public class CareerBloodSorcerer extends RPGCareerBase {
     public void setMaxBlood(int amt) { bloodMax = (amt > 0 ? amt : 0); }
 
     @Override
-    public String getUnlocalizedName() { return "bb.career.bloodSorcerer"; }
-
+    public String getCareerName() { return "bb.career.bloodSorcerer"; }
+	
 	@Override
-    public NBTTagCompound saveNBT() {
-        NBTTagCompound tagCompound = new NBTTagCompound();
+	public NBTTagCompound serializeNBT() {
+		NBTTagCompound tagCompound = new NBTTagCompound();
         tagCompound.setInteger(TAG_INT_BLOOD_CURRENT, bloodCurrent);
         tagCompound.setInteger(TAG_INT_BLOOD_MAX, bloodMax);
         return tagCompound;
-    }
-
+	}
+    
     @Override
-    public void loadNBT(NBTTagCompound nbt) {
-        bloodCurrent = nbt.getInteger(TAG_INT_BLOOD_CURRENT);
+    public void deserializeNBT(NBTTagCompound nbt) {
+    	bloodCurrent = nbt.getInteger(TAG_INT_BLOOD_CURRENT);
         bloodMax = nbt.getInteger(TAG_INT_BLOOD_MAX);
     }
     

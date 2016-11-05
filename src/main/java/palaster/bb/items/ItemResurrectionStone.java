@@ -12,8 +12,9 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import palaster.bb.api.capabilities.worlds.BBWorldCapability.BBWorldCapabilityProvider;
+import palaster.bb.api.capabilities.worlds.IBBWorld;
 import palaster.bb.core.helpers.BBPlayerHelper;
-import palaster.bb.world.BBWorldSaveData;
 import palaster.libpal.items.ItemModSpecial;
 
 public class ItemResurrectionStone extends ItemModSpecial {
@@ -30,8 +31,9 @@ public class ItemResurrectionStone extends ItemModSpecial {
 				stack.getTagCompound().setInteger(TAG_INT_SPIRIT, 0);
 				return EnumActionResult.SUCCESS;
 			}
-			if(BBWorldSaveData.get(worldIn) != null && BBWorldSaveData.get(worldIn).getDeadEntities() != null && !BBWorldSaveData.get(worldIn).getDeadEntities().isEmpty()) {
-				NBTTagCompound entityTag = BBWorldSaveData.get(worldIn).getDeadEntity(stack.getTagCompound().getInteger(TAG_INT_SPIRIT));
+			IBBWorld bbWorld = BBWorldCapabilityProvider.get(worldIn);
+			if(bbWorld != null && bbWorld.getDeadEntities() != null && !bbWorld.getDeadEntities().isEmpty()) {
+				NBTTagCompound entityTag = bbWorld.getDeadEntity(stack.getTagCompound().getInteger(TAG_INT_SPIRIT));
 				if(entityTag != null)
 					if(EntityList.createEntityFromNBT(entityTag, worldIn) != null)
 						if(EntityList.createEntityFromNBT(entityTag, worldIn) instanceof EntityLiving) {
@@ -40,7 +42,7 @@ public class ItemResurrectionStone extends ItemModSpecial {
 								li.setHealth(li.getMaxHealth());
 								li.setPosition(pos.getX(), pos.getY() + 1, pos.getZ());
 								worldIn.spawnEntityInWorld(li);
-								BBWorldSaveData.get(worldIn).removeDeadEntity(entityTag);
+								bbWorld.removeDeadEntity(entityTag);
 								playerIn.setHeldItem(hand, null);
 								return EnumActionResult.SUCCESS;
 							}
@@ -60,14 +62,16 @@ public class ItemResurrectionStone extends ItemModSpecial {
 				return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
 			} 
 			if(playerIn.isSneaking()) {
-				if(BBWorldSaveData.get(worldIn) != null && BBWorldSaveData.get(worldIn).getDeadEntities() != null && !BBWorldSaveData.get(worldIn).getDeadEntities().isEmpty() && BBWorldSaveData.get(worldIn).getDeadEntities().size() <= itemStackIn.getTagCompound().getInteger(TAG_INT_SPIRIT))
+				IBBWorld bbWorld = BBWorldCapabilityProvider.get(worldIn);
+				if(bbWorld != null && bbWorld.getDeadEntities() != null && !bbWorld.getDeadEntities().isEmpty() && bbWorld.getDeadEntities().size() <= itemStackIn.getTagCompound().getInteger(TAG_INT_SPIRIT))
 					itemStackIn.getTagCompound().setInteger(TAG_INT_SPIRIT, 0);
-				else if(BBWorldSaveData.get(worldIn) != null && BBWorldSaveData.get(worldIn).getDeadEntities() != null && !BBWorldSaveData.get(worldIn).getDeadEntities().isEmpty() && BBWorldSaveData.get(worldIn).getDeadEntities().size() > itemStackIn.getTagCompound().getInteger(TAG_INT_SPIRIT))
+				else if(bbWorld != null && bbWorld.getDeadEntities() != null && !bbWorld.getDeadEntities().isEmpty() && bbWorld.getDeadEntities().size() > itemStackIn.getTagCompound().getInteger(TAG_INT_SPIRIT))
 					itemStackIn.getTagCompound().setInteger(TAG_INT_SPIRIT, itemStackIn.getTagCompound().getInteger(TAG_INT_SPIRIT) + 1);
 				return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
 			} else {
-				if(BBWorldSaveData.get(worldIn) != null && BBWorldSaveData.get(worldIn).getDeadEntities() != null && !BBWorldSaveData.get(worldIn).getDeadEntities().isEmpty()) {
-					NBTTagCompound entityTag = BBWorldSaveData.get(worldIn).getDeadEntity(itemStackIn.getTagCompound().getInteger(TAG_INT_SPIRIT));
+				IBBWorld bbWorld = BBWorldCapabilityProvider.get(worldIn);
+				if(bbWorld != null && bbWorld.getDeadEntities() != null && !bbWorld.getDeadEntities().isEmpty()) {
+					NBTTagCompound entityTag = bbWorld.getDeadEntity(itemStackIn.getTagCompound().getInteger(TAG_INT_SPIRIT));
 					if(entityTag != null) {
 						EntityLiving li = (EntityLiving) EntityList.createEntityFromNBT(entityTag, worldIn);
 						if(li != null) {

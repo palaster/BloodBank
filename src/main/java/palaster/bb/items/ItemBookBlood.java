@@ -19,9 +19,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import palaster.bb.BloodBank;
 import palaster.bb.api.capabilities.entities.IRPG;
 import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityProvider;
-import palaster.bb.core.helpers.NBTHelper;
 import palaster.bb.entities.careers.CareerBloodSorcerer;
 import palaster.bb.entities.knowledge.BBKnowledge;
+import palaster.libpal.core.helpers.NBTHelper;
 import palaster.libpal.items.ItemModSpecial;
 
 public class ItemBookBlood extends ItemModSpecial {

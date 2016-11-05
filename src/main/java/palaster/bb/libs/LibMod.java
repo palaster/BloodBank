@@ -5,7 +5,7 @@ public class LibMod {
 	public static final String MODID = "bb";
 	public static final String NAME = "Blood Bank";
 	public static final String VERSION = "@VERSION@";
-	public static final String DEPENDENCIES = "required-after:libpal;after:JEI";
+	public static final String DEPENDENCIES = "required-after:libpal";
 	public static final String GUI_FACTORY = "palaster.bb.client.gui.BBGuiFactory";
 	public static final String UPDATE_JSON = "https://raw.githubusercontent.com/palaster/BloodBank/HEAD/version/update.json";
 	

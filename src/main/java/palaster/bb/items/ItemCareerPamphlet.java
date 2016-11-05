@@ -15,7 +15,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import palaster.bb.api.capabilities.entities.IRPG;
 import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityProvider;
 import palaster.bb.api.rpg.RPGCareerBase;
-import palaster.bb.core.helpers.NBTHelper;
+import palaster.libpal.core.helpers.NBTHelper;
 import palaster.libpal.items.ItemModSpecial;
 
 public class ItemCareerPamphlet extends ItemModSpecial {
@@ -29,16 +29,8 @@ public class ItemCareerPamphlet extends ItemModSpecial {
 	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
 		if(stack.hasTagCompound() && !NBTHelper.getStringFromItemStack(stack, TAG_STRING_CAREER_CLASS).isEmpty())
 			try {
-				tooltip.add(I18n.format("bb.career.base") + ": " + I18n.format(((RPGCareerBase) Class.forName(NBTHelper.getStringFromItemStack(stack, TAG_STRING_CAREER_CLASS)).newInstance()).getUnlocalizedName()));
-			} catch (InstantiationException e) {
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
-			} catch (SecurityException e) {
+				tooltip.add(I18n.format("bb.career.base") + ": " + I18n.format(((RPGCareerBase) Class.forName(NBTHelper.getStringFromItemStack(stack, TAG_STRING_CAREER_CLASS)).newInstance()).toString()));
+			} catch(Exception e) {
 				e.printStackTrace();
 			}
 	}
@@ -51,15 +43,7 @@ public class ItemCareerPamphlet extends ItemModSpecial {
 				if(rpg != null && rpg.getCareer() == null) {
 					try {
 						rpg.setCareer(playerIn, (RPGCareerBase)Class.forName(NBTHelper.getStringFromItemStack(itemStackIn, TAG_STRING_CAREER_CLASS)).newInstance());
-					} catch (InstantiationException e) {
-						e.printStackTrace();
-					} catch (IllegalAccessException e) {
-						e.printStackTrace();
-					} catch (ClassNotFoundException e) {
-						e.printStackTrace();
-					} catch (IllegalArgumentException e) {
-						e.printStackTrace();
-					} catch (SecurityException e) {
+					} catch(Exception e) {
 						e.printStackTrace();
 					}
 					playerIn.setHeldItem(hand, null);

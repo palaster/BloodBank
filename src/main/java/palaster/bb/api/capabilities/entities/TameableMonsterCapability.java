@@ -50,7 +50,7 @@ public class TameableMonsterCapability {
 	
 	public static class TameableMonsterCapabilityProvider implements ICapabilitySerializable<NBTTagCompound> {
 		
-		@CapabilityInject(IRPG.class)
+		@CapabilityInject(ITameableMonster.class)
 	    public static final Capability<ITameableMonster> TAMEABLE_MONSTER_CAP = null;
 		
 	    protected ITameableMonster tameableMonster = null;
@@ -83,9 +83,9 @@ public class TameableMonsterCapability {
 	public static class TameableMonsterCapabilityStorage implements Capability.IStorage<ITameableMonster> {
 		
 		@Override
-		public NBTBase writeNBT(Capability<ITameableMonster> capability, ITameableMonster instance, EnumFacing side) { return instance.saveNBT(); }
+		public NBTBase writeNBT(Capability<ITameableMonster> capability, ITameableMonster instance, EnumFacing side) { return null; }
 
 		@Override
-		public void readNBT(Capability<ITameableMonster> capability, ITameableMonster instance, EnumFacing side, NBTBase nbt) { instance.loadNBT((NBTTagCompound) nbt); }
+		public void readNBT(Capability<ITameableMonster> capability, ITameableMonster instance, EnumFacing side, NBTBase nbt) {}
 	}
 }

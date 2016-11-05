@@ -42,7 +42,6 @@ public class BBItems {
 		salt,
 		whip,
 		careerPamphlet,
-		howToWitch,
 		wormEater,
 		vampireSigil,
 		soulGem,
@@ -85,7 +84,6 @@ public class BBItems {
 		salt = new ItemMod(createResourceLocation("salt"));
 		whip = new ItemWhip(createResourceLocation("whip"));
 		careerPamphlet = new ItemCareerPamphlet(createResourceLocation("careerPamphlet"));
-		howToWitch = new ItemHowToWitch(createResourceLocation("howToWitch"));
 		wormEater = new ItemWormEater(createResourceLocation("wormEater"));
 		vampireSigil = new ItemVampireSigil(createResourceLocation("vampireSigil"));
 		soulGem = new ItemSoulGem(createResourceLocation("soulGem"));

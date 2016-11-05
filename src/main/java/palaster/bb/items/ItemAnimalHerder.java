@@ -30,7 +30,7 @@ public class ItemAnimalHerder extends ItemModSpecial {
 		MinecraftForge.EVENT_BUS.register(this);
 	}
 
-	// TODO: This doesn't work in single-player worlds.
+	// TODO: This doesn't work in single-player worlds. Might be fixed in Minecraft 1.11
 	@SubscribeEvent
 	public void onPlayerLogOff(PlayerLoggedOutEvent e) {
 		if(e.player.getPassengers() != null)

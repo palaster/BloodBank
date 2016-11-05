@@ -33,7 +33,7 @@ public class BlockDesalinator extends BlockModContainer {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer player, List<String> tooltip, boolean advanced) { tooltip.add(I18n.format("player.salt")); }
-	
+
 	@Override
-	public TileEntity createTileEntity(World world, IBlockState state) { return new TileEntityDesalinator(); }
+	public TileEntity createModTileEntity(World world, IBlockState state) { return new TileEntityDesalinator(); }
 }

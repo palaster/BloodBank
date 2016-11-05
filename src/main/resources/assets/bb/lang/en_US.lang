@@ -8,7 +8,6 @@ effect.instantDeath=Instant Death
 effect.curseUnblinkingEye=Curse of the Unblinking Eye
 effect.curseBlackTongue=Curse of the Black Tongue
 effect.darkWings=Dark Wings
-effect.carthusFlameArc=Carthus Flame Arc
 effect.peace=Peace
 
 key.categories.bb=Blood Bank
@@ -17,16 +16,13 @@ key.staffChange=Change Staff Power
 entity.bb.skeletonMinion.name=Skeleton Minion
 entity.bb.yinYang.name=Yin Yang
 entity.bb.demonicBankTeller.name=Demonic Bank Teller
-entity.bb.itztiliTablet.name=Itztili Tablet
 
 tile.voidAnchor.name=Void Anchor
-tile.communityTool.name=Community Tools
 tile.tntAbsorber.name=TNT Absorber
 tile.bloodTicker.name=Blood Ticker
 tile.voidTrap.name=Void Trap
 tile.desalinator.name=Desalinator
 tile.slotMachine.name=Slot Machine
-tile.workshopSeal.name=Workshop Seal
 
 item.staffSkeleton.name=Skeleton Staff
 item.staffEfreet.name=Efreet Staff
@@ -54,7 +50,6 @@ item.purifyingBook.name=Purifying Book
 item.salt.name=Salt
 item.whip.name=Whip
 item.careerPamphlet.name=Career Pamphlet
-item.howToWitch.name=How-To Witch
 item.wormEater.name=Worm Eater
 item.vampireSigil.name=Vampire Sigil
 item.soulGem.name=Soul Gem
@@ -86,7 +81,7 @@ bb.misc.timeLeft=Time Left
 bb.misc.minutes=Minutes
 bb.misc.seconds=Seconds
 bb.misc.deadEntity=Dead Entity
-bb.misc.ghostWhisper=You hear the whispers of a 
+bb.misc.ghostWhisper=You hear the whispers of a
 bb.misc.leacher=Leached Kills
 
 bb.bank.join=Welcome to the First National Bank of Blood, you start out with a max balance of 2000. Use this bank ID card to keep in contact.
@@ -108,8 +103,6 @@ bb.clericStaff.0=Ward Spell : Peace
 bb.clericStaff.1=Heal Spell
 bb.clericStaff.2=Attack Buff
 bb.clericStaff.3=Speed Buff
-
-bb.hwt.0=Mending
 
 bb.knowledgePiece=Knowledge Piece
 bb.kp.boilingBlood=Boiling Blood
@@ -137,7 +130,6 @@ bb.career.noCareer=Get a job you bum.
 bb.career.bloodSorcerer=Blood Sorcerer
 bb.career.cleric=Cleric
 bb.career.monsterTamer=Monster Tamer
-bb.career.workshopWitch=Workshop Witch
 bb.career.god=God
 
 bb.rpg.constitution=Constitution

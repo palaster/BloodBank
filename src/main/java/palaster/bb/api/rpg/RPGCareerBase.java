@@ -7,24 +7,25 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public abstract class RPGCareerBase implements IRPGCareer {
+public abstract class RPGCareerBase implements INBTSerializable<NBTTagCompound> {
+
+	public void leaveCareer(@Nullable EntityPlayer player) {}
 
 	@Override
-	public void leaveCareer(@Nullable EntityPlayer player) {}
+	public NBTTagCompound serializeNBT() { return new NBTTagCompound(); }
 	
 	@Override
-	public String getUnlocalizedName() { return "bb.career.base"; }
-
+	public void deserializeNBT(NBTTagCompound nbt) {}
+	
 	@Override
-	public NBTTagCompound saveNBT() { return new NBTTagCompound(); }
+	public String toString() { return getCareerName().isEmpty() ? "bb.career.base" : getCareerName(); }
+	
+	public abstract String getCareerName();
 
-	@Override
-	public void loadNBT(NBTTagCompound nbt) {}
-
-	@Override
 	@SideOnly(Side.CLIENT)
 	public void drawExtraInformation(GuiContainer guiContainer, @Nullable EntityPlayer player, FontRenderer fontRendererObj, int mouseX, int mouseY) { fontRendererObj.drawString(I18n.format("bb.career.additionalInfo") + ":", 6, 90, 4210752); }
 }

@@ -15,8 +15,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import palaster.bb.BloodBank;
 import palaster.bb.api.capabilities.entities.IRPG;
 import palaster.bb.api.capabilities.entities.RPGCapability.RPGCapabilityProvider;
-import palaster.bb.core.helpers.NBTHelper;
 import palaster.bb.entities.careers.CareerBloodSorcerer;
+import palaster.libpal.core.helpers.NBTHelper;
 import palaster.libpal.items.ItemModSpecial;
 
 public class ItemVampireSigil extends ItemModSpecial {
